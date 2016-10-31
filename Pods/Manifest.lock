@@ -1,0 +1,31 @@
+PODS:
+  - Alamofire (4.0.1)
+  - Kingfisher (3.0.1)
+  - MBProgressHUD (1.0.0)
+  - NJKWebViewProgress (0.2.3):
+    - NJKWebViewProgress/Core (= 0.2.3)
+    - NJKWebViewProgress/ProgressView (= 0.2.3)
+  - NJKWebViewProgress/Core (0.2.3)
+  - NJKWebViewProgress/ProgressView (0.2.3)
+  - SnapKit (3.0.1)
+  - SwiftyJSON (3.1.0)
+
+DEPENDENCIES:
+  - Alamofire (~> 4.0)
+  - Kingfisher (~> 3.0.0)
+  - MBProgressHUD (~> 1.0.0)
+  - NJKWebViewProgress
+  - SnapKit (~> 3.0.0)
+  - SwiftyJSON
+
+SPEC CHECKSUMS:
+  Alamofire: 7682d43245de14874acd142ec137b144aa1dd335
+  Kingfisher: d5a491b45ea453d90a31bd2c0831d5243e73a73f
+  MBProgressHUD: 4890f671c94e8a0f3cf959aa731e9de2f036d71a
+  NJKWebViewProgress: f481fd424cb5ecc27eacae11b5397db92fba9a4d
+  SnapKit: f818b8326d45b4e1c777d0ab27b5c0a3624bfdeb
+  SwiftyJSON: 29b9f2a64f118c07e691667c2ba1efe536acfe0b
+
+PODFILE CHECKSUM: 26f1a3021d7a6f6fee9e421a453e3efa03edfdb8
+
+COCOAPODS: 1.0.1
