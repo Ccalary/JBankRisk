@@ -32,15 +32,15 @@ class BorrowMoneyViewController: UIViewController,iCarouselDelegate, iCarouselDa
     }
     
     override func viewWillAppear(_ animated: Bool) {
-        //判断carousel是否移除
-        if carousel.superview !== self.view{
-             self.view.addSubview(carousel)
-        }
+//        //判断carousel是否移除
+//        if carousel.superview !== self.view{
+//             self.view.addSubview(carousel)
+//        }
     }
     
     override func viewWillDisappear(_ animated: Bool) {
 
-        self.carousel.removeFromSuperview()
+//        self.carousel.removeFromSuperview()
     }
     
     //基本UI
@@ -287,8 +287,17 @@ class BorrowMoneyViewController: UIViewController,iCarouselDelegate, iCarouselDa
         switch index {
         case 0:
             itemView = identityView
+            identityView.onClickBtn = { viewType in
+             let idVC = IdentityViewController()
+             self.navigationController?.pushViewController(idVC, animated: true)
+            }
         case 1:
             itemView = productView
+            productView.onClickBtn = { viewType in
+                let idVC = WorkViewController()
+                self.navigationController?.pushViewController(idVC, animated: true)
+            }
+            
         case 2:
             itemView = workView
         case 3:
@@ -300,6 +309,8 @@ class BorrowMoneyViewController: UIViewController,iCarouselDelegate, iCarouselDa
         }
         return itemView
     }
+    
+    
     
     func carousel(_ carousel: iCarousel, valueFor option: iCarouselOption, withDefault value: CGFloat) -> CGFloat {
         if option == .spacing {
@@ -355,7 +366,6 @@ class BorrowMoneyViewController: UIViewController,iCarouselDelegate, iCarouselDa
         workImageView.imageView.image = UIImage(named:"data_work_gray_30x30")
         contactImageView.imageView.image = UIImage(named:"data_contact_gray_30x30")
         dataOrSchoolImageView.imageView.image = UIImage(named:"data_data_gray_30x30")
-
     }
 
 }

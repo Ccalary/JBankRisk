@@ -60,4 +60,12 @@ func PrintLog<T>(_ message: T, fileName: String = #file, methodName: String = #f
     print("方法:\(methodName)  行号:\(lineNumber)\n打印信息:\(message)");
 }
 
+///富文本，改变字体颜色
+func changeTextColor(text: String, color: UIColor, range: NSRange) -> NSAttributedString {
+    let attributeStr = NSMutableAttributedString(string: text)
+    attributeStr.addAttribute(NSForegroundColorAttributeName, value:color , range: range)
+    
+    return attributeStr
+}
+
 

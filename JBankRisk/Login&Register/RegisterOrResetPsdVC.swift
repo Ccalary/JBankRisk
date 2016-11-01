@@ -8,6 +8,7 @@
 
 
 import UIKit
+import SwiftyJSON
 //默认倒计时时间
 private var defaultSeconds: Int = 60
 
@@ -25,12 +26,10 @@ class RegisterOrResetPsdVC: UIViewController {
     var mTimer: Timer!
     var seconds: Int = defaultSeconds
     
+    var phoneNum: String = ""
+    
     override func viewDidLoad() {
        super.viewDidLoad()
-        
-       self.setupUI()
-       self.showView()
-       self.startCount()
     }
     
     override func viewDidAppear(_ animated: Bool) {
@@ -39,6 +38,20 @@ class RegisterOrResetPsdVC: UIViewController {
     
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
+    }
+    
+    init(viewType:RegisterOrResetPsdViewType, phoneNum: String) {
+        super.init(nibName: nil, bundle: nil)
+        self.viewType = viewType
+        self.phoneNum = phoneNum
+        
+        self.setupUI()
+        self.showView()
+        self.startCount()
+    }
+    
+    required init?(coder aDecoder: NSCoder) {
+        fatalError("init(coder:) has not been implemented")
     }
     
     func showView(){
@@ -107,6 +120,8 @@ class RegisterOrResetPsdVC: UIViewController {
             make.top.equalTo(textLabel.snp.bottom).offset(15*UIRate)
             make.centerX.equalTo(self.view)
         }
+        
+        phoneNumLabel.text = phoneNum
         
         holdView.snp.makeConstraints { (make) in
             make.width.equalTo(self.view)
@@ -401,10 +416,54 @@ class RegisterOrResetPsdVC: UIViewController {
     ///注册
     func registerBtnAction(){
         self.view.endEditing(true)
+        
+        switch viewType {
+        case .register:
+            
+            var params = NetConnect.getBaseRequestParams()
+            params["mobile"] = self.phoneNum
+            params["password"] = psdTextField.text!
+            params["randCode"] = codeTextField.text!
+            
+            NetConnect.rl_register(parameters: params, success:
+                { response in
+                    let json = JSON(response)
+                    guard json["RET_CODE"] == "000000" else{
+                        return self.showHint(in: self.view, hint: json["RET_DESC"].stringValue)
+                    }
+                    
+                    _ = self.navigationController?.popToRootViewController(animated: true)
+                    self.showHintInKeywindow(hint: "注册并登录成功")
+                    
+            }, failure: {error in
+                
+            })
+        case .resetPsd:
+            
+            var params = NetConnect.getBaseRequestParams()
+            params["mobile"] = self.phoneNum
+            params["password"] = psdTextField.text!
+            params["randCode"] = codeTextField.text!
+            
+            NetConnect.rl_changePsw(parameters: params, success:
+                { response in
+                    let json = JSON(response)
+                    guard json["RET_CODE"] == "000000" else{
+                        return self.showHint(in: self.view, hint: json["RET_DESC"].stringValue)
+                    }
+                    
+                    _ = self.navigationController?.popToRootViewController(animated: true)
+                    self.showHintInKeywindow(hint: "密码重置并登录成功")
+                    
+            }, failure: {error in
+                
+            })
+        }
     }
     ///发送短信验证码
     func sendCodeBtnAction(){
         self.startCount()
+        self.sendRandomCodeTo(number: phoneNum)
     }
     
     //消费协议
@@ -459,4 +518,20 @@ class RegisterOrResetPsdVC: UIViewController {
         }
         
     }
+    
+    ///发送验证码
+    func sendRandomCodeTo(number: String){
+        var params = NetConnect.getBaseRequestParams()
+        params["mobile"] = number
+        NetConnect.rl_randomCode(parameters: params, success:
+            { response in
+                let json = JSON(response)
+                guard json["RET_CODE"] == "000000" else{
+                return self.showHint(in: self.view, hint: json["RET_DESC"].stringValue)
+                }
+                PrintLog("验证码发送成功")
+        }, failure: {error in
+        })
+    }
+
 }

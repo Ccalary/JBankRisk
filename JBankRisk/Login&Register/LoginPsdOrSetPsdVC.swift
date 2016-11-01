@@ -7,6 +7,7 @@
 //  密码登录与设置密码
 
 import UIKit
+import SwiftyJSON
 
 class LoginPsdOrSetPsdVC: UIViewController{
 
@@ -19,6 +20,8 @@ class LoginPsdOrSetPsdVC: UIViewController{
     }
     
     var viewType = LoginPsdOrSetPsdViewType.loginPassword
+    var phoneNum = ""
+    var randCode = ""
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -27,6 +30,16 @@ class LoginPsdOrSetPsdVC: UIViewController{
        self.showView()
     }
 
+    init(viewType: LoginPsdOrSetPsdViewType, phoneNum: String) {
+        super.init(nibName: nil, bundle: nil)
+        self.viewType = viewType
+        self.phoneNum = phoneNum
+    }
+    
+    required init?(coder aDecoder: NSCoder) {
+        fatalError("init(coder:) has not been implemented")
+    }
+    
     override func viewDidAppear(_ animated: Bool) {
         mTextField.becomeFirstResponder()
     }
@@ -233,15 +246,60 @@ class LoginPsdOrSetPsdVC: UIViewController{
     func loginBtnAction(){
         self.view.endEditing(true)
         
-        
+        switch self.viewType {
+        case .loginPassword:
+            let psd = mTextField.text!
+            
+            var params = NetConnect.getBaseRequestParams()
+            params["mobile"] = self.phoneNum
+            params["password"] = psd
+            
+            NetConnect.rl_normalLogin(parameters: params, success:
+                { response in
+                    let json = JSON(response)
+                    guard json["RET_CODE"] == "000000" else{
+                        return self.showHint(in: self.view, hint: json["RET_DESC"].stringValue)
+                    }
+                    _ = self.navigationController?.popToRootViewController(animated: true)
+                    self.showHintInKeywindow(hint: "登录成功")
+                    
+            }, failure: {error in
+                
+            })
+
+        case .setPassword:
+            
+            let psd = mTextField.text!
+            
+            var params = NetConnect.getBaseRequestParams()
+            params["mobile"] = self.phoneNum
+            params["password"] = psd
+            params["randCode"] = self.randCode
+            
+            NetConnect.rl_register(parameters: params, success:
+                { response in
+                    let json = JSON(response)
+                    guard json["RET_CODE"] == "000000" else{
+                        return self.showHint(in: self.view, hint: json["RET_DESC"].stringValue)
+                    }
+                    _ = self.navigationController?.popToRootViewController(animated: true)
+                    self.showHintInKeywindow(hint: "注册并登录成功")
+                    
+            }, failure: {error in
+                
+            })
+            
+
+        }
     }
     //忘记密码
     func forgetPsdBtnAction(){
         
         self.view.endEditing(true)
-        let registerVC = RegisterOrResetPsdVC()
-        registerVC.viewType = .resetPsd
+        let registerVC = RegisterOrResetPsdVC(viewType: .resetPsd, phoneNum: self.phoneNum)
         self.navigationController?.pushViewController(registerVC, animated: true)
+        
+        self.sendRandomCodeTo(number: self.phoneNum)
     }
     
     func mTextFieldAction(_ textField: UITextField){
@@ -269,5 +327,21 @@ class LoginPsdOrSetPsdVC: UIViewController{
             textField.text = textField.text?.substring(to: index!)
         }
     }
+    
+    ///发送验证码
+    func sendRandomCodeTo(number: String){
+        var params = NetConnect.getBaseRequestParams()
+        params["mobile"] = number
+        NetConnect.rl_randomCode(parameters: params, success:
+            { response in
+                let json = JSON(response)
+                guard json["RET_CODE"] == "000000" else{
+                    return self.showHint(in: self.view, hint: json["RET_DESC"].stringValue)
+                }
+                PrintLog("验证码发送成功")
+        }, failure: {error in
+        })
+    }
+
 }
 

@@ -7,6 +7,9 @@
 //  短信验证码登录
 
 import UIKit
+import Alamofire
+import SwiftyJSON
+
 //默认倒计时时间
 private var defaultSeconds: Int = 60
 
@@ -267,10 +270,46 @@ class LoginCodeViewController: UIViewController {
     ///确认按钮
     func sureBtnAction(){
         self.view.endEditing(true)
+        
+        let phoneNum = phoneNumField.text!
+        let randCode = codeTextField.text!
+        
+        var params = NetConnect.getBaseRequestParams()
+        params["mobile"] = phoneNum
+        params["randCode"] = randCode
+        
+        NetConnect.rl_randomCodeLogin(parameters: params, success:
+            { response in
+                let json = JSON(response)
+                guard json["RET_CODE"] == "000000" else{
+                    return self.showHint(in: self.view, hint: json["RET_DESC"].stringValue)
+                }
+                //0-登录成功 1-去注册
+                if json["flag"] == "0" {
+                    _ = self.navigationController?.popToRootViewController(animated: true)
+                    self.showHintInKeywindow(hint: "登录成功")
+                }else if json["flag"] == "1" {
+                    let setPsdVC = LoginPsdOrSetPsdVC(viewType: .setPassword, phoneNum: phoneNum)
+                    setPsdVC.randCode = randCode
+                    self.navigationController?.pushViewController(setPsdVC, animated: true)
+                }
+                
+        }, failure: {error in
+            
+        })
+        
     }
     ///发送短信验证码
     func sendCodeBtnAction(){
+        
+        let phoneNum = phoneNumField.text!
+        guard (phoneNumField.text?.characters.count)! == 11 else {
+            self.showHint(in: self.view, hint: "请输入正确的手机号码")
+            return
+        }
         self.startCount()
+        self.sendRandomCodeTo(number: phoneNum)
+        
     }
     func textFieldAction(_ textField: UITextField){
         
@@ -310,5 +349,21 @@ class LoginCodeViewController: UIViewController {
             sureBtn.setBackgroundImage(UIImage(named:"login_btn_grayred_345x44"), for: .normal)
         }
     }
+    
+    ///发送验证码
+    func sendRandomCodeTo(number: String){
+        var params = NetConnect.getBaseRequestParams()
+        params["mobile"] = number
+        
+        NetConnect.rl_randomCode(parameters: params, success:
+            { response in
+                let json = JSON(response)
+                guard json["RET_CODE"] == "000000" else{
+                    return self.showHint(in: self.view, hint: json["RET_DESC"].stringValue)
+                }
+        }, failure: {error in
+        })
+    }
+
 
 }

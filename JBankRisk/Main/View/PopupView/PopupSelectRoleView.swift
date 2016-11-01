@@ -17,9 +17,23 @@ class PopupSelectRoleView: UIView, iCarouselDelegate, iCarouselDataSource  {
     }
     
     ///便利构造 默认frame全屏
-   convenience init() {
+    convenience init(currentIndex: Int) {
         let frame = CGRect(x: 0, y: 0, width: SCREEN_WIDTH, height: SCREEN_HEIGHT)
         self.init(frame: frame)
+        self.carousel.currentItemIndex = currentIndex
+        self.carouselCurrentItemIndexDidChange(self.carousel)
+        
+        switch currentIndex {
+        case 0:
+            studentView.selectBtn.setBackgroundImage(UIImage(named:"btn_selected_red_150x40"), for: .normal)
+        case 1:
+            workerView.selectBtn.setBackgroundImage(UIImage(named:"btn_selected_red_150x40"), for: .normal)
+        case 2:
+            freedomView.selectBtn.setBackgroundImage(UIImage(named:"btn_selected_red_150x40"), for: .normal)
+        default:
+            break
+        }
+        
     }
     
     required init?(coder aDecoder: NSCoder) {
@@ -44,7 +58,6 @@ class PopupSelectRoleView: UIView, iCarouselDelegate, iCarouselDataSource  {
             make.bottom.equalTo(self.snp.bottom).offset(-110*UIRate)
             make.centerX.equalTo(self)
         }
-        
     }
     
     private lazy var carousel: iCarousel = {
@@ -86,36 +99,46 @@ class PopupSelectRoleView: UIView, iCarouselDelegate, iCarouselDataSource  {
     
     func carousel(_ carousel: iCarousel, viewForItemAt index: Int, reusing view: UIView?) -> UIView {
         
-        var itemView: UIView
+        var itemView: PopupRoleView
         
         switch index {
         case 0:
-            itemView = workerView
-            workerView.onClickSelectBtn = { _ in
+            itemView = studentView
+            studentView.onClickSelectBtn = { role in
                 //延时执行
                 DispatchQueue.main.asyncAfter(deadline: DispatchTime.now() + 0.5){
-                     self.onClickSelect!()
+                    if let onClickSelect = self.onClickSelect {
+                        onClickSelect(role)
+                    }
                 }
             }
         case 1:
-            itemView = studentView
-            studentView.onClickSelectBtn = { _ in
+            itemView = workerView
+            workerView.onClickSelectBtn = { role in
                 //延时执行
                 DispatchQueue.main.asyncAfter(deadline: DispatchTime.now() + 0.5){
-                    self.onClickSelect!()
+                    if let onClickSelect = self.onClickSelect {
+                        onClickSelect(role)
+                    }
                 }
             }
             
         default:
             itemView = freedomView
-            freedomView.onClickSelectBtn = { _ in
+            freedomView.onClickSelectBtn = { role in
                 //延时执行
                 DispatchQueue.main.asyncAfter(deadline: DispatchTime.now() + 0.5){
-                    self.onClickSelect!()
+                    if let onClickSelect = self.onClickSelect {
+                        onClickSelect(role)
+                    }
                 }
             }
         }
+        
         return itemView
+    }
+    
+    func carouselCurrentItemIndexDidChange(_ carousel: iCarousel) {
     }
     
     func carousel(_ carousel: iCarousel, valueFor option: iCarouselOption, withDefault value: CGFloat) -> CGFloat {
@@ -128,7 +151,7 @@ class PopupSelectRoleView: UIView, iCarouselDelegate, iCarouselDataSource  {
     //MARK: - Action
     var onClickCloseBtn: (()->())?
     
-    var onClickSelect: (()->())?
+    var onClickSelect: ((_ viewType: RoleType)->())?
     
     //关闭按钮
     func closeBtnAction(){

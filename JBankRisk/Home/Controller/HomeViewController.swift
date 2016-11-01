@@ -17,6 +17,7 @@ class HomeViewController: UIViewController, UIGestureRecognizerDelegate{
     var imageArray: NSMutableArray? //储存所有照片
     var urlArray: NSMutableArray? //存储地址
     
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         self.navigationController!.navigationBar.isTranslucent = true;
@@ -67,7 +68,7 @@ class HomeViewController: UIViewController, UIGestureRecognizerDelegate{
         }
     }
     
-    lazy var aTableView: UITableView = {
+   private lazy var aTableView: UITableView = {
        
         let tableView = UITableView()
         tableView.delegate = self
@@ -161,19 +162,22 @@ extension HomeViewController: UITableViewDelegate, UITableViewDataSource,CyclePi
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         switch indexPath.row {
         case 0:
-            let phoneCallView =  PopupSelectRoleView()
-            let popupController = CNPPopupController(contents: [phoneCallView])!
+            let popupView =  PopupSelectRoleView(currentIndex: -1)
+            let popupController = CNPPopupController(contents: [popupView])!
             popupController.theme.presentationStyle = .slideInFromRight
             popupController.theme.dismissesOppositeDirection = false
             popupController.present(animated: true)
-            phoneCallView.onClickSelect = {_ in
+            popupView.onClickCloseBtn = { _ in
+               popupController.dismiss(animated: true)
+            }
+            popupView.onClickSelect = { role in
                 popupController.dismiss(animated: true)
-//                UserHelper.setUserRole(role: <#T##String#>)
+                UserHelper.setUserRole(role: role.rawValue)
                 let loginVC = BorrowMoneyViewController()
                 self.navigationController?.pushViewController(loginVC, animated: false)
             }
         case 1:
-            let registerVC = LoginViewController()
+            let registerVC = WorkViewController()
             self.navigationController?.pushViewController(registerVC, animated: true)
             
 //            let phoneCallView = PopupRepaymentTipView()
@@ -184,16 +188,8 @@ extension HomeViewController: UITableViewDelegate, UITableViewDataSource,CyclePi
 //            }
             break
         case 2:
-            let phoneCallView = PopupSelectRoleView()
-            let popupController = CNPPopupController(contents: [phoneCallView])!
-            popupController.theme.presentationStyle = .slideInFromRight
-            popupController.present(animated: true)
-            phoneCallView.onClickCloseBtn = {_ in
-                popupController.dismiss(animated: true)
-            }
-            phoneCallView.onClickSelect = {
-                popupController.dismiss(animated: true)
-            }
+            let registerVC = LoginViewController()
+            self.navigationController?.pushViewController(registerVC, animated: true)
         default:
             break
         }

@@ -188,9 +188,12 @@ class BorrowMoneyView: UIView {
         return label
     }()
 
+    var onClickBtn: ((_ viewType: ViewType)->())?
     
     //MARK: - Action
     func writeBtnAction(){
-        
+        if let onClickBtn = onClickBtn {
+            onClickBtn(self.mViewType)
+        }
     }
 }

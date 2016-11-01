@@ -10,6 +10,11 @@
 		0D006DCD1DC758480091CF33 /* URL.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0D006DCC1DC758480091CF33 /* URL.swift */; };
 		0D006DCF1DC75A280091CF33 /* NetConnect.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0D006DCE1DC75A280091CF33 /* NetConnect.swift */; };
 		0D006DDD1DC7810D0091CF33 /* UserHelper.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0D006DDC1DC7810D0091CF33 /* UserHelper.swift */; };
+		0D006DDF1DC7A0A90091CF33 /* IdentityViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0D006DDE1DC7A0A90091CF33 /* IdentityViewController.swift */; };
+		0D006DE11DC7A5410091CF33 /* LoginViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0D006DE01DC7A5410091CF33 /* LoginViewController.swift */; };
+		0D006DE31DC88BDB0091CF33 /* IDInfoConfirmViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0D006DE21DC88BDB0091CF33 /* IDInfoConfirmViewController.swift */; };
+		0D006DE51DC8AAFA0091CF33 /* ProductViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0D006DE41DC8AAFA0091CF33 /* ProductViewController.swift */; };
+		0D006DE71DC8AB5B0091CF33 /* BMTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0D006DE61DC8AB5B0091CF33 /* BMTableViewCell.swift */; };
 		0D0E29FD1DAA220200A64F76 /* MineViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0D0E29FC1DAA220200A64F76 /* MineViewController.swift */; };
 		0D0E2A161DAA523E00A64F76 /* pulltorefresharrow.png in Resources */ = {isa = PBXBuildFile; fileRef = 0D0E2A121DAA523E00A64F76 /* pulltorefresharrow.png */; };
 		0D0E2A171DAA523E00A64F76 /* PullToRefreshOption.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0D0E2A131DAA523E00A64F76 /* PullToRefreshOption.swift */; };
@@ -26,13 +31,15 @@
 		0D0E2A451DABB86E00A64F76 /* BaseWebViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0D0E2A441DABB86E00A64F76 /* BaseWebViewController.swift */; };
 		0D1070C21DAE297E00F9591C /* LoginPsdOrSetPsdVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0D1070C11DAE297E00F9591C /* LoginPsdOrSetPsdVC.swift */; };
 		0D132FB11DB07FD70061EDC9 /* iCarousel.m in Sources */ = {isa = PBXBuildFile; fileRef = 0D132FB01DB07FD70061EDC9 /* iCarousel.m */; };
+		0D1EAA801DC8C88F00789E37 /* SchoolViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0D1EAA7F1DC8C88F00789E37 /* SchoolViewController.swift */; };
+		0D1EAA821DC8C91500789E37 /* WorkViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0D1EAA811DC8C91500789E37 /* WorkViewController.swift */; };
+		0D1EAA841DC8CC4900789E37 /* ContactViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0D1EAA831DC8CC4900789E37 /* ContactViewController.swift */; };
 		0D2747DA1DADE9840060E221 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 0D2747D91DADE9840060E221 /* Assets.xcassets */; };
 		0D2841091DACC1D600059FD2 /* HomeTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0D2841081DACC1D600059FD2 /* HomeTableViewCell.swift */; };
 		0D61C4281DB08ECE00C2BC23 /* PopupSelectRoleView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0D61C4271DB08ECE00C2BC23 /* PopupSelectRoleView.swift */; };
 		0D61C42C1DB0C2CB00C2BC23 /* BorrowMoneyViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0D61C42B1DB0C2CB00C2BC23 /* BorrowMoneyViewController.swift */; };
 		0D61C42E1DB0CE0000C2BC23 /* BorrowMoneyView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0D61C42D1DB0CE0000C2BC23 /* BorrowMoneyView.swift */; };
 		0D61C4321DB128F600C2BC23 /* BorrowMoneyDoneView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0D61C4311DB128F600C2BC23 /* BorrowMoneyDoneView.swift */; };
-		0D9EF48A1DACF50500DC075C /* LoginViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0D9EF4891DACF50500DC075C /* LoginViewController.swift */; };
 		0DAF60321DA8DFAD0009054F /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0DAF60311DA8DFAD0009054F /* AppDelegate.swift */; };
 		0DAF60371DA8DFAD0009054F /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 0DAF60351DA8DFAD0009054F /* Main.storyboard */; };
 		0DAF603C1DA8DFAD0009054F /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 0DAF603A1DA8DFAD0009054F /* LaunchScreen.storyboard */; };
@@ -40,7 +47,7 @@
 		0DAF60521DA8DFAD0009054F /* JBankRiskUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0DAF60511DA8DFAD0009054F /* JBankRiskUITests.swift */; };
 		0DCACBE41DADC9D300AFD3E9 /* RegisterOrResetPsdVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0DCACBE31DADC9D300AFD3E9 /* RegisterOrResetPsdVC.swift */; };
 		0DD43CBB1DAFD74400091272 /* PopupRoleView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0DD43CBA1DAFD74400091272 /* PopupRoleView.swift */; };
-		0DD99BFF1DB1E47F00342E29 /* NetManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0DD99BFE1DB1E47F00342E29 /* NetManager.swift */; };
+		0DD99BFF1DB1E47F00342E29 /* NetworkRequest.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0DD99BFE1DB1E47F00342E29 /* NetworkRequest.swift */; };
 		0DFFAECF1DAF218C00819CF7 /* LoginCodeViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0DFFAECE1DAF218C00819CF7 /* LoginCodeViewController.swift */; };
 		0DFFAEDA1DAF6FB100819CF7 /* PopupPhoneCallView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0DFFAED91DAF6FB100819CF7 /* PopupPhoneCallView.swift */; };
 		0DFFAEDC1DAF707900819CF7 /* PopupRepaymentTipView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0DFFAEDB1DAF707900819CF7 /* PopupRepaymentTipView.swift */; };
@@ -68,6 +75,11 @@
 		0D006DCC1DC758480091CF33 /* URL.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = URL.swift; sourceTree = "<group>"; };
 		0D006DCE1DC75A280091CF33 /* NetConnect.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NetConnect.swift; sourceTree = "<group>"; };
 		0D006DDC1DC7810D0091CF33 /* UserHelper.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = UserHelper.swift; sourceTree = "<group>"; };
+		0D006DDE1DC7A0A90091CF33 /* IdentityViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = IdentityViewController.swift; sourceTree = "<group>"; };
+		0D006DE01DC7A5410091CF33 /* LoginViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LoginViewController.swift; sourceTree = "<group>"; };
+		0D006DE21DC88BDB0091CF33 /* IDInfoConfirmViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = IDInfoConfirmViewController.swift; sourceTree = "<group>"; };
+		0D006DE41DC8AAFA0091CF33 /* ProductViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ProductViewController.swift; sourceTree = "<group>"; };
+		0D006DE61DC8AB5B0091CF33 /* BMTableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = BMTableViewCell.swift; path = ../Product/BMTableViewCell.swift; sourceTree = "<group>"; };
 		0D0E29FC1DAA220200A64F76 /* MineViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MineViewController.swift; sourceTree = "<group>"; };
 		0D0E2A121DAA523E00A64F76 /* pulltorefresharrow.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = pulltorefresharrow.png; sourceTree = "<group>"; };
 		0D0E2A131DAA523E00A64F76 /* PullToRefreshOption.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PullToRefreshOption.swift; sourceTree = "<group>"; };
@@ -87,13 +99,15 @@
 		0D1070C11DAE297E00F9591C /* LoginPsdOrSetPsdVC.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LoginPsdOrSetPsdVC.swift; sourceTree = "<group>"; };
 		0D132FAF1DB07FD70061EDC9 /* iCarousel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = iCarousel.h; sourceTree = "<group>"; };
 		0D132FB01DB07FD70061EDC9 /* iCarousel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = iCarousel.m; sourceTree = "<group>"; };
+		0D1EAA7F1DC8C88F00789E37 /* SchoolViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SchoolViewController.swift; sourceTree = "<group>"; };
+		0D1EAA811DC8C91500789E37 /* WorkViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = WorkViewController.swift; sourceTree = "<group>"; };
+		0D1EAA831DC8CC4900789E37 /* ContactViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ContactViewController.swift; sourceTree = "<group>"; };
 		0D2747D91DADE9840060E221 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; name = Assets.xcassets; path = JBankRisk/Assets.xcassets; sourceTree = "<group>"; };
 		0D2841081DACC1D600059FD2 /* HomeTableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = HomeTableViewCell.swift; sourceTree = "<group>"; };
 		0D61C4271DB08ECE00C2BC23 /* PopupSelectRoleView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PopupSelectRoleView.swift; sourceTree = "<group>"; };
 		0D61C42B1DB0C2CB00C2BC23 /* BorrowMoneyViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BorrowMoneyViewController.swift; sourceTree = "<group>"; };
 		0D61C42D1DB0CE0000C2BC23 /* BorrowMoneyView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BorrowMoneyView.swift; sourceTree = "<group>"; };
 		0D61C4311DB128F600C2BC23 /* BorrowMoneyDoneView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BorrowMoneyDoneView.swift; sourceTree = "<group>"; };
-		0D9EF4891DACF50500DC075C /* LoginViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LoginViewController.swift; sourceTree = "<group>"; };
 		0DAF602E1DA8DFAD0009054F /* JBankRisk.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = JBankRisk.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		0DAF60311DA8DFAD0009054F /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = AppDelegate.swift; path = ../AppDelegate.swift; sourceTree = "<group>"; };
 		0DAF60361DA8DFAD0009054F /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
@@ -107,7 +121,7 @@
 		0DAF60531DA8DFAD0009054F /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		0DCACBE31DADC9D300AFD3E9 /* RegisterOrResetPsdVC.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RegisterOrResetPsdVC.swift; sourceTree = "<group>"; };
 		0DD43CBA1DAFD74400091272 /* PopupRoleView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PopupRoleView.swift; sourceTree = "<group>"; };
-		0DD99BFE1DB1E47F00342E29 /* NetManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NetManager.swift; sourceTree = "<group>"; };
+		0DD99BFE1DB1E47F00342E29 /* NetworkRequest.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NetworkRequest.swift; sourceTree = "<group>"; };
 		0DFFAECE1DAF218C00819CF7 /* LoginCodeViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LoginCodeViewController.swift; sourceTree = "<group>"; };
 		0DFFAED91DAF6FB100819CF7 /* PopupPhoneCallView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PopupPhoneCallView.swift; sourceTree = "<group>"; };
 		0DFFAEDB1DAF707900819CF7 /* PopupRepaymentTipView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PopupRepaymentTipView.swift; sourceTree = "<group>"; };
@@ -145,6 +159,8 @@
 		0D006DD51DC77DA00091CF33 /* Identity */ = {
 			isa = PBXGroup;
 			children = (
+				0D006DDE1DC7A0A90091CF33 /* IdentityViewController.swift */,
+				0D006DE21DC88BDB0091CF33 /* IDInfoConfirmViewController.swift */,
 			);
 			path = Identity;
 			sourceTree = "<group>";
@@ -152,6 +168,7 @@
 		0D006DD61DC77DB60091CF33 /* Product */ = {
 			isa = PBXGroup;
 			children = (
+				0D006DE41DC8AAFA0091CF33 /* ProductViewController.swift */,
 			);
 			path = Product;
 			sourceTree = "<group>";
@@ -159,6 +176,7 @@
 		0D006DD71DC77DCE0091CF33 /* School */ = {
 			isa = PBXGroup;
 			children = (
+				0D1EAA7F1DC8C88F00789E37 /* SchoolViewController.swift */,
 			);
 			path = School;
 			sourceTree = "<group>";
@@ -173,6 +191,7 @@
 		0D006DD91DC77EC70091CF33 /* Contact */ = {
 			isa = PBXGroup;
 			children = (
+				0D1EAA831DC8CC4900789E37 /* ContactViewController.swift */,
 			);
 			path = Contact;
 			sourceTree = "<group>";
@@ -180,6 +199,7 @@
 		0D006DDA1DC77EE40091CF33 /* Work */ = {
 			isa = PBXGroup;
 			children = (
+				0D1EAA811DC8C91500789E37 /* WorkViewController.swift */,
 			);
 			path = Work;
 			sourceTree = "<group>";
@@ -227,7 +247,7 @@
 		0D0E2A1A1DAA525E00A64F76 /* Net */ = {
 			isa = PBXGroup;
 			children = (
-				0DD99BFE1DB1E47F00342E29 /* NetManager.swift */,
+				0DD99BFE1DB1E47F00342E29 /* NetworkRequest.swift */,
 				0D006DCC1DC758480091CF33 /* URL.swift */,
 				0D006DCE1DC75A280091CF33 /* NetConnect.swift */,
 			);
@@ -309,6 +329,7 @@
 		0D0E2A381DAB408700A64F76 /* View */ = {
 			isa = PBXGroup;
 			children = (
+				0D006DE61DC8AB5B0091CF33 /* BMTableViewCell.swift */,
 				0D2841081DACC1D600059FD2 /* HomeTableViewCell.swift */,
 				0D61C42D1DB0CE0000C2BC23 /* BorrowMoneyView.swift */,
 				0D61C4311DB128F600C2BC23 /* BorrowMoneyDoneView.swift */,
@@ -336,7 +357,7 @@
 		0D9EF4881DACF48300DC075C /* Login&Register */ = {
 			isa = PBXGroup;
 			children = (
-				0D9EF4891DACF50500DC075C /* LoginViewController.swift */,
+				0D006DE01DC7A5410091CF33 /* LoginViewController.swift */,
 				0DCACBE31DADC9D300AFD3E9 /* RegisterOrResetPsdVC.swift */,
 				0D1070C11DAE297E00F9591C /* LoginPsdOrSetPsdVC.swift */,
 				0DFFAECE1DAF218C00819CF7 /* LoginCodeViewController.swift */,
@@ -645,31 +666,38 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				0D9EF48A1DACF50500DC075C /* LoginViewController.swift in Sources */,
+				0D006DE31DC88BDB0091CF33 /* IDInfoConfirmViewController.swift in Sources */,
+				0D006DDF1DC7A0A90091CF33 /* IdentityViewController.swift in Sources */,
 				0D61C42E1DB0CE0000C2BC23 /* BorrowMoneyView.swift in Sources */,
 				0D0E2A321DAB377E00A64F76 /* HHTabBarController.swift in Sources */,
+				0D006DE51DC8AAFA0091CF33 /* ProductViewController.swift in Sources */,
 				0D0E2A201DAA8BDF00A64F76 /* CNPPopupController.m in Sources */,
 				0D61C4281DB08ECE00C2BC23 /* PopupSelectRoleView.swift in Sources */,
 				0D1070C21DAE297E00F9591C /* LoginPsdOrSetPsdVC.swift in Sources */,
+				0D1EAA801DC8C88F00789E37 /* SchoolViewController.swift in Sources */,
 				0DFFAEDA1DAF6FB100819CF7 /* PopupPhoneCallView.swift in Sources */,
 				0DCACBE41DADC9D300AFD3E9 /* RegisterOrResetPsdVC.swift in Sources */,
 				0D61C42C1DB0C2CB00C2BC23 /* BorrowMoneyViewController.swift in Sources */,
 				0D0E2A3D1DAB413900A64F76 /* TemViewController.swift in Sources */,
 				0DAF60321DA8DFAD0009054F /* AppDelegate.swift in Sources */,
 				0D0E29FD1DAA220200A64F76 /* MineViewController.swift in Sources */,
+				0D006DE11DC7A5410091CF33 /* LoginViewController.swift in Sources */,
 				0D0E2A171DAA523E00A64F76 /* PullToRefreshOption.swift in Sources */,
 				0D006DDD1DC7810D0091CF33 /* UserHelper.swift in Sources */,
 				0D0E2A271DAA927A00A64F76 /* UIViewController+HUD.swift in Sources */,
 				0D0E2A191DAA523E00A64F76 /* UIScrollViewExtension.swift in Sources */,
 				0DFFAEDC1DAF707900819CF7 /* PopupRepaymentTipView.swift in Sources */,
+				0D1EAA841DC8CC4900789E37 /* ContactViewController.swift in Sources */,
 				0D0E2A181DAA523E00A64F76 /* PullToRefreshView.swift in Sources */,
 				0DD43CBB1DAFD74400091272 /* PopupRoleView.swift in Sources */,
 				0D0E2A311DAB377E00A64F76 /* HHNavigationController.swift in Sources */,
 				0D006DCD1DC758480091CF33 /* URL.swift in Sources */,
 				0D61C4321DB128F600C2BC23 /* BorrowMoneyDoneView.swift in Sources */,
+				0D1EAA821DC8C91500789E37 /* WorkViewController.swift in Sources */,
 				0D0E2A301DAB377D00A64F76 /* File.swift in Sources */,
 				0D006DCF1DC75A280091CF33 /* NetConnect.swift in Sources */,
-				0DD99BFF1DB1E47F00342E29 /* NetManager.swift in Sources */,
+				0D006DE71DC8AB5B0091CF33 /* BMTableViewCell.swift in Sources */,
+				0DD99BFF1DB1E47F00342E29 /* NetworkRequest.swift in Sources */,
 				0DFFAECF1DAF218C00819CF7 /* LoginCodeViewController.swift in Sources */,
 				0D0E2A3B1DAB40DB00A64F76 /* HomeViewController.swift in Sources */,
 				0D0E2A451DABB86E00A64F76 /* BaseWebViewController.swift in Sources */,

@@ -9,6 +9,7 @@
 import UIKit
 import SnapKit
 import SwiftyJSON
+import Alamofire
 
 class LoginViewController: UIViewController {
 
@@ -233,8 +234,6 @@ class LoginViewController: UIViewController {
     func nextStepBtnAction(){
         
         self.view.endEditing(true)
-        let loginPsdVC = LoginPsdOrSetPsdVC()
-        self.navigationController?.pushViewController(loginPsdVC, animated: true)
         
 //        if (mTextField.text?.characters.count)! < 11 {
 //
@@ -244,7 +243,34 @@ class LoginViewController: UIViewController {
 //                self.view.layoutIfNeeded()
 //            }
 //        }
-
+        let phoneNum = mTextField.text!
+        
+        var params = NetConnect.getBaseRequestParams()
+        params["mobile"] = phoneNum
+        params["password"] = "-1"
+        
+    NetConnect.rl_normalLogin(parameters: params, success:
+            { response in
+                let json = JSON(response)
+                guard json["RET_CODE"] == "000000" else{
+                    return self.showHint(in: self.view, hint: json["RET_DESC"].stringValue)
+                }
+                ///0已注册1未注册
+                if json["flag"] == "0" {
+                    let loginPsdVC = LoginPsdOrSetPsdVC(viewType: .loginPassword, phoneNum: phoneNum)
+                    self.navigationController?.pushViewController(loginPsdVC, animated: true)
+                }else if json["flag"] == "1"{
+                   let registerVC = RegisterOrResetPsdVC(viewType: .register, phoneNum: phoneNum)
+                    registerVC.viewType = .register
+                    
+                    self.navigationController?.pushViewController(registerVC, animated: true)
+                    
+                    //发送验证码
+                    self.sendRandomCodeTo(number: phoneNum)
+                }
+        }, failure: {error in
+            
+        })
         
     }
     //短信验证码登录
@@ -281,19 +307,18 @@ class LoginViewController: UIViewController {
         }
     }
     
-    func net(){
-        
-        let pram = ["companyId":"10000101","mobile":"13773047057","randCode":"8888","password":"123456"]
-        
-        NetConnect.rl_register(parameters: pram as [String : AnyObject?], finished: { (response) in
-            let json = JSON(response)
-            
-            guard json["RET_CODE"] == "000000" else{
-                return self.showHint(in: self.view, hint: json["RET_DESC"].stringValue)
-
-            }
-            
+    ///发送验证码
+    func sendRandomCodeTo(number: String){
+        var params = NetConnect.getBaseRequestParams()
+        params["mobile"] = number
+        NetConnect.rl_randomCode(parameters: params, success:
+            { response in
+                let json = JSON(response)
+                guard json["RET_CODE"] == "000000" else{
+                    return self.showHint(in: self.view, hint: json["RET_DESC"].stringValue)
+                }
+                PrintLog("验证码发送成功")
+            }, failure: {error in
         })
     }
 }
-
