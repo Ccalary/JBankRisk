@@ -34,6 +34,13 @@
 		0D1EAA801DC8C88F00789E37 /* SchoolViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0D1EAA7F1DC8C88F00789E37 /* SchoolViewController.swift */; };
 		0D1EAA821DC8C91500789E37 /* WorkViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0D1EAA811DC8C91500789E37 /* WorkViewController.swift */; };
 		0D1EAA841DC8CC4900789E37 /* ContactViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0D1EAA831DC8CC4900789E37 /* ContactViewController.swift */; };
+		0D1EAA861DC8D4FF00789E37 /* DataViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0D1EAA851DC8D4FF00789E37 /* DataViewController.swift */; };
+		0D1EAA881DC97D2500789E37 /* PopupStaticSelectView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0D1EAA871DC97D2500789E37 /* PopupStaticSelectView.swift */; };
+		0D1EAA8A1DC97E8000789E37 /* PopupStaticTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0D1EAA891DC97E8000789E37 /* PopupStaticTableViewCell.swift */; };
+		0D1EAA8C1DC99C5C00789E37 /* PopupPhotoSelectView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0D1EAA8B1DC99C5C00789E37 /* PopupPhotoSelectView.swift */; };
+		0D1EAA8E1DC9AE1800789E37 /* PopupSubmitTipsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0D1EAA8D1DC9AE1800789E37 /* PopupSubmitTipsView.swift */; };
+		0D1EAA901DC9B4D200789E37 /* PopupDeadlineView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0D1EAA8F1DC9B4D200789E37 /* PopupDeadlineView.swift */; };
+		0D1EAA921DC9BB2500789E37 /* PopupDeadlineCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0D1EAA911DC9BB2500789E37 /* PopupDeadlineCollectionViewCell.swift */; };
 		0D2747DA1DADE9840060E221 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 0D2747D91DADE9840060E221 /* Assets.xcassets */; };
 		0D2841091DACC1D600059FD2 /* HomeTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0D2841081DACC1D600059FD2 /* HomeTableViewCell.swift */; };
 		0D61C4281DB08ECE00C2BC23 /* PopupSelectRoleView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0D61C4271DB08ECE00C2BC23 /* PopupSelectRoleView.swift */; };
@@ -102,6 +109,13 @@
 		0D1EAA7F1DC8C88F00789E37 /* SchoolViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SchoolViewController.swift; sourceTree = "<group>"; };
 		0D1EAA811DC8C91500789E37 /* WorkViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = WorkViewController.swift; sourceTree = "<group>"; };
 		0D1EAA831DC8CC4900789E37 /* ContactViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ContactViewController.swift; sourceTree = "<group>"; };
+		0D1EAA851DC8D4FF00789E37 /* DataViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DataViewController.swift; sourceTree = "<group>"; };
+		0D1EAA871DC97D2500789E37 /* PopupStaticSelectView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PopupStaticSelectView.swift; sourceTree = "<group>"; };
+		0D1EAA891DC97E8000789E37 /* PopupStaticTableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PopupStaticTableViewCell.swift; sourceTree = "<group>"; };
+		0D1EAA8B1DC99C5C00789E37 /* PopupPhotoSelectView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PopupPhotoSelectView.swift; sourceTree = "<group>"; };
+		0D1EAA8D1DC9AE1800789E37 /* PopupSubmitTipsView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PopupSubmitTipsView.swift; sourceTree = "<group>"; };
+		0D1EAA8F1DC9B4D200789E37 /* PopupDeadlineView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PopupDeadlineView.swift; sourceTree = "<group>"; };
+		0D1EAA911DC9BB2500789E37 /* PopupDeadlineCollectionViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PopupDeadlineCollectionViewCell.swift; sourceTree = "<group>"; };
 		0D2747D91DADE9840060E221 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; name = Assets.xcassets; path = JBankRisk/Assets.xcassets; sourceTree = "<group>"; };
 		0D2841081DACC1D600059FD2 /* HomeTableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = HomeTableViewCell.swift; sourceTree = "<group>"; };
 		0D61C4271DB08ECE00C2BC23 /* PopupSelectRoleView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PopupSelectRoleView.swift; sourceTree = "<group>"; };
@@ -184,6 +198,7 @@
 		0D006DD81DC77DDD0091CF33 /* Data */ = {
 			isa = PBXGroup;
 			children = (
+				0D1EAA851DC8D4FF00789E37 /* DataViewController.swift */,
 			);
 			path = Data;
 			sourceTree = "<group>";
@@ -453,6 +468,12 @@
 				0DFFAEDB1DAF707900819CF7 /* PopupRepaymentTipView.swift */,
 				0DD43CBA1DAFD74400091272 /* PopupRoleView.swift */,
 				0D61C4271DB08ECE00C2BC23 /* PopupSelectRoleView.swift */,
+				0D1EAA871DC97D2500789E37 /* PopupStaticSelectView.swift */,
+				0D1EAA891DC97E8000789E37 /* PopupStaticTableViewCell.swift */,
+				0D1EAA8B1DC99C5C00789E37 /* PopupPhotoSelectView.swift */,
+				0D1EAA8D1DC9AE1800789E37 /* PopupSubmitTipsView.swift */,
+				0D1EAA8F1DC9B4D200789E37 /* PopupDeadlineView.swift */,
+				0D1EAA911DC9BB2500789E37 /* PopupDeadlineCollectionViewCell.swift */,
 			);
 			path = PopupView;
 			sourceTree = "<group>";
@@ -667,7 +688,10 @@
 			buildActionMask = 2147483647;
 			files = (
 				0D006DE31DC88BDB0091CF33 /* IDInfoConfirmViewController.swift in Sources */,
+				0D1EAA861DC8D4FF00789E37 /* DataViewController.swift in Sources */,
+				0D1EAA921DC9BB2500789E37 /* PopupDeadlineCollectionViewCell.swift in Sources */,
 				0D006DDF1DC7A0A90091CF33 /* IdentityViewController.swift in Sources */,
+				0D1EAA8A1DC97E8000789E37 /* PopupStaticTableViewCell.swift in Sources */,
 				0D61C42E1DB0CE0000C2BC23 /* BorrowMoneyView.swift in Sources */,
 				0D0E2A321DAB377E00A64F76 /* HHTabBarController.swift in Sources */,
 				0D006DE51DC8AAFA0091CF33 /* ProductViewController.swift in Sources */,
@@ -694,16 +718,20 @@
 				0D006DCD1DC758480091CF33 /* URL.swift in Sources */,
 				0D61C4321DB128F600C2BC23 /* BorrowMoneyDoneView.swift in Sources */,
 				0D1EAA821DC8C91500789E37 /* WorkViewController.swift in Sources */,
+				0D1EAA8C1DC99C5C00789E37 /* PopupPhotoSelectView.swift in Sources */,
 				0D0E2A301DAB377D00A64F76 /* File.swift in Sources */,
 				0D006DCF1DC75A280091CF33 /* NetConnect.swift in Sources */,
 				0D006DE71DC8AB5B0091CF33 /* BMTableViewCell.swift in Sources */,
+				0D1EAA8E1DC9AE1800789E37 /* PopupSubmitTipsView.swift in Sources */,
 				0DD99BFF1DB1E47F00342E29 /* NetworkRequest.swift in Sources */,
 				0DFFAECF1DAF218C00819CF7 /* LoginCodeViewController.swift in Sources */,
 				0D0E2A3B1DAB40DB00A64F76 /* HomeViewController.swift in Sources */,
 				0D0E2A451DABB86E00A64F76 /* BaseWebViewController.swift in Sources */,
 				0D132FB11DB07FD70061EDC9 /* iCarousel.m in Sources */,
+				0D1EAA881DC97D2500789E37 /* PopupStaticSelectView.swift in Sources */,
 				0D2841091DACC1D600059FD2 /* HomeTableViewCell.swift in Sources */,
 				0D0E2A361DAB389D00A64F76 /* CyclePictureView.swift in Sources */,
+				0D1EAA901DC9B4D200789E37 /* PopupDeadlineView.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

@@ -260,7 +260,7 @@ CGFloat CNP_UIInterfaceOrientationAngleOfOrientation(UIInterfaceOrientation orie
     [self.applicationWindow addSubview:self.maskView];
     self.maskView.alpha = 0;
     
-    [UIView animateWithDuration:flag?self.theme.animationDuration:0.0 delay:0.1 usingSpringWithDamping:0.6 initialSpringVelocity:0.2 options:UIViewAnimationOptionCurveLinear animations:^{
+    [UIView animateWithDuration:flag?self.theme.animationDuration:0.0 delay:0.0 usingSpringWithDamping:0.7 initialSpringVelocity:0.3 options:UIViewAnimationOptionCurveLinear animations:^{
         self.maskView.alpha = 1.0;
         self.popupView.center = [self endingPoint];
     } completion:^(BOOL finished) {

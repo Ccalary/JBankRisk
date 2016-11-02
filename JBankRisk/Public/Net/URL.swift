@@ -26,3 +26,17 @@ let RL_RANCODE_LOGIN_URL = BASR_DEV_URL + "/jinangk.xhtml?TX_CODE=490110"
 
 ///5.修改密码
 let RL_CHANGE_PSW_URL = BASR_DEV_URL + "/jinangk.xhtml?TX_CODE=490053"
+
+/*****************借款流程模块(BM)******************/
+
+/// 6.申请期限
+let BM_APPLY_PERIOD_URL = BASR_DEV_URL + "/jinangk.xhtml?TX_CODE=490011"
+
+/// 7.月还款，总还款计算
+let BM_COUNT_REPAYMENT_URL = BASR_DEV_URL + "/jinangk.xhtml?TX_CODE=400046"
+
+
+
+
+
+

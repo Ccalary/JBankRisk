@@ -1,5 +1,5 @@
 //
-//  WorkViewController.swift
+//  ContactViewController.swift
 //  JBankRisk
 //
 //  Created by caohouhong on 16/11/1.
@@ -8,21 +8,24 @@
 
 import UIKit
 
-class WorkViewController: UIViewController,UITableViewDelegate, UITableViewDataSource,UIGestureRecognizerDelegate {
-
-    var WorkCellData:[CellDataInfo] = [CellDataInfo(leftText: "单位名称", holdText: "请输入单位名称", content: "", cellType: .clearType),
-        CellDataInfo(leftText: "单位性质", holdText: "请选择单位性质", content: "", cellType: .arrowType),
-        CellDataInfo(leftText: "单位电话", holdText: "请填写单位电话", content: "", cellType: .clearType),
-        CellDataInfo(leftText: "单位地址", holdText: "请选择所属地区", content: "", cellType: .arrowType),
-        CellDataInfo(leftText: "", holdText: "详细街道地址", content: "", cellType: .clearType),
-        CellDataInfo(leftText: "职位", holdText: "请填写当前职位", content: "", cellType: .clearType),
-        CellDataInfo(leftText: "工作年限", holdText: "请选择工作年限", content: "", cellType: .arrowType),
-        CellDataInfo(leftText: "月收入", holdText: "请填写月收入", content: "", cellType: .textType)]
+class ContactViewController: UIViewController,UITableViewDelegate, UITableViewDataSource,UIGestureRecognizerDelegate {
     
-    ///单位性质
-    var companyTypeInfo:(row: Int, text: String) = (0,"")
-    ///工作年限
-    var workYearsInfo:(row: Int, text: String) = (0,"")
+    var ContactCellData:[CellDataInfo] = [CellDataInfo(leftText: "常住地址", holdText: "请选择所属地区", content: "", cellType: .arrowType),
+        CellDataInfo(leftText: "", holdText: "详细街道地址", content: "", cellType: .clearType),
+        CellDataInfo(leftText: "住房情况", holdText: "请选择住房情况", content: "", cellType: .arrowType),
+        CellDataInfo(leftText: "居住时间", holdText: "请选择居住时间", content: "", cellType: .arrowType),
+        CellDataInfo(leftText: "直系亲属", holdText: "请选择直系亲属关系", content: "", cellType: .arrowType),
+        CellDataInfo(leftText: "", holdText: "联系人姓名，可从通讯录中选择", content: "", cellType: .clearType),
+        CellDataInfo(leftText: "", holdText: "请填写手机号", content: "", cellType: .clearType),
+        CellDataInfo(leftText: "", holdText: "", content: "", cellType: .defaultType),
+        CellDataInfo(leftText: "紧急联系人", holdText: "可从通讯录中选择", content: "", cellType: .arrowType),
+        CellDataInfo(leftText: "", holdText: "填写姓名", content: "", cellType: .clearType),
+        CellDataInfo(leftText: "", holdText: "填写手机号码", content: "", cellType: .clearType)]
+    
+    ///住房情况
+    var houseInfo:(row: Int, text: String) = (0,"")
+    ///亲属关系
+    var relativeInfo:(row: Int, text: String) = (0,"")
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -38,7 +41,7 @@ class WorkViewController: UIViewController,UITableViewDelegate, UITableViewDataS
         self.navigationController!.navigationBar.isTranslucent = true;
         self.automaticallyAdjustsScrollViewInsets = false;
         self.view.backgroundColor = defaultBackgroundColor
-        self.title = "职业信息"
+        self.title = "联系信息"
         
         let aTap = UITapGestureRecognizer(target: self, action: #selector(tapViewAction))
         aTap.numberOfTapsRequired = 1
@@ -62,7 +65,7 @@ class WorkViewController: UIViewController,UITableViewDelegate, UITableViewDataS
         
         aTableView.snp.makeConstraints { (make) in
             make.width.equalTo(aScrollView)
-            make.height.equalTo(390*UIRate)
+            make.height.equalTo(510*UIRate)
             make.centerX.equalTo(aScrollView)
             make.top.equalTo(10*UIRate)
         }
@@ -102,7 +105,8 @@ class WorkViewController: UIViewController,UITableViewDelegate, UITableViewDataS
         tableView.dataSource = self
         tableView.isScrollEnabled = false
         tableView.tableFooterView = UIView()
-        tableView.register(BMTableViewCell.self, forCellReuseIdentifier: "WorkCellID")
+        tableView.backgroundColor = defaultBackgroundColor
+        tableView.register(BMTableViewCell.self, forCellReuseIdentifier: "ContactCellID")
         
         //tableView 单元格分割线的显示
         if tableView.responds(to:#selector(setter: UITableViewCell.separatorInset)) {
@@ -151,30 +155,40 @@ class WorkViewController: UIViewController,UITableViewDelegate, UITableViewDataS
     }
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return WorkCellData.count
+        return ContactCellData.count
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        let cell = tableView.dequeueReusableCell(withIdentifier: "WorkCellID") as! BMTableViewCell
+        let cell = tableView.dequeueReusableCell(withIdentifier: "ContactCellID") as! BMTableViewCell
         //去除选择效果
         cell.selectionStyle = .none
-        cell.cellDataInfo = WorkCellData[indexPath.row]
+        cell.backgroundColor = UIColor.white
+        cell.cellDataInfo = ContactCellData[indexPath.row]
         
         switch indexPath.row {
-        case 1:
-            cell.centerTextField.text = self.companyTypeInfo.text
-        case 6:
-            cell.centerTextField.text = self.workYearsInfo.text
+        case 2://住房情况
+            cell.centerTextField.text = self.houseInfo.text
+        case self.ContactCellData.count - 7: //亲属关系
+            cell.centerTextField.text = self.relativeInfo.text
         default:
             break
         }
         
+        if indexPath.row == ContactCellData.count - 4 {
+            cell.backgroundColor = defaultBackgroundColor
+        }
         return cell
     }
     
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
-        if indexPath.row == 4 {
+        
+        let row = indexPath.row
+        let count = ContactCellData.count - 1
+        
+        if row == 1 || row == count || row == count-1 || row == count-4 || row == count-5 {
             return 40*UIRate
+        }else if row == count - 3{
+            return 10*UIRate
         }else {
             return 50*UIRate
         }
@@ -182,29 +196,34 @@ class WorkViewController: UIViewController,UITableViewDelegate, UITableViewDataS
     }
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        if indexPath.row == 1 { //单位性质
-            let popupView =  PopupStaticSelectView(cellType: PopupStaticSelectView.PopupCellType.companyType, selectRow: self.companyTypeInfo.row)
+        
+        if indexPath.row == 2 {//住房情况
+            let popupView = PopupStaticSelectView(cellType: .house, selectRow: self.houseInfo.row)
             let popupController = CNPPopupController(contents: [popupView])!
             popupController.present(animated: true)
-            
             popupView.onClickSelect = { (row, text) in
-                self.companyTypeInfo = (row,text)
-                let position = IndexPath(row: 1, section: 0)
-                self.aTableView.reloadRows(at: [position], with: UITableViewRowAnimation.none)
-                popupController.dismiss(animated: true)
+                self.houseInfo = (row,text)
+                if row == 0 || row == 2 || row == 5 {
+                    if self.ContactCellData.count == 11 {
+                        self.ContactCellData.insert( CellDataInfo(leftText: "房租月供", holdText: "请填写每月供款金额", content: "", cellType: .textType), at: 3)
+                       }
+                    }else {
+                        if self.ContactCellData.count == 12 {
+                             self.ContactCellData.remove(at: 3)
+                        }
+                  }
+                 self.aTableView.reloadData()
+                 popupController.dismiss(animated: true)
             }
             
-        }else if indexPath.row == 3 {
-            
-        }else if indexPath.row == 6{ //工作年限
-            
-            let popupView =  PopupStaticSelectView(cellType: PopupStaticSelectView.PopupCellType.year, selectRow: self.workYearsInfo.row)
+        }else if indexPath.row == self.ContactCellData.count - 7 { //直系亲属关系
+            let popupView =  PopupStaticSelectView(cellType: PopupStaticSelectView.PopupCellType.relative, selectRow: self.relativeInfo.row)
             let popupController = CNPPopupController(contents: [popupView])!
             popupController.present(animated: true)
             
             popupView.onClickSelect = { (row, text) in
-                self.workYearsInfo = (row,text)
-                let position = IndexPath(row: 6, section: 0)
+                self.relativeInfo = (row,text)
+                let position = IndexPath(row: indexPath.row, section: 0)
                 self.aTableView.reloadRows(at: [position], with: UITableViewRowAnimation.none)
                 popupController.dismiss(animated: true)
             }
@@ -213,7 +232,11 @@ class WorkViewController: UIViewController,UITableViewDelegate, UITableViewDataS
     
     //设置分割线
     func tableView(_ tableView: UITableView, willDisplay cell: UITableViewCell, forRowAt indexPath: IndexPath) {
-        if indexPath.row == 3 {
+        
+        let row = indexPath.row
+        let count = ContactCellData.count - 1
+        
+        if (row == 0 || row == count-1 || row == count-2 || row == count-5 || row == count-6){
             
             if cell.responds(to: #selector(setter: UITableViewCell.separatorInset)) {
                 cell.separatorInset = UIEdgeInsets(top: 0, left: 100*UIRate, bottom: 0, right: 0)
@@ -255,6 +278,4 @@ class WorkViewController: UIViewController,UITableViewDelegate, UITableViewDataS
         
     }
     
-    
-
 }

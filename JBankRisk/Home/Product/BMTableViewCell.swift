@@ -37,9 +37,8 @@ class BMTableViewCell: UITableViewCell {
     var cellDataInfo: CellDataInfo? {
         
         didSet {
-            self.leftTextLabel.text = cellDataInfo?.leftText
-            self.centerTextField.placeholder = cellDataInfo?.holdText
-            self.centerTextField.text = cellDataInfo?.content
+
+            self.rightNormalStatus()
             
             if let cellType = cellDataInfo?.cellType {
                 switch cellType {
@@ -59,6 +58,19 @@ class BMTableViewCell: UITableViewCell {
                 }
             }
         }
+    }
+    
+    //显示状态
+    func rightNormalStatus(){
+        self.leftTextLabel.text = cellDataInfo?.leftText
+        self.centerTextField.placeholder = cellDataInfo?.holdText
+        self.centerTextField.text = cellDataInfo?.content
+        self.centerTextField.isEnabled = true
+        
+        self.rightTextLabel.isHidden = true
+        self.rightClearImageView.isHidden = true
+        self.rightArrowImageView.isHidden = true
+        self.rightCameraImageView.isHidden = true
     }
     
     
@@ -113,14 +125,14 @@ class BMTableViewCell: UITableViewCell {
 
         rightCameraImageView.snp.makeConstraints { (make) in
             make.width.equalTo(20*UIRate)
-            make.height.equalTo(12*UIRate)
+            make.height.equalTo(16*UIRate)
             make.right.equalTo(self).offset(-15*UIRate)
             make.centerY.equalTo(self)
         }
 
     }
     
-    private lazy var leftTextLabel: UILabel = {
+    lazy var leftTextLabel: UILabel = {
         let label = UILabel()
         label.font = UIFontSize(size: 15*UIRate)
         label.textAlignment = .center
@@ -128,21 +140,21 @@ class BMTableViewCell: UITableViewCell {
         return label
     }()
     
-    private lazy var centerTextField: UITextField = {
+    lazy var centerTextField: UITextField = {
         let textField = UITextField()
         textField.font = UIFontSize(size: 15*UIRate)
         textField.textColor = UIColorHex("666666")
         return textField
     }()
 
-    private lazy var rightArrowImageView: UIImageView = {
+   private lazy var rightArrowImageView: UIImageView = {
         let imageView = UIImageView()
         imageView.image = UIImage(named: "home_right_arrow_7x12")
         imageView.isHidden = true
         return imageView
     }()
 
-    private lazy var rightTextLabel: UILabel = {
+    lazy var rightTextLabel: UILabel = {
         let label = UILabel()
         label.font = UIFontSize(size: 15*UIRate)
         label.textAlignment = .center
@@ -152,7 +164,7 @@ class BMTableViewCell: UITableViewCell {
         return label
     }()
     
-    private lazy var rightClearImageView: UIImageView = {
+    lazy var rightClearImageView: UIImageView = {
         let imageView = UIImageView()
         imageView.image = UIImage(named: "login_btn_clear_15x15")
         imageView.isHidden = true

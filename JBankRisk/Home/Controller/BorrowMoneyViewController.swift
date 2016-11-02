@@ -72,7 +72,8 @@ class BorrowMoneyViewController: UIViewController,iCarouselDelegate, iCarouselDa
         }
         
         topTextLabel.snp.makeConstraints { (make) in
-            make.center.equalTo(topView)
+            make.centerY.equalTo(topView)
+            make.centerX.equalTo(topView).offset(9*UIRate)
         }
         
         starImageView.snp.makeConstraints { (make) in
@@ -294,16 +295,30 @@ class BorrowMoneyViewController: UIViewController,iCarouselDelegate, iCarouselDa
         case 1:
             itemView = productView
             productView.onClickBtn = { viewType in
-                let idVC = WorkViewController()
+                let idVC = ProductViewController()
                 self.navigationController?.pushViewController(idVC, animated: true)
             }
             
         case 2:
             itemView = workView
+            workView.onClickBtn = { viewType in
+                let idVC = WorkViewController()
+                self.navigationController?.pushViewController(idVC, animated: true)
+            }
+            
         case 3:
             itemView = contactView
+            contactView.onClickBtn = { viewType in
+                let idVC = ContactViewController()
+                self.navigationController?.pushViewController(idVC, animated: true)
+            }
         case 4:
             itemView = dataView
+            dataView.onClickBtn = { viewType in
+                let idVC = DataViewController(roleType: .student)
+                self.navigationController?.pushViewController(idVC, animated: true)
+            }
+
         default:
             itemView = dataView
         }

@@ -68,4 +68,13 @@ func changeTextColor(text: String, color: UIColor, range: NSRange) -> NSAttribut
     return attributeStr
 }
 
+///改变行间距
+func changeTextLineSpace(text: String, lineSpace: CGFloat = 5*UIRate) -> NSAttributedString{
+    let attributeStr = NSMutableAttributedString(string: text)
+    let paragraphStyle = NSMutableParagraphStyle()
+    paragraphStyle.lineSpacing = lineSpace
+    attributeStr.addAttribute(NSParagraphStyleAttributeName, value: paragraphStyle, range: NSRange(location: 0, length: text.characters.count))
+    
+    return attributeStr
+}
 

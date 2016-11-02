@@ -7,6 +7,7 @@
 //
 
 import UIKit
+import SwiftyJSON
 
 class ProductViewController: UIViewController,UITableViewDelegate, UITableViewDataSource,UIGestureRecognizerDelegate {
     
@@ -19,6 +20,14 @@ class ProductViewController: UIViewController,UITableViewDelegate, UITableViewDa
         CellDataInfo(leftText: "", holdText: "", content: "", cellType: .defaultType),
         CellDataInfo(leftText: "业务员", holdText: "请输入业务员工号", content: "", cellType: .clearType)
     ]
+    
+    //选择的期限
+    var selectPeriodInfo:(cell:Int, text:String) = (0,"")
+    //借款金额
+    var borrowMoney:String = ""
+    //月还款
+    var repayment: String = ""
+    
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -39,7 +48,7 @@ class ProductViewController: UIViewController,UITableViewDelegate, UITableViewDa
         let aTap = UITapGestureRecognizer(target: self, action: #selector(tapViewAction))
         aTap.numberOfTapsRequired = 1
         aTap.delegate = self
-        UIApplication.shared.keyWindow?.addGestureRecognizer(aTap)
+        self.navigationController?.navigationBar.addGestureRecognizer(aTap)
         
         self.view.addSubview(aScrollView)
         self.aScrollView.addSubview(aTableView)
@@ -159,8 +168,30 @@ class ProductViewController: UIViewController,UITableViewDelegate, UITableViewDa
         cell.cellDataInfo = ProductCellData[indexPath.row]
         cell.backgroundColor = UIColor.white
         
+        switch indexPath.row {
+        case 3://借款金额
+            cell.centerTextField.keyboardType = .numberPad
+            cell.centerTextField.tag = 10000
+            cell.centerTextField.addTarget(self, action: #selector(textFieldAction(_:)), for: UIControlEvents.editingChanged)
+        case 5:
+            cell.centerTextField.text = self.repayment
+            cell.centerTextField.isEnabled = false
+            
+        case 7:
+             cell.centerTextField.keyboardType = .numberPad
+             cell.centerTextField.tag = 10001
+             cell.centerTextField.addTarget(self, action: #selector(textFieldAction(_:)), for: UIControlEvents.editingChanged)
+        default:
+            break
+        }
+        
+        
         if indexPath.row == 2 || indexPath.row == 6 {
             cell.backgroundColor = defaultBackgroundColor
+        }
+        
+        if indexPath.row == 4 { //期限
+            cell.centerTextField.text = selectPeriodInfo.text
         }
         
         return cell
@@ -176,8 +207,41 @@ class ProductViewController: UIViewController,UITableViewDelegate, UITableViewDa
     }
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        
-    
+//        let cell = tableView.cellForRow(at: indexPath) as! BMTableViewCell
+        if indexPath.row == 4 { //申请期限
+            guard self.borrowMoney.characters.count>0 else {
+                self.showHint(in: self.view, hint: "请输入借款金额")
+                return
+            }
+            let param = ["para_key":"pay_member"]
+            NetConnect.bm_applyPeriod(parameters: param, success: { (response) in
+                let json = JSON(response)
+                guard json["RET_CODE"] == "000000" else{
+                    return self.showHint(in: self.view, hint: json["RET_DESC"].stringValue)
+                }
+                if let dataArray = json["terms"].arrayObject {
+                    
+                    let phoneCallView = PopupDeadlineView(dataArray: dataArray, selectedCell: self.selectPeriodInfo.cell, borrowMoney: self.borrowMoney,mViewController: self)
+                    let popupController = CNPPopupController(contents: [phoneCallView])!
+                    popupController.present(animated: true)
+                    phoneCallView.onClickSure = { (cell,text,moneyRepay) in
+                        self.selectPeriodInfo = (cell,text)
+                        self.repayment = moneyRepay
+                        let position1 = IndexPath(row: 5, section: 0)
+                        let position2 = IndexPath(row: 4, section: 0)
+                        self.aTableView.reloadRows(at: [position1,position2], with: UITableViewRowAnimation.none)
+                        
+                        popupController.dismiss(animated: true)
+                    }
+                    phoneCallView.onClickCancle = { _ in
+                        popupController.dismiss(animated: true)
+                    }
+                }
+            
+            }, failure: { error in
+                
+            })
+        }
     }
     
     //设置分割线
@@ -214,5 +278,21 @@ class ProductViewController: UIViewController,UITableViewDelegate, UITableViewDa
         
     }
     
-    
+    func textFieldAction(_ textField: UITextField){
+        //tag: 10000- 借款金额 10001-业务员编号
+        if textField.tag == 10000 {
+            //限制输入的长度，最长为9位
+            if (textField.text?.characters.count)! > 9{
+                let index = textField.text?.index((textField.text?.startIndex)!, offsetBy: 9)//到offsetBy的前一位
+                textField.text = textField.text?.substring(to: index!)
+            }
+            self.borrowMoney = textField.text!
+        }else if textField.tag == 10001 {
+            //限制输入的长度，最长为8位
+            if (textField.text?.characters.count)! > 8{
+                let index = textField.text?.index((textField.text?.startIndex)!, offsetBy: 9)//到offsetBy的前一位
+                textField.text = textField.text?.substring(to: index!)
+            }
+        }
+    }
 }

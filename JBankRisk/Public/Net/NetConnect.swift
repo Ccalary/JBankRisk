@@ -69,4 +69,37 @@ class NetConnect {
             failure(error)
         })
     }
+    
+   /******************借款流程模块(BM)*********************/
+    
+    /// 6.申请期限
+    static func bm_applyPeriod(parameters: Parameters,success:@escaping (_ response:[String:AnyObject]) -> (),failure:@escaping(_ error: Error) -> ()){
+        
+        NetworkRequest.sharedInstance.getRequest(urlString: BM_APPLY_PERIOD_URL, params: parameters, success: { (response) in
+            success(response)
+        }, failture: { (error) in
+            failure(error)
+        })
+    }
+    
+    /// 7.计算还款金额
+    static func bm_count_repayment(parameters: Parameters,success:@escaping (_ response:[String:AnyObject]) -> (),failure:@escaping(_ error: Error) -> ()){
+        
+        NetworkRequest.sharedInstance.getRequest(urlString: BM_COUNT_REPAYMENT_URL, params: parameters, success: { (response) in
+            success(response)
+        }, failture: { (error) in
+            failure(error)
+        })
+    }
+
+    
+    
 }
+
+
+
+
+
+
+
+
