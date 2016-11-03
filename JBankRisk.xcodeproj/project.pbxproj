@@ -41,12 +41,20 @@
 		0D1EAA8E1DC9AE1800789E37 /* PopupSubmitTipsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0D1EAA8D1DC9AE1800789E37 /* PopupSubmitTipsView.swift */; };
 		0D1EAA901DC9B4D200789E37 /* PopupDeadlineView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0D1EAA8F1DC9B4D200789E37 /* PopupDeadlineView.swift */; };
 		0D1EAA921DC9BB2500789E37 /* PopupDeadlineCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0D1EAA911DC9BB2500789E37 /* PopupDeadlineCollectionViewCell.swift */; };
+		0D24F2FE1DCB72F300BBAC8F /* MineCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0D24F2FB1DCB72F300BBAC8F /* MineCollectionViewCell.swift */; };
+		0D24F2FF1DCB72F300BBAC8F /* MineFooterView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0D24F2FC1DCB72F300BBAC8F /* MineFooterView.swift */; };
+		0D24F3001DCB72F300BBAC8F /* MineHeaderView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0D24F2FD1DCB72F300BBAC8F /* MineHeaderView.swift */; };
+		0D24F3021DCB731800BBAC8F /* BorrowRecordViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0D24F3011DCB731800BBAC8F /* BorrowRecordViewController.swift */; };
+		0D24F3041DCB76E700BBAC8F /* BorrowRecordTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0D24F3031DCB76E700BBAC8F /* BorrowRecordTableViewCell.swift */; };
+		0D24F3061DCB7B7300BBAC8F /* RepayWayViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0D24F3051DCB7B7300BBAC8F /* RepayWayViewController.swift */; };
 		0D2747DA1DADE9840060E221 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 0D2747D91DADE9840060E221 /* Assets.xcassets */; };
 		0D2841091DACC1D600059FD2 /* HomeTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0D2841081DACC1D600059FD2 /* HomeTableViewCell.swift */; };
 		0D61C4281DB08ECE00C2BC23 /* PopupSelectRoleView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0D61C4271DB08ECE00C2BC23 /* PopupSelectRoleView.swift */; };
 		0D61C42C1DB0C2CB00C2BC23 /* BorrowMoneyViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0D61C42B1DB0C2CB00C2BC23 /* BorrowMoneyViewController.swift */; };
 		0D61C42E1DB0CE0000C2BC23 /* BorrowMoneyView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0D61C42D1DB0CE0000C2BC23 /* BorrowMoneyView.swift */; };
 		0D61C4321DB128F600C2BC23 /* BorrowMoneyDoneView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0D61C4311DB128F600C2BC23 /* BorrowMoneyDoneView.swift */; };
+		0D8C33EF1DCA27E800F33F0C /* chinaarea.plist in Resources */ = {isa = PBXBuildFile; fileRef = 0D8C33EE1DCA27E800F33F0C /* chinaarea.plist */; };
+		0D8C33FB1DCA3E1600F33F0C /* PopupAreaView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0D8C33FA1DCA3E1600F33F0C /* PopupAreaView.swift */; };
 		0DAF60321DA8DFAD0009054F /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0DAF60311DA8DFAD0009054F /* AppDelegate.swift */; };
 		0DAF60371DA8DFAD0009054F /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 0DAF60351DA8DFAD0009054F /* Main.storyboard */; };
 		0DAF603C1DA8DFAD0009054F /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 0DAF603A1DA8DFAD0009054F /* LaunchScreen.storyboard */; };
@@ -55,6 +63,8 @@
 		0DCACBE41DADC9D300AFD3E9 /* RegisterOrResetPsdVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0DCACBE31DADC9D300AFD3E9 /* RegisterOrResetPsdVC.swift */; };
 		0DD43CBB1DAFD74400091272 /* PopupRoleView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0DD43CBA1DAFD74400091272 /* PopupRoleView.swift */; };
 		0DD99BFF1DB1E47F00342E29 /* NetworkRequest.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0DD99BFE1DB1E47F00342E29 /* NetworkRequest.swift */; };
+		0DECC8711DCAEB130022D3F6 /* AreaTableView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0DECC8701DCAEB130022D3F6 /* AreaTableView.swift */; };
+		0DECC8751DCB07D30022D3F6 /* DataCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0DECC8741DCB07D30022D3F6 /* DataCollectionViewCell.swift */; };
 		0DFFAECF1DAF218C00819CF7 /* LoginCodeViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0DFFAECE1DAF218C00819CF7 /* LoginCodeViewController.swift */; };
 		0DFFAEDA1DAF6FB100819CF7 /* PopupPhoneCallView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0DFFAED91DAF6FB100819CF7 /* PopupPhoneCallView.swift */; };
 		0DFFAEDC1DAF707900819CF7 /* PopupRepaymentTipView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0DFFAEDB1DAF707900819CF7 /* PopupRepaymentTipView.swift */; };
@@ -116,12 +126,20 @@
 		0D1EAA8D1DC9AE1800789E37 /* PopupSubmitTipsView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PopupSubmitTipsView.swift; sourceTree = "<group>"; };
 		0D1EAA8F1DC9B4D200789E37 /* PopupDeadlineView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PopupDeadlineView.swift; sourceTree = "<group>"; };
 		0D1EAA911DC9BB2500789E37 /* PopupDeadlineCollectionViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PopupDeadlineCollectionViewCell.swift; sourceTree = "<group>"; };
+		0D24F2FB1DCB72F300BBAC8F /* MineCollectionViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MineCollectionViewCell.swift; sourceTree = "<group>"; };
+		0D24F2FC1DCB72F300BBAC8F /* MineFooterView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MineFooterView.swift; sourceTree = "<group>"; };
+		0D24F2FD1DCB72F300BBAC8F /* MineHeaderView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MineHeaderView.swift; sourceTree = "<group>"; };
+		0D24F3011DCB731800BBAC8F /* BorrowRecordViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BorrowRecordViewController.swift; sourceTree = "<group>"; };
+		0D24F3031DCB76E700BBAC8F /* BorrowRecordTableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BorrowRecordTableViewCell.swift; sourceTree = "<group>"; };
+		0D24F3051DCB7B7300BBAC8F /* RepayWayViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RepayWayViewController.swift; sourceTree = "<group>"; };
 		0D2747D91DADE9840060E221 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; name = Assets.xcassets; path = JBankRisk/Assets.xcassets; sourceTree = "<group>"; };
 		0D2841081DACC1D600059FD2 /* HomeTableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = HomeTableViewCell.swift; sourceTree = "<group>"; };
 		0D61C4271DB08ECE00C2BC23 /* PopupSelectRoleView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PopupSelectRoleView.swift; sourceTree = "<group>"; };
 		0D61C42B1DB0C2CB00C2BC23 /* BorrowMoneyViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BorrowMoneyViewController.swift; sourceTree = "<group>"; };
 		0D61C42D1DB0CE0000C2BC23 /* BorrowMoneyView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BorrowMoneyView.swift; sourceTree = "<group>"; };
 		0D61C4311DB128F600C2BC23 /* BorrowMoneyDoneView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BorrowMoneyDoneView.swift; sourceTree = "<group>"; };
+		0D8C33EE1DCA27E800F33F0C /* chinaarea.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = chinaarea.plist; sourceTree = "<group>"; };
+		0D8C33FA1DCA3E1600F33F0C /* PopupAreaView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PopupAreaView.swift; sourceTree = "<group>"; };
 		0DAF602E1DA8DFAD0009054F /* JBankRisk.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = JBankRisk.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		0DAF60311DA8DFAD0009054F /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = AppDelegate.swift; path = ../AppDelegate.swift; sourceTree = "<group>"; };
 		0DAF60361DA8DFAD0009054F /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
@@ -136,6 +154,8 @@
 		0DCACBE31DADC9D300AFD3E9 /* RegisterOrResetPsdVC.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RegisterOrResetPsdVC.swift; sourceTree = "<group>"; };
 		0DD43CBA1DAFD74400091272 /* PopupRoleView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PopupRoleView.swift; sourceTree = "<group>"; };
 		0DD99BFE1DB1E47F00342E29 /* NetworkRequest.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NetworkRequest.swift; sourceTree = "<group>"; };
+		0DECC8701DCAEB130022D3F6 /* AreaTableView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AreaTableView.swift; sourceTree = "<group>"; };
+		0DECC8741DCB07D30022D3F6 /* DataCollectionViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DataCollectionViewCell.swift; sourceTree = "<group>"; };
 		0DFFAECE1DAF218C00819CF7 /* LoginCodeViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LoginCodeViewController.swift; sourceTree = "<group>"; };
 		0DFFAED91DAF6FB100819CF7 /* PopupPhoneCallView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PopupPhoneCallView.swift; sourceTree = "<group>"; };
 		0DFFAEDB1DAF707900819CF7 /* PopupRepaymentTipView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PopupRepaymentTipView.swift; sourceTree = "<group>"; };
@@ -199,6 +219,7 @@
 			isa = PBXGroup;
 			children = (
 				0D1EAA851DC8D4FF00789E37 /* DataViewController.swift */,
+				0DECC8741DCB07D30022D3F6 /* DataCollectionViewCell.swift */,
 			);
 			path = Data;
 			sourceTree = "<group>";
@@ -234,6 +255,7 @@
 				0D0E2A231DAA8FC000A64F76 /* Extensions */,
 				0D0E2A001DAA4EA900A64F76 /* 3rd */,
 				0D0E2A1A1DAA525E00A64F76 /* Net */,
+				0D68E9701DCA25E7000DA5E6 /* Others */,
 			);
 			path = Public;
 			sourceTree = "<group>";
@@ -361,12 +383,43 @@
 			path = iCarousel;
 			sourceTree = "<group>";
 		};
+		0D24F2FA1DCB72DA00BBAC8F /* View */ = {
+			isa = PBXGroup;
+			children = (
+				0D24F2FB1DCB72F300BBAC8F /* MineCollectionViewCell.swift */,
+				0D24F2FC1DCB72F300BBAC8F /* MineFooterView.swift */,
+				0D24F2FD1DCB72F300BBAC8F /* MineHeaderView.swift */,
+				0D24F3031DCB76E700BBAC8F /* BorrowRecordTableViewCell.swift */,
+				0D24F3051DCB7B7300BBAC8F /* RepayWayViewController.swift */,
+			);
+			path = View;
+			sourceTree = "<group>";
+		};
 		0D29681C1DA9F772002FBB4C /* Mine */ = {
 			isa = PBXGroup;
 			children = (
+				0D24F2FA1DCB72DA00BBAC8F /* View */,
 				0D0E29FC1DAA220200A64F76 /* MineViewController.swift */,
+				0D24F3011DCB731800BBAC8F /* BorrowRecordViewController.swift */,
 			);
 			path = Mine;
+			sourceTree = "<group>";
+		};
+		0D68E9701DCA25E7000DA5E6 /* Others */ = {
+			isa = PBXGroup;
+			children = (
+				0D68E9711DCA2604000DA5E6 /* Area */,
+			);
+			path = Others;
+			sourceTree = "<group>";
+		};
+		0D68E9711DCA2604000DA5E6 /* Area */ = {
+			isa = PBXGroup;
+			children = (
+				0D8C33EE1DCA27E800F33F0C /* chinaarea.plist */,
+				0DECC8701DCAEB130022D3F6 /* AreaTableView.swift */,
+			);
+			path = Area;
 			sourceTree = "<group>";
 		};
 		0D9EF4881DACF48300DC075C /* Login&Register */ = {
@@ -474,6 +527,7 @@
 				0D1EAA8D1DC9AE1800789E37 /* PopupSubmitTipsView.swift */,
 				0D1EAA8F1DC9B4D200789E37 /* PopupDeadlineView.swift */,
 				0D1EAA911DC9BB2500789E37 /* PopupDeadlineCollectionViewCell.swift */,
+				0D8C33FA1DCA3E1600F33F0C /* PopupAreaView.swift */,
 			);
 			path = PopupView;
 			sourceTree = "<group>";
@@ -566,20 +620,19 @@
 				TargetAttributes = {
 					0DAF602D1DA8DFAD0009054F = {
 						CreatedOnToolsVersion = 8.0;
-						DevelopmentTeam = QVMXZZ6GJD;
+						DevelopmentTeam = JB79VQ5W7K;
 						LastSwiftMigration = 0800;
 						ProvisioningStyle = Automatic;
 					};
 					0DAF60411DA8DFAD0009054F = {
 						CreatedOnToolsVersion = 8.0;
-						DevelopmentTeam = QVMXZZ6GJD;
+						DevelopmentTeam = AXZX4LFYBW;
 						LastSwiftMigration = 0800;
 						ProvisioningStyle = Automatic;
 						TestTargetID = 0DAF602D1DA8DFAD0009054F;
 					};
 					0DAF604C1DA8DFAD0009054F = {
 						CreatedOnToolsVersion = 8.0;
-						DevelopmentTeam = QVMXZZ6GJD;
 						LastSwiftMigration = 0800;
 						ProvisioningStyle = Automatic;
 						TestTargetID = 0DAF602D1DA8DFAD0009054F;
@@ -613,6 +666,7 @@
 			files = (
 				0DAF603C1DA8DFAD0009054F /* LaunchScreen.storyboard in Resources */,
 				0DAF60371DA8DFAD0009054F /* Main.storyboard in Resources */,
+				0D8C33EF1DCA27E800F33F0C /* chinaarea.plist in Resources */,
 				0D2747DA1DADE9840060E221 /* Assets.xcassets in Resources */,
 				0D0E2A161DAA523E00A64F76 /* pulltorefresharrow.png in Resources */,
 			);
@@ -687,6 +741,9 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				0D24F2FF1DCB72F300BBAC8F /* MineFooterView.swift in Sources */,
+				0D24F3041DCB76E700BBAC8F /* BorrowRecordTableViewCell.swift in Sources */,
+				0D24F3061DCB7B7300BBAC8F /* RepayWayViewController.swift in Sources */,
 				0D006DE31DC88BDB0091CF33 /* IDInfoConfirmViewController.swift in Sources */,
 				0D1EAA861DC8D4FF00789E37 /* DataViewController.swift in Sources */,
 				0D1EAA921DC9BB2500789E37 /* PopupDeadlineCollectionViewCell.swift in Sources */,
@@ -698,6 +755,7 @@
 				0D0E2A201DAA8BDF00A64F76 /* CNPPopupController.m in Sources */,
 				0D61C4281DB08ECE00C2BC23 /* PopupSelectRoleView.swift in Sources */,
 				0D1070C21DAE297E00F9591C /* LoginPsdOrSetPsdVC.swift in Sources */,
+				0D24F3021DCB731800BBAC8F /* BorrowRecordViewController.swift in Sources */,
 				0D1EAA801DC8C88F00789E37 /* SchoolViewController.swift in Sources */,
 				0DFFAEDA1DAF6FB100819CF7 /* PopupPhoneCallView.swift in Sources */,
 				0DCACBE41DADC9D300AFD3E9 /* RegisterOrResetPsdVC.swift in Sources */,
@@ -711,13 +769,17 @@
 				0D0E2A271DAA927A00A64F76 /* UIViewController+HUD.swift in Sources */,
 				0D0E2A191DAA523E00A64F76 /* UIScrollViewExtension.swift in Sources */,
 				0DFFAEDC1DAF707900819CF7 /* PopupRepaymentTipView.swift in Sources */,
+				0D8C33FB1DCA3E1600F33F0C /* PopupAreaView.swift in Sources */,
 				0D1EAA841DC8CC4900789E37 /* ContactViewController.swift in Sources */,
 				0D0E2A181DAA523E00A64F76 /* PullToRefreshView.swift in Sources */,
+				0D24F3001DCB72F300BBAC8F /* MineHeaderView.swift in Sources */,
 				0DD43CBB1DAFD74400091272 /* PopupRoleView.swift in Sources */,
 				0D0E2A311DAB377E00A64F76 /* HHNavigationController.swift in Sources */,
 				0D006DCD1DC758480091CF33 /* URL.swift in Sources */,
+				0DECC8711DCAEB130022D3F6 /* AreaTableView.swift in Sources */,
 				0D61C4321DB128F600C2BC23 /* BorrowMoneyDoneView.swift in Sources */,
 				0D1EAA821DC8C91500789E37 /* WorkViewController.swift in Sources */,
+				0D24F2FE1DCB72F300BBAC8F /* MineCollectionViewCell.swift in Sources */,
 				0D1EAA8C1DC99C5C00789E37 /* PopupPhotoSelectView.swift in Sources */,
 				0D0E2A301DAB377D00A64F76 /* File.swift in Sources */,
 				0D006DCF1DC75A280091CF33 /* NetConnect.swift in Sources */,
@@ -725,6 +787,7 @@
 				0D1EAA8E1DC9AE1800789E37 /* PopupSubmitTipsView.swift in Sources */,
 				0DD99BFF1DB1E47F00342E29 /* NetworkRequest.swift in Sources */,
 				0DFFAECF1DAF218C00819CF7 /* LoginCodeViewController.swift in Sources */,
+				0DECC8751DCB07D30022D3F6 /* DataCollectionViewCell.swift in Sources */,
 				0D0E2A3B1DAB40DB00A64F76 /* HomeViewController.swift in Sources */,
 				0D0E2A451DABB86E00A64F76 /* BaseWebViewController.swift in Sources */,
 				0D132FB11DB07FD70061EDC9 /* iCarousel.m in Sources */,
@@ -835,6 +898,7 @@
 				SDKROOT = iphoneos;
 				SWIFT_ACTIVE_COMPILATION_CONDITIONS = DEBUG;
 				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
+				VALIDATE_PRODUCT = YES;
 			};
 			name = Debug;
 		};
@@ -865,6 +929,7 @@
 				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
 				ENABLE_NS_ASSERTIONS = NO;
 				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				ENABLE_TESTABILITY = YES;
 				GCC_C_LANGUAGE_STANDARD = gnu99;
 				GCC_NO_COMMON_BLOCKS = YES;
 				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
@@ -888,7 +953,7 @@
 				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CLANG_ENABLE_MODULES = YES;
-				DEVELOPMENT_TEAM = QVMXZZ6GJD;
+				DEVELOPMENT_TEAM = JB79VQ5W7K;
 				INFOPLIST_FILE = JBankRisk/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = com.jingjinsuo.JBankRisk;
@@ -906,7 +971,7 @@
 				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CLANG_ENABLE_MODULES = YES;
-				DEVELOPMENT_TEAM = QVMXZZ6GJD;
+				DEVELOPMENT_TEAM = JB79VQ5W7K;
 				INFOPLIST_FILE = JBankRisk/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = com.jingjinsuo.JBankRisk;
@@ -921,7 +986,7 @@
 			buildSettings = {
 				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				BUNDLE_LOADER = "$(TEST_HOST)";
-				DEVELOPMENT_TEAM = QVMXZZ6GJD;
+				DEVELOPMENT_TEAM = AXZX4LFYBW;
 				INFOPLIST_FILE = JBankRiskTests/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = com.jingjinsuo.JBankRiskTests;
@@ -936,7 +1001,7 @@
 			buildSettings = {
 				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				BUNDLE_LOADER = "$(TEST_HOST)";
-				DEVELOPMENT_TEAM = QVMXZZ6GJD;
+				DEVELOPMENT_TEAM = AXZX4LFYBW;
 				INFOPLIST_FILE = JBankRiskTests/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = com.jingjinsuo.JBankRiskTests;
@@ -950,7 +1015,7 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
-				DEVELOPMENT_TEAM = QVMXZZ6GJD;
+				DEVELOPMENT_TEAM = "";
 				INFOPLIST_FILE = JBankRiskUITests/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = com.jingjinsuo.JBankRiskUITests;
@@ -964,7 +1029,7 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
-				DEVELOPMENT_TEAM = QVMXZZ6GJD;
+				DEVELOPMENT_TEAM = "";
 				INFOPLIST_FILE = JBankRiskUITests/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = com.jingjinsuo.JBankRiskUITests;

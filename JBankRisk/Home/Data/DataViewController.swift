@@ -9,7 +9,7 @@
 
 import UIKit
 
-class DataViewController: UIViewController,UITableViewDelegate, UITableViewDataSource,UIGestureRecognizerDelegate {
+class DataViewController: UIViewController,UITableViewDelegate, UITableViewDataSource,UICollectionViewDelegate,UICollectionViewDataSource, UICollectionViewDelegateFlowLayout,UIImagePickerControllerDelegate,UINavigationControllerDelegate{
     
     var WorkerCellData:[CellDataInfo] = [ CellDataInfo(leftText: "身份证", holdText: "上传身份证正反面", content: "", cellType: .cameraType),
                                           CellDataInfo(leftText: "亲签照", holdText: "上传手持合同的照片", content: "", cellType: .cameraType),
@@ -32,16 +32,34 @@ class DataViewController: UIViewController,UITableViewDelegate, UITableViewDataS
                                           CellDataInfo(leftText: "财力证明", holdText: "上传可证明财力的文件（选填）", content: "", cellType: .cameraType)]
     
     var dataArray: [CellDataInfo]!
-    var cellHeight: CGFloat!
+    var tableViewHeight: CGFloat!
+    
+    ///相机，相册
+    var cameraPicker: UIImagePickerController!
+    var photoPicker: UIImagePickerController!
+    ///图片与描述
+    var photoArray:[(image:UIImage,dis:String,selectCell: Int)] = [] {
+        didSet{
+            self.aCollectionView.reloadData()
+        }
+    }
+    
+    var dis: String!
+    var selectCell: Int!
+    
+    //上传张数
+    var numArray = [Int]()
+    
     
     override func viewDidLoad() {
         super.viewDidLoad()
         self.setupUI()
+        self.initPhotoPicker()
+        self.initCameraPicker()
     }
     
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
-        
     }
     
     init(roleType: RoleType) {
@@ -55,9 +73,9 @@ class DataViewController: UIViewController,UITableViewDelegate, UITableViewDataS
         case .freedom:
             dataArray = FreedomCellData
         }
-        cellHeight = CGFloat(dataArray.count)*50*UIRate
+        tableViewHeight = CGFloat(dataArray.count)*50*UIRate
         
-
+        numArray = Array(repeating: 0, count: dataArray.count)
     }
     
     required init?(coder aDecoder: NSCoder) {
@@ -70,11 +88,6 @@ class DataViewController: UIViewController,UITableViewDelegate, UITableViewDataS
         self.view.backgroundColor = defaultBackgroundColor
         self.title = "学校信息"
         
-        let aTap = UITapGestureRecognizer(target: self, action: #selector(tapViewAction))
-        aTap.numberOfTapsRequired = 1
-        aTap.delegate = self
-        UIApplication.shared.keyWindow?.addGestureRecognizer(aTap)
-        
         self.view.addSubview(topView)
         self.view.addSubview(topTextLabel)
         self.view.addSubview(starImageView)
@@ -83,6 +96,7 @@ class DataViewController: UIViewController,UITableViewDelegate, UITableViewDataS
         self.view.addSubview(aScrollView)
         self.aScrollView.addSubview(aTableView)
         self.aScrollView.addSubview(divideLine1)
+        self.aScrollView.addSubview(aCollectionView)
         self.view.addSubview(lastStepBtn)
         self.view.addSubview(nextStepBtn)
         self.view.addSubview(botTextLabel)
@@ -119,11 +133,9 @@ class DataViewController: UIViewController,UITableViewDelegate, UITableViewDataS
             make.top.equalTo(64 + 30*UIRate)
         }
         
-        aScrollView.contentSize = CGSize(width: SCREEN_WIDTH, height: SCREEN_HEIGHT - 64 - 124*UIRate + 1)
-        
         aTableView.snp.makeConstraints { (make) in
             make.width.equalTo(aScrollView)
-            make.height.equalTo(cellHeight)
+            make.height.equalTo(tableViewHeight)
             make.centerX.equalTo(aScrollView)
             make.top.equalTo(10*UIRate)
         }
@@ -133,6 +145,13 @@ class DataViewController: UIViewController,UITableViewDelegate, UITableViewDataS
             make.height.equalTo(0.5*UIRate)
             make.centerX.equalTo(self.aScrollView)
             make.top.equalTo(aTableView)
+        }
+        
+        aCollectionView.snp.makeConstraints { (make) in
+            make.width.equalTo(SCREEN_WIDTH - 30*UIRate)
+            make.height.equalTo(262*UIRate)
+            make.centerX.equalTo(aScrollView)
+            make.top.equalTo(self.aTableView.snp.bottom).offset(10*UIRate)
         }
         
         lastStepBtn.snp.makeConstraints { (make) in
@@ -159,6 +178,15 @@ class DataViewController: UIViewController,UITableViewDelegate, UITableViewDataS
             make.height.equalTo(30*UIRate)
             make.left.equalTo(self.botTextLabel.snp.right)
             make.centerY.equalTo(botTextLabel)
+        }
+        
+        let scrollHeight = SCREEN_HEIGHT - 64 - 124*UIRate
+        let contentHeight = tableViewHeight + 262*UIRate + 20*UIRate
+        
+        if contentHeight < scrollHeight {
+             aScrollView.contentSize = CGSize(width: SCREEN_WIDTH, height: scrollHeight + 1)
+        }else{
+            aScrollView.contentSize = CGSize(width: SCREEN_WIDTH, height: contentHeight)
         }
     }
     
@@ -216,6 +244,20 @@ class DataViewController: UIViewController,UITableViewDelegate, UITableViewDataS
         
     }()
     
+    private lazy var aCollectionView: UICollectionView = {
+        let layout = UICollectionViewFlowLayout()
+        layout.itemSize = CGSize(width: 106*UIRate, height: 131*UIRate)
+        layout.minimumLineSpacing = 0
+        
+        let collectionView = UICollectionView(frame: CGRect(), collectionViewLayout: layout)
+        collectionView.register(DataCollectionViewCell.self, forCellWithReuseIdentifier: "dataCell")
+        collectionView.delegate = self
+        collectionView.dataSource = self
+        collectionView.backgroundColor = UIColor.clear
+        
+        return collectionView
+    }()
+    
     //分割线
     private lazy var divideLine1: UIView = {
         let lineView = UIView()
@@ -262,8 +304,6 @@ class DataViewController: UIViewController,UITableViewDelegate, UITableViewDataS
         button.addTarget(self, action: #selector(protocolBtnAction), for: .touchUpInside)
         return button
     }()
-
-    
     
     //MARK: - UITableViewDelegate&&DataSource
     func numberOfSections(in tableView: UITableView) -> Int {
@@ -292,11 +332,17 @@ class DataViewController: UIViewController,UITableViewDelegate, UITableViewDataS
         let popupView = PopupPhotoSelectView()
         let popupController = CNPPopupController(contents: [popupView])!
         popupController.present(animated: true)
+        selectCell = indexPath.row
         popupView.onClickCamera = {_ in //相机
             popupController.dismiss(animated: true)
+            self.present(self.cameraPicker, animated: true, completion: nil)
         }
         popupView.onClickPhoto = { _ in //相册选取
+            
+            self.present(self.photoPicker, animated: true, completion: nil)
+            
             popupController.dismiss(animated: true)
+           
         }
         
         popupView.onClickClose = { _ in //关闭
@@ -316,13 +362,75 @@ class DataViewController: UIViewController,UITableViewDelegate, UITableViewDataS
             }
     }
     
-    ///消除手势与TableView的冲突
-    func gestureRecognizer(_ gestureRecognizer: UIGestureRecognizer, shouldReceive touch: UITouch) -> Bool {
-        if NSStringFromClass((touch.view?.classForCoder)!) == "UITableViewCellContentView" {
-            return false
-        }
-        return true
+    /******************/
+    //MARK: - collectionView delegate
+    func numberOfSections(in collectionView: UICollectionView) -> Int {
+        return 1
     }
+    
+    func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
+        return photoArray.count
+    }
+    
+    func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
+        let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "dataCell", for: indexPath) as! DataCollectionViewCell
+        cell.imageView.image = photoArray[indexPath.row].image
+        cell.textLabel.text = photoArray[indexPath.row].dis
+        
+        cell.onClickDelete = { _ in
+            let selectCell = self.photoArray[indexPath.row].selectCell
+            self.numArray[selectCell] -= 1
+            if self.numArray[selectCell] > 0{
+                self.dataArray[selectCell].content = "已上传\(self.numArray[selectCell])张"
+            }else {
+                self.dataArray[selectCell].content = ""
+            }
+            self.reloadOneTabelViewCell(at: selectCell)
+
+            self.photoArray.remove(at: indexPath.row)
+            
+        }
+        
+        return cell
+    }
+    
+    func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
+    }
+    
+    func collectionView(_ collectionView: UICollectionView, didDeselectItemAt indexPath: IndexPath) {
+    }
+    
+    //MARK: - Method
+    func initCameraPicker(){
+        cameraPicker = UIImagePickerController()
+        cameraPicker.delegate = self
+        cameraPicker.sourceType = .camera
+    }
+    
+    func initPhotoPicker(){
+        photoPicker =  UIImagePickerController()
+        photoPicker.delegate = self
+        photoPicker.sourceType = .photoLibrary
+    }
+    
+    func imagePickerController(_ picker: UIImagePickerController, didFinishPickingMediaWithInfo info: [String : Any]) {
+        self.dismiss(animated: true, completion: nil)
+        let image = info[UIImagePickerControllerOriginalImage] as! UIImage
+        photoArray.append((image,dataArray[selectCell].leftText,selectCell))
+        numArray[selectCell] += 1
+        dataArray[selectCell].content = "已上传\(numArray[selectCell])张"
+        self.reloadOneTabelViewCell(at: selectCell)
+    }
+    
+    //刷新某行
+    func reloadOneTabelViewCell(at index: Int){
+        let position = IndexPath(item: index, section: 0)
+        self.aTableView.reloadRows(at: [position], with: UITableViewRowAnimation.none)
+    }
+}
+
+
+extension DataViewController {
     
     //MARK: - Action
     func tapViewAction() {
@@ -342,12 +450,12 @@ class DataViewController: UIViewController,UITableViewDelegate, UITableViewDataS
         let popupView = PopupSubmitTipsView()
         let popupController = CNPPopupController(contents: [popupView])!
         popupController.present(animated: true)
-        popupView.onClickCancle = {_ in 
+        popupView.onClickCancle = {_ in
             popupController.dismiss(animated: true)
         }
-        popupView.onClickSure = { _ in 
+        popupView.onClickSure = { _ in
             popupController.dismiss(animated: true)
         }
-
+        
     }
 }

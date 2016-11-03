@@ -8,7 +8,7 @@
 
 import UIKit
 
-class MineViewController: UIViewController, UIGestureRecognizerDelegate {
+class MineViewController: UIViewController, UIGestureRecognizerDelegate,UICollectionViewDelegate,UICollectionViewDataSource, UICollectionViewDelegateFlowLayout {
 
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -46,25 +46,170 @@ class MineViewController: UIViewController, UIGestureRecognizerDelegate {
 
 
     func setupUI() {
+        self.view.backgroundColor = defaultBackgroundColor
         
         self.view.addSubview(topImageView)
+        self.view.addSubview(messageBtn)
+        self.view.addSubview(settingBtn)
+        self.view.addSubview(headerImageView)
         self.view.addSubview(sayHelloTextLabel)
+        
+        /*****************/
+        self.view.addSubview(tipsHoldView)
+        self.tipsHoldView.addSubview(tipsTextLabel)
+        
+        /*************/
+        self.view.addSubview(repayHoldView)
+        self.repayHoldView.addSubview(repayDivideLine)
+        self.repayHoldView.addSubview(repayDivideLine2)
+        self.repayHoldView.addSubview(repayVerDivideLine)
+        self.repayHoldView.addSubview(moneyLabel)
+        self.repayHoldView.addSubview(moneyTextLabel)
+        self.repayHoldView.addSubview(dateLabel)
+        self.repayHoldView.addSubview(dateTextLabel)
+        self.repayHoldView.addSubview(reBottomHoldView)
+        
+    
+        /************/
+        self.view.addSubview(aCollectionView)
         
         topImageView.snp.makeConstraints { (make) in
             make.width.equalTo(self.view)
-            make.height.equalTo(200*UIRate)
+            make.height.equalTo(220*UIRate)
             make.top.equalTo(self.view)
         }
         
+        messageBtn.snp.makeConstraints { (make) in
+            make.width.height.equalTo(25*UIRate)
+            make.left.equalTo(10*UIRate)
+            make.top.equalTo(30*UIRate)
+        }
+        
+        settingBtn.snp.makeConstraints { (make) in
+            make.width.height.equalTo(25*UIRate)
+            make.right.equalTo(topImageView.snp.right).offset(-10*UIRate)
+            make.top.equalTo(30*UIRate)
+        }
+        
+        headerImageView.snp.makeConstraints { (make) in
+            make.width.height.equalTo(90*UIRate)
+            make.centerX.equalTo(self.view)
+            make.top.equalTo(65*UIRate)
+        }
+        
         sayHelloTextLabel.snp.makeConstraints { (make) in
-            make.bottom.equalTo(topImageView.snp.bottom).offset(-20*UIRate)
+            make.bottom.equalTo(topImageView.snp.bottom).offset(-30*UIRate)
             make.centerX.equalTo(self.view)
         }
+        
+        /********/
+        tipsHoldView.snp.makeConstraints { (make) in
+            make.width.equalTo(self.view)
+            make.height.equalTo(25*UIRate)
+            make.centerX.equalTo(self.view)
+            make.top.equalTo(topImageView.snp.bottom)
+        }
+        
+        tipsTextLabel.snp.makeConstraints { (make) in
+            make.centerX.equalTo(self.view)
+            make.centerY.equalTo(tipsHoldView)
+        }
+
+        /*********/
+
+        repayHoldView.snp.makeConstraints { (make) in
+            make.width.equalTo(self.view)
+            make.height.equalTo(70*UIRate)
+            make.centerX.equalTo(self.view)
+            make.top.equalTo(topImageView.snp.bottom).offset(25*UIRate)
+        }
+
+        repayDivideLine.snp.makeConstraints { (make) in
+            make.width.equalTo(self.view)
+            make.height.equalTo(0.5*UIRate)
+            make.centerX.equalTo(repayHoldView)
+            make.top.equalTo(60*UIRate)
+        }
+
+        repayDivideLine2.snp.makeConstraints { (make) in
+            make.width.equalTo(self.view)
+            make.height.equalTo(0.5*UIRate)
+            make.centerX.equalTo(repayHoldView)
+            make.bottom.equalTo(70*UIRate)
+        }
+
+        repayVerDivideLine.snp.makeConstraints { (make) in
+            make.width.equalTo(0.5*UIRate)
+            make.height.equalTo(60*UIRate)
+            make.centerX.equalTo(repayHoldView)
+            make.top.equalTo(repayHoldView)
+        }
+        
+        moneyTextLabel.snp.makeConstraints { (make) in
+            make.centerX.equalTo(-SCREEN_WIDTH/4)
+            make.top.equalTo(33*UIRate)
+        }
+        
+        moneyLabel.snp.makeConstraints { (make) in
+            make.width.equalTo(SCREEN_WIDTH/2)
+            make.centerX.equalTo(moneyTextLabel)
+            make.bottom.equalTo(moneyTextLabel.snp.top)
+        }
+
+        dateTextLabel.snp.makeConstraints { (make) in
+            make.centerX.equalTo(SCREEN_WIDTH/4)
+            make.centerY.equalTo(moneyTextLabel)
+        }
+        
+        dateLabel.snp.makeConstraints { (make) in
+            make.width.equalTo(SCREEN_WIDTH/2)
+            make.centerX.equalTo(dateTextLabel)
+            make.centerY.equalTo(moneyLabel)
+        }
+        
+        reBottomHoldView.snp.makeConstraints { (make) in
+            make.width.equalTo(repayHoldView)
+            make.height.equalTo(10*UIRate)
+            make.centerX.equalTo(repayHoldView)
+            make.top.equalTo(repayDivideLine.snp.bottom)
+        }
+
+        /***********/
+        aCollectionView.snp.makeConstraints { (make) in
+            make.width.equalTo(self.view)
+            make.height.equalTo(205*UIRate)
+            make.centerX.equalTo(self.view)
+            make.top.equalTo(repayHoldView.snp.bottom)
+        }
+
     }
     
     var topImageView: UIImageView = {
         let imageView = UIImageView()
-        imageView.backgroundColor = UIColor.gray
+        imageView.image = UIImage(named: "m_banner_image_375x220")
+        return imageView
+    }()
+    
+    //／消息按钮
+    private lazy var messageBtn: UIButton = {
+        let button = UIButton()
+        button.setBackgroundImage(UIImage(named: "m_message_25x25"), for: .normal)
+        button.addTarget(self, action: #selector(messageBtnAction), for: .touchUpInside)
+        return button
+    }()
+    
+    //／设置按钮
+    private lazy var settingBtn: UIButton = {
+        let button = UIButton()
+        button.setBackgroundImage(UIImage(named: "m_setting_25x25"), for: .normal)
+        button.addTarget(self, action: #selector(settingBtnAction), for: .touchUpInside)
+        return button
+    }()
+    
+    //头像
+    private lazy var headerImageView: UIImageView = {
+        let imageView = UIImageView()
+        imageView.image = UIImage(named: "m_heder_icon_90x90")
         return imageView
     }()
     
@@ -72,8 +217,182 @@ class MineViewController: UIViewController, UIGestureRecognizerDelegate {
         let textLabel = UILabel()
         textLabel.font = UIFontSize(size: 15*UIRate)
         textLabel.textAlignment = .center
-        textLabel.text = "您好： 曹先生"
+        textLabel.textColor = UIColor.white
+        textLabel.text = "您好： 135****7788"
         return textLabel
     }()
     
+    /*****************/
+    private lazy var tipsHoldView: UIView = {
+        let holdView = UIView()
+        holdView.backgroundColor = UIColorHex("ffe0df")
+        return holdView
+    }()
+    
+    private lazy var tipsTextLabel: UILabel = {
+        let label = UILabel()
+        label.font = UIFontSize(size: 15*UIRate)
+        label.textAlignment = .center
+        label.textColor = UIColorHex("e9342d")
+        label.text = "您有借款逾期，请尽早还款"
+        return label
+    }()
+
+    /*************/
+    private lazy var repayHoldView: UIView = {
+        let holdView = UIView()
+        holdView.backgroundColor = UIColor.white
+        return holdView
+    }()
+    
+    //分割线
+    private lazy var repayDivideLine: UIView = {
+        let lineView = UIView()
+        lineView.backgroundColor = defaultDivideLineColor
+        return lineView
+    }()
+    
+    private lazy var repayDivideLine2: UIView = {
+        let lineView = UIView()
+        lineView.backgroundColor = defaultDivideLineColor
+        return lineView
+    }()
+
+    //分割线
+    private lazy var repayVerDivideLine: UIView = {
+        let lineView = UIView()
+        lineView.backgroundColor = defaultDivideLineColor
+        return lineView
+    }()
+
+    private lazy var moneyTextLabel: UILabel = {
+        let label = UILabel()
+        label.font = UIFontSize(size: 15*UIRate)
+        label.textAlignment = .center
+        label.textColor = UIColorHex("848484")
+        label.text = "本月代还(元)"
+        return label
+    }()
+
+    private lazy var moneyLabel: UILabel = {
+        let label = UILabel()
+        label.font = UIFontSize(size: 20*UIRate)
+        label.textAlignment = .center
+        label.textColor = UIColorHex("f42e2f")
+        label.text = "0.00"
+        return label
+    }()
+
+    private lazy var dateTextLabel: UILabel = {
+        let label = UILabel()
+        label.font = UIFontSize(size: 15*UIRate)
+        label.textAlignment = .center
+        label.textColor = UIColorHex("848484")
+        label.text = "下期还款日"
+        return label
+    }()
+    
+    private lazy var dateLabel: UILabel = {
+        let label = UILabel()
+        label.font = UIFontSize(size: 20*UIRate)
+        label.textAlignment = .center
+        label.textColor = UIColorHex("f42e2f")
+        label.text = "11月11日"
+        return label
+    }()
+
+    private lazy var reBottomHoldView: UIView = {
+        let holdView = UIView()
+        holdView.backgroundColor = defaultBackgroundColor
+        return holdView
+    }()
+    
+    private lazy var aCollectionView: UICollectionView = {
+        let layout = UICollectionViewFlowLayout()
+        layout.itemSize = CGSize(width: (SCREEN_WIDTH - 1.8*UIRate)/3, height: 75*UIRate)
+        layout.minimumInteritemSpacing = 0.7*UIRate
+        
+        let collectionView = UICollectionView(frame: CGRect(), collectionViewLayout: layout)
+        collectionView.register(MineCollectionViewCell.self, forCellWithReuseIdentifier: "mineCell")
+        collectionView.register(MineHeaderView.classForCoder(), forSupplementaryViewOfKind: UICollectionElementKindSectionHeader, withReuseIdentifier: "header")
+        collectionView.register(MineFooterView.classForCoder(), forSupplementaryViewOfKind: UICollectionElementKindSectionFooter, withReuseIdentifier: "footer")
+        
+        collectionView.delegate = self
+        collectionView.dataSource = self
+        collectionView.backgroundColor = defaultBackgroundColor
+        
+        return collectionView
+    }()
+
+    
+    //MARK: - collectionView delegate
+    func numberOfSections(in collectionView: UICollectionView) -> Int {
+        return 1
+    }
+    
+    func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
+        return 3
+    }
+    
+    func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
+        let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "mineCell", for: indexPath) as! MineCollectionViewCell
+        cell.backgroundColor = UIColor.white
+        switch indexPath.row {
+        case 0:
+            cell.imageView.image = UIImage(named: "m_bm_record_28x28")
+            cell.textLabel.text = "借款记录"
+        case 1:
+            cell.imageView.image = UIImage(named: "m_repay_bill_28x28")
+            cell.textLabel.text = "还款账单"
+        case 2:
+            cell.imageView.image = UIImage(named: "m_repay_detail_28x28")
+            cell.textLabel.text = "还款明细"
+        default:
+            break
+        }
+        
+        return cell
+    }
+    
+    func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
+        
+        if indexPath.row == 0 { //借款记录
+            let borrowRecordVC = BorrowRecordViewController()
+            self.navigationController?.pushViewController(borrowRecordVC, animated: true)
+        }
+    }
+    
+    func collectionView(_ collectionView: UICollectionView, viewForSupplementaryElementOfKind kind: String, at indexPath: IndexPath) -> UICollectionReusableView {
+        switch kind {
+        case UICollectionElementKindSectionHeader:
+            let header: MineHeaderView = collectionView.dequeueReusableSupplementaryView(ofKind: kind, withReuseIdentifier: "header", for: indexPath) as! MineHeaderView
+            return header
+            
+        case UICollectionElementKindSectionFooter:
+            let footer: MineFooterView = collectionView.dequeueReusableSupplementaryView(ofKind: kind, withReuseIdentifier: "footer", for: indexPath) as! MineFooterView
+            return footer
+        default:
+            let header: MineHeaderView = collectionView.dequeueReusableSupplementaryView(ofKind: kind, withReuseIdentifier: "header", for: indexPath) as! MineHeaderView
+            return header
+        }
+    }
+    
+    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, referenceSizeForHeaderInSection section: Int) -> CGSize {
+        return CGSize(width: SCREEN_WIDTH, height: 70*UIRate)
+    }
+    
+    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, referenceSizeForFooterInSection section: Int) -> CGSize {
+        return CGSize(width: SCREEN_WIDTH, height: 60*UIRate)
+    }
+
+    
+    
+ //MARK: - Action
+    func messageBtnAction() {
+        
+    }
+    
+    func settingBtnAction(){
+        
+    }
 }

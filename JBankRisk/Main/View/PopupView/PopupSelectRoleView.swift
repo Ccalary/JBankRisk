@@ -33,7 +33,6 @@ class PopupSelectRoleView: UIView, iCarouselDelegate, iCarouselDataSource  {
         default:
             break
         }
-        
     }
     
     required init?(coder aDecoder: NSCoder) {

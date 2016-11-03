@@ -177,18 +177,18 @@ extension HomeViewController: UITableViewDelegate, UITableViewDataSource,CyclePi
                 self.navigationController?.pushViewController(loginVC, animated: false)
             }
         case 1:
-            let registerVC = SchoolViewController()
-            self.navigationController?.pushViewController(registerVC, animated: true)
+//            let registerVC = DataViewController(roleType: .worker)
+//            self.navigationController?.pushViewController(registerVC, animated: true)
 //
-//            let phoneCallView = PopupDeadlineView(dataArray: ["1"], selectedCell: 3)
-//            let popupController = CNPPopupController(contents: [phoneCallView])!
-//            popupController.present(animated: true)
-//            phoneCallView.onClickSure = {_ in
-//                popupController.dismiss(animated: true)
-//            }
+            let phoneCallView = PopupAreaView()
+            let popupController = CNPPopupController(contents: [phoneCallView])!
+            popupController.present(animated: true)
+            phoneCallView.onClickSelect = {_ in
+                popupController.dismiss(animated: true)
+            }
             break
         case 2:
-            let registerVC = LoginViewController()
+            let registerVC = RepayWayViewController()
             self.navigationController?.pushViewController(registerVC, animated: true)
         default:
             break

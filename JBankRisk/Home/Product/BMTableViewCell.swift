@@ -21,7 +21,7 @@ enum CellType {
 struct CellDataInfo {
     let leftText: String
     let holdText: String
-    let content: String
+    var content: String
     let cellType: CellType
     
     init(leftText: String, holdText: String, content: String,cellType: CellType ) {
