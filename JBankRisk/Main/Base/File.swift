@@ -78,3 +78,16 @@ func changeTextLineSpace(text: String, lineSpace: CGFloat = 5*UIRate) -> NSAttri
     return attributeStr
 }
 
+///label高度自适应
+///
+/// - Parameters:
+///   - text: 文字
+///   - labelWidth: 最大宽度
+///   - attributes: 字体，行距等
+/// - Returns: 高度
+func autoLabelHeight(with text:String , labelWidth: CGFloat ,attributes : [String : Any]) -> CGFloat{
+    var size = CGRect()
+    let size2 = CGSize(width: labelWidth, height: 0)//设置label的最大宽度
+    size = text.boundingRect(with: size2, options: NSStringDrawingOptions.usesLineFragmentOrigin, attributes: attributes , context: nil);
+    return size.size.height
+}

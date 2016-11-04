@@ -270,7 +270,7 @@ class MineViewController: UIViewController, UIGestureRecognizerDelegate,UICollec
         label.font = UIFontSize(size: 15*UIRate)
         label.textAlignment = .center
         label.textColor = UIColorHex("848484")
-        label.text = "本月代还(元)"
+        label.text = "本月待还(元)"
         return label
     }()
 
@@ -359,6 +359,9 @@ class MineViewController: UIViewController, UIGestureRecognizerDelegate,UICollec
         if indexPath.row == 0 { //借款记录
             let borrowRecordVC = BorrowRecordViewController()
             self.navigationController?.pushViewController(borrowRecordVC, animated: true)
+        }else if indexPath.row == 1 { //还款账单
+            let repayVC = RepayBillViewController()
+            self.navigationController?.pushViewController(repayVC, animated: true)
         }
     }
     
@@ -384,15 +387,15 @@ class MineViewController: UIViewController, UIGestureRecognizerDelegate,UICollec
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, referenceSizeForFooterInSection section: Int) -> CGSize {
         return CGSize(width: SCREEN_WIDTH, height: 60*UIRate)
     }
-
-    
     
  //MARK: - Action
-    func messageBtnAction() {
-        
+    func messageBtnAction() {//消息
+        let messageVC = SysMessageViewController()
+        self.navigationController?.pushViewController(messageVC, animated: true)
     }
     
     func settingBtnAction(){
-        
+        let settingVC = SettingViewController()
+        self.navigationController?.pushViewController(settingVC, animated: true)
     }
 }

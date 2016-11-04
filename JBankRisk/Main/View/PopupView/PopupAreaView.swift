@@ -122,7 +122,7 @@ class PopupAreaView: UIView {
         }
         aScrollView.backgroundColor = UIColor.gray
         
-        areaView = AreaTableView(dataArray: provinceData)
+//        areaView = AreaTableView(dataArray: provinceData)
         self.aScrollView.addSubview(areaView)
         
     }

@@ -46,9 +46,28 @@
 		0D24F3001DCB72F300BBAC8F /* MineHeaderView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0D24F2FD1DCB72F300BBAC8F /* MineHeaderView.swift */; };
 		0D24F3021DCB731800BBAC8F /* BorrowRecordViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0D24F3011DCB731800BBAC8F /* BorrowRecordViewController.swift */; };
 		0D24F3041DCB76E700BBAC8F /* BorrowRecordTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0D24F3031DCB76E700BBAC8F /* BorrowRecordTableViewCell.swift */; };
-		0D24F3061DCB7B7300BBAC8F /* RepayWayViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0D24F3051DCB7B7300BBAC8F /* RepayWayViewController.swift */; };
+		0D24F3081DCB9B1F00BBAC8F /* AreaViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0D24F3071DCB9B1F00BBAC8F /* AreaViewController.swift */; };
+		0D24F30A1DCB9F2E00BBAC8F /* AreaSelectHeaderView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0D24F3091DCB9F2E00BBAC8F /* AreaSelectHeaderView.swift */; };
+		0D24F30C1DCBA2D900BBAC8F /* AreaSelectView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0D24F30B1DCBA2D900BBAC8F /* AreaSelectView.swift */; };
 		0D2747DA1DADE9840060E221 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 0D2747D91DADE9840060E221 /* Assets.xcassets */; };
 		0D2841091DACC1D600059FD2 /* HomeTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0D2841081DACC1D600059FD2 /* HomeTableViewCell.swift */; };
+		0D3ADC7F1DCC1DE300838043 /* SettingViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0D3ADC7E1DCC1DE300838043 /* SettingViewController.swift */; };
+		0D3ADC841DCC202A00838043 /* SettingTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0D3ADC831DCC202A00838043 /* SettingTableViewCell.swift */; };
+		0D3ADC881DCC31BB00838043 /* ResetPsdViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0D3ADC871DCC31BB00838043 /* ResetPsdViewController.swift */; };
+		0D3ADC8A1DCC31DA00838043 /* AboutOursViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0D3ADC891DCC31DA00838043 /* AboutOursViewController.swift */; };
+		0D3ADC8C1DCC3B4A00838043 /* AboutOursTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0D3ADC8B1DCC3B4A00838043 /* AboutOursTableViewCell.swift */; };
+		0D3ADC8E1DCC407400838043 /* PopupCopyNoticeView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0D3ADC8D1DCC407400838043 /* PopupCopyNoticeView.swift */; };
+		0D3ADC901DCC455800838043 /* PopupLogoutView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0D3ADC8F1DCC455800838043 /* PopupLogoutView.swift */; };
+		0D3ADC921DCC50FF00838043 /* ChangePhoneNumVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0D3ADC911DCC50FF00838043 /* ChangePhoneNumVC.swift */; };
+		0D3ADC941DCC54BB00838043 /* SuggestViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0D3ADC931DCC54BB00838043 /* SuggestViewController.swift */; };
+		0D3ADC961DCC76B900838043 /* SuggestCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0D3ADC951DCC76B900838043 /* SuggestCollectionViewCell.swift */; };
+		0D3ADC991DCC839500838043 /* SysMessageViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0D3ADC981DCC839500838043 /* SysMessageViewController.swift */; };
+		0D3ADC9D1DCC853300838043 /* SysMessageTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0D3ADC9C1DCC853300838043 /* SysMessageTableViewCell.swift */; };
+		0D3ADC9F1DCC94F400838043 /* MessageDetailViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0D3ADC9E1DCC94F400838043 /* MessageDetailViewController.swift */; };
+		0D3ADCA21DCCA35600838043 /* NothingDefaultView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0D3ADCA11DCCA35600838043 /* NothingDefaultView.swift */; };
+		0D3ADCA71DCCC23B00838043 /* RepayBillViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0D3ADCA51DCCC23B00838043 /* RepayBillViewController.swift */; };
+		0D3ADCA81DCCC23B00838043 /* RepayWayViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0D3ADCA61DCCC23B00838043 /* RepayWayViewController.swift */; };
+		0D3ADCAA1DCCC42A00838043 /* RepayBillTableView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0D3ADCA91DCCC42A00838043 /* RepayBillTableView.swift */; };
 		0D61C4281DB08ECE00C2BC23 /* PopupSelectRoleView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0D61C4271DB08ECE00C2BC23 /* PopupSelectRoleView.swift */; };
 		0D61C42C1DB0C2CB00C2BC23 /* BorrowMoneyViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0D61C42B1DB0C2CB00C2BC23 /* BorrowMoneyViewController.swift */; };
 		0D61C42E1DB0CE0000C2BC23 /* BorrowMoneyView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0D61C42D1DB0CE0000C2BC23 /* BorrowMoneyView.swift */; };
@@ -131,9 +150,28 @@
 		0D24F2FD1DCB72F300BBAC8F /* MineHeaderView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MineHeaderView.swift; sourceTree = "<group>"; };
 		0D24F3011DCB731800BBAC8F /* BorrowRecordViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BorrowRecordViewController.swift; sourceTree = "<group>"; };
 		0D24F3031DCB76E700BBAC8F /* BorrowRecordTableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BorrowRecordTableViewCell.swift; sourceTree = "<group>"; };
-		0D24F3051DCB7B7300BBAC8F /* RepayWayViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RepayWayViewController.swift; sourceTree = "<group>"; };
+		0D24F3071DCB9B1F00BBAC8F /* AreaViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AreaViewController.swift; sourceTree = "<group>"; };
+		0D24F3091DCB9F2E00BBAC8F /* AreaSelectHeaderView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AreaSelectHeaderView.swift; sourceTree = "<group>"; };
+		0D24F30B1DCBA2D900BBAC8F /* AreaSelectView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AreaSelectView.swift; sourceTree = "<group>"; };
 		0D2747D91DADE9840060E221 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; name = Assets.xcassets; path = JBankRisk/Assets.xcassets; sourceTree = "<group>"; };
 		0D2841081DACC1D600059FD2 /* HomeTableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = HomeTableViewCell.swift; sourceTree = "<group>"; };
+		0D3ADC7E1DCC1DE300838043 /* SettingViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SettingViewController.swift; sourceTree = "<group>"; };
+		0D3ADC831DCC202A00838043 /* SettingTableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SettingTableViewCell.swift; sourceTree = "<group>"; };
+		0D3ADC871DCC31BB00838043 /* ResetPsdViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ResetPsdViewController.swift; sourceTree = "<group>"; };
+		0D3ADC891DCC31DA00838043 /* AboutOursViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AboutOursViewController.swift; sourceTree = "<group>"; };
+		0D3ADC8B1DCC3B4A00838043 /* AboutOursTableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AboutOursTableViewCell.swift; sourceTree = "<group>"; };
+		0D3ADC8D1DCC407400838043 /* PopupCopyNoticeView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PopupCopyNoticeView.swift; sourceTree = "<group>"; };
+		0D3ADC8F1DCC455800838043 /* PopupLogoutView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PopupLogoutView.swift; sourceTree = "<group>"; };
+		0D3ADC911DCC50FF00838043 /* ChangePhoneNumVC.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ChangePhoneNumVC.swift; sourceTree = "<group>"; };
+		0D3ADC931DCC54BB00838043 /* SuggestViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SuggestViewController.swift; sourceTree = "<group>"; };
+		0D3ADC951DCC76B900838043 /* SuggestCollectionViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SuggestCollectionViewCell.swift; sourceTree = "<group>"; };
+		0D3ADC981DCC839500838043 /* SysMessageViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SysMessageViewController.swift; sourceTree = "<group>"; };
+		0D3ADC9C1DCC853300838043 /* SysMessageTableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SysMessageTableViewCell.swift; sourceTree = "<group>"; };
+		0D3ADC9E1DCC94F400838043 /* MessageDetailViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MessageDetailViewController.swift; sourceTree = "<group>"; };
+		0D3ADCA11DCCA35600838043 /* NothingDefaultView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NothingDefaultView.swift; sourceTree = "<group>"; };
+		0D3ADCA51DCCC23B00838043 /* RepayBillViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RepayBillViewController.swift; sourceTree = "<group>"; };
+		0D3ADCA61DCCC23B00838043 /* RepayWayViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RepayWayViewController.swift; sourceTree = "<group>"; };
+		0D3ADCA91DCCC42A00838043 /* RepayBillTableView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RepayBillTableView.swift; sourceTree = "<group>"; };
 		0D61C4271DB08ECE00C2BC23 /* PopupSelectRoleView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PopupSelectRoleView.swift; sourceTree = "<group>"; };
 		0D61C42B1DB0C2CB00C2BC23 /* BorrowMoneyViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BorrowMoneyViewController.swift; sourceTree = "<group>"; };
 		0D61C42D1DB0CE0000C2BC23 /* BorrowMoneyView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BorrowMoneyView.swift; sourceTree = "<group>"; };
@@ -341,6 +379,7 @@
 			isa = PBXGroup;
 			children = (
 				0D0E2A351DAB389D00A64F76 /* CyclePictureView.swift */,
+				0D3ADCA01DCCA33000838043 /* DefaultView */,
 				0DFFAED81DAF6F9D00819CF7 /* PopupView */,
 			);
 			path = View;
@@ -390,7 +429,7 @@
 				0D24F2FC1DCB72F300BBAC8F /* MineFooterView.swift */,
 				0D24F2FD1DCB72F300BBAC8F /* MineHeaderView.swift */,
 				0D24F3031DCB76E700BBAC8F /* BorrowRecordTableViewCell.swift */,
-				0D24F3051DCB7B7300BBAC8F /* RepayWayViewController.swift */,
+				0D3ADCA91DCCC42A00838043 /* RepayBillTableView.swift */,
 			);
 			path = View;
 			sourceTree = "<group>";
@@ -398,11 +437,56 @@
 		0D29681C1DA9F772002FBB4C /* Mine */ = {
 			isa = PBXGroup;
 			children = (
+				0D3ADC971DCC838000838043 /* SystemMessage */,
+				0D3ADC7D1DCC1D0500838043 /* Setting */,
 				0D24F2FA1DCB72DA00BBAC8F /* View */,
+				0D3ADCA51DCCC23B00838043 /* RepayBillViewController.swift */,
+				0D3ADCA61DCCC23B00838043 /* RepayWayViewController.swift */,
 				0D0E29FC1DAA220200A64F76 /* MineViewController.swift */,
 				0D24F3011DCB731800BBAC8F /* BorrowRecordViewController.swift */,
 			);
 			path = Mine;
+			sourceTree = "<group>";
+		};
+		0D3ADC7D1DCC1D0500838043 /* Setting */ = {
+			isa = PBXGroup;
+			children = (
+				0D3ADC821DCC201900838043 /* View */,
+				0D3ADC7E1DCC1DE300838043 /* SettingViewController.swift */,
+				0D3ADC871DCC31BB00838043 /* ResetPsdViewController.swift */,
+				0D3ADC891DCC31DA00838043 /* AboutOursViewController.swift */,
+				0D3ADC911DCC50FF00838043 /* ChangePhoneNumVC.swift */,
+				0D3ADC931DCC54BB00838043 /* SuggestViewController.swift */,
+			);
+			path = Setting;
+			sourceTree = "<group>";
+		};
+		0D3ADC821DCC201900838043 /* View */ = {
+			isa = PBXGroup;
+			children = (
+				0D3ADC831DCC202A00838043 /* SettingTableViewCell.swift */,
+				0D3ADC8B1DCC3B4A00838043 /* AboutOursTableViewCell.swift */,
+				0D3ADC951DCC76B900838043 /* SuggestCollectionViewCell.swift */,
+			);
+			path = View;
+			sourceTree = "<group>";
+		};
+		0D3ADC971DCC838000838043 /* SystemMessage */ = {
+			isa = PBXGroup;
+			children = (
+				0D3ADC9C1DCC853300838043 /* SysMessageTableViewCell.swift */,
+				0D3ADC981DCC839500838043 /* SysMessageViewController.swift */,
+				0D3ADC9E1DCC94F400838043 /* MessageDetailViewController.swift */,
+			);
+			path = SystemMessage;
+			sourceTree = "<group>";
+		};
+		0D3ADCA01DCCA33000838043 /* DefaultView */ = {
+			isa = PBXGroup;
+			children = (
+				0D3ADCA11DCCA35600838043 /* NothingDefaultView.swift */,
+			);
+			path = DefaultView;
 			sourceTree = "<group>";
 		};
 		0D68E9701DCA25E7000DA5E6 /* Others */ = {
@@ -418,6 +502,9 @@
 			children = (
 				0D8C33EE1DCA27E800F33F0C /* chinaarea.plist */,
 				0DECC8701DCAEB130022D3F6 /* AreaTableView.swift */,
+				0D24F3071DCB9B1F00BBAC8F /* AreaViewController.swift */,
+				0D24F3091DCB9F2E00BBAC8F /* AreaSelectHeaderView.swift */,
+				0D24F30B1DCBA2D900BBAC8F /* AreaSelectView.swift */,
 			);
 			path = Area;
 			sourceTree = "<group>";
@@ -528,6 +615,8 @@
 				0D1EAA8F1DC9B4D200789E37 /* PopupDeadlineView.swift */,
 				0D1EAA911DC9BB2500789E37 /* PopupDeadlineCollectionViewCell.swift */,
 				0D8C33FA1DCA3E1600F33F0C /* PopupAreaView.swift */,
+				0D3ADC8D1DCC407400838043 /* PopupCopyNoticeView.swift */,
+				0D3ADC8F1DCC455800838043 /* PopupLogoutView.swift */,
 			);
 			path = PopupView;
 			sourceTree = "<group>";
@@ -743,10 +832,14 @@
 			files = (
 				0D24F2FF1DCB72F300BBAC8F /* MineFooterView.swift in Sources */,
 				0D24F3041DCB76E700BBAC8F /* BorrowRecordTableViewCell.swift in Sources */,
-				0D24F3061DCB7B7300BBAC8F /* RepayWayViewController.swift in Sources */,
+				0D3ADCA81DCCC23B00838043 /* RepayWayViewController.swift in Sources */,
 				0D006DE31DC88BDB0091CF33 /* IDInfoConfirmViewController.swift in Sources */,
 				0D1EAA861DC8D4FF00789E37 /* DataViewController.swift in Sources */,
+				0D3ADC921DCC50FF00838043 /* ChangePhoneNumVC.swift in Sources */,
 				0D1EAA921DC9BB2500789E37 /* PopupDeadlineCollectionViewCell.swift in Sources */,
+				0D3ADC8C1DCC3B4A00838043 /* AboutOursTableViewCell.swift in Sources */,
+				0D3ADC881DCC31BB00838043 /* ResetPsdViewController.swift in Sources */,
+				0D3ADC841DCC202A00838043 /* SettingTableViewCell.swift in Sources */,
 				0D006DDF1DC7A0A90091CF33 /* IdentityViewController.swift in Sources */,
 				0D1EAA8A1DC97E8000789E37 /* PopupStaticTableViewCell.swift in Sources */,
 				0D61C42E1DB0CE0000C2BC23 /* BorrowMoneyView.swift in Sources */,
@@ -757,35 +850,49 @@
 				0D1070C21DAE297E00F9591C /* LoginPsdOrSetPsdVC.swift in Sources */,
 				0D24F3021DCB731800BBAC8F /* BorrowRecordViewController.swift in Sources */,
 				0D1EAA801DC8C88F00789E37 /* SchoolViewController.swift in Sources */,
+				0D3ADCAA1DCCC42A00838043 /* RepayBillTableView.swift in Sources */,
 				0DFFAEDA1DAF6FB100819CF7 /* PopupPhoneCallView.swift in Sources */,
 				0DCACBE41DADC9D300AFD3E9 /* RegisterOrResetPsdVC.swift in Sources */,
 				0D61C42C1DB0C2CB00C2BC23 /* BorrowMoneyViewController.swift in Sources */,
 				0D0E2A3D1DAB413900A64F76 /* TemViewController.swift in Sources */,
 				0DAF60321DA8DFAD0009054F /* AppDelegate.swift in Sources */,
 				0D0E29FD1DAA220200A64F76 /* MineViewController.swift in Sources */,
+				0D3ADC901DCC455800838043 /* PopupLogoutView.swift in Sources */,
 				0D006DE11DC7A5410091CF33 /* LoginViewController.swift in Sources */,
+				0D3ADCA21DCCA35600838043 /* NothingDefaultView.swift in Sources */,
 				0D0E2A171DAA523E00A64F76 /* PullToRefreshOption.swift in Sources */,
 				0D006DDD1DC7810D0091CF33 /* UserHelper.swift in Sources */,
 				0D0E2A271DAA927A00A64F76 /* UIViewController+HUD.swift in Sources */,
+				0D24F30A1DCB9F2E00BBAC8F /* AreaSelectHeaderView.swift in Sources */,
 				0D0E2A191DAA523E00A64F76 /* UIScrollViewExtension.swift in Sources */,
 				0DFFAEDC1DAF707900819CF7 /* PopupRepaymentTipView.swift in Sources */,
+				0D3ADC7F1DCC1DE300838043 /* SettingViewController.swift in Sources */,
 				0D8C33FB1DCA3E1600F33F0C /* PopupAreaView.swift in Sources */,
+				0D3ADCA71DCCC23B00838043 /* RepayBillViewController.swift in Sources */,
+				0D3ADC991DCC839500838043 /* SysMessageViewController.swift in Sources */,
 				0D1EAA841DC8CC4900789E37 /* ContactViewController.swift in Sources */,
+				0D3ADC8A1DCC31DA00838043 /* AboutOursViewController.swift in Sources */,
 				0D0E2A181DAA523E00A64F76 /* PullToRefreshView.swift in Sources */,
 				0D24F3001DCB72F300BBAC8F /* MineHeaderView.swift in Sources */,
+				0D3ADC8E1DCC407400838043 /* PopupCopyNoticeView.swift in Sources */,
 				0DD43CBB1DAFD74400091272 /* PopupRoleView.swift in Sources */,
 				0D0E2A311DAB377E00A64F76 /* HHNavigationController.swift in Sources */,
 				0D006DCD1DC758480091CF33 /* URL.swift in Sources */,
 				0DECC8711DCAEB130022D3F6 /* AreaTableView.swift in Sources */,
 				0D61C4321DB128F600C2BC23 /* BorrowMoneyDoneView.swift in Sources */,
 				0D1EAA821DC8C91500789E37 /* WorkViewController.swift in Sources */,
+				0D24F30C1DCBA2D900BBAC8F /* AreaSelectView.swift in Sources */,
 				0D24F2FE1DCB72F300BBAC8F /* MineCollectionViewCell.swift in Sources */,
+				0D3ADC9D1DCC853300838043 /* SysMessageTableViewCell.swift in Sources */,
 				0D1EAA8C1DC99C5C00789E37 /* PopupPhotoSelectView.swift in Sources */,
 				0D0E2A301DAB377D00A64F76 /* File.swift in Sources */,
 				0D006DCF1DC75A280091CF33 /* NetConnect.swift in Sources */,
+				0D3ADC961DCC76B900838043 /* SuggestCollectionViewCell.swift in Sources */,
 				0D006DE71DC8AB5B0091CF33 /* BMTableViewCell.swift in Sources */,
 				0D1EAA8E1DC9AE1800789E37 /* PopupSubmitTipsView.swift in Sources */,
 				0DD99BFF1DB1E47F00342E29 /* NetworkRequest.swift in Sources */,
+				0D3ADC941DCC54BB00838043 /* SuggestViewController.swift in Sources */,
+				0D24F3081DCB9B1F00BBAC8F /* AreaViewController.swift in Sources */,
 				0DFFAECF1DAF218C00819CF7 /* LoginCodeViewController.swift in Sources */,
 				0DECC8751DCB07D30022D3F6 /* DataCollectionViewCell.swift in Sources */,
 				0D0E2A3B1DAB40DB00A64F76 /* HomeViewController.swift in Sources */,
@@ -793,6 +900,7 @@
 				0D132FB11DB07FD70061EDC9 /* iCarousel.m in Sources */,
 				0D1EAA881DC97D2500789E37 /* PopupStaticSelectView.swift in Sources */,
 				0D2841091DACC1D600059FD2 /* HomeTableViewCell.swift in Sources */,
+				0D3ADC9F1DCC94F400838043 /* MessageDetailViewController.swift in Sources */,
 				0D0E2A361DAB389D00A64F76 /* CyclePictureView.swift in Sources */,
 				0D1EAA901DC9B4D200789E37 /* PopupDeadlineView.swift in Sources */,
 			);

@@ -13,11 +13,12 @@ class RepayWayViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         setupUI()
+        let str = "收款方帐号：6222 6202 1001 4076 003"
+        accountTextLabel.attributedText = changeTextColor(text: str, color: UIColorHex("666666"), range: NSRange(location: 0, length: 6))
     }
 
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
-     
     }
     
     func setupUI(){
@@ -44,9 +45,8 @@ class RepayWayViewController: UIViewController {
         self.centerHoldView.addSubview(accountTextLabel)
         self.centerHoldView.addSubview(bankTextLabel)
         
-        
-        
-        
+        self.centerHoldView.addSubview(copyBtn)
+
         topHoldView.snp.makeConstraints { (make) in
             make.width.equalTo(self.view)
             make.height.equalTo(144*UIRate)
@@ -141,8 +141,13 @@ class RepayWayViewController: UIViewController {
             make.left.equalTo(15*UIRate)
             make.top.equalTo(accountTextLabel.snp.bottom).offset(6*UIRate)
         }
-
         
+        copyBtn.snp.makeConstraints { (make) in
+            make.width.equalTo(50*UIRate)
+            make.height.equalTo(25*UIRate)
+            make.left.equalTo(accountTextLabel.snp.right)
+            make.centerY.equalTo(accountTextLabel)
+        }
     }
     
     private lazy var topHoldView: UIView = {
@@ -260,8 +265,7 @@ class RepayWayViewController: UIViewController {
         let label = UILabel()
         label.font = UIFontSize(size: 15*UIRate)
         label.textAlignment = .center
-        label.textColor = UIColorHex("666666")
-        label.text = "收款方帐号：6222 6202 1001 4076 003"
+        label.textColor = UIColorHex("fdb300")
         return label
     }()
 
@@ -274,7 +278,20 @@ class RepayWayViewController: UIViewController {
         return label
     }()
 
+    //／按钮
+    private lazy var copyBtn: UIButton = {
+        let button = UIButton()
+        button.setTitle("复制", for: UIControlState.normal)
+        button.titleLabel?.font = UIFontSize(size: 15*UIRate)
+        button.setTitleColor(UIColorHex("00b2ff"), for: .normal)
+        button.addTarget(self, action: #selector(copyBtnAction), for: .touchUpInside)
+        return button
+    }()
 
-
+    func copyBtnAction(){
+        let pastboard = UIPasteboard.general
+        pastboard.string = "6222620210014076003"
+        self.showHint(in: self.view, hint: "帐号已复制到剪切板")
+    }
 
 }

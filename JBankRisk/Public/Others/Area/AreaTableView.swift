@@ -10,20 +10,13 @@ import UIKit
 
 class AreaTableView: UIView, UITableViewDelegate, UITableViewDataSource {
 
-    var dataArray = [String]()
+    var cityName = [String]()
     
     override init(frame: CGRect ) {
         super.init(frame: frame)
-    }
-    
-    ///初始化默认frame
-    convenience init(dataArray: Array<Any>) {
-        let frame = CGRect(x: 0, y: 0, width: SCREEN_WIDTH - 40*UIRate, height: 270*UIRate)
-        self.init(frame: frame)
-        self.dataArray = dataArray as! [String]
         self.setupUI()
     }
-    
+
     required init?(coder aDecoder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
@@ -63,17 +56,16 @@ class AreaTableView: UIView, UITableViewDelegate, UITableViewDataSource {
     }
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return dataArray.count
+        return cityName.count
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: "areaCellID") as! PopupStaticTableViewCell
-        
         //去除选择效果
         cell.selectionStyle = .none
 //        cell.checkImageView.isHidden = true
 //        cell.leftTextLabel.textColor = UIColorHex("666666")
-        cell.leftTextLabel.text = dataArray[indexPath.row]
+        cell.leftTextLabel.text = cityName[indexPath.row]
         
         return cell
     }
@@ -120,10 +112,4 @@ class AreaTableView: UIView, UITableViewDelegate, UITableViewDataSource {
         }
     }
     
-    //MARK: - Action
-    
-    func provinceSelectBtnAction(){
-        
-    }
-
 }

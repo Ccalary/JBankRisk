@@ -24,6 +24,7 @@ class BorrowRecordTableViewCell: UITableViewCell {
         self.backgroundColor = UIColor.white
         self.addSubview(leftTextLabel)
         self.addSubview(rightTextLabel)
+        self.addSubview(rightSecondTextLabel)
         self.addSubview(arrowImageView)
         
         leftTextLabel.snp.makeConstraints { (make) in
@@ -34,6 +35,11 @@ class BorrowRecordTableViewCell: UITableViewCell {
         rightTextLabel.snp.makeConstraints { (make) in
             make.right.equalTo(self.snp.right).offset(-30*UIRate)
             make.centerY.equalTo(self)
+        }
+        
+        rightSecondTextLabel.snp.makeConstraints { (make) in
+            make.centerX.equalTo(self)
+            make.right.equalTo(-100*UIRate)
         }
         
         arrowImageView.snp.makeConstraints { (make) in
@@ -55,11 +61,18 @@ class BorrowRecordTableViewCell: UITableViewCell {
     lazy var rightTextLabel: UILabel = {
         let label = UILabel()
         label.font = UIFontSize(size: 15*UIRate)
-        label.textAlignment = .center
+        label.textAlignment = .right
         label.textColor = UIColorHex("00b2ff")
         return label
     }()
 
+    lazy var rightSecondTextLabel: UILabel = {
+        let label = UILabel()
+        label.font = UIFontSize(size: 15*UIRate)
+        label.textAlignment = .center
+        label.textColor = UIColorHex("666666")
+        return label
+    }()
     
     lazy var arrowImageView: UIImageView = {
         let imageView = UIImageView()
