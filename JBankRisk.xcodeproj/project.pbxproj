@@ -27,7 +27,6 @@
 		0D0E2A321DAB377E00A64F76 /* HHTabBarController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0D0E2A2E1DAB377D00A64F76 /* HHTabBarController.swift */; };
 		0D0E2A361DAB389D00A64F76 /* CyclePictureView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0D0E2A351DAB389D00A64F76 /* CyclePictureView.swift */; };
 		0D0E2A3B1DAB40DB00A64F76 /* HomeViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0D0E2A3A1DAB40DB00A64F76 /* HomeViewController.swift */; };
-		0D0E2A3D1DAB413900A64F76 /* TemViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0D0E2A3C1DAB413900A64F76 /* TemViewController.swift */; };
 		0D0E2A451DABB86E00A64F76 /* BaseWebViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0D0E2A441DABB86E00A64F76 /* BaseWebViewController.swift */; };
 		0D1070C21DAE297E00F9591C /* LoginPsdOrSetPsdVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0D1070C11DAE297E00F9591C /* LoginPsdOrSetPsdVC.swift */; };
 		0D132FB11DB07FD70061EDC9 /* iCarousel.m in Sources */ = {isa = PBXBuildFile; fileRef = 0D132FB01DB07FD70061EDC9 /* iCarousel.m */; };
@@ -67,7 +66,8 @@
 		0D3ADCA21DCCA35600838043 /* NothingDefaultView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0D3ADCA11DCCA35600838043 /* NothingDefaultView.swift */; };
 		0D3ADCA71DCCC23B00838043 /* RepayBillViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0D3ADCA51DCCC23B00838043 /* RepayBillViewController.swift */; };
 		0D3ADCA81DCCC23B00838043 /* RepayWayViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0D3ADCA61DCCC23B00838043 /* RepayWayViewController.swift */; };
-		0D3ADCAA1DCCC42A00838043 /* RepayBillTableView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0D3ADCA91DCCC42A00838043 /* RepayBillTableView.swift */; };
+		0D3ADCAE1DCCF1A200838043 /* RepayDetailViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0D3ADCAD1DCCF1A200838043 /* RepayDetailViewController.swift */; };
+		0D3ADCB01DCCF5BD00838043 /* RepayDetailTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0D3ADCAF1DCCF5BD00838043 /* RepayDetailTableViewCell.swift */; };
 		0D61C4281DB08ECE00C2BC23 /* PopupSelectRoleView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0D61C4271DB08ECE00C2BC23 /* PopupSelectRoleView.swift */; };
 		0D61C42C1DB0C2CB00C2BC23 /* BorrowMoneyViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0D61C42B1DB0C2CB00C2BC23 /* BorrowMoneyViewController.swift */; };
 		0D61C42E1DB0CE0000C2BC23 /* BorrowMoneyView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0D61C42D1DB0CE0000C2BC23 /* BorrowMoneyView.swift */; };
@@ -130,7 +130,6 @@
 		0D0E2A2F1DAB377D00A64F76 /* JBankRisk-Bridging-Header.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "JBankRisk-Bridging-Header.h"; sourceTree = "<group>"; };
 		0D0E2A351DAB389D00A64F76 /* CyclePictureView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CyclePictureView.swift; sourceTree = "<group>"; };
 		0D0E2A3A1DAB40DB00A64F76 /* HomeViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = HomeViewController.swift; sourceTree = "<group>"; };
-		0D0E2A3C1DAB413900A64F76 /* TemViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TemViewController.swift; sourceTree = "<group>"; };
 		0D0E2A441DABB86E00A64F76 /* BaseWebViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BaseWebViewController.swift; sourceTree = "<group>"; };
 		0D1070C11DAE297E00F9591C /* LoginPsdOrSetPsdVC.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LoginPsdOrSetPsdVC.swift; sourceTree = "<group>"; };
 		0D132FAF1DB07FD70061EDC9 /* iCarousel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = iCarousel.h; sourceTree = "<group>"; };
@@ -171,7 +170,8 @@
 		0D3ADCA11DCCA35600838043 /* NothingDefaultView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NothingDefaultView.swift; sourceTree = "<group>"; };
 		0D3ADCA51DCCC23B00838043 /* RepayBillViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RepayBillViewController.swift; sourceTree = "<group>"; };
 		0D3ADCA61DCCC23B00838043 /* RepayWayViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RepayWayViewController.swift; sourceTree = "<group>"; };
-		0D3ADCA91DCCC42A00838043 /* RepayBillTableView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RepayBillTableView.swift; sourceTree = "<group>"; };
+		0D3ADCAD1DCCF1A200838043 /* RepayDetailViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RepayDetailViewController.swift; sourceTree = "<group>"; };
+		0D3ADCAF1DCCF5BD00838043 /* RepayDetailTableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RepayDetailTableViewCell.swift; sourceTree = "<group>"; };
 		0D61C4271DB08ECE00C2BC23 /* PopupSelectRoleView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PopupSelectRoleView.swift; sourceTree = "<group>"; };
 		0D61C42B1DB0C2CB00C2BC23 /* BorrowMoneyViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BorrowMoneyViewController.swift; sourceTree = "<group>"; };
 		0D61C42D1DB0CE0000C2BC23 /* BorrowMoneyView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BorrowMoneyView.swift; sourceTree = "<group>"; };
@@ -396,7 +396,6 @@
 			isa = PBXGroup;
 			children = (
 				0D0E2A3A1DAB40DB00A64F76 /* HomeViewController.swift */,
-				0D0E2A3C1DAB413900A64F76 /* TemViewController.swift */,
 				0D61C42B1DB0C2CB00C2BC23 /* BorrowMoneyViewController.swift */,
 			);
 			path = Controller;
@@ -429,7 +428,7 @@
 				0D24F2FC1DCB72F300BBAC8F /* MineFooterView.swift */,
 				0D24F2FD1DCB72F300BBAC8F /* MineHeaderView.swift */,
 				0D24F3031DCB76E700BBAC8F /* BorrowRecordTableViewCell.swift */,
-				0D3ADCA91DCCC42A00838043 /* RepayBillTableView.swift */,
+				0D3ADCAF1DCCF5BD00838043 /* RepayDetailTableViewCell.swift */,
 			);
 			path = View;
 			sourceTree = "<group>";
@@ -440,10 +439,11 @@
 				0D3ADC971DCC838000838043 /* SystemMessage */,
 				0D3ADC7D1DCC1D0500838043 /* Setting */,
 				0D24F2FA1DCB72DA00BBAC8F /* View */,
-				0D3ADCA51DCCC23B00838043 /* RepayBillViewController.swift */,
-				0D3ADCA61DCCC23B00838043 /* RepayWayViewController.swift */,
 				0D0E29FC1DAA220200A64F76 /* MineViewController.swift */,
 				0D24F3011DCB731800BBAC8F /* BorrowRecordViewController.swift */,
+				0D3ADCA51DCCC23B00838043 /* RepayBillViewController.swift */,
+				0D3ADCA61DCCC23B00838043 /* RepayWayViewController.swift */,
+				0D3ADCAD1DCCF1A200838043 /* RepayDetailViewController.swift */,
 			);
 			path = Mine;
 			sourceTree = "<group>";
@@ -850,14 +850,14 @@
 				0D1070C21DAE297E00F9591C /* LoginPsdOrSetPsdVC.swift in Sources */,
 				0D24F3021DCB731800BBAC8F /* BorrowRecordViewController.swift in Sources */,
 				0D1EAA801DC8C88F00789E37 /* SchoolViewController.swift in Sources */,
-				0D3ADCAA1DCCC42A00838043 /* RepayBillTableView.swift in Sources */,
 				0DFFAEDA1DAF6FB100819CF7 /* PopupPhoneCallView.swift in Sources */,
 				0DCACBE41DADC9D300AFD3E9 /* RegisterOrResetPsdVC.swift in Sources */,
+				0D3ADCAE1DCCF1A200838043 /* RepayDetailViewController.swift in Sources */,
 				0D61C42C1DB0C2CB00C2BC23 /* BorrowMoneyViewController.swift in Sources */,
-				0D0E2A3D1DAB413900A64F76 /* TemViewController.swift in Sources */,
 				0DAF60321DA8DFAD0009054F /* AppDelegate.swift in Sources */,
 				0D0E29FD1DAA220200A64F76 /* MineViewController.swift in Sources */,
 				0D3ADC901DCC455800838043 /* PopupLogoutView.swift in Sources */,
+				0D3ADCB01DCCF5BD00838043 /* RepayDetailTableViewCell.swift in Sources */,
 				0D006DE11DC7A5410091CF33 /* LoginViewController.swift in Sources */,
 				0D3ADCA21DCCA35600838043 /* NothingDefaultView.swift in Sources */,
 				0D0E2A171DAA523E00A64F76 /* PullToRefreshOption.swift in Sources */,

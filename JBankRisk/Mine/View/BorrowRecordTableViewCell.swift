@@ -38,7 +38,7 @@ class BorrowRecordTableViewCell: UITableViewCell {
         }
         
         rightSecondTextLabel.snp.makeConstraints { (make) in
-            make.centerX.equalTo(self)
+            make.centerY.equalTo(self)
             make.right.equalTo(-100*UIRate)
         }
         

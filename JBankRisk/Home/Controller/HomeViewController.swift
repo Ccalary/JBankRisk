@@ -188,7 +188,7 @@ extension HomeViewController: UITableViewDelegate, UITableViewDataSource,CyclePi
             }
             break
         case 2:
-            let registerVC = RepayWayViewController()
+            let registerVC = RepayDetailViewController()
             self.navigationController?.pushViewController(registerVC, animated: true)
         default:
             break
