@@ -37,7 +37,6 @@ class BMTableViewCell: UITableViewCell {
     var cellDataInfo: CellDataInfo? {
         
         didSet {
-
             self.rightNormalStatus()
             
             if let cellType = cellDataInfo?.cellType {
@@ -48,7 +47,7 @@ class BMTableViewCell: UITableViewCell {
                      self.rightArrowImageView.isHidden = false
                     self.centerTextField.isEnabled = false
                 case .clearType:
-                      self.rightClearImageView.isHidden = false
+                      self.rightClearButton.isHidden = false
                 case .cameraType:
                      self.rightCameraImageView.isHidden = false
                     self.centerTextField.isEnabled = false
@@ -69,10 +68,10 @@ class BMTableViewCell: UITableViewCell {
         
         self.rightTextLabel.isHidden = true
         self.rightClearImageView.isHidden = true
+        self.rightClearButton.isHidden = true
         self.rightArrowImageView.isHidden = true
         self.rightCameraImageView.isHidden = true
     }
-    
     
     override init(style: UITableViewCellStyle, reuseIdentifier: String?) {
         super.init(style: style, reuseIdentifier: reuseIdentifier)
@@ -91,6 +90,7 @@ class BMTableViewCell: UITableViewCell {
         self.addSubview(rightArrowImageView)
         self.addSubview(rightTextLabel)
         self.addSubview(rightClearImageView)
+        self.addSubview(rightClearButton)
         self.addSubview(rightCameraImageView)
         
         leftTextLabel.snp.makeConstraints { (make) in
@@ -122,6 +122,11 @@ class BMTableViewCell: UITableViewCell {
             make.right.equalTo(self).offset(-15*UIRate)
             make.centerY.equalTo(self)
         }
+        
+        rightClearButton.snp.makeConstraints { (make) in
+            make.width.height.equalTo(30*UIRate)
+            make.center.equalTo(rightClearImageView)
+        }
 
         rightCameraImageView.snp.makeConstraints { (make) in
             make.width.equalTo(20*UIRate)
@@ -144,6 +149,7 @@ class BMTableViewCell: UITableViewCell {
         let textField = UITextField()
         textField.font = UIFontSize(size: 15*UIRate)
         textField.textColor = UIColorHex("666666")
+        textField.addTarget(self, action: #selector(centerTextFieldAction(_:)), for: UIControlEvents.editingChanged)
         return textField
     }()
 
@@ -171,11 +177,35 @@ class BMTableViewCell: UITableViewCell {
         return imageView
     }()
     
+    lazy var rightClearButton: UIButton = {
+        let button = UIButton()
+        button.isHidden = true
+        button.addTarget(self, action: #selector(clearButtonAction), for: .touchUpInside)
+        return button
+    }()
+    
     private lazy var rightCameraImageView: UIImageView = {
         let imageView = UIImageView()
         imageView.image = UIImage(named: "bm_camera_20x16")
         imageView.isHidden = true
         return imageView
     }()
-
+    
+    func centerTextFieldAction(_ textField: UITextField){
+        
+        if cellDataInfo?.cellType == .clearType{
+            if textField.text?.characters.count == 0 {
+                self.rightClearImageView.isHidden = true
+            }else
+            {
+                self.rightClearImageView.isHidden = false
+            }
+        }
+    }
+    
+    //清除按钮
+    func clearButtonAction() {
+        self.centerTextField.text = ""
+        self.rightClearImageView.isHidden = true
+    }
 }

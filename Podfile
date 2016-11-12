@@ -9,6 +9,8 @@ target ‘JBankRisk’ do
    pod 'Kingfisher', '~> 3.0.0'
    pod 'MBProgressHUD', '~> 1.0.0'
    pod 'NJKWebViewProgress'
+   pod 'AMapLocation'
+   pod 'IQKeyboardManagerSwift'
 
 post_install do |installer|
   installer.pods_project.targets.each do |target|
@@ -17,5 +19,5 @@ post_install do |installer|
     end
   end
 end
-ß
+
 end

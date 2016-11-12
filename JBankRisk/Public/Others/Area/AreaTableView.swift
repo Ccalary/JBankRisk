@@ -12,9 +12,26 @@ class AreaTableView: UIView, UITableViewDelegate, UITableViewDataSource {
 
     var cityName = [String]()
     
+    var clickRow:((_ row:Int)->())?
+    
+    var selectedCell:Int = -1
+    
     override init(frame: CGRect ) {
         super.init(frame: frame)
-        self.setupUI()
+        
+    }
+    
+    ///初始化默认frame
+    convenience init(frame: CGRect,selectRow: Int){
+         self.init(frame: frame)
+         self.selectedCell = selectRow
+         self.setupUI()
+        
+//        //默认选中的cell(有问题，崩溃)
+//        if selectedCell >= 0 {
+//            let defaultCell = IndexPath(row: 6, section: 0)
+//            self.aTableView.selectRow(at: defaultCell, animated: true, scrollPosition: UITableViewScrollPosition.top)
+//        }
     }
 
     required init?(coder aDecoder: NSCoder) {
@@ -30,7 +47,7 @@ class AreaTableView: UIView, UITableViewDelegate, UITableViewDataSource {
         }
     }
     
-    private lazy var aTableView: UITableView = {
+   lazy var aTableView: UITableView = {
         
         let tableView = UITableView()
         tableView.delegate = self
@@ -62,10 +79,18 @@ class AreaTableView: UIView, UITableViewDelegate, UITableViewDataSource {
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: "areaCellID") as! PopupStaticTableViewCell
         //去除选择效果
-        cell.selectionStyle = .none
-//        cell.checkImageView.isHidden = true
-//        cell.leftTextLabel.textColor = UIColorHex("666666")
-        cell.leftTextLabel.text = cityName[indexPath.row]
+      cell.backgroundColor = UIColor.white
+      cell.selectionStyle = .none
+      cell.leftTextLabel.text = cityName[indexPath.row]
+        
+        //默认选中
+        if indexPath.row == selectedCell {
+            cell.checkImageView.isHidden = false
+            cell.leftTextLabel.textColor = UIColorHex("e9342d")
+        }else{
+            cell.checkImageView.isHidden = true
+            cell.leftTextLabel.textColor = UIColorHex("666666")
+        }
         
         return cell
     }
@@ -75,30 +100,10 @@ class AreaTableView: UIView, UITableViewDelegate, UITableViewDataSource {
     }
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        let cell = tableView.cellForRow(at: indexPath) as! PopupStaticTableViewCell
-//        cell.checkImageView.isHidden = false
-//        cell.leftTextLabel.textColor = UIColorHex("e9342d")
-
         
-//        let dic: NSDictionary = dataArrayInfo[indexPath.row] as! NSDictionary
-//        let region = dic["region"] as! NSArray
-//        PrintLog(region)
-//        
-//        for i in 0..<dataArrayInfo.count {
-//            
-//            let dic: NSDictionary = dataArrayInfo[i] as! NSDictionary
-//            let city = (dic["region"] as! NSString) as String
-//            
-//            cityData.append(city)
-//        }
-//        PrintLog(cityData)
-    }
-    
-    func tableView(_ tableView: UITableView, didDeselectRowAt indexPath: IndexPath) {
-        
-        //        let cell = tableView.cellForRow(at: indexPath) as! PopupStaticTableViewCell
-        //        cell.checkImageView.isHidden = true
-        //        cell.leftTextLabel.textColor = UIColorHex("666666")
+        if let clickRow = clickRow {
+            clickRow(indexPath.row)
+        }
     }
     
     //设置分割线

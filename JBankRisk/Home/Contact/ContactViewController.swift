@@ -7,29 +7,47 @@
 //
 
 import UIKit
+import ContactsUI
 
-class ContactViewController: UIViewController,UITableViewDelegate, UITableViewDataSource,UIGestureRecognizerDelegate {
+class ContactViewController: UIViewController, UITableViewDelegate, UITableViewDataSource,CNContactPickerDelegate {
     
     var ContactCellData:[CellDataInfo] = [CellDataInfo(leftText: "常住地址", holdText: "请选择所属地区", content: "", cellType: .arrowType),
         CellDataInfo(leftText: "", holdText: "详细街道地址", content: "", cellType: .clearType),
         CellDataInfo(leftText: "住房情况", holdText: "请选择住房情况", content: "", cellType: .arrowType),
         CellDataInfo(leftText: "居住时间", holdText: "请选择居住时间", content: "", cellType: .arrowType),
         CellDataInfo(leftText: "直系亲属", holdText: "请选择直系亲属关系", content: "", cellType: .arrowType),
-        CellDataInfo(leftText: "", holdText: "联系人姓名，可从通讯录中选择", content: "", cellType: .clearType),
+        CellDataInfo(leftText: "", holdText: "联系人姓名，可从通讯录中选择", content: "", cellType: .arrowType),
         CellDataInfo(leftText: "", holdText: "请填写手机号", content: "", cellType: .clearType),
         CellDataInfo(leftText: "", holdText: "", content: "", cellType: .defaultType),
         CellDataInfo(leftText: "紧急联系人", holdText: "可从通讯录中选择", content: "", cellType: .arrowType),
         CellDataInfo(leftText: "", holdText: "填写姓名", content: "", cellType: .clearType),
         CellDataInfo(leftText: "", holdText: "填写手机号码", content: "", cellType: .clearType)]
     
+    
+    var pickerVC:CNContactPickerViewController!
+    
+    //地区信息
+    var areaInfo:(pro:String, city:String, county:String) = ("","","")
+    var areaRow:(proRow:Int, cityRow:Int, countyRow:Int) = (-1,-1,-1)
+    
     ///住房情况
     var houseInfo:(row: Int, text: String) = (0,"")
+    ///居住时间
+    var liveTimeInfo:(row: Int, text: String) = (0,"")
     ///亲属关系
     var relativeInfo:(row: Int, text: String) = (0,"")
+    ///直系亲属联系信息
+    var relativeContactInfo: (name: String, number:String) = ("","")
+    ///紧急联系人信息
+    var urgentContactInfo: (name: String, number:String) = ("","")
+    var contactType:Int = 0
     
     override func viewDidLoad() {
         super.viewDidLoad()
         self.setupUI()
+        //访问通讯录
+     pickerVC = CNContactPickerViewController()
+     pickerVC.delegate = self
     }
     
     override func didReceiveMemoryWarning() {
@@ -43,16 +61,15 @@ class ContactViewController: UIViewController,UITableViewDelegate, UITableViewDa
         self.view.backgroundColor = defaultBackgroundColor
         self.title = "联系信息"
         
-        let aTap = UITapGestureRecognizer(target: self, action: #selector(tapViewAction))
-        aTap.numberOfTapsRequired = 1
-        aTap.delegate = self
-        UIApplication.shared.keyWindow?.addGestureRecognizer(aTap)
+        self.view.frame = CGRect(x: 0, y: 64, width: SCREEN_WIDTH, height: SCREEN_HEIGHT - 64 - 64*UIRate)
+        
         
         self.view.addSubview(aScrollView)
         self.aScrollView.addSubview(aTableView)
         self.aScrollView.addSubview(divideLine1)
         self.view.addSubview(lastStepBtn)
         self.view.addSubview(nextStepBtn)
+        
         
         aScrollView.snp.makeConstraints { (make) in
             make.width.equalTo(self.view)
@@ -90,7 +107,6 @@ class ContactViewController: UIViewController,UITableViewDelegate, UITableViewDa
             make.right.equalTo(self.view).offset(-15*UIRate)
             make.bottom.equalTo(lastStepBtn)
         }
-        
     }
     
     private lazy var aScrollView: UIScrollView = {
@@ -101,6 +117,7 @@ class ContactViewController: UIViewController,UITableViewDelegate, UITableViewDa
     private lazy var aTableView: UITableView = {
         
         let tableView = UITableView()
+        
         tableView.delegate = self
         tableView.dataSource = self
         tableView.isScrollEnabled = false
@@ -166,10 +183,31 @@ class ContactViewController: UIViewController,UITableViewDelegate, UITableViewDa
         cell.cellDataInfo = ContactCellData[indexPath.row]
         
         switch indexPath.row {
+        case 0://地区
+            cell.centerTextField.text = self.areaInfo.pro + self.areaInfo.city + self.areaInfo.county
+            cell.centerTextField.isEnabled = false
         case 2://住房情况
             cell.centerTextField.text = self.houseInfo.text
+            cell.centerTextField.isEnabled = false
+        case self.ContactCellData.count - 9://（若有）月供
+            cell.centerTextField.keyboardType = .numberPad
+            cell.centerTextField.tag = 10000
+            cell.centerTextField.addTarget(self, action: #selector(textFieldAction(_:)), for: UIControlEvents.editingChanged)
+        case self.ContactCellData.count - 8://居住时间
+            cell.centerTextField.isEnabled = false
+            cell.centerTextField.text = self.liveTimeInfo.text
         case self.ContactCellData.count - 7: //亲属关系
+            cell.centerTextField.isEnabled = false
             cell.centerTextField.text = self.relativeInfo.text
+        case self.ContactCellData.count - 6: //亲属姓名
+            cell.centerTextField.isEnabled = true
+            cell.centerTextField.text = self.relativeContactInfo.name
+        case self.ContactCellData.count - 5: //亲属电话
+            cell.centerTextField.text = self.relativeContactInfo.number
+        case self.ContactCellData.count - 2: //紧急联系人姓名
+            cell.centerTextField.text = self.urgentContactInfo.name
+        case self.ContactCellData.count - 1: //紧急联系人电话
+            cell.centerTextField.text = self.urgentContactInfo.number
         default:
             break
         }
@@ -197,7 +235,26 @@ class ContactViewController: UIViewController,UITableViewDelegate, UITableViewDa
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         
-        if indexPath.row == 2 {//住房情况
+        self.view.endEditing(true)
+        
+        if indexPath.row == 0 {//选择地区
+            let popupView = PopupAreaView(proRow: self.areaRow.proRow, cityRow: self.areaRow.cityRow, countyRow: self.areaRow.countyRow)
+            let popupController = CNPPopupController(contents: [popupView])!
+            popupController.present(animated: true)
+            
+            popupView.onClickSelect = { (pro,city,county) in
+                self.areaInfo = (pro.pro + " ",city.city + " ",county.county)
+                self.areaRow = (pro.proRow, city.cityRow, county.countyRow)
+                //局部刷新cell
+                self.reloadOneCell(at: indexPath.row)
+                popupController.dismiss(animated: true)
+            }
+            popupView.onClickClose = { _ in
+                popupController.dismiss(animated: true)
+            }
+        }
+        
+        if indexPath.row == 2 {//住房情况（有按揭多出一个cell显示月供）
             let popupView = PopupStaticSelectView(cellType: .house, selectRow: self.houseInfo.row)
             let popupController = CNPPopupController(contents: [popupView])!
             popupController.present(animated: true)
@@ -216,17 +273,34 @@ class ContactViewController: UIViewController,UITableViewDelegate, UITableViewDa
                  popupController.dismiss(animated: true)
             }
             
-        }else if indexPath.row == self.ContactCellData.count - 7 { //直系亲属关系
+        }else if indexPath.row == self.ContactCellData.count - 8 { //居住时间
+            let popupView =  PopupStaticSelectView(cellType: PopupStaticSelectView.PopupCellType.liveTime, selectRow: self.liveTimeInfo.row)
+            let popupController = CNPPopupController(contents: [popupView])!
+            popupController.present(animated: true)
+            
+            popupView.onClickSelect = { (row, text) in
+                self.liveTimeInfo = (row,text)
+                //局部刷新cell
+                self.reloadOneCell(at: indexPath.row)
+                popupController.dismiss(animated: true)
+            }
+        } else if indexPath.row == self.ContactCellData.count - 7 { //直系亲属关系
             let popupView =  PopupStaticSelectView(cellType: PopupStaticSelectView.PopupCellType.relative, selectRow: self.relativeInfo.row)
             let popupController = CNPPopupController(contents: [popupView])!
             popupController.present(animated: true)
             
             popupView.onClickSelect = { (row, text) in
                 self.relativeInfo = (row,text)
-                let position = IndexPath(row: indexPath.row, section: 0)
-                self.aTableView.reloadRows(at: [position], with: UITableViewRowAnimation.none)
+                //局部刷新cell
+                self.reloadOneCell(at: indexPath.row)
                 popupController.dismiss(animated: true)
             }
+        }else if indexPath.row == self.ContactCellData.count - 6 { //亲属联系人姓名
+            contactType = 0
+            self.present(pickerVC, animated: true, completion: nil)
+        }else if indexPath.row == self.ContactCellData.count - 3 { //紧急联系人姓名
+            contactType = 1
+            self.present(pickerVC, animated: true, completion: nil)
         }
     }
     
@@ -251,22 +325,37 @@ class ContactViewController: UIViewController,UITableViewDelegate, UITableViewDa
             if cell.responds(to: #selector(setter: UITableViewCell.layoutMargins)) {
                 cell.layoutMargins = .zero
             }
+            
         }
-        
     }
     
-    
-    ///消除手势与TableView的冲突
-    func gestureRecognizer(_ gestureRecognizer: UIGestureRecognizer, shouldReceive touch: UITouch) -> Bool {
-        if NSStringFromClass((touch.view?.classForCoder)!) == "UITableViewCellContentView" {
-            return false
+    //MARK: - 访问通讯录
+    //代理方法--可获得姓名，电话，邮箱等信息
+    func contactPicker(_ picker: CNContactPickerViewController, didSelect contact: CNContact) {
+        var phoneNum = ""
+        for i in contact.phoneNumbers {
+            phoneNum = i.value.stringValue //电话号码
         }
-        return true
+        if contactType == 0{
+             self.relativeContactInfo = ((contact.familyName + contact.givenName),phoneNum)
+        }else if contactType == 1{
+            self.urgentContactInfo = ((contact.familyName + contact.givenName),phoneNum)
+        }
+        //刷新
+        self.aTableView.reloadData()
+    }
+    
+    //MARK: - Method
+    //局部刷新cell
+    func reloadOneCell(at row: Int){
+        let position = IndexPath(row: row, section: 0)
+        self.aTableView.reloadRows(at: [position], with: UITableViewRowAnimation.none)
     }
     
     //MARK: - Action
-    func tapViewAction() {
-        self.view.endEditing(true)
+
+    func textFieldAction(_ textField: UITextField){
+        
     }
     
     

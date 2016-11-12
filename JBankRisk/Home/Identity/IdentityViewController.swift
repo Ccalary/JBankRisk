@@ -47,6 +47,11 @@ class IdentityViewController: UIViewController {
         self.title = "身份信息"
         self.view.backgroundColor = defaultBackgroundColor
         
+        let aTap = UITapGestureRecognizer(target: self, action: #selector(tapViewAction))
+        aTap.numberOfTapsRequired = 1
+        self.view.addGestureRecognizer(aTap)
+        
+        
         self.view.addSubview(topHoldView)
         self.topHoldView.addSubview(divideLine11)
         self.topHoldView.addSubview(divideLine12)
@@ -288,11 +293,13 @@ class IdentityViewController: UIViewController {
 
         nameTextLabel.snp.makeConstraints { (make) in
             make.left.equalTo(100*UIRate)
+            make.width.equalTo(SCREEN_WIDTH - 100*UIRate - 15*UIRate)
             make.centerY.equalTo(divideLine41).offset(22.5*UIRate)
         }
 
         idNumLabel.snp.makeConstraints { (make) in
             make.left.equalTo(nameTextLabel)
+            make.width.equalTo(SCREEN_WIDTH - 100*UIRate - 15*UIRate)
             make.centerY.equalTo(nameTextLabel).offset(45*UIRate)
         }
         
@@ -508,7 +515,6 @@ class IdentityViewController: UIViewController {
         return imageView
     }()
     
-    
     private lazy var idCardBtn: UIButton = {
         let button = UIButton()
         button.addTarget(self, action: #selector(idCardBtnAction), for: .touchUpInside)
@@ -518,6 +524,7 @@ class IdentityViewController: UIViewController {
     /*********/
     private lazy var bottomHoldView: UIView = {
         let holdView = UIView()
+        holdView.isHidden = true
         holdView.backgroundColor = UIColor.white
         return holdView
     }()
@@ -543,21 +550,19 @@ class IdentityViewController: UIViewController {
         return lineView
     }()
 
-    private lazy var nameTextLabel: UILabel = {
-        let label = UILabel()
+    private lazy var nameTextLabel: UITextField = {
+        let label = UITextField()
         label.font = UIFontSize(size: 15*UIRate)
-        label.textAlignment = .center
+        label.placeholder = "请输入您的姓名"
         label.textColor = UIColorHex("666666")
-        label.text = "hah"
         return label
     }()
 
-    private lazy var idNumLabel: UILabel = {
-        let label = UILabel()
+    private lazy var idNumLabel: UITextField = {
+        let label = UITextField()
         label.font = UIFontSize(size: 15*UIRate)
-        label.textAlignment = .center
+        label.placeholder = "请输入您的身份证号"
         label.textColor = UIColorHex("666666")
-        label.text = "hah"
         return label
     }()
 
@@ -600,7 +605,7 @@ class IdentityViewController: UIViewController {
     
     //MARK:- Action
     func selectRoleBtnAction(){
-        
+        self.view.endEditing(true)
         let popupView =  PopupSelectRoleView(currentIndex: self.currentIndex)
         let popupController = CNPPopupController(contents: [popupView])!
         popupController.theme.presentationStyle = .slideInFromRight
@@ -621,6 +626,11 @@ class IdentityViewController: UIViewController {
         clearImage.isHidden = true
     }
     
+    //MARK: - Action
+    func tapViewAction() {
+        self.view.endEditing(true)
+    }
+    
     //发送验证码按钮
     func sendCodeBtnAction(){
         
@@ -634,11 +644,20 @@ class IdentityViewController: UIViewController {
     }
     
     func nextStepBtnAction(){
-        
+        let number = UserDefaults.standard.string(forKey: "SBFormattedPhoneNumber")
+        PrintLog(number)
     }
     
+    //身份证识别
     func idCardBtnAction(){
-        
+        let idCardVC =  IDCardViewController(nibName: nil, bundle: nil)
+        idCardVC.block = { (name,code) in
+            self.nameTextLabel.text = name;
+            self.idNumLabel.text = code;
+            self.bottomHoldView.isHidden = false
+            self.idImageView.image = UIImage(named: "bm_idCard_did_65x43")
+        }
+        self.navigationController?.pushViewController(idCardVC, animated: true)
     }
     
     
@@ -661,7 +680,6 @@ class IdentityViewController: UIViewController {
             sendCodeBtn.setTitle("重新发送", for: UIControlState.normal)
             sendCodeBtn.setTitleColor(UIColorHex("00b2ff"), for: .normal)
         }
-        
     }
     
     ///发送验证码

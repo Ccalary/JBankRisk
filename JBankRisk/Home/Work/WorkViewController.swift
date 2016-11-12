@@ -8,7 +8,7 @@
 
 import UIKit
 
-class WorkViewController: UIViewController,UITableViewDelegate, UITableViewDataSource,UIGestureRecognizerDelegate {
+class WorkViewController: UIViewController,UITableViewDelegate, UITableViewDataSource {
 
     var WorkCellData:[CellDataInfo] = [CellDataInfo(leftText: "单位名称", holdText: "请输入单位名称", content: "", cellType: .clearType),
         CellDataInfo(leftText: "单位性质", holdText: "请选择单位性质", content: "", cellType: .arrowType),
@@ -23,9 +23,12 @@ class WorkViewController: UIViewController,UITableViewDelegate, UITableViewDataS
     var companyTypeInfo:(row: Int, text: String) = (0,"")
     ///工作年限
     var workYearsInfo:(row: Int, text: String) = (0,"")
-    
+    //所属地区
+    var areaInfo:(pro:String, city:String, county:String) = ("","","")
+    var areaRow:(proRow:Int, cityRow:Int, countyRow:Int) = (-1,-1,-1)
     override func viewDidLoad() {
         super.viewDidLoad()
+        
         self.setupUI()
     }
     
@@ -39,11 +42,6 @@ class WorkViewController: UIViewController,UITableViewDelegate, UITableViewDataS
         self.automaticallyAdjustsScrollViewInsets = false;
         self.view.backgroundColor = defaultBackgroundColor
         self.title = "职业信息"
-        
-        let aTap = UITapGestureRecognizer(target: self, action: #selector(tapViewAction))
-        aTap.numberOfTapsRequired = 1
-        aTap.delegate = self
-        UIApplication.shared.keyWindow?.addGestureRecognizer(aTap)
         
         self.view.addSubview(aScrollView)
         self.aScrollView.addSubview(aTableView)
@@ -87,7 +85,6 @@ class WorkViewController: UIViewController,UITableViewDelegate, UITableViewDataS
             make.right.equalTo(self.view).offset(-15*UIRate)
             make.bottom.equalTo(lastStepBtn)
         }
-        
     }
     
     private lazy var aScrollView: UIScrollView = {
@@ -161,10 +158,20 @@ class WorkViewController: UIViewController,UITableViewDelegate, UITableViewDataS
         cell.cellDataInfo = WorkCellData[indexPath.row]
         
         switch indexPath.row {
-        case 1:
+        case 1://单位性质
             cell.centerTextField.text = self.companyTypeInfo.text
-        case 6:
+        case 2://电话
+            cell.centerTextField.keyboardType = .numberPad
+            cell.centerTextField.tag = 10001
+            cell.centerTextField.addTarget(self, action: #selector(textFieldAction(_:)), for: UIControlEvents.editingChanged)
+        case 3://地区
+            cell.centerTextField.text = self.areaInfo.pro + self.areaInfo.city + self.areaInfo.county
+        case 6://工作年限
             cell.centerTextField.text = self.workYearsInfo.text
+        case 7://月收入
+            cell.centerTextField.keyboardType = .numberPad
+            cell.centerTextField.tag = 10002
+            cell.centerTextField.addTarget(self, action: #selector(textFieldAction(_:)), for: UIControlEvents.editingChanged)
         default:
             break
         }
@@ -182,6 +189,9 @@ class WorkViewController: UIViewController,UITableViewDelegate, UITableViewDataS
     }
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+       
+        self.view.endEditing(true)
+        
         if indexPath.row == 1 { //单位性质
             let popupView =  PopupStaticSelectView(cellType: PopupStaticSelectView.PopupCellType.companyType, selectRow: self.companyTypeInfo.row)
             let popupController = CNPPopupController(contents: [popupView])!
@@ -189,12 +199,25 @@ class WorkViewController: UIViewController,UITableViewDelegate, UITableViewDataS
             
             popupView.onClickSelect = { (row, text) in
                 self.companyTypeInfo = (row,text)
-                let position = IndexPath(row: 1, section: 0)
-                self.aTableView.reloadRows(at: [position], with: UITableViewRowAnimation.none)
+                //刷新cell
+                self.reloadOneCell(at: indexPath.row)
                 popupController.dismiss(animated: true)
             }
             
-        }else if indexPath.row == 3 {
+        }else if indexPath.row == 3 {//所选地区
+            let popupView = PopupAreaView(proRow: self.areaRow.proRow, cityRow: self.areaRow.cityRow, countyRow: self.areaRow.countyRow)
+            let popupController = CNPPopupController(contents: [popupView])!
+            popupController.present(animated: true)
+            
+            popupView.onClickSelect = { (pro,city,county) in
+                self.areaInfo = (pro.pro + " ",city.city + " ",county.county)
+                self.areaRow = (pro.proRow, city.cityRow, county.countyRow)
+                self.reloadOneCell(at: indexPath.row)
+                popupController.dismiss(animated: true)
+            }
+            popupView.onClickClose = { _ in
+                 popupController.dismiss(animated: true)
+            }
             
         }else if indexPath.row == 6{ //工作年限
             
@@ -204,8 +227,7 @@ class WorkViewController: UIViewController,UITableViewDelegate, UITableViewDataS
             
             popupView.onClickSelect = { (row, text) in
                 self.workYearsInfo = (row,text)
-                let position = IndexPath(row: 6, section: 0)
-                self.aTableView.reloadRows(at: [position], with: UITableViewRowAnimation.none)
+                self.reloadOneCell(at: indexPath.row)
                 popupController.dismiss(animated: true)
             }
         }
@@ -232,20 +254,31 @@ class WorkViewController: UIViewController,UITableViewDelegate, UITableViewDataS
         
     }
     
-    
-    ///消除手势与TableView的冲突
-    func gestureRecognizer(_ gestureRecognizer: UIGestureRecognizer, shouldReceive touch: UITouch) -> Bool {
-        if NSStringFromClass((touch.view?.classForCoder)!) == "UITableViewCellContentView" {
-            return false
-        }
-        return true
+    //MARK: - Method
+    //局部刷新cell
+    func reloadOneCell(at row: Int){
+        let position = IndexPath(row: row, section: 0)
+        self.aTableView.reloadRows(at: [position], with: UITableViewRowAnimation.none)
     }
     
     //MARK: - Action
-    func tapViewAction() {
-        self.view.endEditing(true)
-    }
     
+    func textFieldAction(_ textField: UITextField){
+        //10001-电话,10002-月收入
+        if textField.tag == 10001{
+            //限制输入的长度，最长为11位
+            if (textField.text?.characters.count)! > 11{
+                let index = textField.text?.index((textField.text?.startIndex)!, offsetBy: 11)//到offsetBy的前一位
+                textField.text = textField.text?.substring(to: index!)
+            }
+        }else if textField.tag == 10002{
+            //限制输入的长度，最长为8位
+            if (textField.text?.characters.count)! > 8{
+                let index = textField.text?.index((textField.text?.startIndex)!, offsetBy: 8)//到offsetBy的前一位
+                textField.text = textField.text?.substring(to: index!)
+            }
+        }
+    }
     
     func lastStepBtnAction(){
         

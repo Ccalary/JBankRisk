@@ -7,14 +7,20 @@
 //
 
 import UIKit
+import IQKeyboardManagerSwift
 
 @UIApplicationMain
 class AppDelegate: UIResponder, UIApplicationDelegate {
 
     var window: UIWindow?
 
-
+    
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplicationLaunchOptionsKey: Any]?) -> Bool {
+        
+        Thread.sleep(forTimeInterval: 2.0)//启动延时2秒
+        
+        //解决键盘遮挡问题
+        IQKeyboardManager.sharedManager().enable = true
         
         self.window = UIWindow(frame: UIScreen.main.bounds)
         self.window?.backgroundColor = UIColor.white
@@ -23,7 +29,6 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         self.window?.rootViewController = rootTabbar
         self.window?.makeKeyAndVisible()
         return true
-
     }
 
     func applicationWillResignActive(_ application: UIApplication) {

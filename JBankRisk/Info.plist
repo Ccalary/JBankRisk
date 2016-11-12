@@ -2,12 +2,14 @@
 <!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
 <plist version="1.0">
 <dict>
+	<key>NSLocationAlwaysUsageDescription</key>
+	<string>如果不允许，将无法完成定位，影响商户名称的获取</string>
+	<key>NSContactsUsageDescription</key>
+	<string>请允许中诚消费想访问您的通讯录</string>
+	<key>NSLocationWhenInUseUsageDescription</key>
+	<string>中诚消费想获取您的位置</string>
 	<key>CFBundleAllowMixedLocalizations</key>
 	<true/>
-	<key>NSCameraUsageDescription</key>
-	<string>中诚消费想访问您的相机</string>
-	<key>NSPhotoLibraryUsageDescription</key>
-	<string>中诚消费想访问您的相册</string>
 	<key>CFBundleDevelopmentRegion</key>
 	<string>en</string>
 	<key>CFBundleDisplayName</key>
@@ -28,8 +30,15 @@
 	<string>100</string>
 	<key>LSRequiresIPhoneOS</key>
 	<true/>
-	<key>UILaunchStoryboardName</key>
-	<string>LaunchScreen</string>
+	<key>NSAppTransportSecurity</key>
+	<dict>
+		<key>NSAllowsArbitraryLoads</key>
+		<true/>
+	</dict>
+	<key>NSCameraUsageDescription</key>
+	<string>中诚消费想访问您的相机</string>
+	<key>NSPhotoLibraryUsageDescription</key>
+	<string>中诚消费想访问您的相册</string>
 	<key>UIMainStoryboardFile</key>
 	<string>Main</string>
 	<key>UIRequiredDeviceCapabilities</key>
@@ -39,13 +48,6 @@
 	<key>UISupportedInterfaceOrientations</key>
 	<array>
 		<string>UIInterfaceOrientationPortrait</string>
-		<string>UIInterfaceOrientationLandscapeLeft</string>
-		<string>UIInterfaceOrientationLandscapeRight</string>
 	</array>
-	<key>NSAppTransportSecurity</key>
-	<dict>
-		<key>NSAllowsArbitraryLoads</key>
-		<true/>
-	</dict>
 </dict>
 </plist>

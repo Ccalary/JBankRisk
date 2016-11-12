@@ -32,12 +32,12 @@ extension UIViewController
      - parameter hint:    提示信息
      - parameter yOffset: y上的偏移量
      */
-    func showHud(in view: UIView, hint: String = "加载中", yOffset:CGFloat? = 0){
+    func showHud(in view: UIView, hint: String = "加载中...", yOffset:CGFloat? = 0){
         let HUD = MBProgressHUD(view: view)
         HUD.label.text = hint
         HUD.label.font = UIFontSize(size: 12)
         //设为false后点击屏幕其他地方有反应
-        HUD.isUserInteractionEnabled = false
+        HUD.isUserInteractionEnabled = true
         //HUD内的内容的颜色
         HUD.contentColor = UIColor(red:0.82, green:0.82, blue:0.82, alpha:1.00)
         //View的颜色

@@ -19,6 +19,7 @@ class PopupStaticSelectView: UIView, UITableViewDelegate, UITableViewDataSource 
         case eduGrade = "年级"
         case companyType = "单位性质"
         case workExp = "工作经验"
+        case liveTime = "居住时间"
     }
     let yearData = ["3个月内","6个月内","1年","2年","3年","4年","5年","5年以上"]
     let relativeData = ["配偶","父亲","母亲","子女"]
@@ -28,6 +29,7 @@ class PopupStaticSelectView: UIView, UITableViewDelegate, UITableViewDataSource 
     let eduGradeData = ["大一","大二","大三","大四"]
     let companyTypeData = ["外资（欧美）","外资（非欧美）","合资","国企","民营企业","外企代表处","政府机关","事业单位","非营利机构","上市公司","创业公司"]
     let workExpData = ["无经验","一年以内","1-3年","3-5年","5-10年","10年以上"]
+    let liveTimeData = ["3个月内","6个月内","1年","2年","3年","4年","5年","5年以上"]
     
     var dataArray = [""]
     var cellType:PopupCellType!
@@ -62,12 +64,14 @@ class PopupStaticSelectView: UIView, UITableViewDelegate, UITableViewDataSource 
             dataArray = companyTypeData
         case .workExp:
             dataArray = workExpData
+        case .liveTime:
+            dataArray = liveTimeData
         }
-        self.frame = CGRect(x: 0, y: 0, width: SCREEN_WIDTH - 40*UIRate, height: 50*UIRate + CGFloat(dataArray.count)*45*UIRate)
-        setupUI()
-        self.titleLabel.text = self.cellType.rawValue
+        self.frame = CGRect(x: 0, y: 0, width: SCREEN_WIDTH - 40*UIRate, height: 50*UIRate + 5*45*UIRate)
         
+        self.titleLabel.text = self.cellType.rawValue
         self.selectedCellInfo = (selectRow, self.dataArray[selectRow])
+        setupUI()
     }
     
     required init?(coder aDecoder: NSCoder) {
@@ -112,11 +116,14 @@ class PopupStaticSelectView: UIView, UITableViewDelegate, UITableViewDataSource 
 
         aTableView.snp.makeConstraints { (make) in
             make.width.equalTo(self)
-            make.height.equalTo(CGFloat(dataArray.count)*45*UIRate)
+            make.height.equalTo(5*45*UIRate)
             make.centerX.equalTo(self)
             make.top.equalTo(holdView.snp.bottom)
         }
-
+        
+        //选中cell
+        let defaultCell = IndexPath(row: selectedCellInfo.row, section: 0)
+        self.aTableView.selectRow(at: defaultCell, animated: true, scrollPosition: UITableViewScrollPosition.top)
     }
     
     private lazy var holdView: UIView = {
@@ -157,7 +164,6 @@ class PopupStaticSelectView: UIView, UITableViewDelegate, UITableViewDataSource 
         tableView.tableFooterView = UIView()
         tableView.register(PopupStaticTableViewCell.self, forCellReuseIdentifier: "popCellID")
         
-        
         //tableView 单元格分割线的显示
         if tableView.responds(to:#selector(setter: UITableViewCell.separatorInset)) {
             tableView.separatorInset = .zero
@@ -193,11 +199,6 @@ class PopupStaticSelectView: UIView, UITableViewDelegate, UITableViewDataSource 
             cell.checkImageView.isHidden = true
             cell.leftTextLabel.textColor = UIColorHex("666666")
         }
-        
-        if indexPath.row == dataArray.count - 1 {
-           let defaultCell = IndexPath(row: selectedCellInfo.row, section: 0)
-           self.aTableView.selectRow(at: defaultCell, animated: true, scrollPosition: UITableViewScrollPosition.none)
-        }
         return cell
     }
     
@@ -206,24 +207,11 @@ class PopupStaticSelectView: UIView, UITableViewDelegate, UITableViewDataSource 
     }
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        let cell = tableView.cellForRow(at: indexPath) as! PopupStaticTableViewCell
-        cell.checkImageView.isHidden = false
-        cell.leftTextLabel.textColor = UIColorHex("e9342d")
-        
          if let onClickSelect = self.onClickSelect {
             onClickSelect(indexPath.row, self.dataArray[indexPath.row])
         }
-        
     }
-    
-    func tableView(_ tableView: UITableView, didDeselectRowAt indexPath: IndexPath) {
-        
-        let cell = tableView.cellForRow(at: indexPath) as! PopupStaticTableViewCell
-        cell.checkImageView.isHidden = true
-        cell.leftTextLabel.textColor = UIColorHex("666666")
 
-    }
-    
     //设置分割线
     func tableView(_ tableView: UITableView, willDisplay cell: UITableViewCell, forRowAt indexPath: IndexPath) {
         

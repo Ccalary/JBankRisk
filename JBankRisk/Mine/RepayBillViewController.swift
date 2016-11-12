@@ -66,7 +66,7 @@ class RepayBillViewController: UIViewController, UITableViewDataSource, UITableV
             make.width.equalTo(self.view)
             make.height.equalTo(156*UIRate)
             make.centerX.equalTo(self.view)
-            make.top.equalTo(64*UIRate)
+            make.top.equalTo(64)
         }
         
         totalTextLabel.snp.makeConstraints { (make) in

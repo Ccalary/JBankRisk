@@ -9,7 +9,7 @@
 import UIKit
 import SwiftyJSON
 
-class ProductViewController: UIViewController,UITableViewDelegate, UITableViewDataSource,UIGestureRecognizerDelegate {
+class ProductViewController: UIViewController,UITableViewDelegate, UITableViewDataSource,AMapLocationManagerDelegate {
     
      var ProductCellData:[CellDataInfo] = [ CellDataInfo(leftText: "所属商户", holdText: "商户名称", content: "", cellType: .defaultType),
         CellDataInfo(leftText: "产品名称", holdText: "请输入产品名称", content: "", cellType: .clearType),
@@ -28,10 +28,15 @@ class ProductViewController: UIViewController,UITableViewDelegate, UITableViewDa
     //月还款
     var repayment: String = ""
     
+    var locationManager: AMapLocationManager!//定位管理
     
     override func viewDidLoad() {
         super.viewDidLoad()
+       //高德地图配置key
+       AMapServices.shared().apiKey = "41b0c56389d5985147098b2d6b18898f";
+        
         self.setupUI()
+        self.initLocation()
     }
 
     override func didReceiveMemoryWarning() {
@@ -44,11 +49,6 @@ class ProductViewController: UIViewController,UITableViewDelegate, UITableViewDa
         self.automaticallyAdjustsScrollViewInsets = false;
         self.view.backgroundColor = defaultBackgroundColor
         self.title = "产品信息"
-        
-        let aTap = UITapGestureRecognizer(target: self, action: #selector(tapViewAction))
-        aTap.numberOfTapsRequired = 1
-        aTap.delegate = self
-        self.navigationController?.navigationBar.addGestureRecognizer(aTap)
         
         self.view.addSubview(aScrollView)
         self.aScrollView.addSubview(aTableView)
@@ -127,13 +127,12 @@ class ProductViewController: UIViewController,UITableViewDelegate, UITableViewDa
         lineView.backgroundColor = defaultDivideLineColor
         return lineView
     }()
-
     
     //／按钮
     private lazy var nextStepBtn: UIButton = {
         let button = UIButton()
         button.setBackgroundImage(UIImage(named: "btn_grayred_254x44"), for: .normal)
-//        button.isUserInteractionEnabled = false
+        button.isUserInteractionEnabled = false
         button.setTitle("下一步", for: UIControlState.normal)
         button.titleLabel?.font = UIFontBoldSize(size: 18*UIRate)
         button.addTarget(self, action: #selector(nextStepBtnAction), for: .touchUpInside)
@@ -149,8 +148,6 @@ class ProductViewController: UIViewController,UITableViewDelegate, UITableViewDa
         button.addTarget(self, action: #selector(lastStepBtnAction), for: .touchUpInside)
         return button
     }()
-
-    
 
     //MARK: - UITableViewDelegate&&DataSource
     func numberOfSections(in tableView: UITableView) -> Int {
@@ -185,7 +182,6 @@ class ProductViewController: UIViewController,UITableViewDelegate, UITableViewDa
             break
         }
         
-        
         if indexPath.row == 2 || indexPath.row == 6 {
             cell.backgroundColor = defaultBackgroundColor
         }
@@ -193,7 +189,6 @@ class ProductViewController: UIViewController,UITableViewDelegate, UITableViewDa
         if indexPath.row == 4 { //期限
             cell.centerTextField.text = selectPeriodInfo.text
         }
-        
         return cell
     }
     
@@ -203,19 +198,30 @@ class ProductViewController: UIViewController,UITableViewDelegate, UITableViewDa
         }else {
             return 50*UIRate
         }
-        
     }
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-//        let cell = tableView.cellForRow(at: indexPath) as! BMTableViewCell
+       
+        self.view.endEditing(true)
+        
+        if indexPath.row == 0 { //获取商户名称
+            self.getAddress()
+        }
+        
         if indexPath.row == 4 { //申请期限
             guard self.borrowMoney.characters.count>0 else {
                 self.showHint(in: self.view, hint: "请输入借款金额")
                 return
             }
+            //添加HUD
+            self.showHud(in: self.view)
+            
             let param = ["para_key":"pay_member"]
             NetConnect.bm_applyPeriod(parameters: param, success: { (response) in
                 let json = JSON(response)
+                //隐藏HUD
+                self.hideHud()
+                
                 guard json["RET_CODE"] == "000000" else{
                     return self.showHint(in: self.view, hint: json["RET_DESC"].stringValue)
                 }
@@ -224,6 +230,7 @@ class ProductViewController: UIViewController,UITableViewDelegate, UITableViewDa
                     let phoneCallView = PopupDeadlineView(dataArray: dataArray, selectedCell: self.selectPeriodInfo.cell, borrowMoney: self.borrowMoney,mViewController: self)
                     let popupController = CNPPopupController(contents: [phoneCallView])!
                     popupController.present(animated: true)
+                    //返回的数据展示
                     phoneCallView.onClickSure = { (cell,text,moneyRepay) in
                         self.selectPeriodInfo = (cell,text)
                         self.repayment = moneyRepay
@@ -239,7 +246,8 @@ class ProductViewController: UIViewController,UITableViewDelegate, UITableViewDa
                 }
             
             }, failure: { error in
-                
+                //隐藏HUD
+                self.hideHud()
             })
         }
     }
@@ -254,29 +262,41 @@ class ProductViewController: UIViewController,UITableViewDelegate, UITableViewDa
             cell.layoutMargins = .zero
         }
     }
-
     
-    ///消除手势与TableView的冲突
-    func gestureRecognizer(_ gestureRecognizer: UIGestureRecognizer, shouldReceive touch: UITouch) -> Bool {
-        if NSStringFromClass((touch.view?.classForCoder)!) == "UITableViewCellContentView" {
-            return false
-        }
-        return true
+    //MARK: - 高德地图定位
+    //初始化定位
+    func initLocation(){
+        
+        locationManager = AMapLocationManager()
+        locationManager.delegate = self
+        locationManager.allowsBackgroundLocationUpdates = false
+        locationManager.pausesLocationUpdatesAutomatically = true
+        locationManager.desiredAccuracy = kCLLocationAccuracyHundredMeters//定位精度
+        self.getAddress()
+    }
+    
+    //获取位置
+    func getAddress(){
+        locationManager.requestLocation(withReGeocode: true, completionBlock: { (location, code, error) in
+            
+            if (error != nil){
+                let alertController = UIAlertController(title: "获取商户名称失败",
+                                                        message: "请在“设置－中诚消费－位置”中允许本App访问您的位置，", preferredStyle: .alert)
+                
+                let okAction = UIAlertAction(title: "好的", style: .default, handler: { action in
+                    self.dismiss(animated: true, completion: nil)
+                })
+                alertController.addAction(okAction)
+                self.present(alertController, animated: true, completion: nil)
+                return
+            }
+            
+            PrintLog("经度：\(location?.coordinate.longitude),纬度：\(location?.coordinate.latitude)")
+        })
+
     }
     
     //MARK: - Action
-    func tapViewAction() {
-        self.view.endEditing(true)
-    }
-    
-    
-    func lastStepBtnAction(){
-        
-    }
-    
-    func nextStepBtnAction(){
-        
-    }
     
     func textFieldAction(_ textField: UITextField){
         //tag: 10000- 借款金额 10001-业务员编号
@@ -295,4 +315,13 @@ class ProductViewController: UIViewController,UITableViewDelegate, UITableViewDa
             }
         }
     }
-}
+    
+    func lastStepBtnAction(){
+        
+    }
+    
+    func nextStepBtnAction(){
+        
+    }
+    
+   }

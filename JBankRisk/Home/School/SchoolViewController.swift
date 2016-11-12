@@ -8,7 +8,7 @@
 
 import UIKit
 
-class SchoolViewController:  UIViewController,UITableViewDelegate, UITableViewDataSource,UIGestureRecognizerDelegate {
+class SchoolViewController:  UIViewController,UITableViewDelegate, UITableViewDataSource {
     
     var SchoolCellData:[CellDataInfo] = [
         CellDataInfo(leftText: "学校地址", holdText: "请选择所属地区", content: "", cellType: .arrowType),
@@ -18,6 +18,10 @@ class SchoolViewController:  UIViewController,UITableViewDelegate, UITableViewDa
         CellDataInfo(leftText: "年级", holdText: "请选择年级", content: "", cellType: .arrowType),
         CellDataInfo(leftText: "专业", holdText: "请填写专业", content: "", cellType: .clearType),
         CellDataInfo(leftText: "学制", holdText: "请选择学制", content: "", cellType: .arrowType)]
+    
+    //地区信息
+    var areaInfo:(pro:String, city:String, county:String) = ("","","")
+    var areaRow:(proRow:Int, cityRow:Int, countyRow:Int) = (-1,-1,-1)
     
     ///学历
     var eduDegreeInfo:(row: Int, text: String) = (0,"")
@@ -42,11 +46,6 @@ class SchoolViewController:  UIViewController,UITableViewDelegate, UITableViewDa
         self.automaticallyAdjustsScrollViewInsets = false;
         self.view.backgroundColor = defaultBackgroundColor
         self.title = "学校信息"
-        
-        let aTap = UITapGestureRecognizer(target: self, action: #selector(tapViewAction))
-        aTap.numberOfTapsRequired = 1
-        aTap.delegate = self
-        UIApplication.shared.keyWindow?.addGestureRecognizer(aTap)
         
         self.view.addSubview(aScrollView)
         self.aScrollView.addSubview(aTableView)
@@ -148,8 +147,6 @@ class SchoolViewController:  UIViewController,UITableViewDelegate, UITableViewDa
         return button
     }()
     
-    
-    
     //MARK: - UITableViewDelegate&&DataSource
     func numberOfSections(in tableView: UITableView) -> Int {
         return 1
@@ -166,6 +163,8 @@ class SchoolViewController:  UIViewController,UITableViewDelegate, UITableViewDa
         cell.cellDataInfo = SchoolCellData[indexPath.row]
         
         switch indexPath.row {
+        case 0://地区
+            cell.centerTextField.text = self.areaInfo.pro + self.areaInfo.city + self.areaInfo.county
         case 3://学历
             cell.centerTextField.text = eduDegreeInfo.text
         case 4://年级
@@ -179,17 +178,25 @@ class SchoolViewController:  UIViewController,UITableViewDelegate, UITableViewDa
         return cell
     }
     
-    func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
-        if indexPath.row == 1 {
-            return 40*UIRate
-        }else {
-            return 50*UIRate
-        }
-    }
-    
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        self.view.endEditing(true)
         
-        if indexPath.row == 3 { //请选择学历
+        if indexPath.row == 0 {//选择地区
+            let popupView = PopupAreaView(proRow: self.areaRow.proRow, cityRow: self.areaRow.cityRow, countyRow: self.areaRow.countyRow)
+            let popupController = CNPPopupController(contents: [popupView])!
+            popupController.present(animated: true)
+            
+            popupView.onClickSelect = { (pro,city,county) in
+                self.areaInfo = (pro.pro + " ",city.city + " ",county.county)
+                self.areaRow = (pro.proRow, city.cityRow, county.countyRow)
+                //局部刷新cell
+                self.reloadOneCell(at: indexPath.row)
+                popupController.dismiss(animated: true)
+            }
+            popupView.onClickClose = { _ in
+                popupController.dismiss(animated: true)
+            }
+        }else if indexPath.row == 3 { //请选择学历
             let popupView =  PopupStaticSelectView(cellType: PopupStaticSelectView.PopupCellType.eduDegree, selectRow: self.eduDegreeInfo.row)
             let popupController = CNPPopupController(contents: [popupView])!
             popupController.present(animated: true)
@@ -224,9 +231,15 @@ class SchoolViewController:  UIViewController,UITableViewDelegate, UITableViewDa
                 self.aTableView.reloadRows(at: [position], with: UITableViewRowAnimation.none)
                 popupController.dismiss(animated: true)
             }
-            
         }
-        
+    }
+    
+    func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
+        if indexPath.row == 1 {
+            return 40*UIRate
+        }else {
+            return 50*UIRate
+        }
     }
     
     //设置分割线
@@ -250,19 +263,14 @@ class SchoolViewController:  UIViewController,UITableViewDelegate, UITableViewDa
         }
     }
     
-    ///消除手势与TableView的冲突
-    func gestureRecognizer(_ gestureRecognizer: UIGestureRecognizer, shouldReceive touch: UITouch) -> Bool {
-        if NSStringFromClass((touch.view?.classForCoder)!) == "UITableViewCellContentView" {
-            return false
-        }
-        return true
+    //MARK: - Method
+    //局部刷新cell
+    func reloadOneCell(at row: Int){
+        let position = IndexPath(row: row, section: 0)
+        self.aTableView.reloadRows(at: [position], with: UITableViewRowAnimation.none)
     }
     
     //MARK: - Action
-    func tapViewAction() {
-        self.view.endEditing(true)
-    }
-    
     
     func lastStepBtnAction(){
         

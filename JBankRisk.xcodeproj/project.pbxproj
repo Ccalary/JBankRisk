@@ -12,7 +12,6 @@
 		0D006DDD1DC7810D0091CF33 /* UserHelper.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0D006DDC1DC7810D0091CF33 /* UserHelper.swift */; };
 		0D006DDF1DC7A0A90091CF33 /* IdentityViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0D006DDE1DC7A0A90091CF33 /* IdentityViewController.swift */; };
 		0D006DE11DC7A5410091CF33 /* LoginViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0D006DE01DC7A5410091CF33 /* LoginViewController.swift */; };
-		0D006DE31DC88BDB0091CF33 /* IDInfoConfirmViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0D006DE21DC88BDB0091CF33 /* IDInfoConfirmViewController.swift */; };
 		0D006DE51DC8AAFA0091CF33 /* ProductViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0D006DE41DC8AAFA0091CF33 /* ProductViewController.swift */; };
 		0D006DE71DC8AB5B0091CF33 /* BMTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0D006DE61DC8AB5B0091CF33 /* BMTableViewCell.swift */; };
 		0D0E29FD1DAA220200A64F76 /* MineViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0D0E29FC1DAA220200A64F76 /* MineViewController.swift */; };
@@ -32,7 +31,6 @@
 		0D132FB11DB07FD70061EDC9 /* iCarousel.m in Sources */ = {isa = PBXBuildFile; fileRef = 0D132FB01DB07FD70061EDC9 /* iCarousel.m */; };
 		0D1EAA801DC8C88F00789E37 /* SchoolViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0D1EAA7F1DC8C88F00789E37 /* SchoolViewController.swift */; };
 		0D1EAA821DC8C91500789E37 /* WorkViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0D1EAA811DC8C91500789E37 /* WorkViewController.swift */; };
-		0D1EAA841DC8CC4900789E37 /* ContactViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0D1EAA831DC8CC4900789E37 /* ContactViewController.swift */; };
 		0D1EAA861DC8D4FF00789E37 /* DataViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0D1EAA851DC8D4FF00789E37 /* DataViewController.swift */; };
 		0D1EAA881DC97D2500789E37 /* PopupStaticSelectView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0D1EAA871DC97D2500789E37 /* PopupStaticSelectView.swift */; };
 		0D1EAA8A1DC97E8000789E37 /* PopupStaticTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0D1EAA891DC97E8000789E37 /* PopupStaticTableViewCell.swift */; };
@@ -45,9 +43,7 @@
 		0D24F3001DCB72F300BBAC8F /* MineHeaderView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0D24F2FD1DCB72F300BBAC8F /* MineHeaderView.swift */; };
 		0D24F3021DCB731800BBAC8F /* BorrowRecordViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0D24F3011DCB731800BBAC8F /* BorrowRecordViewController.swift */; };
 		0D24F3041DCB76E700BBAC8F /* BorrowRecordTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0D24F3031DCB76E700BBAC8F /* BorrowRecordTableViewCell.swift */; };
-		0D24F3081DCB9B1F00BBAC8F /* AreaViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0D24F3071DCB9B1F00BBAC8F /* AreaViewController.swift */; };
 		0D24F30A1DCB9F2E00BBAC8F /* AreaSelectHeaderView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0D24F3091DCB9F2E00BBAC8F /* AreaSelectHeaderView.swift */; };
-		0D24F30C1DCBA2D900BBAC8F /* AreaSelectView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0D24F30B1DCBA2D900BBAC8F /* AreaSelectView.swift */; };
 		0D2747DA1DADE9840060E221 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 0D2747D91DADE9840060E221 /* Assets.xcassets */; };
 		0D2841091DACC1D600059FD2 /* HomeTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0D2841081DACC1D600059FD2 /* HomeTableViewCell.swift */; };
 		0D3ADC7F1DCC1DE300838043 /* SettingViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0D3ADC7E1DCC1DE300838043 /* SettingViewController.swift */; };
@@ -68,6 +64,10 @@
 		0D3ADCA81DCCC23B00838043 /* RepayWayViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0D3ADCA61DCCC23B00838043 /* RepayWayViewController.swift */; };
 		0D3ADCAE1DCCF1A200838043 /* RepayDetailViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0D3ADCAD1DCCF1A200838043 /* RepayDetailViewController.swift */; };
 		0D3ADCB01DCCF5BD00838043 /* RepayDetailTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0D3ADCAF1DCCF5BD00838043 /* RepayDetailTableViewCell.swift */; };
+		0D47C3281DD4420000530081 /* Capture.m in Sources */ = {isa = PBXBuildFile; fileRef = 0D47C3231DD4420000530081 /* Capture.m */; };
+		0D47C3291DD4420000530081 /* IDCardViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 0D47C3251DD4420000530081 /* IDCardViewController.m */; };
+		0D47C32A1DD4420000530081 /* IdInfo.m in Sources */ = {isa = PBXBuildFile; fileRef = 0D47C3271DD4420000530081 /* IdInfo.m */; };
+		0D47C3311DD4425E00530081 /* zocr0.lib in Resources */ = {isa = PBXBuildFile; fileRef = 0D47C32E1DD4425E00530081 /* zocr0.lib */; };
 		0D61C4281DB08ECE00C2BC23 /* PopupSelectRoleView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0D61C4271DB08ECE00C2BC23 /* PopupSelectRoleView.swift */; };
 		0D61C42C1DB0C2CB00C2BC23 /* BorrowMoneyViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0D61C42B1DB0C2CB00C2BC23 /* BorrowMoneyViewController.swift */; };
 		0D61C42E1DB0CE0000C2BC23 /* BorrowMoneyView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0D61C42D1DB0CE0000C2BC23 /* BorrowMoneyView.swift */; };
@@ -82,6 +82,7 @@
 		0DCACBE41DADC9D300AFD3E9 /* RegisterOrResetPsdVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0DCACBE31DADC9D300AFD3E9 /* RegisterOrResetPsdVC.swift */; };
 		0DD43CBB1DAFD74400091272 /* PopupRoleView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0DD43CBA1DAFD74400091272 /* PopupRoleView.swift */; };
 		0DD99BFF1DB1E47F00342E29 /* NetworkRequest.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0DD99BFE1DB1E47F00342E29 /* NetworkRequest.swift */; };
+		0DDF09CA1DD4DDB900E8946E /* ContactViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0D1EAA831DC8CC4900789E37 /* ContactViewController.swift */; };
 		0DECC8711DCAEB130022D3F6 /* AreaTableView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0DECC8701DCAEB130022D3F6 /* AreaTableView.swift */; };
 		0DECC8751DCB07D30022D3F6 /* DataCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0DECC8741DCB07D30022D3F6 /* DataCollectionViewCell.swift */; };
 		0DFFAECF1DAF218C00819CF7 /* LoginCodeViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0DFFAECE1DAF218C00819CF7 /* LoginCodeViewController.swift */; };
@@ -113,7 +114,6 @@
 		0D006DDC1DC7810D0091CF33 /* UserHelper.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = UserHelper.swift; sourceTree = "<group>"; };
 		0D006DDE1DC7A0A90091CF33 /* IdentityViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = IdentityViewController.swift; sourceTree = "<group>"; };
 		0D006DE01DC7A5410091CF33 /* LoginViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LoginViewController.swift; sourceTree = "<group>"; };
-		0D006DE21DC88BDB0091CF33 /* IDInfoConfirmViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = IDInfoConfirmViewController.swift; sourceTree = "<group>"; };
 		0D006DE41DC8AAFA0091CF33 /* ProductViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ProductViewController.swift; sourceTree = "<group>"; };
 		0D006DE61DC8AB5B0091CF33 /* BMTableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = BMTableViewCell.swift; path = ../Product/BMTableViewCell.swift; sourceTree = "<group>"; };
 		0D0E29FC1DAA220200A64F76 /* MineViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MineViewController.swift; sourceTree = "<group>"; };
@@ -149,9 +149,7 @@
 		0D24F2FD1DCB72F300BBAC8F /* MineHeaderView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MineHeaderView.swift; sourceTree = "<group>"; };
 		0D24F3011DCB731800BBAC8F /* BorrowRecordViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BorrowRecordViewController.swift; sourceTree = "<group>"; };
 		0D24F3031DCB76E700BBAC8F /* BorrowRecordTableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BorrowRecordTableViewCell.swift; sourceTree = "<group>"; };
-		0D24F3071DCB9B1F00BBAC8F /* AreaViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AreaViewController.swift; sourceTree = "<group>"; };
 		0D24F3091DCB9F2E00BBAC8F /* AreaSelectHeaderView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AreaSelectHeaderView.swift; sourceTree = "<group>"; };
-		0D24F30B1DCBA2D900BBAC8F /* AreaSelectView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AreaSelectView.swift; sourceTree = "<group>"; };
 		0D2747D91DADE9840060E221 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; name = Assets.xcassets; path = JBankRisk/Assets.xcassets; sourceTree = "<group>"; };
 		0D2841081DACC1D600059FD2 /* HomeTableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = HomeTableViewCell.swift; sourceTree = "<group>"; };
 		0D3ADC7E1DCC1DE300838043 /* SettingViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SettingViewController.swift; sourceTree = "<group>"; };
@@ -172,6 +170,16 @@
 		0D3ADCA61DCCC23B00838043 /* RepayWayViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RepayWayViewController.swift; sourceTree = "<group>"; };
 		0D3ADCAD1DCCF1A200838043 /* RepayDetailViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RepayDetailViewController.swift; sourceTree = "<group>"; };
 		0D3ADCAF1DCCF5BD00838043 /* RepayDetailTableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RepayDetailTableViewCell.swift; sourceTree = "<group>"; };
+		0D47C3221DD4420000530081 /* Capture.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Capture.h; sourceTree = "<group>"; };
+		0D47C3231DD4420000530081 /* Capture.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Capture.m; sourceTree = "<group>"; };
+		0D47C3241DD4420000530081 /* IDCardViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = IDCardViewController.h; sourceTree = "<group>"; };
+		0D47C3251DD4420000530081 /* IDCardViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = IDCardViewController.m; sourceTree = "<group>"; };
+		0D47C3261DD4420000530081 /* IdInfo.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = IdInfo.h; sourceTree = "<group>"; };
+		0D47C3271DD4420000530081 /* IdInfo.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = IdInfo.m; sourceTree = "<group>"; };
+		0D47C32C1DD4425E00530081 /* commondef.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = commondef.h; sourceTree = "<group>"; };
+		0D47C32E1DD4425E00530081 /* zocr0.lib */ = {isa = PBXFileReference; lastKnownFileType = file; path = zocr0.lib; sourceTree = "<group>"; };
+		0D47C32F1DD4425E00530081 /* excards.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = excards.h; sourceTree = "<group>"; };
+		0D47C3301DD4425E00530081 /* libexidcardios.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; path = libexidcardios.a; sourceTree = "<group>"; };
 		0D61C4271DB08ECE00C2BC23 /* PopupSelectRoleView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PopupSelectRoleView.swift; sourceTree = "<group>"; };
 		0D61C42B1DB0C2CB00C2BC23 /* BorrowMoneyViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BorrowMoneyViewController.swift; sourceTree = "<group>"; };
 		0D61C42D1DB0CE0000C2BC23 /* BorrowMoneyView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BorrowMoneyView.swift; sourceTree = "<group>"; };
@@ -232,7 +240,6 @@
 			isa = PBXGroup;
 			children = (
 				0D006DDE1DC7A0A90091CF33 /* IdentityViewController.swift */,
-				0D006DE21DC88BDB0091CF33 /* IDInfoConfirmViewController.swift */,
 			);
 			path = Identity;
 			sourceTree = "<group>";
@@ -301,6 +308,7 @@
 		0D0E2A001DAA4EA900A64F76 /* 3rd */ = {
 			isa = PBXGroup;
 			children = (
+				0D47C3211DD440B500530081 /* IDCardScan */,
 				0D132FAE1DB07FD70061EDC9 /* iCarousel */,
 				0D0E2A1D1DAA8BDF00A64F76 /* CNPPopupController */,
 				0D0E2A111DAA522A00A64F76 /* PullToRefreshSwift */,
@@ -489,6 +497,39 @@
 			path = DefaultView;
 			sourceTree = "<group>";
 		};
+		0D47C3211DD440B500530081 /* IDCardScan */ = {
+			isa = PBXGroup;
+			children = (
+				0D47C32B1DD4425E00530081 /* libexidcard */,
+				0D47C3221DD4420000530081 /* Capture.h */,
+				0D47C3231DD4420000530081 /* Capture.m */,
+				0D47C3241DD4420000530081 /* IDCardViewController.h */,
+				0D47C3251DD4420000530081 /* IDCardViewController.m */,
+				0D47C3261DD4420000530081 /* IdInfo.h */,
+				0D47C3271DD4420000530081 /* IdInfo.m */,
+			);
+			path = IDCardScan;
+			sourceTree = "<group>";
+		};
+		0D47C32B1DD4425E00530081 /* libexidcard */ = {
+			isa = PBXGroup;
+			children = (
+				0D47C32C1DD4425E00530081 /* commondef.h */,
+				0D47C32D1DD4425E00530081 /* dicts */,
+				0D47C32F1DD4425E00530081 /* excards.h */,
+				0D47C3301DD4425E00530081 /* libexidcardios.a */,
+			);
+			path = libexidcard;
+			sourceTree = "<group>";
+		};
+		0D47C32D1DD4425E00530081 /* dicts */ = {
+			isa = PBXGroup;
+			children = (
+				0D47C32E1DD4425E00530081 /* zocr0.lib */,
+			);
+			path = dicts;
+			sourceTree = "<group>";
+		};
 		0D68E9701DCA25E7000DA5E6 /* Others */ = {
 			isa = PBXGroup;
 			children = (
@@ -502,9 +543,7 @@
 			children = (
 				0D8C33EE1DCA27E800F33F0C /* chinaarea.plist */,
 				0DECC8701DCAEB130022D3F6 /* AreaTableView.swift */,
-				0D24F3071DCB9B1F00BBAC8F /* AreaViewController.swift */,
 				0D24F3091DCB9F2E00BBAC8F /* AreaSelectHeaderView.swift */,
-				0D24F30B1DCBA2D900BBAC8F /* AreaSelectView.swift */,
 			);
 			path = Area;
 			sourceTree = "<group>";
@@ -757,6 +796,7 @@
 				0DAF60371DA8DFAD0009054F /* Main.storyboard in Resources */,
 				0D8C33EF1DCA27E800F33F0C /* chinaarea.plist in Resources */,
 				0D2747DA1DADE9840060E221 /* Assets.xcassets in Resources */,
+				0D47C3311DD4425E00530081 /* zocr0.lib in Resources */,
 				0D0E2A161DAA523E00A64F76 /* pulltorefresharrow.png in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -790,7 +830,7 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "diff \"${PODS_ROOT}/../Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [[ $? != 0 ]] ; then\n    cat << EOM\nerror: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\nEOM\n    exit 1\nfi\n";
+			shellScript = "diff \"${PODS_ROOT}/../Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n";
 			showEnvVarsInLog = 0;
 		};
 		88590A15F4070991519F19FD /* [CP] Embed Pods Frameworks */ = {
@@ -833,7 +873,6 @@
 				0D24F2FF1DCB72F300BBAC8F /* MineFooterView.swift in Sources */,
 				0D24F3041DCB76E700BBAC8F /* BorrowRecordTableViewCell.swift in Sources */,
 				0D3ADCA81DCCC23B00838043 /* RepayWayViewController.swift in Sources */,
-				0D006DE31DC88BDB0091CF33 /* IDInfoConfirmViewController.swift in Sources */,
 				0D1EAA861DC8D4FF00789E37 /* DataViewController.swift in Sources */,
 				0D3ADC921DCC50FF00838043 /* ChangePhoneNumVC.swift in Sources */,
 				0D1EAA921DC9BB2500789E37 /* PopupDeadlineCollectionViewCell.swift in Sources */,
@@ -866,11 +905,12 @@
 				0D24F30A1DCB9F2E00BBAC8F /* AreaSelectHeaderView.swift in Sources */,
 				0D0E2A191DAA523E00A64F76 /* UIScrollViewExtension.swift in Sources */,
 				0DFFAEDC1DAF707900819CF7 /* PopupRepaymentTipView.swift in Sources */,
+				0D47C32A1DD4420000530081 /* IdInfo.m in Sources */,
+				0D47C3281DD4420000530081 /* Capture.m in Sources */,
 				0D3ADC7F1DCC1DE300838043 /* SettingViewController.swift in Sources */,
 				0D8C33FB1DCA3E1600F33F0C /* PopupAreaView.swift in Sources */,
 				0D3ADCA71DCCC23B00838043 /* RepayBillViewController.swift in Sources */,
 				0D3ADC991DCC839500838043 /* SysMessageViewController.swift in Sources */,
-				0D1EAA841DC8CC4900789E37 /* ContactViewController.swift in Sources */,
 				0D3ADC8A1DCC31DA00838043 /* AboutOursViewController.swift in Sources */,
 				0D0E2A181DAA523E00A64F76 /* PullToRefreshView.swift in Sources */,
 				0D24F3001DCB72F300BBAC8F /* MineHeaderView.swift in Sources */,
@@ -881,18 +921,18 @@
 				0DECC8711DCAEB130022D3F6 /* AreaTableView.swift in Sources */,
 				0D61C4321DB128F600C2BC23 /* BorrowMoneyDoneView.swift in Sources */,
 				0D1EAA821DC8C91500789E37 /* WorkViewController.swift in Sources */,
-				0D24F30C1DCBA2D900BBAC8F /* AreaSelectView.swift in Sources */,
 				0D24F2FE1DCB72F300BBAC8F /* MineCollectionViewCell.swift in Sources */,
 				0D3ADC9D1DCC853300838043 /* SysMessageTableViewCell.swift in Sources */,
 				0D1EAA8C1DC99C5C00789E37 /* PopupPhotoSelectView.swift in Sources */,
 				0D0E2A301DAB377D00A64F76 /* File.swift in Sources */,
 				0D006DCF1DC75A280091CF33 /* NetConnect.swift in Sources */,
 				0D3ADC961DCC76B900838043 /* SuggestCollectionViewCell.swift in Sources */,
+				0D47C3291DD4420000530081 /* IDCardViewController.m in Sources */,
+				0DDF09CA1DD4DDB900E8946E /* ContactViewController.swift in Sources */,
 				0D006DE71DC8AB5B0091CF33 /* BMTableViewCell.swift in Sources */,
 				0D1EAA8E1DC9AE1800789E37 /* PopupSubmitTipsView.swift in Sources */,
 				0DD99BFF1DB1E47F00342E29 /* NetworkRequest.swift in Sources */,
 				0D3ADC941DCC54BB00838043 /* SuggestViewController.swift in Sources */,
-				0D24F3081DCB9B1F00BBAC8F /* AreaViewController.swift in Sources */,
 				0DFFAECF1DAF218C00819CF7 /* LoginCodeViewController.swift in Sources */,
 				0DECC8751DCB07D30022D3F6 /* DataCollectionViewCell.swift in Sources */,
 				0D0E2A3B1DAB40DB00A64F76 /* HomeViewController.swift in Sources */,
@@ -1060,10 +1100,17 @@
 			buildSettings = {
 				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = LaunchImage;
 				CLANG_ENABLE_MODULES = YES;
 				DEVELOPMENT_TEAM = JB79VQ5W7K;
+				ENABLE_BITCODE = NO;
 				INFOPLIST_FILE = JBankRisk/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
+				LIBRARY_SEARCH_PATHS = (
+					"$(inherited)",
+					"$(PROJECT_DIR)/JBankRisk/Public/3rd/IDCardScan/libexidcard",
+					"$(PROJECT_DIR)/JBankRisk/Public/3rd/IDCardScan/libexidcard/dicts",
+				);
 				PRODUCT_BUNDLE_IDENTIFIER = com.jingjinsuo.JBankRisk;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_OBJC_BRIDGING_HEADER = "JBankRisk/Main/Base/JBankRisk-Bridging-Header.h";
@@ -1078,10 +1125,17 @@
 			buildSettings = {
 				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = LaunchImage;
 				CLANG_ENABLE_MODULES = YES;
 				DEVELOPMENT_TEAM = JB79VQ5W7K;
+				ENABLE_BITCODE = NO;
 				INFOPLIST_FILE = JBankRisk/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
+				LIBRARY_SEARCH_PATHS = (
+					"$(inherited)",
+					"$(PROJECT_DIR)/JBankRisk/Public/3rd/IDCardScan/libexidcard",
+					"$(PROJECT_DIR)/JBankRisk/Public/3rd/IDCardScan/libexidcard/dicts",
+				);
 				PRODUCT_BUNDLE_IDENTIFIER = com.jingjinsuo.JBankRisk;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_OBJC_BRIDGING_HEADER = "JBankRisk/Main/Base/JBankRisk-Bridging-Header.h";

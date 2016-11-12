@@ -23,4 +23,15 @@ class UserHelper {
         defaults.set(role, forKey: "userRole")
     }
 
+    ///2.地址（list）信息
+    static func getChinaAreaInfo() -> NSArray? {
+        let defaults = UserDefaults()
+        return defaults.object(forKey: "chinaAreaInfo") as? NSArray
+    }
+    
+    static func setChinaAreaInfo(areaArray:NSArray){
+        let defaults = UserDefaults()
+         defaults.set(areaArray, forKey: "chinaAreaInfo")
+    }
+
 }

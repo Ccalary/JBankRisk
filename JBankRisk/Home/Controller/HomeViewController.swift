@@ -29,11 +29,9 @@ class HomeViewController: UIViewController, UIGestureRecognizerDelegate{
         //初始化图片数据
         imageArray = NSMutableArray()
         urlArray = NSMutableArray()
-        
-        
-        initBannerImage()
+
         setup()
-        
+        initBannerImage()
     }
     override func viewWillAppear(_ animated: Bool) {
          self.navigationController?.isNavigationBarHidden = true
@@ -55,16 +53,19 @@ class HomeViewController: UIViewController, UIGestureRecognizerDelegate{
         }
         return true
     }
-
     
     //基本设置
     func setup(){
-        
         self.view.addSubview(aTableView)
         aTableView.snp.makeConstraints { (mark) in
             mark.width.equalTo(self.view)
-            mark.height.equalTo(SCREEN_HEIGHT - 220*UIRate - 100)
-            mark.top.equalTo(bannerView.snp.bottom)
+            mark.height.equalTo(SCREEN_HEIGHT - 49)
+            mark.top.equalTo(0)
+            
+            self.aTableView.addPullRefreshHandler({ _ in
+                self.aTableView.reloadData()
+                self.aTableView.stopPullRefreshEver()
+            })
         }
     }
     
@@ -75,29 +76,21 @@ class HomeViewController: UIViewController, UIGestureRecognizerDelegate{
         tableView.dataSource = self
         tableView.tableFooterView = UIView()
         tableView.register(HomeTableViewCell.self, forCellReuseIdentifier: homeCellID)
-        
-        
         //tableView 单元格分割线的显示
-        if tableView.responds(to:#selector(setter: UITableViewCell.separatorInset)) {
-            tableView.separatorInset = .zero
-        }
+        if tableView.responds(to:#selector(setter: UITableViewCell.separatorInset)) {tableView.separatorInset = .zero
+         }
         
         if tableView.responds(to: #selector(setter: UITableViewCell.layoutMargins)) {
             tableView.layoutMargins = .zero
         }
         return tableView
-        
     }()
     
     //MARK: - 初始化banner轮播图
     func initBannerImage(){
         
         //添加数据
-        let array = [    ["image":"http://pic.zsucai.com/files/2013/0814/xychh1.jpg","url":"http://www.swift51.com/swift.html"],["image":"http://dfzy.ggjy.net/ziran/UploadSoftPic/200705/20070511100822129.jpg","url":"https://www.baidu.com"]]
-        /*,
-         ["image":"http://pic2.52pk.com/files/120116/801441_153023_4787.jpg","url":"http://cn.bing.com"],
-         ["image":"http://img5q.duitang.com/uploads/item/201411/21/20141121230440_yBssa.jpeg","url":"https://www.yahoo.com"], ["image":"http://img04.tooopen.com/images/20130916/sy_41580784261.jpg","url":"https://www.so.com"],
-         ["image":"http://e-lvyou.com/admin/Upload_mp_pic/2014316175741877.jpg","url":"http://gold.xitu.io/explore/all"],*/
+        let array = [    ["image":"http://pic.zsucai.com/files/2013/0814/xychh1.jpg","url":"http://192.168.1.246:8080/jinangk.xhtml?TX_CODE=666666"],["image":"http://dfzy.ggjy.net/ziran/UploadSoftPic/200705/20070511100822129.jpg","url":"https://www.baidu.com"]]
         
         for item in array {
             imageArray?.add(item["image"]!)
@@ -107,7 +100,7 @@ class HomeViewController: UIViewController, UIGestureRecognizerDelegate{
         //图片轮播
         bannerView = CyclePictureView(frame: CGRect(x: 0, y: 0, width: SCREEN_WIDTH, height: 220*UIRate), imageArray:imageArray!)
         bannerView.delegate = self
-        self.view.addSubview(bannerView)
+        self.aTableView.tableHeaderView = bannerView
     }
 }
 
@@ -177,19 +170,20 @@ extension HomeViewController: UITableViewDelegate, UITableViewDataSource,CyclePi
                 self.navigationController?.pushViewController(loginVC, animated: false)
             }
         case 1:
-//            let registerVC = DataViewController(roleType: .worker)
-//            self.navigationController?.pushViewController(registerVC, animated: true)
+            let registerVC = DataViewController(roleType: .worker)
+            self.navigationController?.pushViewController(registerVC, animated: true)
 //
-            let phoneCallView = PopupAreaView()
-            let popupController = CNPPopupController(contents: [phoneCallView])!
-            popupController.present(animated: true)
-            phoneCallView.onClickSelect = {_ in
-                popupController.dismiss(animated: true)
-            }
+//            let phoneCallView = PopupAreaView()
+//            let popupController = CNPPopupController(contents: [phoneCallView])!
+//            popupController.present(animated: true)
+//            phoneCallView.onClickSelect = {_ in
+//                popupController.dismiss(animated: true)
+//            }
             break
         case 2:
-            let registerVC = RepayDetailViewController()
+            let registerVC = SchoolViewController()
             self.navigationController?.pushViewController(registerVC, animated: true)
+            break
         default:
             break
         }

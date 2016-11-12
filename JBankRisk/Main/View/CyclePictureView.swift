@@ -54,6 +54,7 @@ class CyclePictureView: UIView, UIScrollViewDelegate{
         scrollView.delegate = self
         self.addSubview(scrollView)
         
+        //页码显示
         pageControl = UIPageControl(frame: CGRect(x: viewWidth! - 20*UIRate*CGFloat(imageArray.count), y: viewHeight! - 30*UIRate, width: 20*UIRate*CGFloat(imageArray.count), height: 20*UIRate))
         pageControl.numberOfPages = imageArray.count
         pageControl.currentPage = 0
@@ -114,7 +115,7 @@ class CyclePictureView: UIView, UIScrollViewDelegate{
             //一定要设置允许交互，要不然点击方法不响应
             adImageView.isUserInteractionEnabled = true
             let imageURL = URL(string: self.curImageArray![i] as! String)
-            adImageView.kf_setImage(with: imageURL as Resource?, placeholder: UIImage(named: "wallpaper_profile"), options: [], progressBlock: { (receivedSize, totalSize) in
+            adImageView.kf_setImage(with: imageURL as Resource?, placeholder: UIImage(named: "home_defaul_banner_375x220"), options: [], progressBlock: { (receivedSize, totalSize) in
                 
                 //                let progress = Double(receivedSize)/Double(totalSize)
                 //
@@ -126,15 +127,14 @@ class CyclePictureView: UIView, UIScrollViewDelegate{
                 
             }
             
+            //图片点击跳转链接
             let tap = UITapGestureRecognizer(target: self, action: #selector(tapTheImage))
             adImageView.addGestureRecognizer(tap)
-            
             
             self.scrollView.addSubview(adImageView)
         }
         
         self.scrollView.contentOffset = CGPoint(x: viewWidth!, y: 0)
-        
     }
     
     //MARK: - scrollView delegate

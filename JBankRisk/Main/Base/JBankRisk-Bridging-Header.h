@@ -11,3 +11,9 @@
 #import "CNPPopupController.h"
 //轮滑图
 #import "iCarousel.h"
+//高德地图
+#import <AMapFoundationKit/AMapFoundationKit.h>
+#import <AMapLocationKit/AMapLocationKit.h>
+
+//身份证识别
+#import "IDCardViewController.h"

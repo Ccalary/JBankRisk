@@ -100,6 +100,7 @@ class BaseWebViewController: UIViewController, UIWebViewDelegate, NJKWebViewProg
     func webViewDidFinishLoad(_ webView: UIWebView) {
         print("finishLoad")
         progressView?.setProgress(1.0, animated: true)
+        self.webView?.stringByEvaluatingJavaScript(from:"document.body.style.zoom=0.5")
     }
     
     //MARK: - NJKWebViewProgressDelegate
