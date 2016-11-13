@@ -10,6 +10,32 @@ import UIKit
 
 class RepayDetailTableViewCell: UITableViewCell {
 
+    enum ColorTheme {
+        case dark//深色
+        case light//浅色
+    }
+    
+    //cell颜色的区分
+    var textColorTheme: ColorTheme = .dark {
+        didSet{
+            switch textColorTheme {
+            case .dark:
+                self.leftTopTextLabel.textColor = UIColorHex("666666")
+                self.leftBottomTextLabel.textColor = UIColorHex("666666")
+                self.statusTextLabel.textColor = UIColorHex("fdb300")//黄色
+                self.noticeTextLabel.textColor = UIColorHex("fdb300")
+                self.moneyTextLabel.textColor = UIColorHex("666666")
+            case .light:
+                
+                self.leftTopTextLabel.textColor = UIColorHex("c5c5c5")
+                self.leftBottomTextLabel.textColor = UIColorHex("c5c5c5")
+                self.statusTextLabel.textColor = UIColorHex("00b2ff")//蓝色
+                self.noticeTextLabel.textColor = UIColorHex("e9342d")//红色
+                self.moneyTextLabel.textColor = UIColorHex("c5c5c5")
+            }
+        }
+    }
+    
     override init(style: UITableViewCellStyle, reuseIdentifier: String?) {
         super.init(style: style, reuseIdentifier: reuseIdentifier)
         
@@ -24,15 +50,25 @@ class RepayDetailTableViewCell: UITableViewCell {
         self.backgroundColor = UIColor.white
         
         self.addSubview(leftTopTextLabel)
+        self.addSubview(leftTopTextLabel2)
         self.addSubview(leftBottomTextLabel)
         self.addSubview(statusTextLabel)
         self.addSubview(noticeTextLabel)
         self.addSubview(moneyTextLabel)
         self.addSubview(arrowImageView)
         
+        self.addSubview(checkImage)
+        
+        self.addSubview(centerLabel)
+        
         leftTopTextLabel.snp.makeConstraints { (make) in
             make.left.equalTo(15*UIRate)
             make.top.equalTo(7*UIRate)
+        }
+        
+        leftTopTextLabel2.snp.makeConstraints { (make) in
+            make.left.equalTo(leftTopTextLabel.snp.right).offset(10*UIRate)
+            make.centerY.equalTo(leftTopTextLabel)
         }
         
         leftBottomTextLabel.snp.makeConstraints { (make) in
@@ -61,9 +97,31 @@ class RepayDetailTableViewCell: UITableViewCell {
             make.right.equalTo(self.snp.right).offset(-15*UIRate)
             make.centerY.equalTo(self)
         }
+        
+        checkImage.snp.makeConstraints { (make) in
+            make.width.equalTo(24*UIRate)
+            make.height.equalTo(14*UIRate)
+            make.right.equalTo(-15*UIRate)
+            make.centerY.equalTo(self)
+        }
+        
+        centerLabel.snp.makeConstraints { (make) in
+            make.width.equalTo(250*UIRate)
+            make.height.equalTo(self)
+            make.left.equalTo(100*UIRate)
+            make.center.equalTo(self)
+        }
     }
     
     lazy var leftTopTextLabel: UILabel = {
+        let label = UILabel()
+        label.font = UIFontSize(size: 12*UIRate)
+        label.textAlignment = .center
+        label.textColor = UIColorHex("666666")
+        return label
+    }()
+    
+    lazy var leftTopTextLabel2: UILabel = {
         let label = UILabel()
         label.font = UIFontSize(size: 12*UIRate)
         label.textAlignment = .center
@@ -109,5 +167,20 @@ class RepayDetailTableViewCell: UITableViewCell {
         return imageView
     }()
     
-
+    
+    ///还款时间中用
+    lazy var checkImage: UIImageView = {
+        let imageView = UIImageView()
+        imageView.image = UIImage(named: "right_check_24x14")
+        imageView.isHidden = true
+        return imageView
+    }()
+    
+    //还款明细中用
+    lazy var centerLabel: UILabel = {
+        let label = UILabel()
+        label.font = UIFontSize(size: 15*UIRate)
+        label.textColor = UIColorHex("666666")
+        return label
+    }()
 }

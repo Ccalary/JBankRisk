@@ -170,8 +170,8 @@ extension HomeViewController: UITableViewDelegate, UITableViewDataSource,CyclePi
                 self.navigationController?.pushViewController(loginVC, animated: false)
             }
         case 1:
-            let registerVC = DataViewController(roleType: .worker)
-            self.navigationController?.pushViewController(registerVC, animated: true)
+            let repayDetailVC = NeedRepayViewController()
+            self.navigationController?.pushViewController(repayDetailVC, animated: true)
 //
 //            let phoneCallView = PopupAreaView()
 //            let popupController = CNPPopupController(contents: [phoneCallView])!
@@ -181,7 +181,7 @@ extension HomeViewController: UITableViewDelegate, UITableViewDataSource,CyclePi
 //            }
             break
         case 2:
-            let registerVC = SchoolViewController()
+            let registerVC = RepayPeriodDetailVC()
             self.navigationController?.pushViewController(registerVC, animated: true)
             break
         default:

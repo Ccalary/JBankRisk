@@ -42,6 +42,14 @@ func UIColorHex(_ hex: String, _ alpha: CGFloat = 1.0) -> UIColor{
 let defaultBackgroundColor: UIColor = UIColorHex("f3f3f3")
 ///默认分割线的颜色
 let defaultDivideLineColor: UIColor = UIColorHex("e1e1e1")
+/*
+ UIColorHex("fdb300")//黄色
+ UIColorHex("00b2ff")//蓝色
+ UIColorHex("e9342d")//红色
+ UIColorHex("666666")//黑色
+ UIColorHex("c5c5c5")//浅灰色
+ */
+
 
 ///系统常规字体大小
 func UIFontSize(size: CGFloat) -> UIFont{

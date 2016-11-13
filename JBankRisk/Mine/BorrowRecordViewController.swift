@@ -22,38 +22,58 @@ class BorrowRecordViewController: UIViewController,UITableViewDelegate, UITableV
         
     }
     
+    //MARK: -基本UI
     func setupUI(){
+         self.navigationController!.navigationBar.isTranslucent = true;
+         self.automaticallyAdjustsScrollViewInsets = false;
          self.title = "借款记录"
          self.view.backgroundColor = defaultBackgroundColor
         
-        self.view.addSubview(topImageView)
+         self.view.addSubview(aTableView)
+
+         aTableView.snp.makeConstraints { (make) in
+            make.width.equalTo(self.view)
+            make.height.equalTo(SCREEN_HEIGHT - 64)
+            make.centerX.equalTo(self.view)
+            make.top.equalTo(64)
+        }
+        self.initHeader()
+        
+    }
+    
+    //header
+    func initHeader(){
+        let headerHoldView = UIView(frame: CGRect(x: 0, y: 0, width: SCREEN_WIDTH, height: 206*UIRate))
+        headerHoldView.backgroundColor = UIColorHex("000000")
+        
+        self.aTableView.tableHeaderView = headerHoldView
+        
+        headerHoldView.addSubview(topImageView)
         self.topImageView.addSubview(totalTextLabel)
         self.topImageView.addSubview(moneyLabel)
         
-        self.view.addSubview(iconHoldView)
-        self.view.addSubview(iconImageView)
-        self.view.addSubview(recodeTextLabel)
-        self.view.addSubview(divideLine1)
-        
-        self.view.addSubview(aTableView)
-        
+        headerHoldView.addSubview(iconHoldView)
+        self.iconHoldView.addSubview(iconImageView)
+        self.iconHoldView.addSubview(recodeTextLabel)
+        self.iconHoldView.addSubview(divideLine1)
+
         topImageView.snp.makeConstraints { (make) in
             make.width.equalTo(self.view)
             make.height.equalTo(156*UIRate)
             make.centerX.equalTo(self.view)
-            make.top.equalTo(64)
+            make.top.equalTo(0)
         }
         
         totalTextLabel.snp.makeConstraints { (make) in
             make.centerX.equalTo(self.view)
             make.top.equalTo(40*UIRate)
         }
-
+        
         moneyLabel.snp.makeConstraints { (make) in
             make.centerX.equalTo(self.view)
             make.top.equalTo(totalTextLabel.snp.bottom).offset(23*UIRate)
         }
-
+        
         iconHoldView.snp.makeConstraints { (make) in
             make.width.equalTo(self.view)
             make.height.equalTo(50*UIRate)
@@ -63,7 +83,7 @@ class BorrowRecordViewController: UIViewController,UITableViewDelegate, UITableV
         
         recodeTextLabel.snp.makeConstraints { (make) in
             make.left.equalTo(30*UIRate)
-             make.centerY.equalTo(topImageView.snp.bottom).offset(25*UIRate)
+            make.centerY.equalTo(topImageView.snp.bottom).offset(25*UIRate)
         }
         
         iconImageView.snp.makeConstraints { (make) in
@@ -71,21 +91,13 @@ class BorrowRecordViewController: UIViewController,UITableViewDelegate, UITableV
             make.right.equalTo(recodeTextLabel.snp.left)
             make.centerY.equalTo(recodeTextLabel)
         }
-
+        
         divideLine1.snp.makeConstraints { (make) in
             make.width.equalTo(self.view)
             make.height.equalTo(0.5*UIRate)
             make.centerX.equalTo(self.view)
             make.top.equalTo(topImageView.snp.bottom).offset(50*UIRate)
         }
-
-        aTableView.snp.makeConstraints { (make) in
-            make.width.equalTo(self.view)
-            make.height.equalTo(CGFloat(dataArray.count)*45*UIRate)
-            make.centerX.equalTo(self.view)
-            make.top.equalTo(divideLine1.snp.bottom)
-        }
-        
     }
     
     //图片
@@ -152,7 +164,6 @@ class BorrowRecordViewController: UIViewController,UITableViewDelegate, UITableV
         tableView.tableFooterView = UIView()
         tableView.register(BorrowRecordTableViewCell.self, forCellReuseIdentifier: "borrowCellID")
         
-        
         //tableView 单元格分割线的显示
         if tableView.responds(to:#selector(setter: UITableViewCell.separatorInset)) {
             tableView.separatorInset = .zero
@@ -170,7 +181,7 @@ class BorrowRecordViewController: UIViewController,UITableViewDelegate, UITableV
     }
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return dataArray.count
+        return 3
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
@@ -185,12 +196,7 @@ class BorrowRecordViewController: UIViewController,UITableViewDelegate, UITableV
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
         return 45*UIRate
     }
-    
-    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        tableView.deselectRow(at: indexPath, animated: true)
-        
-    }
-    
+
     //设置分割线
     func tableView(_ tableView: UITableView, willDisplay cell: UITableViewCell, forRowAt indexPath: IndexPath) {
         

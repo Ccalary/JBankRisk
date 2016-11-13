@@ -20,17 +20,25 @@ class RepayBillViewController: UIViewController, UITableViewDataSource, UITableV
       
     }
     
+    ///MARK: - 基本UI
     func setupUI(){
         self.title = "还款账单"
+        self.navigationController!.navigationBar.isTranslucent = true;
+        self.automaticallyAdjustsScrollViewInsets = false;
         self.view.backgroundColor = defaultBackgroundColor
         
-        self.view.addSubview(topImageView)
+        self.view.addSubview(aTableView)
+        
+        self.aTableView.tableHeaderView = self.headerHoldView
+        
+        self.headerHoldView.addSubview(topImageView)
+        self.headerHoldView.addSubview(totalBtn)
         self.topImageView.addSubview(totalTextLabel)
         self.topImageView.addSubview(totalMoneyLabel)
         self.topImageView.addSubview(arrowImageView)
         
         /*******/
-        self.view.addSubview(repayHoldView)
+        self.headerHoldView.addSubview(repayHoldView)
         self.repayHoldView.addSubview(reBottomHoldView)
         self.repayHoldView.addSubview(repayDivideLine)
         self.repayHoldView.addSubview(repayDivideLine2)
@@ -45,28 +53,18 @@ class RepayBillViewController: UIViewController, UITableViewDataSource, UITableV
         self.repayHoldView.addSubview(monthBtn)
         self.repayHoldView.addSubview(amountBtn)
         
-        /*******/
-        self.view.addSubview(monthBillView)
-        self.monthBillView.addSubview(monthIconView)
-        self.monthBillView.addSubview(monthBillTextLabel)
-        self.monthBillView.addSubview(recentTimeLabel)
-        self.monthBillView.addSubview(monthBilldivideLine)
-        self.monthBillView.addSubview(aTableView)
-        
-        /*********/
-        self.view.addSubview(totalBillView)
-        self.totalBillView.addSubview(totalTopHoldView)
-        self.totalBillView.addSubview(totalBilldivideLine1)
-        self.totalBillView.addSubview(totalIconView)
-        self.totalBillView.addSubview(totalBillTextLabel)
-        self.totalBillView.addSubview(totalBilldivideLine2)
-        self.totalBillView.addSubview(mTableView)
-        
-        topImageView.snp.makeConstraints { (make) in
+        aTableView.snp.makeConstraints { (make) in
             make.width.equalTo(self.view)
-            make.height.equalTo(156*UIRate)
+            make.height.equalTo(SCREEN_HEIGHT - 64)
             make.centerX.equalTo(self.view)
             make.top.equalTo(64)
+        }
+        
+        topImageView.snp.makeConstraints { (make) in
+            make.width.equalTo(SCREEN_WIDTH)
+            make.height.equalTo(156*UIRate)
+            make.centerX.equalTo(self.view)
+            make.top.equalTo(0)
         }
         
         totalTextLabel.snp.makeConstraints { (make) in
@@ -84,6 +82,11 @@ class RepayBillViewController: UIViewController, UITableViewDataSource, UITableV
             make.height.equalTo(12*UIRate)
             make.right.equalTo(-75*UIRate)
             make.centerY.equalTo(topImageView)
+        }
+        
+        totalBtn.snp.makeConstraints { (make) in
+            make.size.equalTo(topImageView)
+            make.center.equalTo(topImageView)
         }
         
         /*****************/
@@ -168,99 +171,26 @@ class RepayBillViewController: UIViewController, UITableViewDataSource, UITableV
             make.bottom.equalTo(repayHoldView)
         }
 
-        /*********************/
-        monthBillView.snp.makeConstraints { (make) in
-            make.width.equalTo(self.view)
-            make.height.equalTo(50*UIRate)
-            make.centerX.equalTo(self.view)
-            make.top.equalTo(repayHoldView.snp.bottom)
-        }
-
-        monthIconView.snp.makeConstraints { (make) in
-            make.width.height.equalTo(20*UIRate)
-            make.left.equalTo(8*UIRate)
-            make.centerY.equalTo(monthBillView)
-        }
-        
-        monthBillTextLabel.snp.makeConstraints { (make) in
-            make.left.equalTo(30*UIRate)
-            make.centerY.equalTo(monthBillView)
-        }
-
-        recentTimeLabel.snp.makeConstraints { (make) in
-            make.right.equalTo(-15*UIRate)
-            make.centerY.equalTo(monthBillView)
-        }
-        
-        monthBilldivideLine.snp.makeConstraints { (make) in
-            make.width.equalTo(self.view)
-            make.height.equalTo(0.5*UIRate)
-            make.centerX.equalTo(self.view)
-            make.bottom.equalTo(monthBillView)
-        }
-        
-        aTableView.snp.makeConstraints { (make) in
-            make.width.equalTo(self.view)
-            make.height.equalTo(90*UIRate)
-            make.centerX.equalTo(self.view)
-            make.top.equalTo(monthBillView.snp.bottom)
-        }
-
-        /**************/
-        
-        totalBillView.snp.makeConstraints { (make) in
-            make.width.equalTo(self.view)
-            make.height.equalTo(60*UIRate)
-            make.centerX.equalTo(self.view)
-            make.top.equalTo(aTableView.snp.bottom)
-        }
-
-        totalTopHoldView.snp.makeConstraints { (make) in
-            make.width.equalTo(self.view)
-            make.height.equalTo(10*UIRate)
-            make.centerX.equalTo(self.view)
-            make.top.equalTo(totalBillView)
-        }
-        
-        totalBilldivideLine1.snp.makeConstraints { (make) in
-            make.width.equalTo(self.view)
-            make.height.equalTo(0.5*UIRate)
-            make.centerX.equalTo(self.view)
-            make.bottom.equalTo(totalTopHoldView)
-        }
-        
-        totalIconView.snp.makeConstraints { (make) in
-            make.width.height.equalTo(20*UIRate)
-            make.left.equalTo(8*UIRate)
-            make.centerY.equalTo(totalBillView).offset(5*UIRate)
-        }
-        totalBillTextLabel.snp.makeConstraints { (make) in
-            make.left.equalTo(30*UIRate)
-            make.centerY.equalTo(totalIconView)
-        }
-
-        totalBilldivideLine2.snp.makeConstraints { (make) in
-            make.width.equalTo(self.view)
-            make.height.equalTo(0.5*UIRate)
-            make.centerX.equalTo(self.view)
-            make.bottom.equalTo(totalBillView)
-        }
-
-        mTableView.snp.makeConstraints { (make) in
-            make.width.equalTo(self.view)
-            make.height.equalTo(45*UIRate)
-            make.centerX.equalTo(self.view)
-            make.top.equalTo(totalBillView.snp.bottom)
-        }
-
-
     }
+    
+    private lazy var headerHoldView: UIView = {
+        let holdView = UIView(frame: CGRect(x: 0, y: 0, width: SCREEN_WIDTH, height: 226*UIRate))
+        holdView.backgroundColor = UIColor.black
+        return holdView
+    }()
 
     //图片
     private lazy var topImageView: UIImageView = {
         let imageView = UIImageView()
         imageView.image = UIImage(named: "m_banner_image2_375x156")
         return imageView
+    }()
+    
+    //／按钮
+    private lazy var totalBtn: UIButton = {
+        let button = UIButton()
+        button.addTarget(self, action: #selector(totalBtnAction), for: .touchUpInside)
+        return button
     }()
     
     private lazy var totalTextLabel: UILabel = {
@@ -387,12 +317,6 @@ class RepayBillViewController: UIViewController, UITableViewDataSource, UITableV
     
     /************/
     
-    private lazy var monthBillView: UIView = {
-        let holdView = UIView()
-        holdView.backgroundColor = UIColor.white
-        return holdView
-    }()
-
     //图片
     private lazy var monthIconView: UIImageView = {
         let imageView = UIImageView()
@@ -430,7 +354,6 @@ class RepayBillViewController: UIViewController, UITableViewDataSource, UITableV
         let tableView = UITableView()
         tableView.delegate = self
         tableView.dataSource = self
-        tableView.tag = 10000
         tableView.tableFooterView = UIView()
         tableView.register(BorrowRecordTableViewCell.self, forCellReuseIdentifier: "borrowCellID")
 
@@ -447,12 +370,6 @@ class RepayBillViewController: UIViewController, UITableViewDataSource, UITableV
     }()
     
     /******************/
-    
-    private lazy var totalBillView: UIView = {
-        let holdView = UIView()
-        holdView.backgroundColor = UIColor.white
-        return holdView
-    }()
     
     private lazy var totalTopHoldView: UIView = {
         let holdView = UIView()
@@ -490,35 +407,20 @@ class RepayBillViewController: UIViewController, UITableViewDataSource, UITableV
         return lineView
     }()
     
-    private lazy var mTableView: UITableView = {
-        
-        let tableView = UITableView()
-        tableView.delegate = self
-        tableView.dataSource = self
-        tableView.tag = 10001
-        tableView.tableFooterView = UIView()
-        tableView.register(BorrowRecordTableViewCell.self, forCellReuseIdentifier: "borrowCellID")
-        
-        //tableView 单元格分割线的显示
-        if tableView.responds(to:#selector(setter: UITableViewCell.separatorInset)) {
-            tableView.separatorInset = .zero
-        }
-        
-        if tableView.responds(to: #selector(setter: UITableViewCell.layoutMargins)) {
-            tableView.layoutMargins = .zero
-        }
-        return tableView
-        
+    //分割线
+    private lazy var totalBilldivideLine3: UIView = {
+        let lineView = UIView()
+        lineView.backgroundColor = defaultDivideLineColor
+        return lineView
     }()
-
     
     //MARK: - UITableView Delegate&&DataSource
     func numberOfSections(in tableView: UITableView) -> Int {
-        return 1
+        return 2
     }
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        if tableView.tag == 10000 {
+        if section == 0{
             return 2
         }else {
             return 1
@@ -526,24 +428,22 @@ class RepayBillViewController: UIViewController, UITableViewDataSource, UITableV
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
+        let cell = tableView.dequeueReusableCell(withIdentifier: "borrowCellID") as! BorrowRecordTableViewCell
         
-        if tableView.tag == 10000 {
-            let cell = tableView.dequeueReusableCell(withIdentifier: "borrowCellID") as! BorrowRecordTableViewCell
-            //去除选择效果
-            cell.selectionStyle = .none
+         if indexPath.section == 0 {
             cell.leftTextLabel.text = "瘦脸"
             cell.rightSecondTextLabel.text = "第一期"
             cell.rightTextLabel.text = "未还清"
-            return cell
+           
         }else {
-            let cell = tableView.dequeueReusableCell(withIdentifier: "borrowCellID") as! BorrowRecordTableViewCell
-            //去除选择效果
+        
             cell.selectionStyle = .none
-            cell.leftTextLabel.text = "瘦脸"
+            cell.leftTextLabel.text = "瘦脸+隆鼻"
             cell.rightSecondTextLabel.text = "第二期"
             cell.rightTextLabel.text = "还款中"
-            return cell
+           
         }
+         return cell
         
     }
     
@@ -552,8 +452,108 @@ class RepayBillViewController: UIViewController, UITableViewDataSource, UITableV
     }
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        tableView.deselectRow(at: indexPath, animated: true)
         
+        let repayDetailVC = RepayDetailViewController()
+        self.navigationController?.pushViewController(repayDetailVC, animated: true)
+    }
+    
+    //Header
+    func tableView(_ tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
         
+        if section == 0 {
+           let headerView = UIView(frame: CGRect(x: 0, y: 0, width: SCREEN_WIDTH, height: 50*UIRate))
+            headerView.backgroundColor = UIColor.white
+            
+            headerView.addSubview(monthIconView)
+            headerView.addSubview(monthBillTextLabel)
+            headerView.addSubview(recentTimeLabel)
+            headerView.addSubview(monthBilldivideLine)
+            
+            monthIconView.snp.makeConstraints { (make) in
+                make.width.height.equalTo(20*UIRate)
+                make.left.equalTo(8*UIRate)
+                make.centerY.equalTo(headerView)
+            }
+            
+            monthBillTextLabel.snp.makeConstraints { (make) in
+                make.left.equalTo(30*UIRate)
+                make.centerY.equalTo(headerView)
+            }
+            
+            recentTimeLabel.snp.makeConstraints { (make) in
+                make.right.equalTo(-15*UIRate)
+                make.centerY.equalTo(headerView)
+            }
+            
+            monthBilldivideLine.snp.makeConstraints { (make) in
+                make.width.equalTo(headerView)
+                make.height.equalTo(0.5*UIRate)
+                make.centerX.equalTo(headerView)
+                make.bottom.equalTo(headerView)
+            }
+
+            return headerView
+         
+        }else {
+            let headerView = UIView(frame: CGRect(x: 0, y: 0, width: SCREEN_WIDTH, height: 60*UIRate))
+            headerView.backgroundColor = UIColor.white
+            
+            headerView.addSubview(totalTopHoldView)
+            headerView.addSubview(totalBilldivideLine1)
+            headerView.addSubview(totalBilldivideLine2)
+            headerView.addSubview(totalIconView)
+            headerView.addSubview(totalBillTextLabel)
+            headerView.addSubview(totalBilldivideLine3)
+            
+            totalTopHoldView.snp.makeConstraints { (make) in
+                make.width.equalTo(headerView)
+                make.height.equalTo(10*UIRate)
+                make.centerX.equalTo(headerView)
+                make.top.equalTo(headerView)
+            }
+            
+            totalBilldivideLine1.snp.makeConstraints { (make) in
+                make.width.equalTo(headerView)
+                make.height.equalTo(0.5*UIRate)
+                make.centerX.equalTo(headerView)
+                make.bottom.equalTo(totalTopHoldView)
+            }
+            
+            totalBilldivideLine2.snp.makeConstraints { (make) in
+                make.width.equalTo(headerView)
+                make.height.equalTo(0.5*UIRate)
+                make.centerX.equalTo(headerView)
+                make.top.equalTo(totalTopHoldView)
+            }
+            
+            totalIconView.snp.makeConstraints { (make) in
+                make.width.height.equalTo(20*UIRate)
+                make.left.equalTo(8*UIRate)
+                make.centerY.equalTo(headerView).offset(5*UIRate)
+            }
+            totalBillTextLabel.snp.makeConstraints { (make) in
+                make.left.equalTo(30*UIRate)
+                make.centerY.equalTo(totalIconView)
+            }
+            
+            totalBilldivideLine3.snp.makeConstraints { (make) in
+                make.width.equalTo(headerView)
+                make.height.equalTo(0.5*UIRate)
+                make.centerX.equalTo(headerView)
+                make.bottom.equalTo(headerView)
+            }
+
+            return headerView
+        }
+    }
+    
+    func tableView(_ tableView: UITableView, heightForHeaderInSection section: Int) -> CGFloat {
+        if section == 0{
+             return 50*UIRate
+        }else {
+             return 60*UIRate
+        }
     }
     
     //设置分割线
@@ -570,9 +570,16 @@ class RepayBillViewController: UIViewController, UITableViewDataSource, UITableV
 
 extension RepayBillViewController {
     
+    //应还总额
+    func totalBtnAction(){
+        let needRepayVC = NeedRepayViewController()
+        self.navigationController?.pushViewController(needRepayVC, animated: true)
+    }
+    
     //本月待还
     func monthBtnAction(){
-        
+        let needRepayVC = NeedRepayViewController()
+        self.navigationController?.pushViewController(needRepayVC, animated: true)
     }
     
     //累计还款
