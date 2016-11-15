@@ -46,13 +46,15 @@ extension NetworkRequest {
         
     }
     //MARK: - POST 请求
-    func postRequest(urlString : String, params : [String : AnyObject], success : @escaping (_ response : [String : AnyObject])->(), failture : @escaping (_ error : Error)->()) {
+    func postRequest(urlString : String, params : [String : Any], success : @escaping (_ response : [String : AnyObject])->(), failture : @escaping (_ error : Error)->()) {
         
         Alamofire.request(urlString, method: HTTPMethod.post, parameters: params).responseJSON { (response) in
             switch response.result{
             case .success:
                 if let value = response.result.value as? [String: AnyObject] {
                     success(value)
+                    let json = JSON(value)
+                    PrintLog(json)
                 }
             case .failure(let error):
                 failture(error)

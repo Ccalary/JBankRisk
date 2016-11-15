@@ -8,6 +8,7 @@
 
 import UIKit
 import ContactsUI
+import SwiftyJSON
 
 class ContactViewController: UIViewController, UITableViewDelegate, UITableViewDataSource,CNContactPickerDelegate {
     
@@ -30,6 +31,10 @@ class ContactViewController: UIViewController, UITableViewDelegate, UITableViewD
     var areaInfo:(pro:String, city:String, county:String) = ("","","")
     var areaRow:(proRow:Int, cityRow:Int, countyRow:Int) = (-1,-1,-1)
     
+    //详细地址
+    var areaDetail = ""
+    //月供
+    var monthRent = ""
     ///住房情况
     var houseInfo:(row: Int, text: String) = (0,"")
     ///居住时间
@@ -148,8 +153,7 @@ class ContactViewController: UIViewController, UITableViewDelegate, UITableViewD
     //／按钮
     private lazy var nextStepBtn: UIButton = {
         let button = UIButton()
-        button.setBackgroundImage(UIImage(named: "btn_grayred_254x44"), for: .normal)
-        //        button.isUserInteractionEnabled = false
+        button.setBackgroundImage(UIImage(named: "btn_red_254x44"), for: .normal)
         button.setTitle("下一步", for: UIControlState.normal)
         button.titleLabel?.font = UIFontBoldSize(size: 18*UIRate)
         button.addTarget(self, action: #selector(nextStepBtnAction), for: .touchUpInside)
@@ -186,13 +190,19 @@ class ContactViewController: UIViewController, UITableViewDelegate, UITableViewD
         case 0://地区
             cell.centerTextField.text = self.areaInfo.pro + self.areaInfo.city + self.areaInfo.county
             cell.centerTextField.isEnabled = false
+        case 1://详细地址
+            cell.centerTextField.text = self.areaDetail
+            cell.centerTextField.tag = 10000
+            cell.centerTextField.addTarget(self, action: #selector(textFieldAction(_:)), for: UIControlEvents.editingChanged)
+            cell.centerTextField.isEnabled = true
         case 2://住房情况
             cell.centerTextField.text = self.houseInfo.text
             cell.centerTextField.isEnabled = false
         case self.ContactCellData.count - 9://（若有）月供
             cell.centerTextField.keyboardType = .numberPad
-            cell.centerTextField.tag = 10000
+            cell.centerTextField.tag = 10001
             cell.centerTextField.addTarget(self, action: #selector(textFieldAction(_:)), for: UIControlEvents.editingChanged)
+            cell.centerTextField.isEnabled = true
         case self.ContactCellData.count - 8://居住时间
             cell.centerTextField.isEnabled = false
             cell.centerTextField.text = self.liveTimeInfo.text
@@ -202,12 +212,25 @@ class ContactViewController: UIViewController, UITableViewDelegate, UITableViewD
         case self.ContactCellData.count - 6: //亲属姓名
             cell.centerTextField.isEnabled = true
             cell.centerTextField.text = self.relativeContactInfo.name
+            cell.centerTextField.tag = 10002
+            cell.centerTextField.addTarget(self, action: #selector(textFieldAction(_:)), for: UIControlEvents.editingChanged)
         case self.ContactCellData.count - 5: //亲属电话
+            cell.centerTextField.isEnabled = true
             cell.centerTextField.text = self.relativeContactInfo.number
+            cell.centerTextField.keyboardType = .numberPad
+            cell.centerTextField.tag = 10003
+            cell.centerTextField.addTarget(self, action: #selector(textFieldAction(_:)), for: UIControlEvents.editingChanged)
         case self.ContactCellData.count - 2: //紧急联系人姓名
+            cell.centerTextField.isEnabled = true
             cell.centerTextField.text = self.urgentContactInfo.name
+            cell.centerTextField.tag = 10004
+            cell.centerTextField.addTarget(self, action: #selector(textFieldAction(_:)), for: UIControlEvents.editingChanged)
         case self.ContactCellData.count - 1: //紧急联系人电话
+            cell.centerTextField.isEnabled = true
             cell.centerTextField.text = self.urgentContactInfo.number
+            cell.centerTextField.keyboardType = .numberPad
+            cell.centerTextField.tag = 10005
+            cell.centerTextField.addTarget(self, action: #selector(textFieldAction(_:)), for: UIControlEvents.editingChanged)
         default:
             break
         }
@@ -355,16 +378,77 @@ class ContactViewController: UIViewController, UITableViewDelegate, UITableViewD
     //MARK: - Action
 
     func textFieldAction(_ textField: UITextField){
-        
+        // 10000-详细地址 10001-月供 10002-亲属名 10003-电话 10004-紧急名 10005-电话
+        if textField.tag == 10000{
+            self.areaDetail = textField.text!
+        }else if textField.tag == 10001{
+            self.monthRent = textField.text!
+        }else if textField.tag == 10002{
+            self.relativeContactInfo.name = textField.text!
+        }else if textField.tag == 10003{
+            self.relativeContactInfo.number = textField.text!
+        }else if textField.tag == 10004{
+            self.urgentContactInfo.name = textField.text!
+        }else if textField.tag == 10005{
+            self.urgentContactInfo.number = textField.text!
+        }
     }
-    
     
     func lastStepBtnAction(){
         
     }
     
+    //下一步
     func nextStepBtnAction(){
         
+        guard self.self.areaInfo.county.characters.count > 0,
+            self.areaDetail.characters.count > 0,
+            self.houseInfo.text.characters.count > 0,
+            self.liveTimeInfo.text.characters.count > 0,
+            self.relativeInfo.text.characters.count > 0,
+            self.relativeContactInfo.name.characters.count > 0,
+            self.relativeContactInfo.number.characters.count > 0,
+            self.urgentContactInfo.name.characters.count > 0,
+            self.urgentContactInfo.number.characters.count > 0
+            else {
+                self.showHint(in: self.view, hint: "请完善信息再上传!")
+                return
+        }
+        
+        //添加HUD
+        self.showHud(in: self.view, hint: "上传中...")
+        var params = NetConnect.getBaseRequestParams()
+        params["companyType"] = "11" //固定
+        params["role_auth"] = 999 //固定
+        params["province"] = self.areaInfo.pro.replacingOccurrences(of: " ", with: "") //省(去除空格)
+        params["county"] = self.areaInfo.city.replacingOccurrences(of: " ", with: "") //市(去除空格)
+        params["area"] = self.areaInfo.county//县
+        params["address"] = self.areaDetail //详细地址
+        params["isHouse"] = self.houseInfo.row + 1 //住房情况
+        params["residenceTime"] = self.liveTimeInfo.text //居住时间
+        params["contactsType1"] = "1"//固定
+        params["contactsType2"] = "2"
+        params["relation1"] = self.relativeInfo.row + 1//亲属关系
+        params["name1"] = self.relativeContactInfo.name //直系姓名
+        params["mobile1"] = self.relativeContactInfo.number //直系电话
+        params["relation2"] = "4"//紧急联系人关系
+        params["name2"] = self.urgentContactInfo.name
+        params["mobile2"] = self.urgentContactInfo.number
+        
+        NetConnect.bm_upload_contact_info(parameters: params, success:
+            { response in
+                //隐藏HUD
+                self.hideHud()
+                let json = JSON(response)
+                guard json["RET_CODE"] == "000000" else{
+                    return self.showHint(in: self.view, hint: json["RET_DESC"].stringValue)
+                }
+                
+        }, failure: {error in
+            //隐藏HUD
+            self.hideHud()
+        })
+
     }
     
 }

@@ -19,8 +19,8 @@ class CyclePictureView: UIView, UIScrollViewDelegate{
     var scrollView: UIScrollView!
     var pageControl: UIPageControl!
     var curPage: Int = 0
-    var curImageArray: NSMutableArray? //当前图片
-    var imageArray: NSMutableArray?    //总的图片
+    var curImageArray = [String]() //当前图片
+    var imageArray = [String]()    //总的图片
     
     var viewWidth: CGFloat?            //view的宽度、高度
     var viewHeight: CGFloat?
@@ -35,14 +35,12 @@ class CyclePictureView: UIView, UIScrollViewDelegate{
     var isDragging: Bool = false
     
     ///初始化传入frame与图片array即可
-    init(frame: CGRect, imageArray: NSMutableArray) {
+    init(frame: CGRect, imageArray: Array<String>) {
         super.init(frame: frame)
         
         viewWidth = self.frame.size.width
         viewHeight = self.frame.size.height
         
-        self.curImageArray = NSMutableArray()
-        self.imageArray = NSMutableArray()
         self.imageArray = imageArray
         
         scrollView = UIScrollView(frame: frame)
@@ -86,21 +84,21 @@ class CyclePictureView: UIView, UIScrollViewDelegate{
         var last = curPage + 1
         
         if curPage == 0 {
-            front = (self.imageArray?.count)! - 1
+            front = (self.imageArray.count) - 1
         }
         
-        if curPage == (self.imageArray?.count)! - 1 {
+        if curPage == (self.imageArray.count) - 1 {
             last = 0
         }
         
-        if (curImageArray?.count)! > 0 {
-            curImageArray?.removeAllObjects()
+        if (curImageArray.count) > 0 {
+            curImageArray.removeAll()
         }
         
         //当前图片数组添加图片
-        curImageArray?.add(self.imageArray![front])
-        curImageArray?.add(self.imageArray![curPage])
-        curImageArray?.add(self.imageArray![last])
+        curImageArray.append(self.imageArray[front])
+        curImageArray.append(self.imageArray[curPage])
+        curImageArray.append(self.imageArray[last])
         
         let subViews = self.scrollView.subviews
         if subViews.count > 0{
@@ -114,7 +112,7 @@ class CyclePictureView: UIView, UIScrollViewDelegate{
             let adImageView = UIImageView(frame: CGRect(x: CGFloat(i) * viewWidth!, y: 0, width: viewWidth!, height: viewHeight!))
             //一定要设置允许交互，要不然点击方法不响应
             adImageView.isUserInteractionEnabled = true
-            let imageURL = URL(string: self.curImageArray![i] as! String)
+            let imageURL = URL(string: self.curImageArray[i] )
             adImageView.kf_setImage(with: imageURL as Resource?, placeholder: UIImage(named: "home_defaul_banner_375x220"), options: [], progressBlock: { (receivedSize, totalSize) in
                 
                 //                let progress = Double(receivedSize)/Double(totalSize)
@@ -143,7 +141,7 @@ class CyclePictureView: UIView, UIScrollViewDelegate{
             
             curPage += 1
             
-            if curPage == self.imageArray?.count {
+            if curPage == self.imageArray.count {
                 curPage = 0
             }
             reloadImageData()
@@ -152,7 +150,7 @@ class CyclePictureView: UIView, UIScrollViewDelegate{
             curPage -= 1
             
             if curPage == -1 {
-                curPage = (self.imageArray?.count)! - 1
+                curPage = (self.imageArray.count) - 1
             }
             reloadImageData()
         }

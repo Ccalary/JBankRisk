@@ -14,21 +14,29 @@ class ProductViewController: UIViewController,UITableViewDelegate, UITableViewDa
      var ProductCellData:[CellDataInfo] = [ CellDataInfo(leftText: "所属商户", holdText: "商户名称", content: "", cellType: .defaultType),
         CellDataInfo(leftText: "产品名称", holdText: "请输入产品名称", content: "", cellType: .clearType),
         CellDataInfo(leftText: "", holdText: "", content: "", cellType: .defaultType),
-        CellDataInfo(leftText: "借款金额", holdText: "可借区间2，000-3，0000", content: "", cellType: .textType),
+        CellDataInfo(leftText: "借款金额", holdText: "可借区间2,000-3,0000", content: "", cellType: .textType),
         CellDataInfo(leftText: "申请期限", holdText: "", content: "", cellType: .arrowType),
         CellDataInfo(leftText: "月还款额", holdText: "", content: "", cellType: .textType),
         CellDataInfo(leftText: "", holdText: "", content: "", cellType: .defaultType),
         CellDataInfo(leftText: "业务员", holdText: "请输入业务员工号", content: "", cellType: .clearType)
     ]
     
+    //商户名称
+    var saleName = "jinjinsuo"
+    //产品名称
+    var proName = ""
     //选择的期限
     var selectPeriodInfo:(cell:Int, text:String) = (0,"")
     //借款金额
     var borrowMoney:String = ""
     //月还款
     var repayment: String = ""
+    //业务员
+    var workerName = ""
     
     var locationManager: AMapLocationManager!//定位管理
+    var longitude: Double = 0 //经度
+    var latitude: Double = 0 //纬度
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -100,7 +108,7 @@ class ProductViewController: UIViewController,UITableViewDelegate, UITableViewDa
         return scrollView
     }()
     
-    private lazy var aTableView: UITableView = {
+    lazy var aTableView: UITableView = {
         
         let tableView = UITableView()
         tableView.delegate = self
@@ -131,8 +139,7 @@ class ProductViewController: UIViewController,UITableViewDelegate, UITableViewDa
     //／按钮
     private lazy var nextStepBtn: UIButton = {
         let button = UIButton()
-        button.setBackgroundImage(UIImage(named: "btn_grayred_254x44"), for: .normal)
-        button.isUserInteractionEnabled = false
+        button.setBackgroundImage(UIImage(named: "btn_red_254x44"), for: .normal)
         button.setTitle("下一步", for: UIControlState.normal)
         button.titleLabel?.font = UIFontBoldSize(size: 18*UIRate)
         button.addTarget(self, action: #selector(nextStepBtnAction), for: .touchUpInside)
@@ -166,6 +173,11 @@ class ProductViewController: UIViewController,UITableViewDelegate, UITableViewDa
         cell.backgroundColor = UIColor.white
         
         switch indexPath.row {
+        case 0://商户名称
+            cell.centerTextField.text = self.saleName
+        case 1:
+            cell.centerTextField.tag = 20000
+            cell.centerTextField.addTarget(self, action: #selector(textFieldAction(_:)), for: UIControlEvents.editingChanged)
         case 3://借款金额
             cell.centerTextField.keyboardType = .numberPad
             cell.centerTextField.tag = 10000
@@ -239,6 +251,7 @@ class ProductViewController: UIViewController,UITableViewDelegate, UITableViewDa
                         self.aTableView.reloadRows(at: [position1,position2], with: UITableViewRowAnimation.none)
                         
                         popupController.dismiss(animated: true)
+                
                     }
                     phoneCallView.onClickCancle = { _ in
                         popupController.dismiss(animated: true)
@@ -277,11 +290,14 @@ class ProductViewController: UIViewController,UITableViewDelegate, UITableViewDa
     
     //获取位置
     func getAddress(){
+         self.showHud(in: self.view, hint: "加载中...")
         locationManager.requestLocation(withReGeocode: true, completionBlock: { (location, code, error) in
             
             if (error != nil){
+                //隐藏HUD
+                self.hideHud()
                 let alertController = UIAlertController(title: "获取商户名称失败",
-                                                        message: "请在“设置－中诚消费－位置”中允许本App访问您的位置，", preferredStyle: .alert)
+                                                        message: "请检查是否在“设置－中诚消费－位置”中未允许本App访问您的位置", preferredStyle: .alert)
                 
                 let okAction = UIAlertAction(title: "好的", style: .default, handler: { action in
                     self.dismiss(animated: true, completion: nil)
@@ -290,16 +306,16 @@ class ProductViewController: UIViewController,UITableViewDelegate, UITableViewDa
                 self.present(alertController, animated: true, completion: nil)
                 return
             }
-            
-            PrintLog("经度：\(location?.coordinate.longitude),纬度：\(location?.coordinate.latitude)")
+            self.longitude =  (location?.coordinate.longitude)!
+            self.latitude = (location?.coordinate.latitude)!
+            self.requestSaleAddress()
         })
-
     }
     
     //MARK: - Action
     
     func textFieldAction(_ textField: UITextField){
-        //tag: 10000- 借款金额 10001-业务员编号
+        //tag: 10000- 借款金额 10001-业务员编号  20000- 产品名称
         if textField.tag == 10000 {
             //限制输入的长度，最长为9位
             if (textField.text?.characters.count)! > 9{
@@ -307,21 +323,100 @@ class ProductViewController: UIViewController,UITableViewDelegate, UITableViewDa
                 textField.text = textField.text?.substring(to: index!)
             }
             self.borrowMoney = textField.text!
+            //如果清空，则申请期限清空
+            if self.borrowMoney == "" {
+                self.selectPeriodInfo = (0,"")
+                self.repayment = ""
+                let position1 = IndexPath(row: 5, section: 0)
+                let position2 = IndexPath(row: 4, section: 0)
+                self.aTableView.reloadRows(at: [position1,position2], with: UITableViewRowAnimation.none)
+            }
         }else if textField.tag == 10001 {
             //限制输入的长度，最长为8位
             if (textField.text?.characters.count)! > 8{
                 let index = textField.text?.index((textField.text?.startIndex)!, offsetBy: 9)//到offsetBy的前一位
                 textField.text = textField.text?.substring(to: index!)
             }
+            self.workerName = textField.text!
+        }else if textField.tag == 20000 {
+            self.proName = textField.text!
         }
     }
     
+    //上一步
     func lastStepBtnAction(){
         
     }
-    
+    //下一步
     func nextStepBtnAction(){
+        //判断是否可以上传
+        guard self.proName.characters.count > 0,
+            self.borrowMoney.characters.count > 0,
+            self.selectPeriodInfo.text.characters.count > 0,
+            self.workerName.characters.count > 0
+            else {
+                self.showHint(in: self.view, hint: "请完善信息再上传!")
+                
+                return
+        }
         
-    }
-    
+        //添加HUD
+        self.showHud(in: self.view, hint: "上传中...")
+        //期数
+        let index = self.selectPeriodInfo.text.index(self.selectPeriodInfo.text.endIndex, offsetBy: -1)
+        let totalStr = self.selectPeriodInfo.text.substring(to: index)
+        let total = Int(totalStr)
+        
+        var params = NetConnect.getBaseRequestParams()
+        params["saleName"] = self.saleName
+        params["orderName"] = self.proName
+        params["amt"] = self.borrowMoney
+        params["employeeId"] = self.workerName
+        params["total"] = total
+        
+        NetConnect.bm_upload_product_info(parameters: params, success:
+            { response in
+                
+                //隐藏HUD
+                self.hideHud()
+                let json = JSON(response)
+                guard json["RET_CODE"] == "000000" else{
+                    return self.showHint(in: self.view, hint: json["RET_DESC"].stringValue)
+                }
+        }, failure: {error in
+            //隐藏HUD
+            self.hideHud()
+        })
    }
+}
+
+//MARK: - 数据请求
+extension ProductViewController {
+    //获取商户地址
+    func requestSaleAddress(){
+        
+        var params = NetConnect.getBaseRequestParams()
+        params["accuracy"] = self.longitude
+        params["dimension"] = self.latitude
+        
+        NetConnect.bm_get_sale_address(parameters: params, success:
+            { response in
+    
+                //隐藏HUD
+                self.hideHud()
+                let json = JSON(response)
+                guard json["RET_CODE"] == "000000" else{
+                    return self.showHint(in: self.view, hint: json["RET_DESC"].stringValue)
+                }
+                self.saleName = json["saleName"].stringValue
+                //刷新tableView
+                let position1 = IndexPath(row: 0, section: 0)
+                self.aTableView.reloadRows(at: [position1], with: UITableViewRowAnimation.none)
+                
+        }, failure: {error in
+            //隐藏HUD
+            self.hideHud()
+        })
+    }
+}
+

@@ -8,28 +8,34 @@
 
 import UIKit
 import SnapKit
+import SwiftyJSON
+import Alamofire
 
 let homeCellID = "HomeTableViewCell"
 
 class HomeViewController: UIViewController, UIGestureRecognizerDelegate{
     
-    var bannerView: CyclePictureView! //图片轮播
-    var imageArray: NSMutableArray? //储存所有照片
-    var urlArray: NSMutableArray? //存储地址
+    let manager = NetworkReachabilityManager(host: "www.baidu.com")
     
+    var bannerView: CyclePictureView! //图片轮播
+    var imageArray:[String]? = [""] //储存所有照片
+
+    var responseDic = [String:Any]()
+    //cell数据
+    var cellDataArray: [Dictionary<String,String>] = [["":""],["":""],["":""]]
+
     
     override func viewDidLoad() {
         super.viewDidLoad()
         self.navigationController!.navigationBar.isTranslucent = true;
         self.automaticallyAdjustsScrollViewInsets = false;
-        
         //启动滑动返回（swipe back）
         self.navigationController?.interactivePopGestureRecognizer?.delegate = self
+        //监听网络
+        self.listeningNetStatus()
         
-        //初始化图片数据
-        imageArray = NSMutableArray()
-        urlArray = NSMutableArray()
-
+        self.requestHomeData()
+        
         setup()
         initBannerImage()
     }
@@ -61,12 +67,12 @@ class HomeViewController: UIViewController, UIGestureRecognizerDelegate{
             mark.width.equalTo(self.view)
             mark.height.equalTo(SCREEN_HEIGHT - 49)
             mark.top.equalTo(0)
-            
-            self.aTableView.addPullRefreshHandler({ _ in
-                self.aTableView.reloadData()
-                self.aTableView.stopPullRefreshEver()
-            })
         }
+        
+        self.aTableView.addPullRefreshHandler({ _ in
+            self.requestHomeData()
+             self.aTableView.stopPullRefreshEver()
+        })
     }
     
    private lazy var aTableView: UITableView = {
@@ -89,19 +95,43 @@ class HomeViewController: UIViewController, UIGestureRecognizerDelegate{
     //MARK: - 初始化banner轮播图
     func initBannerImage(){
         
-        //添加数据
-        let array = [    ["image":"http://pic.zsucai.com/files/2013/0814/xychh1.jpg","url":"http://192.168.1.246:8080/jinangk.xhtml?TX_CODE=666666"],["image":"http://dfzy.ggjy.net/ziran/UploadSoftPic/200705/20070511100822129.jpg","url":"https://www.baidu.com"]]
-        
-        for item in array {
-            imageArray?.add(item["image"]!)
-            urlArray?.add(item["url"]!)
-        }
-        
         //图片轮播
         bannerView = CyclePictureView(frame: CGRect(x: 0, y: 0, width: SCREEN_WIDTH, height: 220*UIRate), imageArray:imageArray!)
-        bannerView.delegate = self
+//        bannerView.delegate = self
         self.aTableView.tableHeaderView = bannerView
     }
+    
+    
+    func requestHomeData(){
+        //添加HUD
+        self.showHud(in: self.view)
+        var params = NetConnect.getBaseRequestParams()
+        params["userId"] = UserHelper.getUserId() ?? ""
+        NetConnect.bm_home_url(parameters: params, success:
+            { response in
+                //隐藏HUD
+                self.hideHud()
+                let json = JSON(response)
+                guard json["RET_CODE"] == "000000" else{
+                    return self.showHint(in: self.view, hint: json["RET_DESC"].stringValue)
+                }
+                
+                self.responseDic = json.dictionaryValue
+                self.imageArray = json["bannnerList"].arrayObject as! [String]?
+                self.cellDataArray = json["list"].arrayObject as! [Dictionary<String, String>]
+                self.showData()
+                
+        }, failure: {error in
+            //隐藏HUD
+            self.hideHud()
+        })
+    }
+    
+    func showData(){
+        self.initBannerImage()
+        self.aTableView.reloadData()
+    }
+
 }
 
 extension HomeViewController: UITableViewDelegate, UITableViewDataSource,CyclePictureViewDelegate{
@@ -116,28 +146,22 @@ extension HomeViewController: UITableViewDelegate, UITableViewDataSource,CyclePi
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: homeCellID) as! HomeTableViewCell
-        //去除选择效果
-        cell.selectionStyle = .none
-        
+    
+        cell.topTextLabel.text = cellDataArray[indexPath.row]["show1"]
+        cell.bottomTextLabel.text = cellDataArray[indexPath.row]["show2"]
         switch indexPath.row {
         case 0:
             cell.leftImageView.image = UIImage(named: "home_loan_icon_50x50")
-            cell.topTextLabel.text = "贷动美丽 化茧伊人"
-            cell.bottomTextLabel.text = "0首付，期限长"
             cell.rightTextLabel.text = "我要借款"
             cell.rightImageView.image = UIImage(named: "home_right_arrow_7x12")
             break
         case 1:
             cell.leftImageView.image = UIImage(named: "home_progress_icon_50x50")
-            cell.topTextLabel.text = "查看申请进度"
-            cell.bottomTextLabel.text = "实时了解，一手掌握"
             cell.rightTextLabel.text = "进度查询"
             cell.rightImageView.image = UIImage(named: "home_right_arrow_7x12")
             break
         case 2:
             cell.leftImageView.image = UIImage(named: "home_repayment_icon_50x50")
-            cell.topTextLabel.text = "还款详情"
-            cell.bottomTextLabel.text = "当前无可还款"
             cell.rightTextLabel.text = "我要还款"
             cell.rightImageView.image = UIImage(named: "home_right_arrow_7x12")
             break
@@ -153,6 +177,7 @@ extension HomeViewController: UITableViewDelegate, UITableViewDataSource,CyclePi
     }
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        tableView.deselectRow(at: indexPath, animated: true)
         switch indexPath.row {
         case 0:
             let popupView =  PopupSelectRoleView(currentIndex: -1)
@@ -166,8 +191,9 @@ extension HomeViewController: UITableViewDelegate, UITableViewDataSource,CyclePi
             popupView.onClickSelect = { role in
                 popupController.dismiss(animated: true)
                 UserHelper.setUserRole(role: role.rawValue)
-                let loginVC = BorrowMoneyViewController()
-                self.navigationController?.pushViewController(loginVC, animated: false)
+                let borrowMoneyVC = BorrowMoneyViewController()
+                borrowMoneyVC.roleType = role
+                self.navigationController?.pushViewController(borrowMoneyVC, animated: false)
             }
         case 1:
             let repayDetailVC = NeedRepayViewController()
@@ -200,11 +226,30 @@ extension HomeViewController: UITableViewDelegate, UITableViewDataSource,CyclePi
         }
     }
     
-    //MARK: - CyclePictureViewDelegate的方法
+    //MARK: - CyclePictureViewDelegate的方法(点击跳转)
     func cyclePictureSkip(To index: Int) {
-        let bannerUrlVC = BaseWebViewController()
-        bannerUrlVC.requestUrl = self.urlArray?[index] as? String
-        self.navigationController?.pushViewController(bannerUrlVC, animated: false
-        )
+//        let bannerUrlVC = BaseWebViewController()
+//        bannerUrlVC.requestUrl = self.urlArray?[index] as? String
+//        self.navigationController?.pushViewController(bannerUrlVC, animated: false
+//        )
     }
+    
+    //网络状态
+    func listeningNetStatus(){
+        self.manager?.listener = { status in
+            
+            switch status {
+            case .unknown:
+                self.showHintInKeywindow(hint: "未知网络连接")
+            case .notReachable:
+                self.showHintInKeywindow(hint: "无网络连接")
+            case .reachable(.ethernetOrWiFi):
+                self.showHintInKeywindow(hint: "WiFi连接")
+            case .reachable(.wwan):
+                self.showHintInKeywindow(hint: "数据网络连接")
+            }
+        }
+        self.manager?.startListening()
+    }
+
 }

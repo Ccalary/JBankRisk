@@ -9,24 +9,36 @@
 import UIKit
 import SnapKit
 
-class BorrowMoneyViewController: UIViewController,iCarouselDelegate, iCarouselDataSource {
+class BorrowMoneyViewController: UIViewController,iCarouselDelegate, iCarouselDataSource, ReselectRoleDelegate {
 
     var indicatorConstraint: Constraint!
     var identityConstraint: Constraint!
     var productConstraint: Constraint!
     var workConstraint: Constraint!
+    var schoolConstraint: Constraint!
     var contactConstraint: Constraint!
-    var dataOrSchoolConstraint: Constraint!
+    var dataConstraint: Constraint!
+    
+    var proCenterXConstraint: Constraint!
+    var conCenterXConstraint: Constraint!
+    
+    //图标排布
+    var offsetDis: CGFloat!
+    
+    //角色类型
+    var roleType: RoleType = .worker
     
     override func viewDidLoad() {
-        super.viewDidLoad()
-
-       self.setupUI()
+       super.viewDidLoad()
         
+       //icon排布
+       self.iconOffsetSize()
+        
+       self.setupUI()
+       self.changeViewFrameWithRoleType()
        //当前所选中的View
        self.carouselCurrentItemIndexDidChange(carousel)
     }
-
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
     }
@@ -57,11 +69,13 @@ class BorrowMoneyViewController: UIViewController,iCarouselDelegate, iCarouselDa
         self.view.addSubview(divideLine2)
         
         self.view.addSubview(indicatorImageView)
+    
         self.view.addSubview(workImageView)
+        self.view.addSubview(schoolImageView)
         self.view.addSubview(productImageView)
         self.view.addSubview(identityImageView)
         self.view.addSubview(contactImageView)
-        self.view.addSubview(dataOrSchoolImageView)
+        self.view.addSubview(dataImageView)
 
         self.view.addSubview(carousel)
         
@@ -101,7 +115,7 @@ class BorrowMoneyViewController: UIViewController,iCarouselDelegate, iCarouselDa
             make.top.equalTo(holdView)
         }
 
-        //5个icon
+        //icon
         
         indicatorImageView.snp.makeConstraints { (make) in
             make.width.equalTo(38.5*UIRate)
@@ -116,9 +130,15 @@ class BorrowMoneyViewController: UIViewController,iCarouselDelegate, iCarouselDa
             self.workConstraint = make.top.equalTo(holdView).offset(10*UIRate).constraint
         }
         
+        schoolImageView.snp.makeConstraints { (make) in
+            make.width.height.equalTo(30*UIRate)
+            make.centerX.equalTo(holdView)
+            self.schoolConstraint = make.top.equalTo(holdView).offset(10*UIRate).constraint
+        }
+        
         productImageView.snp.makeConstraints { (make) in
             make.width.height.equalTo(30*UIRate)
-            make.right.equalTo(workImageView.snp.left).offset(-25*UIRate)
+            self.proCenterXConstraint = make.centerX.equalTo(holdView).offset(-offsetDis).constraint
             self.productConstraint = make.top.equalTo(holdView).offset(10*UIRate).constraint
         }
         
@@ -130,14 +150,14 @@ class BorrowMoneyViewController: UIViewController,iCarouselDelegate, iCarouselDa
         
         contactImageView.snp.makeConstraints { (make) in
             make.width.height.equalTo(30*UIRate)
-            make.left.equalTo(workImageView.snp.right).offset(25*UIRate)
+            self.conCenterXConstraint = make.centerX.equalTo(holdView).offset(offsetDis).constraint
             self.contactConstraint = make.top.equalTo(holdView).offset(10*UIRate).constraint
         }
         
-        dataOrSchoolImageView.snp.makeConstraints { (make) in
+        dataImageView.snp.makeConstraints { (make) in
             make.width.height.equalTo(30*UIRate)
             make.left.equalTo(contactImageView.snp.right).offset(25*UIRate)
-            self.dataOrSchoolConstraint = make.top.equalTo(holdView).offset(10*UIRate).constraint
+            self.dataConstraint = make.top.equalTo(holdView).offset(10*UIRate).constraint
         }
         
         //详细资料图
@@ -146,6 +166,28 @@ class BorrowMoneyViewController: UIViewController,iCarouselDelegate, iCarouselDa
             make.height.equalTo(350*UIRate)
             make.top.equalTo(holdView.snp.bottom).offset(20*UIRate)
             make.centerX.equalTo(self.view)
+        }
+    }
+    
+    func changeViewFrameWithRoleType(){
+        
+        self.iconOffsetSize()
+        
+        switch self.roleType {
+        case .worker:
+            self.schoolImageView.isHidden = true
+            self.workImageView.isHidden = false
+            break
+        case .student:
+            self.workImageView.isHidden = true
+            self.schoolImageView.isHidden = false
+            break
+        case .freedom:
+             self.proCenterXConstraint.update(offset: -offsetDis)
+             self.conCenterXConstraint.update(offset: offsetDis)
+             self.schoolImageView.isHidden = true
+             self.workImageView.isHidden = true
+            break
         }
     }
     
@@ -218,13 +260,19 @@ class BorrowMoneyViewController: UIViewController,iCarouselDelegate, iCarouselDa
         return imageView
     }()
     
+    private lazy var schoolImageView: BorrowMoneyDoneView = {
+        let imageView = BorrowMoneyDoneView()
+        imageView.imageView.image = UIImage(named: "data_school_gray_30x30")
+        return imageView
+    }()
+    
     private lazy var contactImageView: BorrowMoneyDoneView = {
         let imageView = BorrowMoneyDoneView()
         imageView.imageView.image = UIImage(named: "data_contact_gray_30x30")
         return imageView
     }()
     
-    private lazy var dataOrSchoolImageView: BorrowMoneyDoneView = {
+    private lazy var dataImageView: BorrowMoneyDoneView = {
         let imageView = BorrowMoneyDoneView()
         imageView.imageView.image = UIImage(named: "data_data_gray_30x30")
         return imageView
@@ -241,7 +289,7 @@ class BorrowMoneyViewController: UIViewController,iCarouselDelegate, iCarouselDa
         return carousel
     }()
 
-    //MARK: - 5个轮播界面
+    //MARK: - 轮播界面
     private lazy var identityView: BorrowMoneyView = {
         let popView = BorrowMoneyView(viewType: .identity)
         return popView
@@ -257,6 +305,11 @@ class BorrowMoneyViewController: UIViewController,iCarouselDelegate, iCarouselDa
         return popView
     }()
     
+    private lazy var schoolView: BorrowMoneyView = {
+        let popView = BorrowMoneyView(viewType: .school)
+        return popView
+    }()
+    
     private lazy var contactView: BorrowMoneyView = {
         let popView = BorrowMoneyView(viewType: .contact)
         return popView
@@ -269,63 +322,75 @@ class BorrowMoneyViewController: UIViewController,iCarouselDelegate, iCarouselDa
         return popView
     }()
     
-    private lazy var schoolView: BorrowMoneyView = {
-        let popView = BorrowMoneyView(viewType: .school)
-       
-        return popView
-    }()
-
-    
     //MARK: - iCarouselDelegate&&iCarouselDataSource
     func numberOfItems(in carousel: iCarousel) -> Int {
-        return 5
+        return (self.roleType == .freedom) ? 4 : 5
     }
     
     func carousel(_ carousel: iCarousel, viewForItemAt index: Int, reusing view: UIView?) -> UIView {
         
-        var itemView: UIView
+        var itemView: BorrowMoneyView
         
-        switch index {
-        case 0:
+        if index == 0 {
             itemView = identityView
             identityView.onClickBtn = { viewType in
-             let idVC = IdentityViewController()
-             self.navigationController?.pushViewController(idVC, animated: true)
+                let idVC = IdentityViewController()
+                idVC.delegate = self
+                self.navigationController?.pushViewController(idVC, animated: true)
             }
-        case 1:
+        }else if index == 1{
             itemView = productView
             productView.onClickBtn = { viewType in
                 let idVC = ProductViewController()
                 self.navigationController?.pushViewController(idVC, animated: true)
             }
+        }else if index == 2 {
             
-        case 2:
-            itemView = workView
-            workView.onClickBtn = { viewType in
-                let idVC = WorkViewController()
-                self.navigationController?.pushViewController(idVC, animated: true)
-            }
-            
-        case 3:
-            itemView = contactView
-            contactView.onClickBtn = { viewType in
-                let idVC = ContactViewController()
-                self.navigationController?.pushViewController(idVC, animated: true)
-            }
-        case 4:
-            itemView = dataView
-            dataView.onClickBtn = { viewType in
-                let idVC = DataViewController(roleType: .student)
-                self.navigationController?.pushViewController(idVC, animated: true)
-            }
+            switch self.roleType {
+            case .worker:
+                itemView = workView
+                workView.onClickBtn = { viewType in
+                    let idVC = WorkViewController()
+                    self.navigationController?.pushViewController(idVC, animated: true)
+                }
+            case .student:
+                itemView = schoolView
+                schoolView.onClickBtn = { viewType in
+                    let idVC = SchoolViewController()
+                    self.navigationController?.pushViewController(idVC, animated: true)
+                }
+            case .freedom:
+                itemView = contactView
+                contactView.onClickBtn = { viewType in
+                    let idVC = ContactViewController()
+                    self.navigationController?.pushViewController(idVC, animated: true)
+                }
+              }
+            }else if index == 3 {
+                if self.roleType == .freedom {
+                    itemView = dataView
+                    dataView.onClickBtn = { viewType in
+                        let idVC = DataViewController(roleType: self.roleType)
+                        self.navigationController?.pushViewController(idVC, animated: true)
+                    }
 
-        default:
-            itemView = dataView
+                }else {
+                    itemView = contactView
+                    contactView.onClickBtn = { viewType in
+                        let idVC = ContactViewController()
+                        self.navigationController?.pushViewController(idVC, animated: true)
+                    }
+                }
+        } else {
+            itemView = dataView 
+            itemView.onClickBtn = { viewType in
+                let idVC = DataViewController(roleType: self.roleType)
+                self.navigationController?.pushViewController(idVC, animated: true)
+            }
         }
-        return itemView
+       
+       return itemView
     }
-    
-    
     
     func carousel(_ carousel: iCarousel, valueFor option: iCarouselOption, withDefault value: CGFloat) -> CGFloat {
         if option == .spacing {
@@ -351,16 +416,29 @@ class BorrowMoneyViewController: UIViewController,iCarouselDelegate, iCarouselDa
             self.productConstraint.update(offset: 15*UIRate)
             break
         case 2:
-            workImageView.imageView.image = UIImage(named:"data_work_light_30x30")
-            self.workConstraint.update(offset: 15*UIRate)
+            if self.roleType == .worker {
+                workImageView.imageView.image = UIImage(named:"data_work_light_30x30")
+                self.workConstraint.update(offset: 15*UIRate)
+            }else if self.roleType == .student{
+                schoolImageView.imageView.image = UIImage(named:"data_school_light_30x30")
+                self.schoolConstraint.update(offset: 15*UIRate)
+            } else {
+                contactImageView.imageView.image = UIImage(named:"data_contact_light_30x30")
+                self.contactConstraint.update(offset: 15*UIRate)
+            }
             break
         case 3:
-            contactImageView.imageView.image = UIImage(named:"data_contact_light_30x30")
-            self.contactConstraint.update(offset: 15*UIRate)
+            if self.roleType == .freedom {
+                dataImageView.imageView.image = UIImage(named:"data_data_light_30x30")
+                self.dataConstraint.update(offset: 15*UIRate)
+            }else {
+                contactImageView.imageView.image = UIImage(named:"data_contact_light_30x30")
+                self.contactConstraint.update(offset: 15*UIRate)
+            }
             break
         case 4:
-            dataOrSchoolImageView.imageView.image = UIImage(named:"data_data_light_30x30")
-            self.dataOrSchoolConstraint.update(offset: 15*UIRate)
+            dataImageView.imageView.image = UIImage(named:"data_data_light_30x30")
+            self.dataConstraint.update(offset: 15*UIRate)
             break
         default:
             break
@@ -373,15 +451,32 @@ class BorrowMoneyViewController: UIViewController,iCarouselDelegate, iCarouselDa
         self.identityConstraint.update(offset: 10*UIRate)
         self.productConstraint.update(offset: 10*UIRate)
         self.workConstraint.update(offset: 10*UIRate)
+        self.schoolConstraint.update(inset: 10*UIRate)
         self.contactConstraint.update(offset: 10*UIRate)
-        self.dataOrSchoolConstraint.update(offset: 10*UIRate)
+        self.dataConstraint.update(offset: 10*UIRate)
         
         identityImageView.imageView.image = UIImage(named:"data_identity_gray_30x30")
         productImageView.imageView.image = UIImage(named:"data_product_gray_30x30")
         workImageView.imageView.image = UIImage(named:"data_work_gray_30x30")
+        schoolImageView.imageView.image = UIImage(named:"data_school_gray_30x30")
         contactImageView.imageView.image = UIImage(named:"data_contact_gray_30x30")
-        dataOrSchoolImageView.imageView.image = UIImage(named:"data_data_gray_30x30")
+        dataImageView.imageView.image = UIImage(named:"data_data_gray_30x30")
     }
 
+    //MARK: - Method
+    func iconOffsetSize(){
+        if self.roleType == .freedom {
+            offsetDis = 27.5*UIRate
+        }else {
+            offsetDis = 55*UIRate
+        }
+    }
+    
+    //MARK: - ReselectRoleDelegate
+    func changeRoleType(role: RoleType) {
+        self.roleType = role
+        self.changeViewFrameWithRoleType()
+        self.carousel.reloadData()
+    }
 }
 

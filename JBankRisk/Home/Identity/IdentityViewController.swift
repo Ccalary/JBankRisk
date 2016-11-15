@@ -9,11 +9,17 @@
 import UIKit
 import SwiftyJSON
 
+protocol ReselectRoleDelegate {
+    func changeRoleType(role: RoleType)
+}
+
 class IdentityViewController: UIViewController {
 
     var mTimer: Timer!
     var seconds: Int = 60
     var currentIndex: Int = 0
+    
+    var delegate: ReselectRoleDelegate?
 
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -27,9 +33,8 @@ class IdentityViewController: UIViewController {
        
     }
     
-    
     func getCurrentIndex(){
-        
+        phoneNumField.text = UserHelper.getUserMobile()//如果已注册则获得注册电话
         roleLabel.text = UserHelper.getUserRole()
         switch UserHelper.getUserRole() {
         case "学生":
@@ -569,8 +574,7 @@ class IdentityViewController: UIViewController {
     //／确认按钮
     private lazy var nextStepBtn: UIButton = {
         let button = UIButton()
-        button.setBackgroundImage(UIImage(named: "login_btn_grayred_345x44"), for: .normal)
-        button.isUserInteractionEnabled = false
+        button.setBackgroundImage(UIImage(named: "login_btn_red_345x44"), for: .normal)
         button.setTitle("下一步", for: UIControlState.normal)
         button.titleLabel?.font = UIFontBoldSize(size: 18*UIRate)
         button.addTarget(self, action: #selector(nextStepBtnAction), for: .touchUpInside)
@@ -578,90 +582,7 @@ class IdentityViewController: UIViewController {
     }()
     
     
-    //MARK: - Action
-    func textFieldAction(_ textField: UITextField){
-        //tag: 10000手机号  10001:验证码
-        if textField.tag == 10000 {
-            //限制输入的长度，最长为11位
-            if (textField.text?.characters.count)! > 11{
-                let index = textField.text?.index((textField.text?.startIndex)!, offsetBy: 11)//到offsetBy的前一位
-                textField.text = textField.text?.substring(to: index!)
-            }
-            
-            if (textField.text?.characters.count)! > 0{
-                clearImage.isHidden = false
-            }else {
-                clearImage.isHidden = true
-            }
-            
-        }else {
-            //限制输入的长度，最长为4位
-            if (textField.text?.characters.count)! > 4{
-                let index = textField.text?.index((textField.text?.startIndex)!, offsetBy: 4)//到offsetBy的前一位
-                textField.text = textField.text?.substring(to: index!)
-            }
-        }
-    }
-    
-    //MARK:- Action
-    func selectRoleBtnAction(){
-        self.view.endEditing(true)
-        let popupView =  PopupSelectRoleView(currentIndex: self.currentIndex)
-        let popupController = CNPPopupController(contents: [popupView])!
-        popupController.theme.presentationStyle = .slideInFromRight
-        popupController.theme.dismissesOppositeDirection = false
-        popupController.present(animated: true)
-        popupView.onClickCloseBtn = { _ in
-            popupController.dismiss(animated: true)
-        }
-        popupView.onClickSelect = { role in
-            popupController.dismiss(animated: true)
-            UserHelper.setUserRole(role: role.rawValue)
-            self.getCurrentIndex()
-        }
-    }
-    
-    func clearBtnAction(){
-        phoneNumField.text = ""
-        clearImage.isHidden = true
-    }
-    
-    //MARK: - Action
-    func tapViewAction() {
-        self.view.endEditing(true)
-    }
-    
-    //发送验证码按钮
-    func sendCodeBtnAction(){
-        
-        let phoneNum = phoneNumField.text!
-        guard (phoneNumField.text?.characters.count)! == 11 else {
-            self.showHint(in: self.view, hint: "请输入正确的手机号码")
-            return
-        }
-        self.startCount()
-        self.sendRandomCodeTo(number: phoneNum)
-    }
-    
-    func nextStepBtnAction(){
-        let number = UserDefaults.standard.string(forKey: "SBFormattedPhoneNumber")
-        PrintLog(number)
-    }
-    
-    //身份证识别
-    func idCardBtnAction(){
-        let idCardVC =  IDCardViewController(nibName: nil, bundle: nil)
-        idCardVC.block = { (name,code) in
-            self.nameTextLabel.text = name;
-            self.idNumLabel.text = code;
-            self.bottomHoldView.isHidden = false
-            self.idImageView.image = UIImage(named: "bm_idCard_did_65x43")
-        }
-        self.navigationController?.pushViewController(idCardVC, animated: true)
-    }
-    
-    
-    //MARK: - Timer
+     //MARK: - Timer
     func startCount(){
         seconds = 60
         sendCodeBtn.isUserInteractionEnabled = false
@@ -696,6 +617,126 @@ class IdentityViewController: UIViewController {
         }, failure: {error in
         })
     }
+    
+    //MARK: - Action
+    func textFieldAction(_ textField: UITextField){
+        //tag: 10000手机号  10001:验证码
+        if textField.tag == 10000 {
+            //限制输入的长度，最长为11位
+            if (textField.text?.characters.count)! > 11{
+                let index = textField.text?.index((textField.text?.startIndex)!, offsetBy: 11)//到offsetBy的前一位
+                textField.text = textField.text?.substring(to: index!)
+            }
+            
+            if (textField.text?.characters.count)! > 0{
+                clearImage.isHidden = false
+            }else {
+                clearImage.isHidden = true
+            }
+            
+        }else {
+            //限制输入的长度，最长为4位
+            if (textField.text?.characters.count)! > 4{
+                let index = textField.text?.index((textField.text?.startIndex)!, offsetBy: 4)//到offsetBy的前一位
+                textField.text = textField.text?.substring(to: index!)
+            }
+        }
+    }
+    
+    func selectRoleBtnAction(){
+        self.view.endEditing(true)
+        let popupView =  PopupSelectRoleView(currentIndex: self.currentIndex)
+        let popupController = CNPPopupController(contents: [popupView])!
+        popupController.theme.presentationStyle = .slideInFromRight
+        popupController.theme.dismissesOppositeDirection = false
+        popupController.present(animated: true)
+        popupView.onClickCloseBtn = { _ in
+            popupController.dismiss(animated: true)
+        }
+        popupView.onClickSelect = { role in
+            popupController.dismiss(animated: true)
+            UserHelper.setUserRole(role: role.rawValue)
+            self.getCurrentIndex()
+            if self.delegate != nil {
+                 self.delegate!.changeRoleType(role: role)
+            }
+        }
+   }
+    
+    func clearBtnAction(){
+        phoneNumField.text = ""
+        clearImage.isHidden = true
+    }
+    
+    func tapViewAction() {
+        self.view.endEditing(true)
+    }
+    
+    //发送验证码按钮
+    func sendCodeBtnAction(){
+        
+        let phoneNum = phoneNumField.text!
+        guard (phoneNumField.text?.characters.count)! == 11 else {
+            self.showHint(in: self.view, hint: "请输入正确的手机号码")
+            return
+        }
+        self.startCount()
+        self.sendRandomCodeTo(number: phoneNum)
+    }
+    
+    //身份证识别
+    func idCardBtnAction(){
+        self.view.endEditing(true)
+        let idCardVC =  IDCardViewController(nibName: nil, bundle: nil)
+        idCardVC.block = { (name,code) in
+            self.nameTextLabel.text = name;
+            self.idNumLabel.text = code;
+            self.bottomHoldView.isHidden = false
+            self.idImageView.image = UIImage(named: "bm_idCard_did_65x43")
+        }
+        self.navigationController?.pushViewController(idCardVC, animated: true)
+    }
+  
+    //下一步
+    func nextStepBtnAction(){
+        
+        guard phoneNumField.text?.characters.count == 11,
+            (codeTextField.text?.characters.count)! == 4,
+            (nameTextLabel.text?.characters.count)! > 0,
+            (idNumLabel.text?.characters.count)! > 0
+            else {
+            self.showHint(in: self.view, hint: "请完善信息再上传!")
+                return
+        }
 
+        //添加HUD
+        self.showHud(in: self.view, hint: "上传中...")
+        
+        var params = [String:Any]()
+        params["companyId"] = "10000101"
+        params["userId"] = UserHelper.getUserId() ?? ""
+        params["mobile"] = phoneNumField.text!
+        params["userType"] = currentIndex
+        params["randCode"] = codeTextField.text!
+        params["realName"] = self.nameTextLabel.text
+        params["idCard"] = self.idNumLabel.text
+        
+        NetConnect.bm_upload_identity_info(parameters: params, success:
+            { response in
+                //隐藏HUD
+                self.hideHud()
+                let json = JSON(response)
+                guard json["RET_CODE"] == "000000" else{
+                    return self.showHint(in: self.view, hint: json["RET_DESC"].stringValue)
+                }
+                //保存用户id
+                UserHelper.setUserId(userId: json["userId"].stringValue)
+                
+                
+        }, failure: {error in
+            //隐藏HUD
+            self.hideHud()
+        })
+    }
 
 }

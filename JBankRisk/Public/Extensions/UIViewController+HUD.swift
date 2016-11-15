@@ -35,14 +35,14 @@ extension UIViewController
     func showHud(in view: UIView, hint: String = "加载中...", yOffset:CGFloat? = 0){
         let HUD = MBProgressHUD(view: view)
         HUD.label.text = hint
-        HUD.label.font = UIFontSize(size: 12)
+        HUD.label.font = UIFontSize(size: 15*UIRate)
         //设为false后点击屏幕其他地方有反应
         HUD.isUserInteractionEnabled = true
         //HUD内的内容的颜色
         HUD.contentColor = UIColor(red:0.82, green:0.82, blue:0.82, alpha:1.00)
         //View的颜色
         HUD.bezelView.color = UIColor.black
-        HUD.margin = 10.0
+        HUD.margin = 12*UIRate
         //偏移量，以center为起点
 //        HUD.offset.y = yOffset ?? 0
         view.addSubview(HUD)

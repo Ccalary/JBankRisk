@@ -36,6 +36,8 @@ class PopupStaticSelectView: UIView, UITableViewDelegate, UITableViewDataSource 
     
     var selectedCellInfo:(row: Int, text: String) = (0, "")
     
+    var schoolCellInfo:(row: Int, name: String, code: String) = (0,"","")
+    
     override init(frame: CGRect ) {
         super.init(frame: frame)
     }
@@ -74,6 +76,17 @@ class PopupStaticSelectView: UIView, UITableViewDelegate, UITableViewDataSource 
         setupUI()
     }
     
+    ///初始化默认frame(学校)
+    convenience init(schoolInfo: Array<String>,selectRow: Int) {
+        let frame = CGRect(x: 0, y: 0, width: SCREEN_WIDTH - 40*UIRate, height: 50*UIRate + 5*45*UIRate)
+        self.init(frame: frame)
+        
+        self.titleLabel.text = "选择学校"
+        dataArray = schoolInfo
+        self.selectedCellInfo = (selectRow, self.dataArray[selectRow])
+        setupUI()
+    }
+    
     required init?(coder aDecoder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
@@ -99,7 +112,6 @@ class PopupStaticSelectView: UIView, UITableViewDelegate, UITableViewDataSource 
             make.centerY.equalTo(holdView)
             make.centerX.equalTo(self)
         }
-        
         
         closeBtn.snp.makeConstraints { (make) in
             make.width.height.equalTo(17*UIRate)

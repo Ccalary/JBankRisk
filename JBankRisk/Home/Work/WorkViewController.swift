@@ -7,6 +7,7 @@
 //
 
 import UIKit
+import SwiftyJSON
 
 class WorkViewController: UIViewController,UITableViewDelegate, UITableViewDataSource {
 
@@ -18,7 +19,16 @@ class WorkViewController: UIViewController,UITableViewDelegate, UITableViewDataS
         CellDataInfo(leftText: "职位", holdText: "请填写当前职位", content: "", cellType: .clearType),
         CellDataInfo(leftText: "工作年限", holdText: "请选择工作年限", content: "", cellType: .arrowType),
         CellDataInfo(leftText: "月收入", holdText: "请填写月收入", content: "", cellType: .textType)]
-    
+    ///单位名称
+    var unitName = ""
+    //单位电话
+    var unitPhone = ""
+    //详细地址
+    var areaDetail = ""
+    //职位
+    var unitPost = ""
+    //收入
+    var monthWages = ""
     ///单位性质
     var companyTypeInfo:(row: Int, text: String) = (0,"")
     ///工作年限
@@ -124,8 +134,7 @@ class WorkViewController: UIViewController,UITableViewDelegate, UITableViewDataS
     //／按钮
     private lazy var nextStepBtn: UIButton = {
         let button = UIButton()
-        button.setBackgroundImage(UIImage(named: "btn_grayred_254x44"), for: .normal)
-        //        button.isUserInteractionEnabled = false
+        button.setBackgroundImage(UIImage(named: "login_btn_red_345x44"), for: .normal)
         button.setTitle("下一步", for: UIControlState.normal)
         button.titleLabel?.font = UIFontBoldSize(size: 18*UIRate)
         button.addTarget(self, action: #selector(nextStepBtnAction), for: .touchUpInside)
@@ -158,6 +167,9 @@ class WorkViewController: UIViewController,UITableViewDelegate, UITableViewDataS
         cell.cellDataInfo = WorkCellData[indexPath.row]
         
         switch indexPath.row {
+        case 0://单位名称
+            cell.centerTextField.tag = 10000
+            cell.centerTextField.addTarget(self, action: #selector(textFieldAction(_:)), for: UIControlEvents.editingChanged)
         case 1://单位性质
             cell.centerTextField.text = self.companyTypeInfo.text
         case 2://电话
@@ -166,11 +178,17 @@ class WorkViewController: UIViewController,UITableViewDelegate, UITableViewDataS
             cell.centerTextField.addTarget(self, action: #selector(textFieldAction(_:)), for: UIControlEvents.editingChanged)
         case 3://地区
             cell.centerTextField.text = self.areaInfo.pro + self.areaInfo.city + self.areaInfo.county
+        case 4://详细地址
+            cell.centerTextField.tag = 10002
+            cell.centerTextField.addTarget(self, action: #selector(textFieldAction(_:)), for: UIControlEvents.editingChanged)
+        case 5://职位
+            cell.centerTextField.tag = 10003
+            cell.centerTextField.addTarget(self, action: #selector(textFieldAction(_:)), for: UIControlEvents.editingChanged)
         case 6://工作年限
             cell.centerTextField.text = self.workYearsInfo.text
         case 7://月收入
             cell.centerTextField.keyboardType = .numberPad
-            cell.centerTextField.tag = 10002
+            cell.centerTextField.tag = 10004
             cell.centerTextField.addTarget(self, action: #selector(textFieldAction(_:)), for: UIControlEvents.editingChanged)
         default:
             break
@@ -264,19 +282,29 @@ class WorkViewController: UIViewController,UITableViewDelegate, UITableViewDataS
     //MARK: - Action
     
     func textFieldAction(_ textField: UITextField){
-        //10001-电话,10002-月收入
+        //1000-单位名称 10001-电话,10002-详细地址  10003-职位 10004-月收入
+        if textField.tag == 10000{
+            self.unitName = textField.text!
+        }
         if textField.tag == 10001{
             //限制输入的长度，最长为11位
             if (textField.text?.characters.count)! > 11{
                 let index = textField.text?.index((textField.text?.startIndex)!, offsetBy: 11)//到offsetBy的前一位
                 textField.text = textField.text?.substring(to: index!)
             }
+            self.unitPhone = textField.text!
         }else if textField.tag == 10002{
+            self.areaDetail = textField.text!
+        }else if textField.tag == 10003{
+            self.unitPost = textField.text!
+        }
+        else if textField.tag == 10004{
             //限制输入的长度，最长为8位
             if (textField.text?.characters.count)! > 8{
                 let index = textField.text?.index((textField.text?.startIndex)!, offsetBy: 8)//到offsetBy的前一位
                 textField.text = textField.text?.substring(to: index!)
             }
+            self.monthWages = textField.text!
         }
     }
     
@@ -286,8 +314,45 @@ class WorkViewController: UIViewController,UITableViewDelegate, UITableViewDataS
     
     func nextStepBtnAction(){
         
+        guard self.unitName.characters.count > 0,
+            self.companyTypeInfo.text.characters.count > 0,
+            self.areaInfo.county.characters.count > 0,
+            self.unitPhone.characters.count > 0,
+            self.areaDetail.characters.count > 0,
+            self.unitPost.characters.count > 0,
+            self.workYearsInfo.text.characters.count > 0,
+            self.monthWages.characters.count > 0
+            else {
+                self.showHint(in: self.view, hint: "请完善信息再上传!")
+                return
+        }
+        //添加HUD
+        self.showHud(in: self.view, hint: "上传中...")
+        var params = NetConnect.getBaseRequestParams()
+        params["unitName"] = self.unitName
+        params["unitPro"] = self.companyTypeInfo.row + 1
+        params["unitMobile"] = self.unitPhone
+        params["province"] = self.areaInfo.pro.replacingOccurrences(of: " ", with: "") //省(去除空格)
+        params["county"] = self.areaInfo.city.replacingOccurrences(of: " ", with: "") //市(去除空格)
+        params["area"] = self.areaInfo.county//县
+        params["address"] = self.areaDetail //详址
+        params["unitPost"] = self.unitPost //职位
+        params["workLife"] = self.workYearsInfo.row + 1 //年限
+        params["monthWages"] = self.monthWages //收入
+        
+        NetConnect.bm_upload_work_info(parameters: params, success:
+            { response in
+                //隐藏HUD
+                self.hideHud()
+                let json = JSON(response)
+                guard json["RET_CODE"] == "000000" else{
+                    return self.showHint(in: self.view, hint: json["RET_DESC"].stringValue)
+                }
+                
+        }, failure: {error in
+            //隐藏HUD
+            self.hideHud()
+        })
     }
-    
-    
 
 }

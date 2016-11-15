@@ -49,7 +49,6 @@ class RepayPeriodDetailView: UIView, UITableViewDelegate, UITableViewDataSource 
         self.frame = CGRect(x: 0, y: 0, width: SCREEN_WIDTH, height: height)
         
         self.setupUI()
-        
     }
     
     required init?(coder aDecoder: NSCoder) {
@@ -93,7 +92,7 @@ class RepayPeriodDetailView: UIView, UITableViewDelegate, UITableViewDataSource 
         }
         
         if viewType == .finish {
-        self.nextStepBtn.setBackgroundImage(UIImage(named:"pop_btn_gray_85x40"), for: .normal)
+        self.nextStepBtn.setBackgroundImage(UIImage(named:"but_gray_254x44"), for: .normal)
             self.nextStepBtn.setTitle("还款完成", for: .normal)
             self.nextStepBtn.isUserInteractionEnabled = false
         }
