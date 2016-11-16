@@ -59,8 +59,27 @@ let BM_WORK_UPLOAD = BASR_DEV_URL + "/jinangk.xhtml?TX_CODE=490071"
 /// 2.10 联系人信息上传
 let BM_CONTACT_UPLOAD = BASR_DEV_URL + "/jinangk.xhtml?TX_CODE=490091"
 
+/// 2.11 照片信息上传
+let BM_PHOTO_UPLOAD = BASR_DEV_URL + "/jinangk.xhtml?TX_CODE=100001"
 
+/// 2.12申请借款相关协议(协议地址)
+let BM_APPLY_PROTOCOL = BASR_DEV_URL + "/attachment/agreement.html"
 
+/// 2.13身份信息回传
+let BM_GET_IDENTITY_INFO = BASR_DEV_URL + "/jinangk.xhtml?TX_CODE=590014"
 
+/// 2.14产品信息回传
+let BM_GET_PRODUCT_INFO = BASR_DEV_URL + "/jinangk.xhtml?TX_CODE=490044"
 
+/// 2.15工作信息回传
+let BM_GET_WORK_INFO = BASR_DEV_URL + "/jinangk.xhtml?TX_CODE=490074"
+
+/// 2.14学校信息回传
+let BM_GET_SCHOOL_INFO = BASR_DEV_URL + "/jinangk.xhtml?TX_CODE=490094"
+
+/// 2.14联系信息回传
+let BM_GET_CONTACT_INFO = BASR_DEV_URL + "/jinangk.xhtml?TX_CODE=490093"
+
+/// 2.14照片信息回传
+let BM_GET_DATA_INFO = BASR_DEV_URL + "/jinangk.xhtml?TX_CODE=490114"
 

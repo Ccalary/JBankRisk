@@ -21,6 +21,8 @@ class ProductViewController: UIViewController,UITableViewDelegate, UITableViewDa
         CellDataInfo(leftText: "业务员", holdText: "请输入业务员工号", content: "", cellType: .clearType)
     ]
     
+    var uploadSucDelegate: UploadSuccessDelegate?
+    
     //商户名称
     var saleName = "jinjinsuo"
     //产品名称
@@ -44,7 +46,14 @@ class ProductViewController: UIViewController,UITableViewDelegate, UITableViewDa
        AMapServices.shared().apiKey = "41b0c56389d5985147098b2d6b18898f";
         
         self.setupUI()
+        
         self.initLocation()
+        
+        if UserHelper.getProductIsUpload(){
+            self.requestProductInfo()
+        }else {
+            self.getAddress()
+        }
     }
 
     override func didReceiveMemoryWarning() {
@@ -175,32 +184,29 @@ class ProductViewController: UIViewController,UITableViewDelegate, UITableViewDa
         switch indexPath.row {
         case 0://商户名称
             cell.centerTextField.text = self.saleName
-        case 1:
+        case 1://产品名称
+            cell.centerTextField.text = self.proName
             cell.centerTextField.tag = 20000
             cell.centerTextField.addTarget(self, action: #selector(textFieldAction(_:)), for: UIControlEvents.editingChanged)
         case 3://借款金额
+            cell.centerTextField.text = self.borrowMoney
             cell.centerTextField.keyboardType = .numberPad
             cell.centerTextField.tag = 10000
             cell.centerTextField.addTarget(self, action: #selector(textFieldAction(_:)), for: UIControlEvents.editingChanged)
-        case 5:
+        case 4://申请期限
+             cell.centerTextField.text = selectPeriodInfo.text
+        case 5://月还款额
             cell.centerTextField.text = self.repayment
             cell.centerTextField.isEnabled = false
-            
-        case 7:
+        case 7://业务员
+             cell.centerTextField.text = self.workerName
              cell.centerTextField.keyboardType = .numberPad
              cell.centerTextField.tag = 10001
              cell.centerTextField.addTarget(self, action: #selector(textFieldAction(_:)), for: UIControlEvents.editingChanged)
         default:
-            break
-        }
-        
-        if indexPath.row == 2 || indexPath.row == 6 {
             cell.backgroundColor = defaultBackgroundColor
         }
         
-        if indexPath.row == 4 { //期限
-            cell.centerTextField.text = selectPeriodInfo.text
-        }
         return cell
     }
     
@@ -285,16 +291,17 @@ class ProductViewController: UIViewController,UITableViewDelegate, UITableViewDa
         locationManager.allowsBackgroundLocationUpdates = false
         locationManager.pausesLocationUpdatesAutomatically = true
         locationManager.desiredAccuracy = kCLLocationAccuracyHundredMeters//定位精度
-        self.getAddress()
+        
     }
     
     //获取位置
     func getAddress(){
-         self.showHud(in: self.view, hint: "加载中...")
+         self.showHud(in: self.view, hint: "获取商户名称中...")
         locationManager.requestLocation(withReGeocode: true, completionBlock: { (location, code, error) in
             
             if (error != nil){
                 //隐藏HUD
+                PrintLog(error.debugDescription)
                 self.hideHud()
                 let alertController = UIAlertController(title: "获取商户名称失败",
                                                         message: "请检查是否在“设置－中诚消费－位置”中未允许本App访问您的位置", preferredStyle: .alert)
@@ -347,7 +354,7 @@ class ProductViewController: UIViewController,UITableViewDelegate, UITableViewDa
     func lastStepBtnAction(){
         
     }
-    //下一步
+    //下一步(上传用户信息)
     func nextStepBtnAction(){
         //判断是否可以上传
         guard self.proName.characters.count > 0,
@@ -383,11 +390,58 @@ class ProductViewController: UIViewController,UITableViewDelegate, UITableViewDa
                 guard json["RET_CODE"] == "000000" else{
                     return self.showHint(in: self.view, hint: json["RET_DESC"].stringValue)
                 }
+                
+                UserHelper.setProduct(isUpload: true)
+                
+                if self.uploadSucDelegate != nil {
+                    self.uploadSucDelegate?.upLoadInfoSuccess()
+                }
+                self.showHintInKeywindow(hint: "产品信息上传完成！")
+
+                
         }, failure: {error in
             //隐藏HUD
             self.hideHud()
         })
    }
+    
+    //MARK:请求产品信息
+    func requestProductInfo(){
+        
+        //添加HUD
+        self.showHud(in: self.view, hint: "加载中...")
+        
+        let params = ["userId": UserHelper.getUserId()!]
+        
+        NetConnect.bm_get_product_info(parameters: params, success: { response in
+            //隐藏HUD
+            self.hideHud()
+            let json = JSON(response)
+            guard json["RET_CODE"] == "000000" else{
+                return self.showHint(in: self.view, hint: json["RET_DESC"].stringValue)
+            }
+            
+            self.refreshUI(json: json["orderInfo"])
+            
+            
+        }, failure:{ error in
+            //隐藏HUD
+            self.hideHud()
+        })
+        
+    }
+    
+    //填充信息
+    func refreshUI(json: JSON){
+       
+        self.saleName = json["sale_name"].stringValue
+        self.proName = json["orderName"].stringValue
+        self.borrowMoney = json["amt"].stringValue
+        self.selectPeriodInfo.text = json["total"].stringValue + "期"
+        self.repayment = json["term_amt"].stringValue
+        self.workerName = json["employee_id"].stringValue
+        self.aTableView.reloadData()
+    }
 }
 
 //MARK: - 数据请求

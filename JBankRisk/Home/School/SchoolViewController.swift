@@ -20,6 +20,8 @@ class SchoolViewController:  UIViewController,UITableViewDelegate, UITableViewDa
         CellDataInfo(leftText: "专业", holdText: "请填写专业", content: "", cellType: .clearType),
         CellDataInfo(leftText: "学制", holdText: "请选择学制", content: "", cellType: .arrowType)]
     
+    var uploadSucDelegate:UploadSuccessDelegate?
+    
     //地区信息
     var areaInfo:(pro:String, city:String, county:String) = ("","","")
     var areaRow:(proRow:Int, cityRow:Int, countyRow:Int) = (-1,-1,-1)
@@ -27,7 +29,7 @@ class SchoolViewController:  UIViewController,UITableViewDelegate, UITableViewDa
     //街道地址
     var placeText = ""
     //专业
-    var majorText = ""
+    var majoyText = ""
     
     //学校名字
     var schoolInfo: (row: Int, text:String, code:String) = (0,"","")
@@ -42,6 +44,10 @@ class SchoolViewController:  UIViewController,UITableViewDelegate, UITableViewDa
     override func viewDidLoad() {
         super.viewDidLoad()
         self.setupUI()
+        
+        if UserHelper.getSchoolIsUpload() {
+            self.requestSchoolInfo()
+        }
     }
     
     override func didReceiveMemoryWarning() {
@@ -173,6 +179,7 @@ class SchoolViewController:  UIViewController,UITableViewDelegate, UITableViewDa
         case 0://地区
             cell.centerTextField.text = self.areaInfo.pro + self.areaInfo.city + self.areaInfo.county
         case 1://街道
+            cell.centerTextField.text = self.placeText
             cell.centerTextField.tag = 10000
             cell.centerTextField.addTarget(self, action: #selector(textFieldAction(_:)), for: UIControlEvents.editingChanged)
         case 2://学校名称
@@ -182,6 +189,7 @@ class SchoolViewController:  UIViewController,UITableViewDelegate, UITableViewDa
         case 4://年级
             cell.centerTextField.text = eduGradeInfo.text
         case 5://专业
+            cell.centerTextField.text = self.majoyText
             cell.centerTextField.tag = 10001
             cell.centerTextField.addTarget(self, action: #selector(textFieldAction(_:)), for: UIControlEvents.editingChanged)
         case 6://学制
@@ -303,7 +311,7 @@ class SchoolViewController:  UIViewController,UITableViewDelegate, UITableViewDa
             self.placeText = textField.text!
 
         }else if textField.tag == 10001 {
-            self.majorText = textField.text!
+            self.majoyText = textField.text!
         }
     }
     
@@ -315,8 +323,8 @@ class SchoolViewController:  UIViewController,UITableViewDelegate, UITableViewDa
     func nextStepBtnAction(){
         
         guard self.placeText.characters.count > 0,
-            self.majorText.characters.count > 0,
-            self.areaInfo.county.characters.count > 0,
+            self.majoyText.characters.count > 0,
+            self.areaInfo.pro.characters.count > 0,
             self.schoolInfo.text.characters.count > 0,
             self.eduSystemInfo.text.characters.count > 0,
             self.eduGradeInfo.text.characters.count > 0,
@@ -335,7 +343,7 @@ class SchoolViewController:  UIViewController,UITableViewDelegate, UITableViewDa
         params["studentType"] = "1" //学生类型，默认1-在校生
         params["education"] = self.eduDegreeInfo.row + 1 //学制
         params["school_len"] = self.eduSystemInfo.row + 1 //学制
-        params["majoy"] = self.majorText //专业
+        params["majoy"] = self.majoyText //专业
         params["grade"] = self.eduGradeInfo.row + 1
         
         NetConnect.bm_upload_school_info(parameters: params, success:
@@ -347,10 +355,57 @@ class SchoolViewController:  UIViewController,UITableViewDelegate, UITableViewDa
                     return self.showHint(in: self.view, hint: json["RET_DESC"].stringValue)
                 }
                 
+                UserHelper.setSchool(isUpload: true)
+                
+                if self.uploadSucDelegate != nil {
+                    self.uploadSucDelegate?.upLoadInfoSuccess()
+                }
+                self.showHintInKeywindow(hint: "学校信息上传完成！")
+                
         }, failure: {error in
             //隐藏HUD
             self.hideHud()
         })
+    }
+    
+    //MARK:请求学校信息
+    func requestSchoolInfo(){
+        
+        //添加HUD
+        self.showHud(in: self.view, hint: "加载中...")
+        
+        let params = ["userId": UserHelper.getUserId()!]
+        
+        NetConnect.bm_get_school_info(parameters: params, success: { response in
+            //隐藏HUD
+            self.hideHud()
+            let json = JSON(response)
+            guard json["RET_CODE"] == "000000" else{
+                return self.showHint(in: self.view, hint: json["RET_DESC"].stringValue)
+            }
+            
+            self.refreshUI(json: json["schoolInfo"])
+            
+        }, failure:{ error in
+            //隐藏HUD
+            self.hideHud()
+        })
+        
+    }
+    //填充信息
+    func refreshUI(json: JSON){
+        self.areaInfo.pro = json["province"].stringValue
+        self.province = self.areaInfo.pro
+        self.placeText = json["address"].stringValue
+        self.schoolInfo.text = json["school"].stringValue
+        self.eduDegreeInfo.row = json["education"].intValue - 1
+        self.eduDegreeInfo.text = eduDegreeData[self.eduDegreeInfo.row]
+        self.eduGradeInfo.row = json["grade"].intValue - 1
+        self.eduGradeInfo.text = eduGradeData[self.eduGradeInfo.row]
+        self.eduSystemInfo.row = json["school_len"].intValue - 1
+        self.eduSystemInfo.text = eduSystemData[self.eduSystemInfo.row]
+        self.majoyText = json["majoy"].stringValue
+        self.aTableView.reloadData()
     }
 }
 
@@ -402,5 +457,4 @@ extension SchoolViewController {
         })
         
     }
-
 }

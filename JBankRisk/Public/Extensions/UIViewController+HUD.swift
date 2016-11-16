@@ -41,7 +41,9 @@ extension UIViewController
         //HUD内的内容的颜色
         HUD.contentColor = UIColor(red:0.82, green:0.82, blue:0.82, alpha:1.00)
         //View的颜色
-        HUD.bezelView.color = UIColor.black
+        HUD.bezelView.color = UIColorHex("000000", 0.7)
+        //style -blur 不透明 －solidColor 透明
+        HUD.bezelView.style = .solidColor
         HUD.margin = 12*UIRate
         //偏移量，以center为起点
 //        HUD.offset.y = yOffset ?? 0

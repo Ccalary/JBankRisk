@@ -8,8 +8,12 @@
 
 import UIKit
 import SnapKit
+//上传成功协议
+protocol UploadSuccessDelegate {
+    func upLoadInfoSuccess()
+}
 
-class BorrowMoneyViewController: UIViewController,iCarouselDelegate, iCarouselDataSource, ReselectRoleDelegate {
+class BorrowMoneyViewController: UIViewController,iCarouselDelegate, iCarouselDataSource, ReselectRoleDelegate,UploadSuccessDelegate {
 
     var indicatorConstraint: Constraint!
     var identityConstraint: Constraint!
@@ -22,6 +26,8 @@ class BorrowMoneyViewController: UIViewController,iCarouselDelegate, iCarouselDa
     var proCenterXConstraint: Constraint!
     var conCenterXConstraint: Constraint!
     
+    //图标的颜色
+    var imageColor = ("gray","gray","gray","gray","gray","gray")
     //图标排布
     var offsetDis: CGFloat!
     
@@ -31,11 +37,12 @@ class BorrowMoneyViewController: UIViewController,iCarouselDelegate, iCarouselDa
     override func viewDidLoad() {
        super.viewDidLoad()
         
+       self.roleType = RoleType(rawValue: UserHelper.getUserRole()!)!
        //icon排布
        self.iconOffsetSize()
         
        self.setupUI()
-       self.changeViewFrameWithRoleType()
+       self.changeViewWithRoleTypeAndInfo()
        //当前所选中的View
        self.carouselCurrentItemIndexDidChange(carousel)
     }
@@ -169,10 +176,13 @@ class BorrowMoneyViewController: UIViewController,iCarouselDelegate, iCarouselDa
         }
     }
     
-    func changeViewFrameWithRoleType(){
+    //根据角色和信息上传量改变View
+    func changeViewWithRoleTypeAndInfo(){
         
+        self.judgeUploadInfo()//判读上传信息
         self.iconOffsetSize()
-        
+        self.proCenterXConstraint.update(offset: -offsetDis)
+        self.conCenterXConstraint.update(offset: offsetDis)
         switch self.roleType {
         case .worker:
             self.schoolImageView.isHidden = true
@@ -183,8 +193,6 @@ class BorrowMoneyViewController: UIViewController,iCarouselDelegate, iCarouselDa
             self.schoolImageView.isHidden = false
             break
         case .freedom:
-             self.proCenterXConstraint.update(offset: -offsetDis)
-             self.conCenterXConstraint.update(offset: offsetDis)
              self.schoolImageView.isHidden = true
              self.workImageView.isHidden = true
             break
@@ -244,7 +252,6 @@ class BorrowMoneyViewController: UIViewController,iCarouselDelegate, iCarouselDa
     private lazy var identityImageView: BorrowMoneyDoneView = {
         let imageView = BorrowMoneyDoneView()
         imageView.imageView.image = UIImage(named: "data_identity_gray_30x30")
-        imageView.finishImageView.isHidden = false
         return imageView
     }()
     
@@ -317,8 +324,8 @@ class BorrowMoneyViewController: UIViewController,iCarouselDelegate, iCarouselDa
     
     private lazy var dataView: BorrowMoneyView = {
         let popView = BorrowMoneyView(viewType: .data)
-        popView.holdTipsView.isHidden = false
-        popView.writeBtn.isHidden = true
+//        popView.holdTipsView.isHidden = false
+//        popView.writeBtn.isHidden = true
         return popView
     }()
     
@@ -336,12 +343,14 @@ class BorrowMoneyViewController: UIViewController,iCarouselDelegate, iCarouselDa
             identityView.onClickBtn = { viewType in
                 let idVC = IdentityViewController()
                 idVC.delegate = self
+                idVC.uploadSucDelegate = self
                 self.navigationController?.pushViewController(idVC, animated: true)
             }
         }else if index == 1{
             itemView = productView
             productView.onClickBtn = { viewType in
                 let idVC = ProductViewController()
+                idVC.uploadSucDelegate = self
                 self.navigationController?.pushViewController(idVC, animated: true)
             }
         }else if index == 2 {
@@ -351,18 +360,21 @@ class BorrowMoneyViewController: UIViewController,iCarouselDelegate, iCarouselDa
                 itemView = workView
                 workView.onClickBtn = { viewType in
                     let idVC = WorkViewController()
+                    idVC.uploadSucDelegate = self
                     self.navigationController?.pushViewController(idVC, animated: true)
                 }
             case .student:
                 itemView = schoolView
                 schoolView.onClickBtn = { viewType in
                     let idVC = SchoolViewController()
+                    idVC.uploadSucDelegate = self
                     self.navigationController?.pushViewController(idVC, animated: true)
                 }
             case .freedom:
                 itemView = contactView
                 contactView.onClickBtn = { viewType in
                     let idVC = ContactViewController()
+                    idVC.uploadSucDelegate = self
                     self.navigationController?.pushViewController(idVC, animated: true)
                 }
               }
@@ -371,6 +383,7 @@ class BorrowMoneyViewController: UIViewController,iCarouselDelegate, iCarouselDa
                     itemView = dataView
                     dataView.onClickBtn = { viewType in
                         let idVC = DataViewController(roleType: self.roleType)
+                        idVC.uploadSucDelegate = self
                         self.navigationController?.pushViewController(idVC, animated: true)
                     }
 
@@ -378,6 +391,7 @@ class BorrowMoneyViewController: UIViewController,iCarouselDelegate, iCarouselDa
                     itemView = contactView
                     contactView.onClickBtn = { viewType in
                         let idVC = ContactViewController()
+                        idVC.uploadSucDelegate = self
                         self.navigationController?.pushViewController(idVC, animated: true)
                     }
                 }
@@ -385,6 +399,7 @@ class BorrowMoneyViewController: UIViewController,iCarouselDelegate, iCarouselDa
             itemView = dataView 
             itemView.onClickBtn = { viewType in
                 let idVC = DataViewController(roleType: self.roleType)
+                idVC.uploadSucDelegate = self
                 self.navigationController?.pushViewController(idVC, animated: true)
             }
         }
@@ -455,12 +470,12 @@ class BorrowMoneyViewController: UIViewController,iCarouselDelegate, iCarouselDa
         self.contactConstraint.update(offset: 10*UIRate)
         self.dataConstraint.update(offset: 10*UIRate)
         
-        identityImageView.imageView.image = UIImage(named:"data_identity_gray_30x30")
-        productImageView.imageView.image = UIImage(named:"data_product_gray_30x30")
-        workImageView.imageView.image = UIImage(named:"data_work_gray_30x30")
-        schoolImageView.imageView.image = UIImage(named:"data_school_gray_30x30")
-        contactImageView.imageView.image = UIImage(named:"data_contact_gray_30x30")
-        dataImageView.imageView.image = UIImage(named:"data_data_gray_30x30")
+        identityImageView.imageView.image = UIImage(named:"data_identity_\(imageColor.0)_30x30")
+        productImageView.imageView.image = UIImage(named:"data_product_\(imageColor.1)_30x30")
+        workImageView.imageView.image = UIImage(named:"data_work_\(imageColor.2)_30x30")
+        schoolImageView.imageView.image = UIImage(named:"data_school_\(imageColor.3)_30x30")
+        contactImageView.imageView.image = UIImage(named:"data_contact_\(imageColor.4)_30x30")
+        dataImageView.imageView.image = UIImage(named:"data_data_\(imageColor.5)_30x30")
     }
 
     //MARK: - Method
@@ -472,10 +487,44 @@ class BorrowMoneyViewController: UIViewController,iCarouselDelegate, iCarouselDa
         }
     }
     
+    //判断上传了多少信息
+    func judgeUploadInfo(){
+        if UserHelper.getIdentityIsUpload() {
+             imageColor.0 = "light"
+            identityImageView.finishImageView.isHidden = false
+        }
+        if UserHelper.getProductIsUpload() {
+             imageColor.1 = "light"
+            productImageView.finishImageView.isHidden = false
+        }
+        if UserHelper.getWorkIsUpload() {
+            imageColor.2 = "light"
+            workImageView.finishImageView.isHidden = false
+        }
+        if UserHelper.getSchoolIsUpload() {
+            imageColor.3 = "light"
+            schoolImageView.finishImageView.isHidden = false
+        }
+        if UserHelper.getContactIsUpload() {
+            imageColor.4 = "light"
+            contactImageView.finishImageView.isHidden = false
+        }
+        if UserHelper.getDataIsUpload() {
+            imageColor.5 = "light"
+            dataImageView.finishImageView.isHidden = false
+        }
+    }
+    
     //MARK: - ReselectRoleDelegate
     func changeRoleType(role: RoleType) {
         self.roleType = role
-        self.changeViewFrameWithRoleType()
+        self.changeViewWithRoleTypeAndInfo()
+        self.carousel.reloadData()
+    }
+    
+    //MARK: - UpLoadInfoSuccess
+    func upLoadInfoSuccess(){
+        self.changeViewWithRoleTypeAndInfo()
         self.carousel.reloadData()
     }
 }

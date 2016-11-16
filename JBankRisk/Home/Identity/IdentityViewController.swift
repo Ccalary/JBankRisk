@@ -20,12 +20,17 @@ class IdentityViewController: UIViewController {
     var currentIndex: Int = 0
     
     var delegate: ReselectRoleDelegate?
-
+    var uploadSucDelegate: UploadSuccessDelegate?
+    
     override func viewDidLoad() {
         super.viewDidLoad()
 
        self.setupUI()
        getCurrentIndex()
+        
+       if UserHelper.getUserId() != nil {
+            self.requestIdentityInfo()
+        }
     }
 
     override func didReceiveMemoryWarning() {
@@ -34,17 +39,17 @@ class IdentityViewController: UIViewController {
     }
     
     func getCurrentIndex(){
+        
         phoneNumField.text = UserHelper.getUserMobile()//如果已注册则获得注册电话
         roleLabel.text = UserHelper.getUserRole()
-        switch UserHelper.getUserRole() {
-        case "学生":
+        let roleType = RoleType(rawValue: UserHelper.getUserRole()!)!
+        switch roleType{
+        case .student:
             currentIndex = 0
-        case "白领":
+        case .worker:
             currentIndex = 1
-        case "自由族":
+        case .freedom:
             currentIndex = 2
-        default:
-            break
         }
     }
 
@@ -708,7 +713,6 @@ class IdentityViewController: UIViewController {
             self.showHint(in: self.view, hint: "请完善信息再上传!")
                 return
         }
-
         //添加HUD
         self.showHud(in: self.view, hint: "上传中...")
         
@@ -731,12 +735,51 @@ class IdentityViewController: UIViewController {
                 }
                 //保存用户id
                 UserHelper.setUserId(userId: json["userId"].stringValue)
+                UserHelper.setIdentity(isUpload: true)
                 
+                if self.uploadSucDelegate != nil {
+                    self.uploadSucDelegate?.upLoadInfoSuccess()
+                }
+                self.showHintInKeywindow(hint: "身份信息上传完成！")
                 
         }, failure: {error in
             //隐藏HUD
             self.hideHud()
         })
     }
-
+    
+  //MARK:请求用户信息
+  func requestIdentityInfo(){
+    
+    //添加HUD
+    self.showHud(in: self.view, hint: "加载中...")
+    
+    let params = ["userId": UserHelper.getUserId()!]
+    
+    NetConnect.bm_get_identity_info(parameters: params, success: { response in
+        //隐藏HUD
+        self.hideHud()
+        let json = JSON(response)
+        guard json["RET_CODE"] == "000000" else{
+            return self.showHint(in: self.view, hint: json["RET_DESC"].stringValue)
+        }
+    
+        self.refreshUI(json: json)
+        
+    }, failure:{ error in
+        //隐藏HUD
+        self.hideHud()
+    })
+    
+   }
+    //填充信息
+    func refreshUI(json: JSON){
+        self.currentIndex = json["userType"].intValue
+        self.getCurrentIndex()
+        self.phoneNumField.text = json["mobile"].stringValue
+        self.nameTextLabel.text = json["realName"].stringValue
+        self.idNumLabel.text = json["idCard"].stringValue
+        self.bottomHoldView.isHidden = false
+        self.idImageView.image = UIImage(named: "bm_idCard_did_65x43")
+    }
 }

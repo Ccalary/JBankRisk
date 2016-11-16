@@ -39,9 +39,9 @@ class UserHelper {
     
     ///获得用户角色
     ///1- "学生" 2- “白领” 3-“自由族”
-    static func getUserRole() -> String{
+    static func getUserRole() -> String?{
         let defaults = UserDefaults()
-        return defaults.object(forKey: "userRole") as! (String)
+        return defaults.object(forKey: "userRole") as? String
     }
     
     ///保存用户角色
@@ -80,5 +80,79 @@ class UserHelper {
         defaults.set(userId, forKey: "userId")
         defaults.synchronize()
     }
+    /****************上传记录****************/
+    //用户身份信息是否上传
+    static func getIdentityIsUpload() -> Bool {
+        let defaults = UserDefaults()
+        return (defaults.object(forKey: "\(self.getUserId())identityUpload") as? Bool) ?? false
+    }
+    
+    static func setIdentity(isUpload: Bool){
+        let defaults = UserDefaults()
+        defaults.set(isUpload, forKey: "\(self.getUserId())identityUpload")
+        defaults.synchronize()
+    }
+    
+    //产品信息是否上传
+    static func getProductIsUpload() -> Bool {
+        let defaults = UserDefaults()
+        return (defaults.object(forKey: "\(self.getUserId())productUpload") as? Bool) ?? false
+    }
+    
+    static func setProduct(isUpload: Bool){
+        let defaults = UserDefaults()
+        defaults.set(isUpload, forKey: "\(self.getUserId())productUpload")
+        defaults.synchronize()
+    }
+    
+    //工作信息是否上传
+    static func getWorkIsUpload() -> Bool {
+        let defaults = UserDefaults()
+        return (defaults.object(forKey: "\(self.getUserId())workUpload") as? Bool) ?? false
+    }
+    
+    static func setWork(isUpload: Bool){
+        let defaults = UserDefaults()
+        defaults.set(isUpload, forKey: "\(self.getUserId())workUpload")
+        defaults.synchronize()
+    }
+    
+    //学校信息是否上传
+    static func getSchoolIsUpload() -> Bool {
+        let defaults = UserDefaults()
+        return (defaults.object(forKey: "\(self.getUserId())schoolUpload") as? Bool) ?? false
+    }
+    
+    static func setSchool(isUpload: Bool){
+        let defaults = UserDefaults()
+        defaults.set(isUpload, forKey: "\(self.getUserId())schoolUpload")
+        defaults.synchronize()
+    }
+    
+    //联系人信息是否上传
+    static func getContactIsUpload() -> Bool {
+        let defaults = UserDefaults()
+        return (defaults.object(forKey: "\(self.getUserId())contactUpload") as? Bool) ?? false
+    }
+    
+    static func setContact(isUpload: Bool){
+        let defaults = UserDefaults()
+        defaults.set(isUpload, forKey: "\(self.getUserId())contactUpload")
+        defaults.synchronize()
+    }
+
+    
+    //用户信息是否上传
+    static func getDataIsUpload() -> Bool {
+        let defaults = UserDefaults()
+        return (defaults.object(forKey: "\(self.getUserId())dataUpload") as? Bool) ?? false
+    }
+    
+    static func setData(isUpload: Bool){
+        let defaults = UserDefaults()
+        defaults.set(isUpload, forKey: "\(self.getUserId())dataUpload")
+        defaults.synchronize()
+    }
+
 }
 

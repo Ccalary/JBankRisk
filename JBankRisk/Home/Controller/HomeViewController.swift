@@ -180,21 +180,29 @@ extension HomeViewController: UITableViewDelegate, UITableViewDataSource,CyclePi
         tableView.deselectRow(at: indexPath, animated: true)
         switch indexPath.row {
         case 0:
-            let popupView =  PopupSelectRoleView(currentIndex: -1)
-            let popupController = CNPPopupController(contents: [popupView])!
-            popupController.theme.presentationStyle = .slideInFromRight
-            popupController.theme.dismissesOppositeDirection = false
-            popupController.present(animated: true)
-            popupView.onClickCloseBtn = { _ in
-               popupController.dismiss(animated: true)
-            }
-            popupView.onClickSelect = { role in
-                popupController.dismiss(animated: true)
-                UserHelper.setUserRole(role: role.rawValue)
-                let borrowMoneyVC = BorrowMoneyViewController()
-                borrowMoneyVC.roleType = role
-                self.navigationController?.pushViewController(borrowMoneyVC, animated: false)
-            }
+            //保证有userId 和 角色已选
+            guard (UserHelper.getUserId() != nil) && (UserHelper.getUserRole() != nil) else {
+                
+                let popupView =  PopupSelectRoleView(currentIndex: -1)
+                let popupController = CNPPopupController(contents: [popupView])!
+                popupController.theme.presentationStyle = .slideInFromRight
+                popupController.theme.dismissesOppositeDirection = false
+                popupController.theme.animationDuration = 0.6
+                popupController.present(animated: true)
+                popupView.onClickCloseBtn = { _ in
+                    popupController.dismiss(animated: true)
+                }
+                popupView.onClickSelect = { role in
+                    popupController.dismiss(animated: true)
+                    UserHelper.setUserRole(role: role.rawValue)
+                    let borrowMoneyVC = BorrowMoneyViewController()
+                    self.navigationController?.pushViewController(borrowMoneyVC, animated: false)
+                }
+                return
+        }
+            let borrowMoneyVC = BorrowMoneyViewController()
+            self.navigationController?.pushViewController(borrowMoneyVC, animated: false)
+            
         case 1:
             let repayDetailVC = NeedRepayViewController()
             self.navigationController?.pushViewController(repayDetailVC, animated: true)

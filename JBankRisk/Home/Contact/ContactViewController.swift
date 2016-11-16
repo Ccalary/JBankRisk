@@ -24,6 +24,7 @@ class ContactViewController: UIViewController, UITableViewDelegate, UITableViewD
         CellDataInfo(leftText: "", holdText: "填写姓名", content: "", cellType: .clearType),
         CellDataInfo(leftText: "", holdText: "填写手机号码", content: "", cellType: .clearType)]
     
+    var uploadSucDelegate:UploadSuccessDelegate?
     
     var pickerVC:CNContactPickerViewController!
     
@@ -51,8 +52,13 @@ class ContactViewController: UIViewController, UITableViewDelegate, UITableViewD
         super.viewDidLoad()
         self.setupUI()
         //访问通讯录
-     pickerVC = CNContactPickerViewController()
-     pickerVC.delegate = self
+        pickerVC = CNContactPickerViewController()
+        pickerVC.delegate = self
+        
+        if UserHelper.getContactIsUpload() {
+            self.requestContactInfo()
+        }
+        
     }
     
     override func didReceiveMemoryWarning() {
@@ -444,11 +450,62 @@ class ContactViewController: UIViewController, UITableViewDelegate, UITableViewD
                     return self.showHint(in: self.view, hint: json["RET_DESC"].stringValue)
                 }
                 
+                UserHelper.setContact(isUpload: true)
+                
+                if self.uploadSucDelegate != nil {
+                    self.uploadSucDelegate?.upLoadInfoSuccess()
+                }
+                self.showHintInKeywindow(hint: "联系信息上传完成！")
+
+                
         }, failure: {error in
             //隐藏HUD
             self.hideHud()
         })
-
     }
     
+    //MARK:请求联系人信息
+    func requestContactInfo(){
+        
+        //添加HUD
+        self.showHud(in: self.view, hint: "加载中...")
+        
+        let params = ["userId": UserHelper.getUserId()!]
+        
+        NetConnect.bm_get_contact_info(parameters: params, success: { response in
+            //隐藏HUD
+            self.hideHud()
+            let json = JSON(response)
+            guard json["RET_CODE"] == "000000" else{
+                return self.showHint(in: self.view, hint: json["RET_DESC"].stringValue)
+            }
+            
+            self.refreshUI(json: json["ContractAddr"], contact: json["contacts"])
+            
+        }, failure:{ error in
+            //隐藏HUD
+            self.hideHud()
+        })
+        
+    }
+    //填充信息
+    func refreshUI(json: JSON, contact: JSON){
+        self.areaInfo.pro = json["province"].stringValue + " "
+        self.areaInfo.city = json["county"].stringValue + " "
+        self.areaInfo.county = json["AREA"].stringValue
+        self.areaDetail = json["address"].stringValue
+        self.houseInfo.row = json["is_house"].intValue - 1
+        self.houseInfo.text = houseData[self.houseInfo.row]
+        self.liveTimeInfo.text = json["residenceTime"].stringValue
+        
+        self.relativeInfo.row = contact[0]["relation"].intValue - 1
+        self.relativeInfo.text = relativeData[self.relativeInfo.row]
+        self.relativeContactInfo.name = contact[0]["NAME"].stringValue
+        self.relativeContactInfo.number = contact[0]["mobile"].stringValue
+        
+        self.urgentContactInfo.name = contact[1]["NAME"].stringValue
+        self.urgentContactInfo.number = contact[1]["mobile"].stringValue
+        
+        self.aTableView.reloadData()
+    }
 }

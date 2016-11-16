@@ -19,6 +19,9 @@ class WorkViewController: UIViewController,UITableViewDelegate, UITableViewDataS
         CellDataInfo(leftText: "职位", holdText: "请填写当前职位", content: "", cellType: .clearType),
         CellDataInfo(leftText: "工作年限", holdText: "请选择工作年限", content: "", cellType: .arrowType),
         CellDataInfo(leftText: "月收入", holdText: "请填写月收入", content: "", cellType: .textType)]
+    
+    var uploadSucDelegate:UploadSuccessDelegate?
+    
     ///单位名称
     var unitName = ""
     //单位电话
@@ -40,6 +43,9 @@ class WorkViewController: UIViewController,UITableViewDelegate, UITableViewDataS
         super.viewDidLoad()
         
         self.setupUI()
+        if UserHelper.getWorkIsUpload() {
+             self.requestWorkInfo()
+        }
     }
     
     override func didReceiveMemoryWarning() {
@@ -168,25 +174,30 @@ class WorkViewController: UIViewController,UITableViewDelegate, UITableViewDataS
         
         switch indexPath.row {
         case 0://单位名称
+            cell.centerTextField.text = self.unitName
             cell.centerTextField.tag = 10000
             cell.centerTextField.addTarget(self, action: #selector(textFieldAction(_:)), for: UIControlEvents.editingChanged)
         case 1://单位性质
             cell.centerTextField.text = self.companyTypeInfo.text
         case 2://电话
+            cell.centerTextField.text = self.unitPhone
             cell.centerTextField.keyboardType = .numberPad
             cell.centerTextField.tag = 10001
             cell.centerTextField.addTarget(self, action: #selector(textFieldAction(_:)), for: UIControlEvents.editingChanged)
         case 3://地区
             cell.centerTextField.text = self.areaInfo.pro + self.areaInfo.city + self.areaInfo.county
         case 4://详细地址
+            cell.centerTextField.text = self.areaDetail
             cell.centerTextField.tag = 10002
             cell.centerTextField.addTarget(self, action: #selector(textFieldAction(_:)), for: UIControlEvents.editingChanged)
         case 5://职位
+            cell.centerTextField.text = self.unitPost
             cell.centerTextField.tag = 10003
             cell.centerTextField.addTarget(self, action: #selector(textFieldAction(_:)), for: UIControlEvents.editingChanged)
         case 6://工作年限
             cell.centerTextField.text = self.workYearsInfo.text
         case 7://月收入
+            cell.centerTextField.text = self.monthWages
             cell.centerTextField.keyboardType = .numberPad
             cell.centerTextField.tag = 10004
             cell.centerTextField.addTarget(self, action: #selector(textFieldAction(_:)), for: UIControlEvents.editingChanged)
@@ -349,10 +360,59 @@ class WorkViewController: UIViewController,UITableViewDelegate, UITableViewDataS
                     return self.showHint(in: self.view, hint: json["RET_DESC"].stringValue)
                 }
                 
+                UserHelper.setWork(isUpload: true)
+                
+                if self.uploadSucDelegate != nil {
+                    self.uploadSucDelegate?.upLoadInfoSuccess()
+                }
+                self.showHintInKeywindow(hint: "工作信息上传完成！")
+                
         }, failure: {error in
             //隐藏HUD
             self.hideHud()
         })
     }
-
+    
+    //MARK:请求产品信息
+    func requestWorkInfo(){
+        
+        //添加HUD
+        self.showHud(in: self.view, hint: "加载中...")
+        
+        let params = ["userId": UserHelper.getUserId()!]
+        
+        NetConnect.bm_get_work_info(parameters: params, success: { response in
+            //隐藏HUD
+            self.hideHud()
+            let json = JSON(response)
+            guard json["RET_CODE"] == "000000" else{
+                return self.showHint(in: self.view, hint: json["RET_DESC"].stringValue)
+            }
+            
+            self.refreshUI(json: json["unitInfo"])
+            
+        }, failure:{ error in
+            //隐藏HUD
+            self.hideHud()
+        })
+        
+    }
+    //填充信息
+    func refreshUI(json: JSON){
+        self.unitName = json["unitName"].stringValue
+        self.unitPhone = json["unitMobile"].stringValue
+        self.areaDetail = json["address"].stringValue
+        self.unitPost = json["unitPost"].stringValue
+        self.monthWages = json["monthWages"].stringValue
+        self.areaInfo.pro = json["province"].stringValue + " "
+        self.areaInfo.city = json["county"].stringValue + " "
+        self.areaInfo.county = json["AREA"].stringValue
+        self.companyTypeInfo.row = json["unitPro"].intValue - 1
+        self.companyTypeInfo.text = companyTypeData[self.companyTypeInfo.row]
+        self.workYearsInfo.row = json["workLife"].intValue - 1
+        self.workYearsInfo.text = workYearData[self.workYearsInfo.row]
+        
+        self.aTableView.reloadData()
+    }
+    
 }

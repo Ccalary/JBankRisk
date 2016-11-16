@@ -11,10 +11,14 @@ import NJKWebViewProgress
 
 class BaseWebViewController: UIViewController, UIWebViewDelegate, NJKWebViewProgressDelegate {
 
+    //头部标题
+    var webTitle: String?
+    
     var webView: UIWebView?
     var requestUrl: String?
     var progressView: NJKWebViewProgressView?
     var progressProxy:NJKWebViewProgress?
+  
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -94,13 +98,16 @@ class BaseWebViewController: UIViewController, UIWebViewDelegate, NJKWebViewProg
     
     
     func webViewDidStartLoad(_ webView: UIWebView) {
-        self.title = webView.stringByEvaluatingJavaScript(from: "document.title")
+        if webTitle != nil {
+            self.title = webTitle
+        }else {
+           self.title = webView.stringByEvaluatingJavaScript(from: "document.title")
+        }
     }
     
     func webViewDidFinishLoad(_ webView: UIWebView) {
         print("finishLoad")
         progressView?.setProgress(1.0, animated: true)
-        self.webView?.stringByEvaluatingJavaScript(from:"document.body.style.zoom=0.5")
     }
     
     //MARK: - NJKWebViewProgressDelegate

@@ -8,6 +8,7 @@
 //
 
 import UIKit
+import SwiftyJSON
 
 class DataViewController: UIViewController,UITableViewDelegate, UITableViewDataSource,UICollectionViewDelegate,UICollectionViewDataSource, UICollectionViewDelegateFlowLayout,UIImagePickerControllerDelegate,UINavigationControllerDelegate{
     
@@ -30,6 +31,7 @@ class DataViewController: UIViewController,UITableViewDelegate, UITableViewDataS
                                           CellDataInfo(leftText: "居住证明", holdText: "上传居住证明文件照片", content: "", cellType: .cameraType),
                                           CellDataInfo(leftText: "社保", holdText: "社保公积金缴纳信息（选填）", content: "", cellType: .cameraType),
                                           CellDataInfo(leftText: "财力证明", holdText: "上传可证明财力的文件（选填）", content: "", cellType: .cameraType)]
+    var uploadSucDelegate:UploadSuccessDelegate?
     
     var dataArray: [CellDataInfo]!
     var tableViewHeight: CGFloat!
@@ -56,6 +58,8 @@ class DataViewController: UIViewController,UITableViewDelegate, UITableViewDataS
         self.setupUI()
         self.initPhotoPicker()
         self.initCameraPicker()
+        
+        self.requestPhotoInfo()
     }
     
     override func didReceiveMemoryWarning() {
@@ -268,8 +272,7 @@ class DataViewController: UIViewController,UITableViewDelegate, UITableViewDataS
     //／按钮
     private lazy var nextStepBtn: UIButton = {
         let button = UIButton()
-        button.setBackgroundImage(UIImage(named: "btn_grayred_254x44"), for: .normal)
-        //        button.isUserInteractionEnabled = false
+        button.setBackgroundImage(UIImage(named: "btn_red_254x44"), for: .normal)
         button.setTitle("提交申请", for: UIControlState.normal)
         button.titleLabel?.font = UIFontBoldSize(size: 18*UIRate)
         button.addTarget(self, action: #selector(nextStepBtnAction), for: .touchUpInside)
@@ -429,22 +432,21 @@ class DataViewController: UIViewController,UITableViewDelegate, UITableViewDataS
     }
 }
 
-
+//MARK: - Action
 extension DataViewController {
     
-    //MARK: - Action
-    func tapViewAction() {
-        self.view.endEditing(true)
-    }
-    
+    //申请协议
     func protocolBtnAction(){
-        
+        let webVC = BaseWebViewController()
+        webVC.requestUrl = BM_APPLY_PROTOCOL
+        webVC.webTitle = "电子协议"
+        self.navigationController?.pushViewController(webVC, animated: false)
     }
     
     func lastStepBtnAction(){
         
     }
-    
+    //提交申请
     func nextStepBtnAction(){
         
         let popupView = PopupSubmitTipsView()
@@ -455,7 +457,83 @@ extension DataViewController {
         }
         popupView.onClickSure = { _ in
             popupController.dismiss(animated: true)
+            self.uploadPhoto()
+        }
+    }
+    
+    //照片上传
+    func uploadPhoto(){
+        
+        guard photoArray.count >= 2 else {
+            self.showHint(in: self.view, hint: "最少上传两张照片")
+            return
         }
         
+        var imageDataArray:[Data] = []
+        var imageNameArray:[String] = []
+        
+        for i in 0..<photoArray.count {
+            imageDataArray.append(UIImageJPEGRepresentation(photoArray[i].image, 0.1)!)
+            let imageName = String(describing: NSDate()) + "\(i).png"
+            imageNameArray.append(imageName)
+        }
+        //参数666-多张上传
+        let params: [String: String] = ["userId":UserHelper.getUserId()!, "flag":"666"]
+        
+        NetConnect.bm_upload_photo_info(params:params , data: imageDataArray, name: imageNameArray, success: { response in
+            
+            let json = JSON(response)
+            
+            guard json["RET_CODE"] == "000000" else{
+                return self.showHint(in: self.view, hint: json["RET_DESC"].stringValue)
+            }
+            UserHelper.setData(isUpload: true)
+            
+            if self.uploadSucDelegate != nil {
+                self.uploadSucDelegate?.upLoadInfoSuccess()
+            }
+
+            self.showHintInKeywindow(hint: "信息上传成功！")
+            
+        }, failure: { error in
+            PrintLog(error)
+        })
     }
+    
+    //MARK:请求照片信息
+    func requestPhotoInfo(){
+        
+        //添加HUD
+        self.showHud(in: self.view, hint: "加载中...")
+        
+        let params = ["userId": UserHelper.getUserId()!]
+        
+        NetConnect.bm_get_data_info(parameters: params, success: { response in
+            //隐藏HUD
+            self.hideHud()
+            let json = JSON(response)
+            guard json["RET_CODE"] == "000000" else{
+                return self.showHint(in: self.view, hint: json["RET_DESC"].stringValue)
+            }
+            
+            self.refreshUI(json: json)
+            
+        }, failure:{ error in
+            //隐藏HUD
+            self.hideHud()
+        })
+        
+    }
+    //填充信息
+    func refreshUI(json: JSON){
+        //        self.currentIndex = json["userType"].intValue
+        //        self.getCurrentIndex()
+        //        self.phoneNumField.text = json["mobile"].stringValue
+        //        self.nameTextLabel.text = json["realName"].stringValue
+        //        self.idNumLabel.text = json["idCard"].stringValue
+        //        self.bottomHoldView.isHidden = false
+        //        self.idImageView.image = UIImage(named: "bm_idCard_did_65x43")
+    }
+
+    
 }
