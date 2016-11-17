@@ -7,6 +7,7 @@
 //
 
 import UIKit
+import SwiftyJSON
 
 class BorrowRecordViewController: UIViewController,UITableViewDelegate, UITableViewDataSource {
 
@@ -112,7 +113,7 @@ class BorrowRecordViewController: UIViewController,UITableViewDelegate, UITableV
         label.font = UIFontSize(size: 15*UIRate)
         label.textAlignment = .center
         label.textColor = UIColor.white
-        label.text = "累计成功借款金额(元)"
+        label.text = "累计借款(元)"
         return label
     }()
     
@@ -121,17 +122,15 @@ class BorrowRecordViewController: UIViewController,UITableViewDelegate, UITableV
         label.font = UIFontSize(size: 30*UIRate)
         label.textAlignment = .center
         label.textColor = UIColor.white
-        label.text = "150,000.00"
+        label.text = "0.00"
         return label
     }()
-
     
     private lazy var iconHoldView: UIView = {
         let holdView = UIView()
         holdView.backgroundColor = UIColor.white
         return holdView
     }()
-    
 
     //图片
     private lazy var iconImageView: UIImageView = {
@@ -208,5 +207,28 @@ class BorrowRecordViewController: UIViewController,UITableViewDelegate, UITableV
         }
     }
 
+    func requestData(){
+        //添加HUD
+        self.showHud(in: self.view, hint: "加载中...")
+        
+        var params = NetConnect.getBaseRequestParams()
+        params["userId"] = UserHelper.getUserId()!
+        
+        NetConnect.pc_borrow_record(parameters: params, success: { response in
+            //隐藏HUD
+            self.hideHud()
+            let json = JSON(response)
+            guard json["RET_CODE"] == "000000" else{
+                return self.showHint(in: self.view, hint: json["RET_DESC"].stringValue)
+            }
+            
+        }, failure:{ error in
+            //隐藏HUD
+            self.hideHud()
+        })
+
+        
+    }
+    
 
 }

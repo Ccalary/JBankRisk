@@ -243,6 +243,33 @@ class NetConnect {
             failure(error)
         })
     }
+    
+    
+    /***********************个人中心（PC）**************************/
+    
+    //3.1 个人中心首页
+    static func pc_home_info(parameters: Parameters,success:@escaping (_ response:[String:AnyObject]) -> (),failure:@escaping(_ error: Error) -> ()){
+        
+        NetworkRequest.sharedInstance.getRequest(urlString: PC_HOME_URL, params: parameters, success: { (response) in
+            success(response)
+        }, failture: { (error) in
+            failure(error)
+        })
+    }
+    
+    
+    //3.2 借款纪录
+    static func pc_borrow_record(parameters: Parameters,success:@escaping (_ response:[String:AnyObject]) -> (),failure:@escaping(_ error: Error) -> ()){
+        
+        NetworkRequest.sharedInstance.getRequest(urlString: PC_BORROW_RECORD, params: parameters, success: { (response) in
+            success(response)
+        }, failture: { (error) in
+            failure(error)
+        })
+    }
+
+
+    
 }
 
 

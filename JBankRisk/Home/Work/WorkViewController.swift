@@ -43,6 +43,7 @@ class WorkViewController: UIViewController,UITableViewDelegate, UITableViewDataS
         super.viewDidLoad()
         
         self.setupUI()
+        
         if UserHelper.getWorkIsUpload() {
              self.requestWorkInfo()
         }
@@ -50,7 +51,6 @@ class WorkViewController: UIViewController,UITableViewDelegate, UITableViewDataS
     
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
-        
     }
     
     func setupUI(){
@@ -59,6 +59,8 @@ class WorkViewController: UIViewController,UITableViewDelegate, UITableViewDataS
         self.view.backgroundColor = defaultBackgroundColor
         self.title = "职业信息"
         
+        self.navigationItem.leftBarButtonItem = UIBarButtonItem(image: UIImage(named:"navigation_left_back_13x21"), style: .plain, target: self, action: #selector(leftNavigationBarBtnAction))
+                
         self.view.addSubview(aScrollView)
         self.aScrollView.addSubview(aTableView)
         self.aScrollView.addSubview(divideLine1)
@@ -320,10 +322,23 @@ class WorkViewController: UIViewController,UITableViewDelegate, UITableViewDataS
     }
     
     func lastStepBtnAction(){
-        
+        _ = self.navigationController?.popViewController(animated: true)
     }
     
+    //返回
+    func leftNavigationBarBtnAction(){
+        let borrowVC = self.navigationController?.viewControllers[1] as! BorrowMoneyViewController
+        _ = self.navigationController?.popToViewController(borrowVC, animated: true)
+    }
+
+    
     func nextStepBtnAction(){
+        
+        //是否已生成订单
+        guard !UserHelper.getAllFinishIsUpload() else {
+            self.showHint(in: self.view, hint: "订单已生成，信息不可更改哦！")
+            return
+        }
         
         guard self.unitName.characters.count > 0,
             self.companyTypeInfo.text.characters.count > 0,
@@ -366,6 +381,9 @@ class WorkViewController: UIViewController,UITableViewDelegate, UITableViewDataS
                     self.uploadSucDelegate?.upLoadInfoSuccess()
                 }
                 self.showHintInKeywindow(hint: "工作信息上传完成！")
+                
+                let idVC = ContactViewController()
+                self.navigationController?.pushViewController(idVC, animated: true)
                 
         }, failure: {error in
             //隐藏HUD

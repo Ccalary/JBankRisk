@@ -138,6 +138,7 @@ class PopupSelectRoleView: UIView, iCarouselDelegate, iCarouselDataSource  {
     }
     
     func carouselCurrentItemIndexDidChange(_ carousel: iCarousel) {
+    
     }
     
     func carousel(_ carousel: iCarousel, valueFor option: iCarouselOption, withDefault value: CGFloat) -> CGFloat {

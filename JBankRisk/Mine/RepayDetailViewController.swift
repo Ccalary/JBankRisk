@@ -100,8 +100,8 @@ class RepayDetailViewController: UIViewController, UITableViewDelegate, UITableV
         popView.snp.makeConstraints { (make) in
             make.width.equalTo(80*UIRate)
             make.height.equalTo(125*UIRate)
-            make.top.equalTo(64)
-            make.right.equalTo(-5*UIRate)
+            make.top.equalTo(55)
+            make.right.equalTo(-8*UIRate)
         }
     }
     

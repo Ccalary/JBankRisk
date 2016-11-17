@@ -72,6 +72,8 @@ class ContactViewController: UIViewController, UITableViewDelegate, UITableViewD
         self.view.backgroundColor = defaultBackgroundColor
         self.title = "联系信息"
         
+        self.navigationItem.leftBarButtonItem = UIBarButtonItem(image: UIImage(named:"navigation_left_back_13x21"), style: .plain, target: self, action: #selector(leftNavigationBarBtnAction))
+        
         self.view.frame = CGRect(x: 0, y: 64, width: SCREEN_WIDTH, height: SCREEN_HEIGHT - 64 - 64*UIRate)
         
         
@@ -401,11 +403,23 @@ class ContactViewController: UIViewController, UITableViewDelegate, UITableViewD
     }
     
     func lastStepBtnAction(){
-        
+         _ = self.navigationController?.popViewController(animated: true)
+    }
+    
+    //返回
+    func leftNavigationBarBtnAction(){
+        let borrowVC = self.navigationController?.viewControllers[1] as! BorrowMoneyViewController
+        _ = self.navigationController?.popToViewController(borrowVC, animated: true)
     }
     
     //下一步
     func nextStepBtnAction(){
+        
+        //是否已生成订单
+        guard !UserHelper.getAllFinishIsUpload() else {
+            self.showHint(in: self.view, hint: "订单已生成，信息不可更改哦！")
+            return
+        }
         
         guard self.self.areaInfo.county.characters.count > 0,
             self.areaDetail.characters.count > 0,
@@ -456,12 +470,19 @@ class ContactViewController: UIViewController, UITableViewDelegate, UITableViewD
                     self.uploadSucDelegate?.upLoadInfoSuccess()
                 }
                 self.showHintInKeywindow(hint: "联系信息上传完成！")
-
+                
+                self.pushToNextVC()
                 
         }, failure: {error in
             //隐藏HUD
             self.hideHud()
         })
+    }
+    
+    func pushToNextVC(){
+        let roleType = RoleType(rawValue: UserHelper.getUserRole()!)!
+        let idVC = DataViewController(roleType: roleType)
+        self.navigationController?.pushViewController(idVC, animated: true)
     }
     
     //MARK:请求联系人信息

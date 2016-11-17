@@ -69,6 +69,11 @@ class UserHelper {
         return defaults.object(forKey: "mobile") as? String
     }
     
+    static func setUserMobile(mobile: String){
+        let defaults = UserDefaults()
+        defaults.set(mobile, forKey: "mobile")
+        defaults.synchronize()
+    }
     //用户id
     static func getUserId() -> String? {
         let defaults = UserDefaults()
@@ -80,6 +85,47 @@ class UserHelper {
         defaults.set(userId, forKey: "userId")
         defaults.synchronize()
     }
+    
+    
+    
+    /****************首页缓存***************/
+    //首页banner图地址
+    static func getHomeImageData() -> [String]? {
+        let defaults = UserDefaults()
+        return defaults.object(forKey: "homeImageArray") as? [String]
+    }
+    
+    static func setHomeImageData(imageArray: [String]){
+        let defaults = UserDefaults()
+        defaults.set(imageArray, forKey: "homeImageArray")
+        defaults.synchronize()
+    }
+    
+    //首页banner图地址
+    static func getHomeCellDataArray() -> [Dictionary<String,String>]? {
+        let defaults = UserDefaults()
+        return defaults.object(forKey: "homeCellArray") as? [Dictionary<String,String>]
+    }
+    
+    static func setHomeCellDataArray(cellArray: [Dictionary<String,String>]){
+        let defaults = UserDefaults()
+        defaults.set(cellArray, forKey: "homeCellArray")
+        defaults.synchronize()
+    }
+
+    //获取用户借款金额
+    static func getUserBorrowAmt() -> Int? {
+        let defaults = UserDefaults()
+        return defaults.object(forKey: "userBorrowAmt") as? Int
+    }
+    
+    static func setUserBorrowAmt(money: Int){
+        let defaults = UserDefaults()
+        defaults.set(money, forKey: "userBorrowAmt")
+        defaults.synchronize()
+    }
+
+    
     /****************上传记录****************/
     //用户身份信息是否上传
     static func getIdentityIsUpload() -> Bool {
@@ -154,5 +200,18 @@ class UserHelper {
         defaults.synchronize()
     }
 
+    //是否信息全部上传完毕
+    static func getAllFinishIsUpload() -> Bool {
+        let defaults = UserDefaults()
+        return (defaults.object(forKey: "\(self.getUserId())finishUplod") as? Bool) ?? false
+    }
+    
+    static func setAllFinishIsUpload(isUpload: Bool){
+        let defaults = UserDefaults()
+        defaults.set(isUpload, forKey: "\(self.getUserId())finishUplod")
+        defaults.synchronize()
+    }
+
+    
 }
 

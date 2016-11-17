@@ -7,8 +7,10 @@
 //
 
 import UIKit
+let LOCAL = "http://192.168.1.246:8080" //本地
+let ONLINE = "http://106.38.109.11:8081" //线上
 
-let BASR_DEV_URL = "http://192.168.1.246:8080"
+let BASR_DEV_URL = ONLINE
 
 /*************注册登录模块(RL)*************/
 
@@ -82,4 +84,22 @@ let BM_GET_CONTACT_INFO = BASR_DEV_URL + "/jinangk.xhtml?TX_CODE=490093"
 
 /// 2.14照片信息回传
 let BM_GET_DATA_INFO = BASR_DEV_URL + "/jinangk.xhtml?TX_CODE=490114"
+
+/// 2.15借款状态与信息上传状态
+let BM_BORROW_STATUS = BASR_DEV_URL + "/jinangk.xhtml?TX_CODE=490012"
+
+/***************************个人中心(PC)****************************/
+
+///3.1个人中心首页
+let PC_HOME_URL = BASR_DEV_URL + "/jinangk.xhtml?TX_CODE=490311"
+
+///3.2借款纪录
+let PC_BORROW_RECORD = BASR_DEV_URL + "/jinangk.xhtml?TX_CODE=490044"
+
+
+
+
+
+
+
 

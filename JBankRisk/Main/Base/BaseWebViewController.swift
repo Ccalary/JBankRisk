@@ -60,7 +60,7 @@ class BaseWebViewController: UIViewController, UIWebViewDelegate, NJKWebViewProg
         self.automaticallyAdjustsScrollViewInsets = false;
         self.view.backgroundColor = UIColor.white
         
-        self.navigationItem.leftBarButtonItem = UIBarButtonItem(image: UIImage(named: "navigation_left_back_13x21"), style: .plain, target: self, action: #selector(doLeftNavigationBarImageBtnAction))
+        self.navigationItem.leftBarButtonItems = [UIBarButtonItem(image: UIImage(named: "navigation_left_back_13x21"), style: .plain, target: self, action: #selector(doLeftNavigationBarImageBtnAction)),UIBarButtonItem(title: "关闭", style: .plain, target: self, action: #selector(doLeftNavigationBarTextBtnAction))]
         
         self.view.addSubview(backImageView)
         
@@ -70,7 +70,6 @@ class BaseWebViewController: UIViewController, UIWebViewDelegate, NJKWebViewProg
             make.left.equalTo(16)
             make.top.equalTo(20+11.5)
         }
-        
     }
     
     //假navigationbar 返回键
@@ -124,6 +123,11 @@ class BaseWebViewController: UIViewController, UIWebViewDelegate, NJKWebViewProg
         {
             self.navigationController!.popViewController(animated: true)
         }
+    }
+    
+    //关闭
+    func doLeftNavigationBarTextBtnAction(){
+        self.navigationController!.popViewController(animated: true)
     }
     
 }

@@ -59,7 +59,10 @@ class DataViewController: UIViewController,UITableViewDelegate, UITableViewDataS
         self.initPhotoPicker()
         self.initCameraPicker()
         
-        self.requestPhotoInfo()
+        if UserHelper.getDataIsUpload() {
+            self.requestPhotoInfo()
+        }
+        
     }
     
     override func didReceiveMemoryWarning() {
@@ -71,16 +74,53 @@ class DataViewController: UIViewController,UITableViewDelegate, UITableViewDataS
         
         switch roleType {
         case .worker:
-            dataArray = WorkerCellData
+            if let money = UserHelper.getUserBorrowAmt() {
+                if money <= 10000 {
+                 
+                    WorkerCellData = [CellDataInfo(leftText: "身份证", holdText: "上传身份证正反面", content: "", cellType: .cameraType),
+                    CellDataInfo(leftText: "亲签照", holdText: "上传手持合同的照片", content: "", cellType: .cameraType), CellDataInfo(leftText: "社保", holdText: "社保公积金缴纳信息（选填）", content: "", cellType: .cameraType)]
+                
+                }else if money <= 30000{
+                    
+                    WorkerCellData = [CellDataInfo(leftText: "身份证", holdText: "上      传身份证正反面", content: "", cellType: .cameraType),
+                                      CellDataInfo(leftText: "亲签照", holdText: "上传手持合同的照片", content: "", cellType: .cameraType),
+                                      CellDataInfo(leftText: "收入流水", holdText: "上传银行卡6个月收入流水", content: "", cellType: .cameraType),
+                                      CellDataInfo(leftText: "居住证明", holdText: "上传居住证明文件照片", content: "", cellType: .cameraType),
+                                      CellDataInfo(leftText: "社保", holdText: "社保公积金缴纳信息（选填）", content: "", cellType: .cameraType)]
+                    
+                }else {
+                    //不变
+                }
+            }
+             dataArray = WorkerCellData
+            
         case .student:
             dataArray = StudentCellData
         case .freedom:
+            if let money = UserHelper.getUserBorrowAmt(){
+                if money <= 10000{
+                    FreedomCellData = [ CellDataInfo(leftText: "身份证", holdText: "上传身份证正反面", content: "", cellType: .cameraType),
+                                        CellDataInfo(leftText: "亲签照", holdText: "上传手持合同的照片", content: "", cellType: .cameraType)]
+                }else if money <= 30000 {
+                    FreedomCellData = [ CellDataInfo(leftText: "身份证", holdText: "上传身份证正反面", content: "", cellType: .cameraType),
+                                        CellDataInfo(leftText: "亲签照", holdText: "上传手持合同的照片", content: "", cellType: .cameraType),
+                                        CellDataInfo(leftText: "收入流水", holdText: "上传银行卡6个月收入流水", content: "", cellType: .cameraType)]
+                }else if money <= 50000 {
+                    FreedomCellData = [ CellDataInfo(leftText: "身份证", holdText: "上传身份证正反面", content: "", cellType: .cameraType),
+                                        CellDataInfo(leftText: "亲签照", holdText: "上传手持合同的照片", content: "", cellType: .cameraType),
+                                        CellDataInfo(leftText: "收入流水", holdText: "上传银行卡6个月收入流水", content: "", cellType: .cameraType),CellDataInfo(leftText: "居住证明", holdText: "上传居住证明文件照片", content: "", cellType: .cameraType)]
+                }else {
+                    //不变
+                }
+            }
             dataArray = FreedomCellData
         }
         tableViewHeight = CGFloat(dataArray.count)*50*UIRate
         
         numArray = Array(repeating: 0, count: dataArray.count)
     }
+    
+    
     
     required init?(coder aDecoder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
@@ -90,7 +130,9 @@ class DataViewController: UIViewController,UITableViewDelegate, UITableViewDataS
         self.navigationController!.navigationBar.isTranslucent = true;
         self.automaticallyAdjustsScrollViewInsets = false;
         self.view.backgroundColor = defaultBackgroundColor
-        self.title = "学校信息"
+        self.title = "资料上传"
+        
+        self.navigationItem.leftBarButtonItem = UIBarButtonItem(image: UIImage(named:"navigation_left_back_13x21"), style: .plain, target: self, action: #selector(leftNavigationBarBtnAction))
         
         self.view.addSubview(topView)
         self.view.addSubview(topTextLabel)
@@ -444,7 +486,13 @@ extension DataViewController {
     }
     
     func lastStepBtnAction(){
-        
+         _ = self.navigationController?.popViewController(animated: true)
+    }
+    
+    //返回
+    func leftNavigationBarBtnAction(){
+        let borrowVC = self.navigationController?.viewControllers[1] as! BorrowMoneyViewController
+        _ = self.navigationController?.popToViewController(borrowVC, animated: true)
     }
     //提交申请
     func nextStepBtnAction(){
@@ -464,10 +512,19 @@ extension DataViewController {
     //照片上传
     func uploadPhoto(){
         
+        //是否已生成订单
+        guard !UserHelper.getAllFinishIsUpload() else {
+            self.showHint(in: self.view, hint: "订单已生成，信息不可更改哦！")
+            return
+        }
+        
         guard photoArray.count >= 2 else {
             self.showHint(in: self.view, hint: "最少上传两张照片")
             return
         }
+        
+        //添加HUD
+        self.showHud(in: self.view, hint:"上传中...")
         
         var imageDataArray:[Data] = []
         var imageNameArray:[String] = []
@@ -482,21 +539,30 @@ extension DataViewController {
         
         NetConnect.bm_upload_photo_info(params:params , data: imageDataArray, name: imageNameArray, success: { response in
             
-            let json = JSON(response)
+            //隐藏HUD
+            self.hideHud()
             
+            let json = JSON(response)
             guard json["RET_CODE"] == "000000" else{
                 return self.showHint(in: self.view, hint: json["RET_DESC"].stringValue)
             }
+            
             UserHelper.setData(isUpload: true)
             
             if self.uploadSucDelegate != nil {
                 self.uploadSucDelegate?.upLoadInfoSuccess()
             }
-
-            self.showHintInKeywindow(hint: "信息上传成功！")
+//            self.showHintInKeywindow(hint: "信息上传成功！")
+            
+            let webVC = BaseWebViewController()
+            webVC.requestUrl = json["actionUrl"].stringValue
+            webVC.webTitle = "聚立信"
+            self.navigationController?.pushViewController(webVC, animated: false)
             
         }, failure: { error in
-            PrintLog(error)
+            //隐藏HUD
+            self.hideHud()
+
         })
     }
     

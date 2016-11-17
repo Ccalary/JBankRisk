@@ -31,6 +31,8 @@ class MineHeaderView: UICollectionReusableView {
         
         self.addSubview(holdView1)
         self.holdView1.addSubview(imageView1)
+        self.imageView1.addSubview(tipImage1)
+        self.tipImage1.addSubview(tipTextLabel1)
         self.holdView1.addSubview(textLabel1)
         self.holdView1.addSubview(button1)
         
@@ -46,6 +48,16 @@ class MineHeaderView: UICollectionReusableView {
             make.centerX.equalTo(holdView1)
         }
 
+        tipImage1.snp.makeConstraints { (make) in
+            make.width.height.equalTo(13*UIRate)
+            make.centerX.equalTo(6*UIRate)
+            make.centerY.equalTo(-6*UIRate)
+        }
+        
+        tipTextLabel1.snp.makeConstraints { (make) in
+            make.center.equalTo(tipImage1)
+        }
+        
         textLabel1.snp.makeConstraints { (make) in
             make.centerX.equalTo(holdView1)
             make.top.equalTo(imageView1.snp.bottom).offset(5*UIRate)
@@ -59,6 +71,8 @@ class MineHeaderView: UICollectionReusableView {
         /******/
         self.addSubview(holdView2)
         self.holdView2.addSubview(imageView2)
+        self.imageView2.addSubview(tipImage2)
+        self.tipImage2.addSubview(tipTextLabel2)
         self.holdView2.addSubview(textLabel2)
         self.holdView2.addSubview(button2)
         
@@ -73,6 +87,17 @@ class MineHeaderView: UICollectionReusableView {
             make.centerX.equalTo(holdView2)
         }
         
+        tipImage2.snp.makeConstraints { (make) in
+            make.width.height.equalTo(13*UIRate)
+            make.centerX.equalTo(6*UIRate)
+            make.centerY.equalTo(-6*UIRate)
+        }
+        
+        tipTextLabel2.snp.makeConstraints { (make) in
+            make.center.equalTo(tipImage2)
+        }
+        
+        
         textLabel2.snp.makeConstraints { (make) in
             make.centerX.equalTo(holdView2)
             make.top.equalTo(imageView2.snp.bottom).offset(5*UIRate)
@@ -86,6 +111,8 @@ class MineHeaderView: UICollectionReusableView {
         /******/
         self.addSubview(holdView3)
         self.holdView3.addSubview(imageView3)
+        self.imageView3.addSubview(tipImage3)
+        self.tipImage3.addSubview(tipTextLabel3)
         self.holdView3.addSubview(textLabel3)
         self.holdView3.addSubview(button3)
         
@@ -101,6 +128,16 @@ class MineHeaderView: UICollectionReusableView {
             make.centerX.equalTo(holdView3)
         }
         
+        tipImage3.snp.makeConstraints { (make) in
+            make.width.height.equalTo(13*UIRate)
+            make.centerX.equalTo(6*UIRate)
+            make.centerY.equalTo(-6*UIRate)
+        }
+        
+        tipTextLabel3.snp.makeConstraints { (make) in
+            make.center.equalTo(tipImage3)
+        }
+        
         textLabel3.snp.makeConstraints { (make) in
             make.centerX.equalTo(holdView3)
             make.top.equalTo(imageView3.snp.bottom).offset(5*UIRate)
@@ -114,6 +151,8 @@ class MineHeaderView: UICollectionReusableView {
         /******/
         self.addSubview(holdView4)
         self.holdView4.addSubview(imageView4)
+        self.imageView4.addSubview(tipImage4)
+        self.tipImage4.addSubview(tipTextLabel4)
         self.holdView4.addSubview(textLabel4)
         self.holdView4.addSubview(button4)
         
@@ -126,6 +165,16 @@ class MineHeaderView: UICollectionReusableView {
             make.width.height.equalTo(25*UIRate)
             make.top.equalTo(7*UIRate)
             make.centerX.equalTo(holdView4)
+        }
+        
+        tipImage4.snp.makeConstraints { (make) in
+            make.width.height.equalTo(13*UIRate)
+            make.centerX.equalTo(6*UIRate)
+            make.centerY.equalTo(-6*UIRate)
+        }
+        
+        tipTextLabel4.snp.makeConstraints { (make) in
+            make.center.equalTo(tipImage4)
         }
         
         textLabel4.snp.makeConstraints { (make) in
@@ -174,16 +223,34 @@ class MineHeaderView: UICollectionReusableView {
     //图片
     private lazy var imageView1: UIImageView = {
         let imageView = UIImageView()
-        imageView.image = UIImage(named: "m_submitted_25x25")
+        imageView.image = UIImage(named: "m_exam_25x25")
         return imageView
     }()
+    
+    //图片
+    lazy var tipImage1: UIImageView = {
+        let imageView = UIImageView()
+        imageView.isHidden = true
+        imageView.image = UIImage(named: "m_tips_13x13")
+        return imageView
+    }()
+    
+    private lazy var tipTextLabel1: UILabel = {
+        let label = UILabel()
+        label.font = UIFontSize(size: 12*UIRate)
+        label.textAlignment = .center
+        label.textColor = UIColorHex("f42e2f")
+        label.text = "1"
+        return label
+    }()
+
     
     private lazy var textLabel1: UILabel = {
         let label = UILabel()
         label.font = UIFontSize(size: 12*UIRate)
         label.textAlignment = .center
         label.textColor = UIColorHex("848484")
-        label.text = "已提交"
+        label.text = "审核中"
         return label
     }()
 
@@ -204,16 +271,34 @@ class MineHeaderView: UICollectionReusableView {
     //图片
     private lazy var imageView2: UIImageView = {
         let imageView = UIImageView()
-        imageView.image = UIImage(named: "m_exam_25x25")
+        imageView.image = UIImage(named: "m_forUse_25x25")
         return imageView
     }()
+    
+    //图片
+    lazy var tipImage2: UIImageView = {
+        let imageView = UIImageView()
+        imageView.isHidden = true
+        imageView.image = UIImage(named: "m_tips_13x13")
+        return imageView
+    }()
+    
+    private lazy var tipTextLabel2: UILabel = {
+        let label = UILabel()
+        label.font = UIFontSize(size: 12*UIRate)
+        label.textAlignment = .center
+        label.textColor = UIColorHex("f42e2f")
+        label.text = "1"
+        return label
+    }()
+
     
     private lazy var textLabel2: UILabel = {
         let label = UILabel()
         label.font = UIFontSize(size: 12*UIRate)
         label.textAlignment = .center
         label.textColor = UIColorHex("848484")
-        label.text = "审核中"
+        label.text = "待使用"
         return label
     }()
     
@@ -233,16 +318,34 @@ class MineHeaderView: UICollectionReusableView {
     //图片
     private lazy var imageView3: UIImageView = {
         let imageView = UIImageView()
-        imageView.image = UIImage(named: "m_forUse_25x25")
+        imageView.image = UIImage(named: "m_repaying_25x25")
         return imageView
     }()
+    
+    //图片
+    lazy var tipImage3: UIImageView = {
+        let imageView = UIImageView()
+        imageView.isHidden = true
+        imageView.image = UIImage(named: "m_tips_13x13")
+        return imageView
+    }()
+    
+    private lazy var tipTextLabel3: UILabel = {
+        let label = UILabel()
+        label.font = UIFontSize(size: 12*UIRate)
+        label.textAlignment = .center
+        label.textColor = UIColorHex("f42e2f")
+        label.text = "1"
+        return label
+    }()
+
     
     private lazy var textLabel3: UILabel = {
         let label = UILabel()
         label.font = UIFontSize(size: 12*UIRate)
         label.textAlignment = .center
         label.textColor = UIColorHex("848484")
-        label.text = "待使用"
+        label.text = "还款中"
         return label
     }()
     
@@ -266,12 +369,30 @@ class MineHeaderView: UICollectionReusableView {
         return imageView
     }()
     
+    //图片
+    lazy var tipImage4: UIImageView = {
+        let imageView = UIImageView()
+        imageView.isHidden = true
+        imageView.image = UIImage(named: "m_tips_13x13")
+        return imageView
+    }()
+    
+    private lazy var tipTextLabel4: UILabel = {
+        let label = UILabel()
+        label.font = UIFontSize(size: 12*UIRate)
+        label.textAlignment = .center
+        label.textColor = UIColorHex("f42e2f")
+        label.text = "1"
+        return label
+    }()
+
+    
     private lazy var textLabel4: UILabel = {
         let label = UILabel()
         label.font = UIFontSize(size: 12*UIRate)
         label.textAlignment = .center
         label.textColor = UIColorHex("848484")
-        label.text = "还款中"
+        label.text = "驳回/拒绝"
         return label
     }()
     
@@ -301,10 +422,6 @@ class MineHeaderView: UICollectionReusableView {
         holdView.backgroundColor = defaultBackgroundColor
         return holdView
     }()
-    
-
-
-
     
     func button1Action(){
         

@@ -61,6 +61,8 @@ class SchoolViewController:  UIViewController,UITableViewDelegate, UITableViewDa
         self.view.backgroundColor = defaultBackgroundColor
         self.title = "学校信息"
         
+        self.navigationItem.leftBarButtonItem = UIBarButtonItem(image: UIImage(named:"navigation_left_back_13x21"), style: .plain, target: self, action: #selector(leftNavigationBarBtnAction))
+        
         self.view.addSubview(aScrollView)
         self.aScrollView.addSubview(aTableView)
         self.aScrollView.addSubview(divideLine1)
@@ -316,11 +318,22 @@ class SchoolViewController:  UIViewController,UITableViewDelegate, UITableViewDa
     }
     
     func lastStepBtnAction(){
-        
+         _ = self.navigationController?.popViewController(animated: true)
     }
     
+    //返回
+    func leftNavigationBarBtnAction(){
+        let borrowVC = self.navigationController?.viewControllers[1] as! BorrowMoneyViewController
+        _ = self.navigationController?.popToViewController(borrowVC, animated: true)
+    }
     //下一步
     func nextStepBtnAction(){
+        
+        //是否已生成订单
+        guard !UserHelper.getAllFinishIsUpload() else {
+            self.showHint(in: self.view, hint: "订单已生成，信息不可更改哦！")
+            return
+        }
         
         guard self.placeText.characters.count > 0,
             self.majoyText.characters.count > 0,
@@ -361,6 +374,9 @@ class SchoolViewController:  UIViewController,UITableViewDelegate, UITableViewDa
                     self.uploadSucDelegate?.upLoadInfoSuccess()
                 }
                 self.showHintInKeywindow(hint: "学校信息上传完成！")
+                
+                let idVC = ContactViewController()
+                self.navigationController?.pushViewController(idVC, animated: true)
                 
         }, failure: {error in
             //隐藏HUD

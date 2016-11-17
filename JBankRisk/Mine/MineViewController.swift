@@ -7,9 +7,17 @@
 //
 
 import UIKit
+import SwiftyJSON
 
 class MineViewController: UIViewController, UIGestureRecognizerDelegate,UICollectionViewDelegate,UICollectionViewDataSource, UICollectionViewDelegateFlowLayout {
 
+    var headerView:MineHeaderView!
+    var footerView:MineFooterView!
+    //未读信息个数
+    var messageCount = 0
+    
+    
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         //设置不自动下调64
@@ -25,6 +33,7 @@ class MineViewController: UIViewController, UIGestureRecognizerDelegate,UICollec
 
     override func viewWillAppear(_ animated: Bool) {
         self.navigationController?.isNavigationBarHidden = true
+//        self.requestHomeData()
     }
     
     override func viewWillDisappear(_ animated: Bool) {
@@ -50,6 +59,7 @@ class MineViewController: UIViewController, UIGestureRecognizerDelegate,UICollec
         
         self.view.addSubview(topImageView)
         self.view.addSubview(messageBtn)
+        self.messageBtn.addSubview(messageRedDot)
         self.view.addSubview(settingBtn)
         self.view.addSubview(headerImageView)
         self.view.addSubview(sayHelloTextLabel)
@@ -85,6 +95,12 @@ class MineViewController: UIViewController, UIGestureRecognizerDelegate,UICollec
             make.top.equalTo(30*UIRate)
         }
         
+        messageRedDot.snp.makeConstraints { (make) in
+            make.width.height.equalTo(6*UIRate)
+            make.centerX.equalTo(6.5*UIRate)
+            make.centerY.equalTo(-6.5*UIRate)
+        }
+
         settingBtn.snp.makeConstraints { (make) in
             make.width.height.equalTo(25*UIRate)
             make.right.equalTo(topImageView.snp.right).offset(-10*UIRate)
@@ -196,6 +212,14 @@ class MineViewController: UIViewController, UIGestureRecognizerDelegate,UICollec
         button.setBackgroundImage(UIImage(named: "m_message_25x25"), for: .normal)
         button.addTarget(self, action: #selector(messageBtnAction), for: .touchUpInside)
         return button
+    }()
+    
+    //／消息小红点
+    private lazy var messageRedDot: UIImageView = {
+        let imageView = UIImageView()
+        imageView.image = UIImage(named:"m_red_point_6x6")
+        imageView.isHidden = true
+        return imageView
     }()
     
     //／设置按钮
@@ -368,15 +392,15 @@ class MineViewController: UIViewController, UIGestureRecognizerDelegate,UICollec
     func collectionView(_ collectionView: UICollectionView, viewForSupplementaryElementOfKind kind: String, at indexPath: IndexPath) -> UICollectionReusableView {
         switch kind {
         case UICollectionElementKindSectionHeader:
-            let header: MineHeaderView = collectionView.dequeueReusableSupplementaryView(ofKind: kind, withReuseIdentifier: "header", for: indexPath) as! MineHeaderView
-            return header
+            headerView = collectionView.dequeueReusableSupplementaryView(ofKind: kind, withReuseIdentifier: "header", for: indexPath) as! MineHeaderView
+            return headerView
             
         case UICollectionElementKindSectionFooter:
-            let footer: MineFooterView = collectionView.dequeueReusableSupplementaryView(ofKind: kind, withReuseIdentifier: "footer", for: indexPath) as! MineFooterView
-            return footer
+            footerView = collectionView.dequeueReusableSupplementaryView(ofKind: kind, withReuseIdentifier: "footer", for: indexPath) as! MineFooterView
+            return footerView
         default:
-            let header: MineHeaderView = collectionView.dequeueReusableSupplementaryView(ofKind: kind, withReuseIdentifier: "header", for: indexPath) as! MineHeaderView
-            return header
+            headerView = collectionView.dequeueReusableSupplementaryView(ofKind: kind, withReuseIdentifier: "header", for: indexPath) as! MineHeaderView
+            return headerView
         }
     }
     
@@ -397,5 +421,64 @@ class MineViewController: UIViewController, UIGestureRecognizerDelegate,UICollec
     func settingBtnAction(){
         let settingVC = SettingViewController()
         self.navigationController?.pushViewController(settingVC, animated: true)
+    }
+    
+    
+    //MARK: - 个人中心数据请求
+    func requestHomeData(){
+        //添加HUD
+        self.showHud(in: self.view, hint: "加载中...")
+        
+        var params = NetConnect.getBaseRequestParams()
+        params["userId"] = UserHelper.getUserId()!
+        
+        NetConnect.pc_home_info(parameters: params, success: { response in
+            //隐藏HUD
+            self.hideHud()
+            let json = JSON(response)
+            guard json["RET_CODE"] == "000000" else{
+                return self.showHint(in: self.view, hint: json["RET_DESC"].stringValue)
+            }
+         
+            self.refreshUI(json: json["detail"])
+            
+        }, failure:{ error in
+            //隐藏HUD
+            self.hideHud()
+        })
+        
+
+    }
+    
+    func refreshUI(json:JSON){
+        self.messageCount = json["size"].intValue
+        if json["jstatus"].stringValue == "5" {//有还款明细
+            self.moneyLabel.text = json["MonthRefund"].stringValue
+            self.dateLabel.text = json["nextMonthDay"].stringValue
+        }
+        if json["penalty_day"].intValue > 0 { //有逾期
+            let day = json["penalty_day"].stringValue //天数
+            let amount = json["demurrage"].stringValue //钱数
+            
+            self.tipsTextLabel.text = "您有1期借款已逾期\(day)天，费用\(amount)元，请及时还款"
+        }
+        let status = json["jstatus"].stringValue//个人中心借款状态
+            headerView.tipImage1.isHidden = true
+            headerView.tipImage2.isHidden = true
+            headerView.tipImage3.isHidden = true
+            headerView.tipImage4.isHidden = true
+        //0 - 订单完结 2－ 审核中 3-满额通过 4-等待放款，教验中 5-还款中 7－审核悲剧 8-重新上传服务单 9-补交材料 99-录入中
+        switch status {
+         case "2": //审核中
+            headerView.tipImage1.isHidden = false
+        case "3","4","8": //待使用
+           headerView.tipImage2.isHidden = false
+        case "5"://还款中
+           headerView.tipImage3.isHidden = false
+        case "7","9"://审核悲剧
+           headerView.tipImage4.isHidden = false
+        default:
+            break
+        }
     }
 }

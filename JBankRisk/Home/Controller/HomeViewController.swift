@@ -19,11 +19,12 @@ class HomeViewController: UIViewController, UIGestureRecognizerDelegate{
     
     var bannerView: CyclePictureView! //图片轮播
     var imageArray:[String]? = [""] //储存所有照片
-
-    var responseDic = [String:Any]()
+    
     //cell数据
-    var cellDataArray: [Dictionary<String,String>] = [["":""],["":""],["":""]]
+    var cellDataArray: [Dictionary<String,String>]? = [["":""],["":""],["":""]]
 
+    //判断进行到哪一步
+    var flagIndex = 0
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -32,15 +33,16 @@ class HomeViewController: UIViewController, UIGestureRecognizerDelegate{
         //启动滑动返回（swipe back）
         self.navigationController?.interactivePopGestureRecognizer?.delegate = self
         //监听网络
-        self.listeningNetStatus()
-        
-        self.requestHomeData()
-        
+//        self.listeningNetStatus()
+        //读取缓存
+        self.getDataFromCache()
         setup()
         initBannerImage()
+       
     }
     override func viewWillAppear(_ animated: Bool) {
          self.navigationController?.isNavigationBarHidden = true
+         self.requestHomeData()
     }
     
     override func viewWillDisappear(_ animated: Bool) {
@@ -116,9 +118,14 @@ class HomeViewController: UIViewController, UIGestureRecognizerDelegate{
                     return self.showHint(in: self.view, hint: json["RET_DESC"].stringValue)
                 }
                 
-                self.responseDic = json.dictionaryValue
+                //第一个为1，依次类推
+                self.flagIndex = json["flag"].intValue
+                
                 self.imageArray = json["bannnerList"].arrayObject as! [String]?
-                self.cellDataArray = json["list"].arrayObject as! [Dictionary<String, String>]
+                
+                self.cellDataArray = json["list"].arrayObject as? [Dictionary<String, String>]
+                UserHelper.setHomeImageData(imageArray: self.imageArray!)
+                UserHelper.setHomeCellDataArray(cellArray: self.cellDataArray!)
                 self.showData()
                 
         }, failure: {error in
@@ -131,6 +138,13 @@ class HomeViewController: UIViewController, UIGestureRecognizerDelegate{
         self.initBannerImage()
         self.aTableView.reloadData()
     }
+    
+    //读取首页缓存
+    func getDataFromCache(){
+        self.imageArray = UserHelper.getHomeImageData() ?? [""]
+        self.cellDataArray = UserHelper.getHomeCellDataArray()
+    }
+    
 
 }
 
@@ -147,8 +161,8 @@ extension HomeViewController: UITableViewDelegate, UITableViewDataSource,CyclePi
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: homeCellID) as! HomeTableViewCell
     
-        cell.topTextLabel.text = cellDataArray[indexPath.row]["show1"]
-        cell.bottomTextLabel.text = cellDataArray[indexPath.row]["show2"]
+        cell.topTextLabel.text = cellDataArray?[indexPath.row]["show1"]
+        cell.bottomTextLabel.text = cellDataArray?[indexPath.row]["show2"]
         switch indexPath.row {
         case 0:
             cell.leftImageView.image = UIImage(named: "home_loan_icon_50x50")
@@ -201,11 +215,12 @@ extension HomeViewController: UITableViewDelegate, UITableViewDataSource,CyclePi
                 return
         }
             let borrowMoneyVC = BorrowMoneyViewController()
+            borrowMoneyVC.currentIndex = self.flagIndex - 1
             self.navigationController?.pushViewController(borrowMoneyVC, animated: false)
             
         case 1:
-            let repayDetailVC = NeedRepayViewController()
-            self.navigationController?.pushViewController(repayDetailVC, animated: true)
+//            let repayDetailVC = NeedRepayViewController()
+//            self.navigationController?.pushViewController(repayDetailVC, animated: true)
 //
 //            let phoneCallView = PopupAreaView()
 //            let popupController = CNPPopupController(contents: [phoneCallView])!
@@ -215,8 +230,8 @@ extension HomeViewController: UITableViewDelegate, UITableViewDataSource,CyclePi
 //            }
             break
         case 2:
-            let registerVC = RepayPeriodDetailVC()
-            self.navigationController?.pushViewController(registerVC, animated: true)
+//            let registerVC = RepayPeriodDetailVC()
+//            self.navigationController?.pushViewController(registerVC, animated: true)
             break
         default:
             break
@@ -232,14 +247,6 @@ extension HomeViewController: UITableViewDelegate, UITableViewDataSource,CyclePi
         if cell.responds(to: #selector(setter: UITableViewCell.layoutMargins)) {
             cell.layoutMargins = .zero
         }
-    }
-    
-    //MARK: - CyclePictureViewDelegate的方法(点击跳转)
-    func cyclePictureSkip(To index: Int) {
-//        let bannerUrlVC = BaseWebViewController()
-//        bannerUrlVC.requestUrl = self.urlArray?[index] as? String
-//        self.navigationController?.pushViewController(bannerUrlVC, animated: false
-//        )
     }
     
     //网络状态
@@ -259,5 +266,12 @@ extension HomeViewController: UITableViewDelegate, UITableViewDataSource,CyclePi
         }
         self.manager?.startListening()
     }
-
+    
+    //MARK: - CyclePictureViewDelegate的方法(点击跳转)
+    func cyclePictureSkip(To index: Int) {
+        //        let bannerUrlVC = BaseWebViewController()
+        //        bannerUrlVC.requestUrl = self.urlArray?[index] as? String
+        //        self.navigationController?.pushViewController(bannerUrlVC, animated: false
+        //        )
+    }
 }

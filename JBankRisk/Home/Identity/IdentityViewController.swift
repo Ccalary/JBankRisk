@@ -22,12 +22,14 @@ class IdentityViewController: UIViewController {
     var delegate: ReselectRoleDelegate?
     var uploadSucDelegate: UploadSuccessDelegate?
     
+    var roleType:RoleType = RoleType(rawValue: UserHelper.getUserRole()!)!
+    
     override func viewDidLoad() {
         super.viewDidLoad()
 
        self.setupUI()
        getCurrentIndex()
-        
+       
        if UserHelper.getUserId() != nil {
             self.requestIdentityInfo()
         }
@@ -41,9 +43,14 @@ class IdentityViewController: UIViewController {
     func getCurrentIndex(){
         
         phoneNumField.text = UserHelper.getUserMobile()//如果已注册则获得注册电话
-        roleLabel.text = UserHelper.getUserRole()
-        let roleType = RoleType(rawValue: UserHelper.getUserRole()!)!
-        switch roleType{
+        if UserHelper.getUserMobile() != nil {
+            phoneNumField.isUserInteractionEnabled = false
+        }else {
+            phoneNumField.isUserInteractionEnabled = true
+        }
+        
+        roleLabel.text = self.roleType.rawValue
+        switch self.roleType{
         case .student:
             currentIndex = 0
         case .worker:
@@ -319,8 +326,6 @@ class IdentityViewController: UIViewController {
             make.centerX.equalTo(self.view)
             make.bottom.equalTo(self.view).offset(-10*UIRate)
         }
-
-        
     }
     
     private lazy var topHoldView: UIView = {
@@ -418,7 +423,6 @@ class IdentityViewController: UIViewController {
         label.text = "验证码"
         return label
     }()
-
     
     ///手机号码输入框
     private lazy var phoneNumField: UITextField = {
@@ -660,11 +664,8 @@ class IdentityViewController: UIViewController {
         }
         popupView.onClickSelect = { role in
             popupController.dismiss(animated: true)
-            UserHelper.setUserRole(role: role.rawValue)
+            self.roleType = role
             self.getCurrentIndex()
-            if self.delegate != nil {
-                 self.delegate!.changeRoleType(role: role)
-            }
         }
    }
     
@@ -720,7 +721,7 @@ class IdentityViewController: UIViewController {
         params["companyId"] = "10000101"
         params["userId"] = UserHelper.getUserId() ?? ""
         params["mobile"] = phoneNumField.text!
-        params["userType"] = currentIndex
+        params["userType"] = currentIndex + 1 //上传1-学生 2-白领 3-自由族
         params["randCode"] = codeTextField.text!
         params["realName"] = self.nameTextLabel.text
         params["idCard"] = self.idNumLabel.text
@@ -736,16 +737,107 @@ class IdentityViewController: UIViewController {
                 //保存用户id
                 UserHelper.setUserId(userId: json["userId"].stringValue)
                 UserHelper.setIdentity(isUpload: true)
+                UserHelper.setUserMobile(mobile: self.phoneNumField.text!)
                 
                 if self.uploadSucDelegate != nil {
                     self.uploadSucDelegate?.upLoadInfoSuccess()
                 }
-                self.showHintInKeywindow(hint: "身份信息上传完成！")
+                
+                if self.roleType != RoleType(rawValue: UserHelper.getUserRole()!){
+                     self.dealWithRoleType()
+                }
+               
+                //mflag: 1-新用户注册， 0 － 老用户登录
+                if json["mflag"].stringValue == "1" {
+                    self.registerSuccessView()
+                }else {
+                    
+                    self.getTheUploadProgree(flag: json["flag"].stringValue)
+                   
+                     self.showHintInKeywindow(hint: "身份信息上传完成！")
+                    //进入下一步
+                    let idVC = ProductViewController()
+                    self.navigationController?.pushViewController(idVC, animated: true)
+                }
                 
         }, failure: {error in
             //隐藏HUD
             self.hideHud()
         })
+    }
+    
+    //提示用户注册成功
+    func registerSuccessView(){
+        
+        let phoneCallView = PopupRegisterTipsView()
+        let popupController = CNPPopupController(contents: [phoneCallView])!
+        popupController.present(animated: true)
+        
+        phoneCallView.onClickSure = {_ in
+            popupController.dismiss(animated: true)
+            //进入下一步
+            let idVC = ProductViewController()
+            self.navigationController?.pushViewController(idVC, animated: true)
+        }
+    }
+    
+    //关于用户角色的处理
+    func dealWithRoleType(){
+        //只有改变用户角色并上传才会进行如下操作
+        UserHelper.setUserRole(role: self.roleType.rawValue)
+        if self.delegate != nil {
+            self.delegate!.changeRoleType(role: self.roleType)
+        }
+        
+        UserHelper.setSchool(isUpload: false)
+        UserHelper.setWork(isUpload: false)
+
+    }
+    
+    //老用户判断进程
+    func getTheUploadProgree(flag: String){
+        //flag 进度  1－ 2- 3- 4- 5-   9完成
+        if flag == "2"{
+            UserHelper.setProduct(isUpload: true)
+        }else if flag == "3"{
+            UserHelper.setProduct(isUpload: true)
+            
+        }else if flag == "4"{
+            UserHelper.setProduct(isUpload: true)
+            switch self.roleType {
+            case .student:
+                UserHelper.setSchool(isUpload: true)
+            case .worker:
+                UserHelper.setWork(isUpload: true)
+            case .freedom:
+                UserHelper.setContact(isUpload: true)
+            }
+
+        }else if flag == "5"{
+            UserHelper.setProduct(isUpload: true)
+            UserHelper.setContact(isUpload: true)
+            
+            if self.roleType == .student {
+                UserHelper.setSchool(isUpload: true)
+            }else if self.roleType == .worker{
+                UserHelper.setWork(isUpload: true)
+            }
+        }else if flag == "9" {
+            
+            switch self.roleType {
+            case .student:
+                UserHelper.setSchool(isUpload: true)
+            case .worker:
+                UserHelper.setWork(isUpload: true)
+            case .freedom:
+                break
+            }
+            UserHelper.setProduct(isUpload: true)
+            UserHelper.setContact(isUpload: true)
+            UserHelper.setData(isUpload: true)
+            UserHelper.setAllFinishIsUpload(isUpload: true)
+        }
+
     }
     
   //MARK:请求用户信息

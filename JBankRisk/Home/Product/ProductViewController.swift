@@ -14,7 +14,7 @@ class ProductViewController: UIViewController,UITableViewDelegate, UITableViewDa
      var ProductCellData:[CellDataInfo] = [ CellDataInfo(leftText: "所属商户", holdText: "商户名称", content: "", cellType: .defaultType),
         CellDataInfo(leftText: "产品名称", holdText: "请输入产品名称", content: "", cellType: .clearType),
         CellDataInfo(leftText: "", holdText: "", content: "", cellType: .defaultType),
-        CellDataInfo(leftText: "借款金额", holdText: "可借区间2,000-3,0000", content: "", cellType: .textType),
+        CellDataInfo(leftText: "借款金额", holdText: "请输入借款金额", content: "", cellType: .textType),
         CellDataInfo(leftText: "申请期限", holdText: "", content: "", cellType: .arrowType),
         CellDataInfo(leftText: "月还款额", holdText: "", content: "", cellType: .textType),
         CellDataInfo(leftText: "", holdText: "", content: "", cellType: .defaultType),
@@ -42,6 +42,7 @@ class ProductViewController: UIViewController,UITableViewDelegate, UITableViewDa
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        
        //高德地图配置key
        AMapServices.shared().apiKey = "41b0c56389d5985147098b2d6b18898f";
         
@@ -66,6 +67,8 @@ class ProductViewController: UIViewController,UITableViewDelegate, UITableViewDa
         self.automaticallyAdjustsScrollViewInsets = false;
         self.view.backgroundColor = defaultBackgroundColor
         self.title = "产品信息"
+        
+        self.navigationItem.leftBarButtonItem = UIBarButtonItem(image: UIImage(named:"navigation_left_back_13x21"), style: .plain, target: self, action: #selector(leftNavigationBarBtnAction))
         
         self.view.addSubview(aScrollView)
         self.aScrollView.addSubview(aTableView)
@@ -296,15 +299,16 @@ class ProductViewController: UIViewController,UITableViewDelegate, UITableViewDa
     
     //获取位置
     func getAddress(){
-         self.showHud(in: self.view, hint: "获取商户名称中...")
+//        self.showHud(in: self.view, hint: "获取中...")
         locationManager.requestLocation(withReGeocode: true, completionBlock: { (location, code, error) in
             
             if (error != nil){
                 //隐藏HUD
-                PrintLog(error.debugDescription)
-                self.hideHud()
+//                PrintLog(error.debugDescription)
+//                self.hideHud()
                 let alertController = UIAlertController(title: "获取商户名称失败",
-                                                        message: "请检查是否在“设置－中诚消费－位置”中未允许本App访问您的位置", preferredStyle: .alert)
+                                                        message: "请点击所属商户尝试再次获取",//请检查是否在“设置－中诚消费－位置”中未允许本App访问您的位置
+                                                        preferredStyle: .alert)
                 
                 let okAction = UIAlertAction(title: "好的", style: .default, handler: { action in
                     self.dismiss(animated: true, completion: nil)
@@ -352,10 +356,22 @@ class ProductViewController: UIViewController,UITableViewDelegate, UITableViewDa
     
     //上一步
     func lastStepBtnAction(){
-        
+        _ = self.navigationController?.popViewController(animated: true)
     }
+    
+    //返回
+    func leftNavigationBarBtnAction(){
+        let borrowVC = self.navigationController?.viewControllers[1] as! BorrowMoneyViewController
+        _ = self.navigationController?.popToViewController(borrowVC, animated: true)
+    }
+    
     //下一步(上传用户信息)
     func nextStepBtnAction(){
+        //是否已生成订单
+        guard !UserHelper.getAllFinishIsUpload() else {
+            self.showHint(in: self.view, hint: "订单已生成，信息不可更改哦！")
+            return
+        }
         //判断是否可以上传
         guard self.proName.characters.count > 0,
             self.borrowMoney.characters.count > 0,
@@ -366,7 +382,7 @@ class ProductViewController: UIViewController,UITableViewDelegate, UITableViewDa
                 
                 return
         }
-        
+    
         //添加HUD
         self.showHud(in: self.view, hint: "上传中...")
         //期数
@@ -392,18 +408,36 @@ class ProductViewController: UIViewController,UITableViewDelegate, UITableViewDa
                 }
                 
                 UserHelper.setProduct(isUpload: true)
+                UserHelper.setUserBorrowAmt(money: Int(self.borrowMoney)!)
                 
                 if self.uploadSucDelegate != nil {
                     self.uploadSucDelegate?.upLoadInfoSuccess()
                 }
                 self.showHintInKeywindow(hint: "产品信息上传完成！")
-
+                self.pushToNextViewController()
                 
         }, failure: {error in
             //隐藏HUD
             self.hideHud()
         })
    }
+    
+    //跳转到下一步的界面
+    func pushToNextViewController(){
+        let roleValue = RoleType(rawValue: UserHelper.getUserRole()!)!
+        switch  roleValue{
+        case .student:
+            let idVC = SchoolViewController()
+            self.navigationController?.pushViewController(idVC, animated: true)
+        case .worker:
+            let idVC = WorkViewController()
+            self.navigationController?.pushViewController(idVC, animated: true)
+        case .freedom:
+            let idVC = ContactViewController()
+            self.navigationController?.pushViewController(idVC, animated: true)
+        }
+        
+    }
     
     //MARK:请求产品信息
     func requestProductInfo(){
@@ -457,7 +491,7 @@ extension ProductViewController {
             { response in
     
                 //隐藏HUD
-                self.hideHud()
+//                self.hideHud()
                 let json = JSON(response)
                 guard json["RET_CODE"] == "000000" else{
                     return self.showHint(in: self.view, hint: json["RET_DESC"].stringValue)
@@ -466,10 +500,11 @@ extension ProductViewController {
                 //刷新tableView
                 let position1 = IndexPath(row: 0, section: 0)
                 self.aTableView.reloadRows(at: [position1], with: UITableViewRowAnimation.none)
+                self.showHint(in: self.view, hint: "获取商户成功！")
                 
         }, failure: {error in
             //隐藏HUD
-            self.hideHud()
+//            self.hideHud()
         })
     }
 }

@@ -22,7 +22,7 @@ class FilterRepayView: UIView,UITableViewDelegate, UITableViewDataSource {
     
     ///初始化默认frame
     convenience init() {
-        let frame = CGRect(x: 0, y: 0, width: 80*UIRate, height: 125*UIRate)
+        let frame = CGRect(x: 0, y: 0, width: 80*UIRate, height: 127*UIRate)
         self.init(frame: frame)
     }
     
@@ -31,21 +31,29 @@ class FilterRepayView: UIView,UITableViewDelegate, UITableViewDataSource {
     }
     
     func setupUI(){
-        
+    
+       self.addSubview(holdImageView)
        self.addSubview(aTableView)
        
+        holdImageView.snp.makeConstraints { (make) in
+            make.width.equalTo(10*UIRate)
+            make.height.equalTo(7*UIRate)
+            make.right.equalTo(-13*UIRate)
+            make.top.equalTo(0)
+        }
+
         aTableView.snp.makeConstraints { (make) in
             make.width.equalTo(self)
             make.height.equalTo(120*UIRate)
             make.centerX.equalTo(self)
-            make.top.equalTo(5)
+            make.top.equalTo(7*UIRate)
         }
     }
 
     //图片
     private lazy var holdImageView: UIImageView = {
         let imageView = UIImageView()
-        imageView.image = UIImage(named: "m_banner_image_375x220")
+        imageView.image = UIImage(named: "m_white_arrow_10x7")
         return imageView
     }()
     

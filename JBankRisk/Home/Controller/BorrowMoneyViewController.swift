@@ -34,8 +34,13 @@ class BorrowMoneyViewController: UIViewController,iCarouselDelegate, iCarouselDa
     //角色类型
     var roleType: RoleType = .worker
     
+    //当前位置
+    var currentIndex = 0
+    
     override func viewDidLoad() {
        super.viewDidLoad()
+        
+      self.navigationItem.leftBarButtonItem = UIBarButtonItem(image: UIImage(named:"navigation_left_back_13x21"), style: .plain, target: self, action: #selector(leftNavigationBarBtnAction))
         
        self.roleType = RoleType(rawValue: UserHelper.getUserRole()!)!
        //icon排布
@@ -44,6 +49,7 @@ class BorrowMoneyViewController: UIViewController,iCarouselDelegate, iCarouselDa
        self.setupUI()
        self.changeViewWithRoleTypeAndInfo()
        //当前所选中的View
+       self.carousel.currentItemIndex = currentIndex
        self.carouselCurrentItemIndexDidChange(carousel)
     }
     override func didReceiveMemoryWarning() {
@@ -51,15 +57,12 @@ class BorrowMoneyViewController: UIViewController,iCarouselDelegate, iCarouselDa
     }
     
     override func viewWillAppear(_ animated: Bool) {
-//        //判断carousel是否移除
-//        if carousel.superview !== self.view{
-//             self.view.addSubview(carousel)
-//        }
+        upLoadInfoSuccess()
+        self.carouselCurrentItemIndexDidChange(carousel)
     }
     
     override func viewWillDisappear(_ animated: Bool) {
 
-//        self.carousel.removeFromSuperview()
     }
     
     //基本UI
@@ -304,28 +307,36 @@ class BorrowMoneyViewController: UIViewController,iCarouselDelegate, iCarouselDa
     
     private lazy var productView: BorrowMoneyView = {
         let popView = BorrowMoneyView(viewType: .product)
+        popView.holdTipsView.isHidden = false
+        popView.writeBtn.isHidden = true
         return popView
     }()
     
     private lazy var workView: BorrowMoneyView = {
         let popView = BorrowMoneyView(viewType: .work)
+        popView.holdTipsView.isHidden = false
+        popView.writeBtn.isHidden = true
         return popView
     }()
     
     private lazy var schoolView: BorrowMoneyView = {
         let popView = BorrowMoneyView(viewType: .school)
+        popView.holdTipsView.isHidden = false
+        popView.writeBtn.isHidden = true
         return popView
     }()
     
     private lazy var contactView: BorrowMoneyView = {
         let popView = BorrowMoneyView(viewType: .contact)
+        popView.holdTipsView.isHidden = false
+        popView.writeBtn.isHidden = true
         return popView
     }()
     
     private lazy var dataView: BorrowMoneyView = {
         let popView = BorrowMoneyView(viewType: .data)
-//        popView.holdTipsView.isHidden = false
-//        popView.writeBtn.isHidden = true
+        popView.holdTipsView.isHidden = false
+        popView.writeBtn.isHidden = true
         return popView
     }()
     
@@ -492,27 +503,53 @@ class BorrowMoneyViewController: UIViewController,iCarouselDelegate, iCarouselDa
         if UserHelper.getIdentityIsUpload() {
              imageColor.0 = "light"
             identityImageView.finishImageView.isHidden = false
+            productView.holdTipsView.isHidden = true
+            productView.writeBtn.isHidden = false
         }
         if UserHelper.getProductIsUpload() {
-             imageColor.1 = "light"
+            imageColor.1 = "light"
             productImageView.finishImageView.isHidden = false
+            
+            switch self.roleType {
+            case .student:
+                schoolView.holdTipsView.isHidden = true
+                schoolView.writeBtn.isHidden = false
+            case .worker:
+                workView.holdTipsView.isHidden = true
+                workView.writeBtn.isHidden = false
+            case .freedom:
+                contactView.holdTipsView.isHidden = true
+                contactView.writeBtn.isHidden = false
+            }
         }
         if UserHelper.getWorkIsUpload() {
             imageColor.2 = "light"
             workImageView.finishImageView.isHidden = false
+            contactView.holdTipsView.isHidden = true
+            contactView.writeBtn.isHidden = false
         }
         if UserHelper.getSchoolIsUpload() {
             imageColor.3 = "light"
             schoolImageView.finishImageView.isHidden = false
+            contactView.holdTipsView.isHidden = true
+            contactView.writeBtn.isHidden = false
         }
         if UserHelper.getContactIsUpload() {
             imageColor.4 = "light"
             contactImageView.finishImageView.isHidden = false
+            dataView.holdTipsView.isHidden = true
+            dataView.writeBtn.isHidden = false
         }
         if UserHelper.getDataIsUpload() {
             imageColor.5 = "light"
             dataImageView.finishImageView.isHidden = false
         }
+    }
+    
+    //返回键
+    func leftNavigationBarBtnAction(){
+        self.carousel.isHidden = true
+        _ = self.navigationController?.popViewController(animated: true)
     }
     
     //MARK: - ReselectRoleDelegate
