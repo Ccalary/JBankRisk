@@ -153,7 +153,7 @@ class NeedRepayViewController: UIViewController,UITableViewDelegate, UITableView
     
     //下拉选择View
     private lazy var selectView: NeedRepayTimeView = {
-        let selectView = NeedRepayTimeView()
+        let selectView = NeedRepayTimeView(viewType: NeedRepayTimeView.SelectViewType.timeSelect)
         return selectView
     }()
 

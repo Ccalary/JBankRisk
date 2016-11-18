@@ -60,7 +60,7 @@ class DataViewController: UIViewController,UITableViewDelegate, UITableViewDataS
         self.initCameraPicker()
         
         if UserHelper.getDataIsUpload() {
-            self.requestPhotoInfo()
+//            self.requestPhotoInfo()
         }
         
     }
@@ -552,7 +552,7 @@ extension DataViewController {
             if self.uploadSucDelegate != nil {
                 self.uploadSucDelegate?.upLoadInfoSuccess()
             }
-//            self.showHintInKeywindow(hint: "信息上传成功！")
+            self.showHintInKeywindow(hint: "附件上传成功！",yOffset: SCREEN_HEIGHT/2 - 100*UIRate)
             
             let webVC = BaseWebViewController()
             webVC.requestUrl = json["actionUrl"].stringValue

@@ -82,6 +82,21 @@
 		0DAF603C1DA8DFAD0009054F /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 0DAF603A1DA8DFAD0009054F /* LaunchScreen.storyboard */; };
 		0DAF60471DA8DFAD0009054F /* JBankRiskTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0DAF60461DA8DFAD0009054F /* JBankRiskTests.swift */; };
 		0DAF60521DA8DFAD0009054F /* JBankRiskUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0DAF60511DA8DFAD0009054F /* JBankRiskUITests.swift */; };
+		0DB36C611DDE138E0083825D /* MineTopView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0DB36C601DDE138E0083825D /* MineTopView.swift */; };
+		0DB36C651DDE98850083825D /* BorrowProgressVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0DB36C641DDE98850083825D /* BorrowProgressVC.swift */; };
+		0DB36C671DDE99290083825D /* BorrowDefaultView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0DB36C661DDE99290083825D /* BorrowDefaultView.swift */; };
+		0DB36C6A1DDEABD20083825D /* ExamingStatusVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0DB36C691DDEABD20083825D /* ExamingStatusVC.swift */; };
+		0DB36C6C1DDEAD700083825D /* ForUsingStausVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0DB36C6B1DDEAD700083825D /* ForUsingStausVC.swift */; };
+		0DB36C6E1DDEADC40083825D /* RepayingStatusVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0DB36C6D1DDEADC40083825D /* RepayingStatusVC.swift */; };
+		0DB36C701DDEAE440083825D /* RejuestStatusVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0DB36C6F1DDEAE440083825D /* RejuestStatusVC.swift */; };
+		0DB36C741DDEBA7B0083825D /* RepayListViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0DB36C731DDEBA7B0083825D /* RepayListViewController.swift */; };
+		0DB36C761DDECFB30083825D /* RepayListTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0DB36C751DDECFB30083825D /* RepayListTableViewCell.swift */; };
+		0DB36C7C1DDEE5BC0083825D /* BorrowStatusVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0DB36C7B1DDEE5BC0083825D /* BorrowStatusVC.swift */; };
+		0DB36C7E1DDF01520083825D /* Base.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0DB36C7D1DDF01520083825D /* Base.swift */; };
+		0DB36C801DDF22210083825D /* Tools.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0DB36C7F1DDF22210083825D /* Tools.swift */; };
+		0DB36C841DDF61D50083825D /* BorrowInfoView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0DB36C821DDF61D50083825D /* BorrowInfoView.swift */; };
+		0DB36C851DDF61D50083825D /* BorrowStatusView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0DB36C831DDF61D50083825D /* BorrowStatusView.swift */; };
+		0DB36C871DDF62080083825D /* UpLoadServiceBillVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0DB36C861DDF62080083825D /* UpLoadServiceBillVC.swift */; };
 		0DC4C5AD1DD6CF5F007FDBDD /* CoreGraphics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 0DC4C5AC1DD6CF5F007FDBDD /* CoreGraphics.framework */; };
 		0DC4C5AF1DD6CF70007FDBDD /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 0DC4C5AE1DD6CF70007FDBDD /* UIKit.framework */; };
 		0DC4C5B11DD6CF79007FDBDD /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 0DC4C5B01DD6CF79007FDBDD /* Foundation.framework */; };
@@ -210,6 +225,21 @@
 		0DAF604D1DA8DFAD0009054F /* JBankRiskUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = JBankRiskUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		0DAF60511DA8DFAD0009054F /* JBankRiskUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = JBankRiskUITests.swift; sourceTree = "<group>"; };
 		0DAF60531DA8DFAD0009054F /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		0DB36C601DDE138E0083825D /* MineTopView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MineTopView.swift; sourceTree = "<group>"; };
+		0DB36C641DDE98850083825D /* BorrowProgressVC.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BorrowProgressVC.swift; sourceTree = "<group>"; };
+		0DB36C661DDE99290083825D /* BorrowDefaultView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BorrowDefaultView.swift; sourceTree = "<group>"; };
+		0DB36C691DDEABD20083825D /* ExamingStatusVC.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ExamingStatusVC.swift; sourceTree = "<group>"; };
+		0DB36C6B1DDEAD700083825D /* ForUsingStausVC.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ForUsingStausVC.swift; sourceTree = "<group>"; };
+		0DB36C6D1DDEADC40083825D /* RepayingStatusVC.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RepayingStatusVC.swift; sourceTree = "<group>"; };
+		0DB36C6F1DDEAE440083825D /* RejuestStatusVC.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RejuestStatusVC.swift; sourceTree = "<group>"; };
+		0DB36C731DDEBA7B0083825D /* RepayListViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RepayListViewController.swift; sourceTree = "<group>"; };
+		0DB36C751DDECFB30083825D /* RepayListTableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RepayListTableViewCell.swift; sourceTree = "<group>"; };
+		0DB36C7B1DDEE5BC0083825D /* BorrowStatusVC.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BorrowStatusVC.swift; sourceTree = "<group>"; };
+		0DB36C7D1DDF01520083825D /* Base.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Base.swift; sourceTree = "<group>"; };
+		0DB36C7F1DDF22210083825D /* Tools.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Tools.swift; sourceTree = "<group>"; };
+		0DB36C821DDF61D50083825D /* BorrowInfoView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BorrowInfoView.swift; sourceTree = "<group>"; };
+		0DB36C831DDF61D50083825D /* BorrowStatusView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BorrowStatusView.swift; sourceTree = "<group>"; };
+		0DB36C861DDF62080083825D /* UpLoadServiceBillVC.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = UpLoadServiceBillVC.swift; sourceTree = "<group>"; };
 		0DC4C5AC1DD6CF5F007FDBDD /* CoreGraphics.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreGraphics.framework; path = System/Library/Frameworks/CoreGraphics.framework; sourceTree = SDKROOT; };
 		0DC4C5AE1DD6CF70007FDBDD /* UIKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = UIKit.framework; path = System/Library/Frameworks/UIKit.framework; sourceTree = SDKROOT; };
 		0DC4C5B01DD6CF79007FDBDD /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
@@ -398,7 +428,9 @@
 			isa = PBXGroup;
 			children = (
 				0D0E2A2F1DAB377D00A64F76 /* JBankRisk-Bridging-Header.h */,
+				0DB36C7D1DDF01520083825D /* Base.swift */,
 				0D0E2A2C1DAB377D00A64F76 /* File.swift */,
+				0DB36C7F1DDF22210083825D /* Tools.swift */,
 				0D0E2A2D1DAB377D00A64F76 /* HHNavigationController.swift */,
 				0D0E2A2E1DAB377D00A64F76 /* HHTabBarController.swift */,
 				0D0E2A441DABB86E00A64F76 /* BaseWebViewController.swift */,
@@ -458,11 +490,14 @@
 				0D24F2FB1DCB72F300BBAC8F /* MineCollectionViewCell.swift */,
 				0D24F2FC1DCB72F300BBAC8F /* MineFooterView.swift */,
 				0D24F2FD1DCB72F300BBAC8F /* MineHeaderView.swift */,
+				0DB36C601DDE138E0083825D /* MineTopView.swift */,
 				0D24F3031DCB76E700BBAC8F /* BorrowRecordTableViewCell.swift */,
 				0D3ADCAF1DCCF5BD00838043 /* RepayDetailTableViewCell.swift */,
 				0D0A6ED51DD6FB51006B54DD /* FilterRepayView.swift */,
 				0DC8B1541DD84F4D001323D3 /* NeedRepayTimeView.swift */,
 				0DC8B15A1DD8B0ED001323D3 /* RepayPeriodDetailView.swift */,
+				0DB36C661DDE99290083825D /* BorrowDefaultView.swift */,
+				0DB36C751DDECFB30083825D /* RepayListTableViewCell.swift */,
 			);
 			path = View;
 			sourceTree = "<group>";
@@ -470,16 +505,19 @@
 		0D29681C1DA9F772002FBB4C /* Mine */ = {
 			isa = PBXGroup;
 			children = (
+				0DB36C681DDEABAA0083825D /* BorrowStatus */,
 				0D3ADC971DCC838000838043 /* SystemMessage */,
 				0D3ADC7D1DCC1D0500838043 /* Setting */,
 				0D24F2FA1DCB72DA00BBAC8F /* View */,
 				0D0E29FC1DAA220200A64F76 /* MineViewController.swift */,
 				0D24F3011DCB731800BBAC8F /* BorrowRecordViewController.swift */,
 				0D3ADCA51DCCC23B00838043 /* RepayBillViewController.swift */,
+				0DB36C731DDEBA7B0083825D /* RepayListViewController.swift */,
 				0D3ADCA61DCCC23B00838043 /* RepayWayViewController.swift */,
 				0D3ADCAD1DCCF1A200838043 /* RepayDetailViewController.swift */,
 				0DC8B1581DD8AB16001323D3 /* RepayPeriodDetailVC.swift */,
 				0D0A6ED71DD76DF7006B54DD /* NeedRepayViewController.swift */,
+				0DB36C641DDE98850083825D /* BorrowProgressVC.swift */,
 			);
 			path = Mine;
 			sourceTree = "<group>";
@@ -666,6 +704,29 @@
 				0DAF603D1DA8DFAD0009054F /* Info.plist */,
 			);
 			path = MainSystem;
+			sourceTree = "<group>";
+		};
+		0DB36C681DDEABAA0083825D /* BorrowStatus */ = {
+			isa = PBXGroup;
+			children = (
+				0DB36C811DDF61B60083825D /* View */,
+				0DB36C691DDEABD20083825D /* ExamingStatusVC.swift */,
+				0DB36C6B1DDEAD700083825D /* ForUsingStausVC.swift */,
+				0DB36C6D1DDEADC40083825D /* RepayingStatusVC.swift */,
+				0DB36C6F1DDEAE440083825D /* RejuestStatusVC.swift */,
+				0DB36C7B1DDEE5BC0083825D /* BorrowStatusVC.swift */,
+			);
+			path = BorrowStatus;
+			sourceTree = "<group>";
+		};
+		0DB36C811DDF61B60083825D /* View */ = {
+			isa = PBXGroup;
+			children = (
+				0DB36C821DDF61D50083825D /* BorrowInfoView.swift */,
+				0DB36C831DDF61D50083825D /* BorrowStatusView.swift */,
+				0DB36C861DDF62080083825D /* UpLoadServiceBillVC.swift */,
+			);
+			path = View;
 			sourceTree = "<group>";
 		};
 		0DFFAED81DAF6F9D00819CF7 /* PopupView */ = {
@@ -905,6 +966,10 @@
 				0D24F2FF1DCB72F300BBAC8F /* MineFooterView.swift in Sources */,
 				0D24F3041DCB76E700BBAC8F /* BorrowRecordTableViewCell.swift in Sources */,
 				0D3ADCA81DCCC23B00838043 /* RepayWayViewController.swift in Sources */,
+				0DB36C851DDF61D50083825D /* BorrowStatusView.swift in Sources */,
+				0DB36C611DDE138E0083825D /* MineTopView.swift in Sources */,
+				0DB36C671DDE99290083825D /* BorrowDefaultView.swift in Sources */,
+				0DB36C871DDF62080083825D /* UpLoadServiceBillVC.swift in Sources */,
 				0D1EAA861DC8D4FF00789E37 /* DataViewController.swift in Sources */,
 				0D3ADC921DCC50FF00838043 /* ChangePhoneNumVC.swift in Sources */,
 				0D1EAA921DC9BB2500789E37 /* PopupDeadlineCollectionViewCell.swift in Sources */,
@@ -917,6 +982,7 @@
 				0D0E2A321DAB377E00A64F76 /* HHTabBarController.swift in Sources */,
 				0D006DE51DC8AAFA0091CF33 /* ProductViewController.swift in Sources */,
 				0DC8B1591DD8AB16001323D3 /* RepayPeriodDetailVC.swift in Sources */,
+				0DB36C7C1DDEE5BC0083825D /* BorrowStatusVC.swift in Sources */,
 				0D0E2A201DAA8BDF00A64F76 /* CNPPopupController.m in Sources */,
 				0D61C4281DB08ECE00C2BC23 /* PopupSelectRoleView.swift in Sources */,
 				0D1070C21DAE297E00F9591C /* LoginPsdOrSetPsdVC.swift in Sources */,
@@ -932,7 +998,10 @@
 				0D3ADC901DCC455800838043 /* PopupLogoutView.swift in Sources */,
 				0D3ADCB01DCCF5BD00838043 /* RepayDetailTableViewCell.swift in Sources */,
 				0D006DE11DC7A5410091CF33 /* LoginViewController.swift in Sources */,
+				0DB36C841DDF61D50083825D /* BorrowInfoView.swift in Sources */,
 				0D3ADCA21DCCA35600838043 /* NothingDefaultView.swift in Sources */,
+				0DB36C701DDEAE440083825D /* RejuestStatusVC.swift in Sources */,
+				0DB36C741DDEBA7B0083825D /* RepayListViewController.swift in Sources */,
 				0D0E2A171DAA523E00A64F76 /* PullToRefreshOption.swift in Sources */,
 				0D006DDD1DC7810D0091CF33 /* UserHelper.swift in Sources */,
 				0D0E2A271DAA927A00A64F76 /* UIViewController+HUD.swift in Sources */,
@@ -952,13 +1021,17 @@
 				0D3ADC8E1DCC407400838043 /* PopupCopyNoticeView.swift in Sources */,
 				0D9290C61DDD9FA000DB77FD /* PopupRegisterTipsView.swift in Sources */,
 				0DD43CBB1DAFD74400091272 /* PopupRoleView.swift in Sources */,
+				0DB36C801DDF22210083825D /* Tools.swift in Sources */,
 				0D0E2A311DAB377E00A64F76 /* HHNavigationController.swift in Sources */,
 				0D006DCD1DC758480091CF33 /* URL.swift in Sources */,
 				0DECC8711DCAEB130022D3F6 /* AreaTableView.swift in Sources */,
+				0DB36C651DDE98850083825D /* BorrowProgressVC.swift in Sources */,
 				0D61C4321DB128F600C2BC23 /* BorrowMoneyDoneView.swift in Sources */,
 				0D0A6ED81DD76DF7006B54DD /* NeedRepayViewController.swift in Sources */,
 				0D1EAA821DC8C91500789E37 /* WorkViewController.swift in Sources */,
+				0DB36C6C1DDEAD700083825D /* ForUsingStausVC.swift in Sources */,
 				0D24F2FE1DCB72F300BBAC8F /* MineCollectionViewCell.swift in Sources */,
+				0DB36C761DDECFB30083825D /* RepayListTableViewCell.swift in Sources */,
 				0D3ADC9D1DCC853300838043 /* SysMessageTableViewCell.swift in Sources */,
 				0D1EAA8C1DC99C5C00789E37 /* PopupPhotoSelectView.swift in Sources */,
 				0D0E2A301DAB377D00A64F76 /* File.swift in Sources */,
@@ -966,6 +1039,7 @@
 				0D3ADC961DCC76B900838043 /* SuggestCollectionViewCell.swift in Sources */,
 				0D47C3291DD4420000530081 /* IDCardViewController.m in Sources */,
 				0DDF09CA1DD4DDB900E8946E /* ContactViewController.swift in Sources */,
+				0DB36C6E1DDEADC40083825D /* RepayingStatusVC.swift in Sources */,
 				0D006DE71DC8AB5B0091CF33 /* BMTableViewCell.swift in Sources */,
 				0D1EAA8E1DC9AE1800789E37 /* PopupSubmitTipsView.swift in Sources */,
 				0DD99BFF1DB1E47F00342E29 /* NetworkRequest.swift in Sources */,
@@ -977,7 +1051,9 @@
 				0D0E2A451DABB86E00A64F76 /* BaseWebViewController.swift in Sources */,
 				0D132FB11DB07FD70061EDC9 /* iCarousel.m in Sources */,
 				0D1EAA881DC97D2500789E37 /* PopupStaticSelectView.swift in Sources */,
+				0DB36C6A1DDEABD20083825D /* ExamingStatusVC.swift in Sources */,
 				0D2841091DACC1D600059FD2 /* HomeTableViewCell.swift in Sources */,
+				0DB36C7E1DDF01520083825D /* Base.swift in Sources */,
 				0D3ADC9F1DCC94F400838043 /* MessageDetailViewController.swift in Sources */,
 				0D0E2A361DAB389D00A64F76 /* CyclePictureView.swift in Sources */,
 				0D1EAA901DC9B4D200789E37 /* PopupDeadlineView.swift in Sources */,
@@ -1147,6 +1223,7 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = LaunchImage;
 				CLANG_ENABLE_MODULES = YES;
+				DEBUG_INFORMATION_FORMAT = dwarf;
 				DEVELOPMENT_TEAM = JB79VQ5W7K;
 				ENABLE_BITCODE = NO;
 				INFOPLIST_FILE = JBankRisk/Info.plist;
@@ -1173,8 +1250,8 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = LaunchImage;
 				CLANG_ENABLE_MODULES = YES;
-				CODE_SIGN_IDENTITY = "iPhone Developer";
-				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				CODE_SIGN_IDENTITY = "iPhone Distribution: Jing Jin Suo Information Technology Co., Ltd. (JB79VQ5W7K)";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Distribution: Jing Jin Suo Information Technology Co., Ltd. (JB79VQ5W7K)";
 				DEVELOPMENT_TEAM = JB79VQ5W7K;
 				ENABLE_BITCODE = NO;
 				INFOPLIST_FILE = JBankRisk/Info.plist;

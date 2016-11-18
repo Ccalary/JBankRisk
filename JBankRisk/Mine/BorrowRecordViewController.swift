@@ -24,22 +24,44 @@ class BorrowRecordViewController: UIViewController,UITableViewDelegate, UITableV
     }
     
     //MARK: -基本UI
+    
     func setupUI(){
-         self.navigationController!.navigationBar.isTranslucent = true;
-         self.automaticallyAdjustsScrollViewInsets = false;
-         self.title = "借款记录"
-         self.view.backgroundColor = defaultBackgroundColor
+        self.navigationController!.navigationBar.isTranslucent = true;
+        self.automaticallyAdjustsScrollViewInsets = false;
+        self.title = "借款记录"
+        self.view.backgroundColor = defaultBackgroundColor
         
-         self.view.addSubview(aTableView)
+        
+        setupNormalUI()
+    }
+    
+    func setupDefaultUI(){
+        self.view.addSubview(defaultView)
+        
+        defaultView.snp.makeConstraints { (make) in
+            make.width.equalTo(self.view)
+            make.height.equalTo(SCREEN_HEIGHT - 64)
+            make.centerX.equalTo(self.view)
+            make.top.equalTo(64)
+        }
 
-         aTableView.snp.makeConstraints { (make) in
+        //去申请回调
+        defaultView.onClickApplyAction = { _ in
+            
+        }
+        
+    }
+    
+    func setupNormalUI(){
+        self.view.addSubview(aTableView)
+        
+        aTableView.snp.makeConstraints { (make) in
             make.width.equalTo(self.view)
             make.height.equalTo(SCREEN_HEIGHT - 64)
             make.centerX.equalTo(self.view)
             make.top.equalTo(64)
         }
         self.initHeader()
-        
     }
     
     //header
@@ -100,6 +122,13 @@ class BorrowRecordViewController: UIViewController,UITableViewDelegate, UITableV
             make.top.equalTo(topImageView.snp.bottom).offset(50*UIRate)
         }
     }
+    
+    
+    //借款纪录缺省页
+    private lazy var defaultView: BorrowDefaultView = {
+        let holdView = BorrowDefaultView(viewType: BorrowDefaultView.BorrowDefaultViewType.borrowRecord)
+        return holdView
+    }()
     
     //图片
     private lazy var topImageView: UIImageView = {
@@ -195,15 +224,19 @@ class BorrowRecordViewController: UIViewController,UITableViewDelegate, UITableV
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
         return 45*UIRate
     }
+    
+    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        tableView.deselectRow(at: indexPath, animated: true)
+    }
 
     //设置分割线
     func tableView(_ tableView: UITableView, willDisplay cell: UITableViewCell, forRowAt indexPath: IndexPath) {
         
         if cell.responds(to: #selector(setter: UITableViewCell.separatorInset)) {
-            cell.separatorInset = UIEdgeInsets(top: 0, left: 15*UIRate, bottom: 0, right: 15*UIRate)
+            cell.separatorInset = .zero
         }
         if cell.responds(to: #selector(setter: UITableViewCell.layoutMargins)) {
-            cell.layoutMargins = UIEdgeInsets(top: 0, left: 15*UIRate, bottom: 0, right: 15*UIRate)
+            cell.layoutMargins = .zero
         }
     }
 

@@ -10,14 +10,14 @@ import UIKit
 import IQKeyboardManagerSwift
 
 @UIApplicationMain
-class AppDelegate: UIResponder, UIApplicationDelegate {
+class AppDelegate: UIResponder, UIApplicationDelegate,UITabBarControllerDelegate {
 
     var window: UIWindow?
-    
+    var rootTabbar: HHTabBarController?
     
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplicationLaunchOptionsKey: Any]?) -> Bool {
         
-        Thread.sleep(forTimeInterval: 2.0)//启动延时2秒
+        Thread.sleep(forTimeInterval: 1.0)//启动延时2秒
         
         //解决键盘遮挡问题
         IQKeyboardManager.sharedManager().enable = true
@@ -25,7 +25,8 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         self.window = UIWindow(frame: UIScreen.main.bounds)
         self.window?.backgroundColor = UIColor.white
         
-        let rootTabbar = HHTabBarController()
+        rootTabbar = HHTabBarController()
+        rootTabbar?.delegate = self
         self.window?.rootViewController = rootTabbar
         self.window?.makeKeyAndVisible()
         
@@ -54,5 +55,24 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         // Called when the application is about to terminate. Save data if appropriate. See also applicationDidEnterBackground:.
     }
 
+   
+    //MARK: - UITabBarControllerDelegate
+    func tabBarController(_ tabBarController: UITabBarController, shouldSelect viewController: UIViewController) -> Bool {
+        
+        //如果未登录
+        if !UserHelper.isLogin() {
+            if viewController.tabBarItem.title == "我的"{
+                let loginVC = LoginViewController()
+                loginVC.isPush = false
+                //使登录界面的nav可以显示出来
+               let loginNav = HHNavigationController(rootViewController: loginVC)
+              tabBarController.selectedViewController?.present(loginNav, animated: true, completion: nil)
+                return false
+            }else {
+                return true
+            }
+        }
+      return true
+  }
 }
 

@@ -10,7 +10,16 @@ import UIKit
 
 class NeedRepayTimeView: UIView, UITableViewDataSource, UITableViewDelegate {
 
+    enum SelectViewType {
+        case timeSelect //还款时间
+        case nameSelect //产品选择
+    }
+    
+    var viewType: SelectViewType!
+    var dataArray = [String]()
+    
     let textArray:[String] = ["全部应还","本月应还","近7日应还","今日应还"]
+    let timeArray:[String] = ["全部纪录","隆鼻","瘦脸"]
     
     var onClickCell:((_ title: String)->())?
     //选中的cell
@@ -21,9 +30,18 @@ class NeedRepayTimeView: UIView, UITableViewDataSource, UITableViewDelegate {
     }
     
     ///初始化默认frame
-    convenience init() {
-        let frame = CGRect(x: 0, y: 0, width: SCREEN_WIDTH, height: 180*UIRate)
+    convenience init(viewType: SelectViewType) {
+        let frame = CGRect()
         self.init(frame: frame)
+        self.viewType = viewType
+        switch self.viewType! {
+        case .timeSelect:
+            dataArray = textArray
+        case .nameSelect:
+            dataArray = timeArray
+        }
+        self.frame = CGRect(x: 0, y: 0, width: SCREEN_WIDTH, height: CGFloat(dataArray.count)*45*UIRate)
+        
         setupUI()
     }
     
@@ -36,7 +54,7 @@ class NeedRepayTimeView: UIView, UITableViewDataSource, UITableViewDelegate {
         
         aTableView.snp.makeConstraints { (make) in
             make.width.equalTo(self)
-            make.height.equalTo(180*UIRate)
+            make.height.equalTo(self)
             make.centerX.equalTo(self)
             make.top.equalTo(0)
         }
@@ -72,7 +90,7 @@ class NeedRepayTimeView: UIView, UITableViewDataSource, UITableViewDelegate {
     }
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return textArray.count
+        return dataArray.count
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
@@ -80,7 +98,7 @@ class NeedRepayTimeView: UIView, UITableViewDataSource, UITableViewDelegate {
        
         cell.arrowImageView.isHidden = true
         
-        cell.textLabel?.text = textArray[indexPath.row]
+        cell.textLabel?.text = dataArray[indexPath.row]
         if indexPath.row == selectCell {
             cell.checkImage.isHidden = false
         }else {
@@ -95,7 +113,7 @@ class NeedRepayTimeView: UIView, UITableViewDataSource, UITableViewDelegate {
         self.selectCell = indexPath.row
         self.aTableView.reloadData()
         if let onClickCell = onClickCell {
-            onClickCell(textArray[indexPath.row])
+            onClickCell(dataArray[indexPath.row])
         }
     }
     

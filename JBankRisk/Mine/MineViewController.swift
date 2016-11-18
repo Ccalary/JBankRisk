@@ -9,14 +9,27 @@
 import UIKit
 import SwiftyJSON
 
-class MineViewController: UIViewController, UIGestureRecognizerDelegate,UICollectionViewDelegate,UICollectionViewDataSource, UICollectionViewDelegateFlowLayout {
+class MineViewController: UIViewController, UIGestureRecognizerDelegate,UICollectionViewDelegate,UICollectionViewDataSource, UICollectionViewDelegateFlowLayout, StatusButtonClickDelegate,MineTioViewClickDelegate{
 
     var headerView:MineHeaderView!
     var footerView:MineFooterView!
+    
+    //摇摆动画
+    var momAnimation:CABasicAnimation!
+    
     //未读信息个数
-    var messageCount = 0
-    
-    
+    var messageCount = 0 {
+        didSet{
+            if messageCount > 0 {
+                self.mineTopView.messageRedDot.isHidden = false
+                self.shakeAnimation()//添加晃动动画
+            }else {
+                self.mineTopView.messageRedDot.isHidden = true
+                //移除晃动动画
+                self.mineTopView.messageBtn.layer.removeAllAnimations()
+            }
+        }
+    }
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -26,14 +39,15 @@ class MineViewController: UIViewController, UIGestureRecognizerDelegate,UICollec
 
         //启动滑动返回（swipe back）
         self.navigationController?.interactivePopGestureRecognizer?.delegate = self
-        
         //加载UI
         self.setupUI()
+        
+        
     }
 
     override func viewWillAppear(_ animated: Bool) {
         self.navigationController?.isNavigationBarHidden = true
-//        self.requestHomeData()
+        self.requestHomeData()
     }
     
     override func viewWillDisappear(_ animated: Bool) {
@@ -53,282 +67,53 @@ class MineViewController: UIViewController, UIGestureRecognizerDelegate,UICollec
         return true
     }
 
-
     func setupUI() {
         self.view.backgroundColor = defaultBackgroundColor
         
-        self.view.addSubview(topImageView)
-        self.view.addSubview(messageBtn)
-        self.messageBtn.addSubview(messageRedDot)
-        self.view.addSubview(settingBtn)
-        self.view.addSubview(headerImageView)
-        self.view.addSubview(sayHelloTextLabel)
+        self.view.addSubview(aScrollView)
         
-        /*****************/
-        self.view.addSubview(tipsHoldView)
-        self.tipsHoldView.addSubview(tipsTextLabel)
+        self.aScrollView.addSubview(mineTopView)
+        self.aScrollView.addSubview(aCollectionView)
         
-        /*************/
-        self.view.addSubview(repayHoldView)
-        self.repayHoldView.addSubview(repayDivideLine)
-        self.repayHoldView.addSubview(repayDivideLine2)
-        self.repayHoldView.addSubview(repayVerDivideLine)
-        self.repayHoldView.addSubview(moneyLabel)
-        self.repayHoldView.addSubview(moneyTextLabel)
-        self.repayHoldView.addSubview(dateLabel)
-        self.repayHoldView.addSubview(dateTextLabel)
-        self.repayHoldView.addSubview(reBottomHoldView)
-        
-    
-        /************/
-        self.view.addSubview(aCollectionView)
-        
-        topImageView.snp.makeConstraints { (make) in
+        aScrollView.snp.makeConstraints { (make) in
             make.width.equalTo(self.view)
-            make.height.equalTo(220*UIRate)
-            make.top.equalTo(self.view)
-        }
-        
-        messageBtn.snp.makeConstraints { (make) in
-            make.width.height.equalTo(25*UIRate)
-            make.left.equalTo(10*UIRate)
-            make.top.equalTo(30*UIRate)
-        }
-        
-        messageRedDot.snp.makeConstraints { (make) in
-            make.width.height.equalTo(6*UIRate)
-            make.centerX.equalTo(6.5*UIRate)
-            make.centerY.equalTo(-6.5*UIRate)
-        }
-
-        settingBtn.snp.makeConstraints { (make) in
-            make.width.height.equalTo(25*UIRate)
-            make.right.equalTo(topImageView.snp.right).offset(-10*UIRate)
-            make.top.equalTo(30*UIRate)
-        }
-        
-        headerImageView.snp.makeConstraints { (make) in
-            make.width.height.equalTo(90*UIRate)
+            make.height.equalTo(667*UIRate - 49)
             make.centerX.equalTo(self.view)
-            make.top.equalTo(65*UIRate)
+            make.top.equalTo(0)
         }
         
-        sayHelloTextLabel.snp.makeConstraints { (make) in
-            make.bottom.equalTo(topImageView.snp.bottom).offset(-30*UIRate)
-            make.centerX.equalTo(self.view)
-        }
+        aScrollView.contentSize = CGSize(width: SCREEN_WIDTH, height: 667*UIRate - 49 + 1)
         
-        /********/
-        tipsHoldView.snp.makeConstraints { (make) in
+        self.aScrollView.addPullRefreshHandler({ _ in
+            self.requestHomeData()
+            self.aScrollView.stopPullRefreshEver()
+        })
+        
+        mineTopView.snp.makeConstraints { (make) in
             make.width.equalTo(self.view)
-            make.height.equalTo(25*UIRate)
+            make.height.equalTo(315*UIRate)
             make.centerX.equalTo(self.view)
-            make.top.equalTo(topImageView.snp.bottom)
+            make.top.equalTo(0)
         }
         
-        tipsTextLabel.snp.makeConstraints { (make) in
-            make.centerX.equalTo(self.view)
-            make.centerY.equalTo(tipsHoldView)
-        }
-
-        /*********/
-
-        repayHoldView.snp.makeConstraints { (make) in
-            make.width.equalTo(self.view)
-            make.height.equalTo(70*UIRate)
-            make.centerX.equalTo(self.view)
-            make.top.equalTo(topImageView.snp.bottom).offset(25*UIRate)
-        }
-
-        repayDivideLine.snp.makeConstraints { (make) in
-            make.width.equalTo(self.view)
-            make.height.equalTo(0.5*UIRate)
-            make.centerX.equalTo(repayHoldView)
-            make.top.equalTo(60*UIRate)
-        }
-
-        repayDivideLine2.snp.makeConstraints { (make) in
-            make.width.equalTo(self.view)
-            make.height.equalTo(0.5*UIRate)
-            make.centerX.equalTo(repayHoldView)
-            make.bottom.equalTo(70*UIRate)
-        }
-
-        repayVerDivideLine.snp.makeConstraints { (make) in
-            make.width.equalTo(0.5*UIRate)
-            make.height.equalTo(60*UIRate)
-            make.centerX.equalTo(repayHoldView)
-            make.top.equalTo(repayHoldView)
-        }
-        
-        moneyTextLabel.snp.makeConstraints { (make) in
-            make.centerX.equalTo(-SCREEN_WIDTH/4)
-            make.top.equalTo(33*UIRate)
-        }
-        
-        moneyLabel.snp.makeConstraints { (make) in
-            make.width.equalTo(SCREEN_WIDTH/2)
-            make.centerX.equalTo(moneyTextLabel)
-            make.bottom.equalTo(moneyTextLabel.snp.top)
-        }
-
-        dateTextLabel.snp.makeConstraints { (make) in
-            make.centerX.equalTo(SCREEN_WIDTH/4)
-            make.centerY.equalTo(moneyTextLabel)
-        }
-        
-        dateLabel.snp.makeConstraints { (make) in
-            make.width.equalTo(SCREEN_WIDTH/2)
-            make.centerX.equalTo(dateTextLabel)
-            make.centerY.equalTo(moneyLabel)
-        }
-        
-        reBottomHoldView.snp.makeConstraints { (make) in
-            make.width.equalTo(repayHoldView)
-            make.height.equalTo(10*UIRate)
-            make.centerX.equalTo(repayHoldView)
-            make.top.equalTo(repayDivideLine.snp.bottom)
-        }
-
-        /***********/
         aCollectionView.snp.makeConstraints { (make) in
             make.width.equalTo(self.view)
             make.height.equalTo(205*UIRate)
             make.centerX.equalTo(self.view)
-            make.top.equalTo(repayHoldView.snp.bottom)
+            make.top.equalTo(mineTopView.snp.bottom)
         }
-
     }
     
-    var topImageView: UIImageView = {
-        let imageView = UIImageView()
-        imageView.image = UIImage(named: "m_banner_image_375x220")
-        return imageView
+    
+    private lazy var aScrollView : UIScrollView = {
+        let scrollView = UIScrollView()
+        return scrollView
     }()
     
-    //／消息按钮
-    private lazy var messageBtn: UIButton = {
-        let button = UIButton()
-        button.setBackgroundImage(UIImage(named: "m_message_25x25"), for: .normal)
-        button.addTarget(self, action: #selector(messageBtnAction), for: .touchUpInside)
-        return button
-    }()
-    
-    //／消息小红点
-    private lazy var messageRedDot: UIImageView = {
-        let imageView = UIImageView()
-        imageView.image = UIImage(named:"m_red_point_6x6")
-        imageView.isHidden = true
-        return imageView
-    }()
-    
-    //／设置按钮
-    private lazy var settingBtn: UIButton = {
-        let button = UIButton()
-        button.setBackgroundImage(UIImage(named: "m_setting_25x25"), for: .normal)
-        button.addTarget(self, action: #selector(settingBtnAction), for: .touchUpInside)
-        return button
-    }()
-    
-    //头像
-    private lazy var headerImageView: UIImageView = {
-        let imageView = UIImageView()
-        imageView.image = UIImage(named: "m_heder_icon_90x90")
-        return imageView
-    }()
-    
-    var sayHelloTextLabel: UILabel = {
-        let textLabel = UILabel()
-        textLabel.font = UIFontSize(size: 15*UIRate)
-        textLabel.textAlignment = .center
-        textLabel.textColor = UIColor.white
-        textLabel.text = "您好： 135****7788"
-        return textLabel
-    }()
-    
-    /*****************/
-    private lazy var tipsHoldView: UIView = {
-        let holdView = UIView()
-        holdView.backgroundColor = UIColorHex("ffe0df")
-        return holdView
-    }()
-    
-    private lazy var tipsTextLabel: UILabel = {
-        let label = UILabel()
-        label.font = UIFontSize(size: 15*UIRate)
-        label.textAlignment = .center
-        label.textColor = UIColorHex("e9342d")
-        label.text = "您有借款逾期，请尽早还款"
-        return label
-    }()
-
-    /*************/
-    private lazy var repayHoldView: UIView = {
-        let holdView = UIView()
-        holdView.backgroundColor = UIColor.white
-        return holdView
-    }()
-    
-    //分割线
-    private lazy var repayDivideLine: UIView = {
-        let lineView = UIView()
-        lineView.backgroundColor = defaultDivideLineColor
-        return lineView
-    }()
-    
-    private lazy var repayDivideLine2: UIView = {
-        let lineView = UIView()
-        lineView.backgroundColor = defaultDivideLineColor
-        return lineView
-    }()
-
-    //分割线
-    private lazy var repayVerDivideLine: UIView = {
-        let lineView = UIView()
-        lineView.backgroundColor = defaultDivideLineColor
-        return lineView
-    }()
-
-    private lazy var moneyTextLabel: UILabel = {
-        let label = UILabel()
-        label.font = UIFontSize(size: 15*UIRate)
-        label.textAlignment = .center
-        label.textColor = UIColorHex("848484")
-        label.text = "本月待还(元)"
-        return label
-    }()
-
-    private lazy var moneyLabel: UILabel = {
-        let label = UILabel()
-        label.font = UIFontSize(size: 20*UIRate)
-        label.textAlignment = .center
-        label.textColor = UIColorHex("f42e2f")
-        label.text = "0.00"
-        return label
-    }()
-
-    private lazy var dateTextLabel: UILabel = {
-        let label = UILabel()
-        label.font = UIFontSize(size: 15*UIRate)
-        label.textAlignment = .center
-        label.textColor = UIColorHex("848484")
-        label.text = "下期还款日"
-        return label
-    }()
-    
-    private lazy var dateLabel: UILabel = {
-        let label = UILabel()
-        label.font = UIFontSize(size: 20*UIRate)
-        label.textAlignment = .center
-        label.textColor = UIColorHex("f42e2f")
-        label.text = "11月11日"
-        return label
-    }()
-
-    private lazy var reBottomHoldView: UIView = {
-        let holdView = UIView()
-        holdView.backgroundColor = defaultBackgroundColor
-        return holdView
+    fileprivate lazy var mineTopView : MineTopView = {
+        let topView = MineTopView()
+        topView.delegate = self
+        return topView
     }()
     
     private lazy var aCollectionView: UICollectionView = {
@@ -386,6 +171,9 @@ class MineViewController: UIViewController, UIGestureRecognizerDelegate,UICollec
         }else if indexPath.row == 1 { //还款账单
             let repayVC = RepayBillViewController()
             self.navigationController?.pushViewController(repayVC, animated: true)
+        }else if indexPath.row == 2 { //还款明细
+            let repayDetailVC = RepayListViewController()
+             self.navigationController?.pushViewController(repayDetailVC, animated: true)
         }
     }
     
@@ -393,6 +181,7 @@ class MineViewController: UIViewController, UIGestureRecognizerDelegate,UICollec
         switch kind {
         case UICollectionElementKindSectionHeader:
             headerView = collectionView.dequeueReusableSupplementaryView(ofKind: kind, withReuseIdentifier: "header", for: indexPath) as! MineHeaderView
+            headerView.delegate = self
             return headerView
             
         case UICollectionElementKindSectionFooter:
@@ -400,6 +189,7 @@ class MineViewController: UIViewController, UIGestureRecognizerDelegate,UICollec
             return footerView
         default:
             headerView = collectionView.dequeueReusableSupplementaryView(ofKind: kind, withReuseIdentifier: "header", for: indexPath) as! MineHeaderView
+            headerView.delegate = self
             return headerView
         }
     }
@@ -412,17 +202,44 @@ class MineViewController: UIViewController, UIGestureRecognizerDelegate,UICollec
         return CGSize(width: SCREEN_WIDTH, height: 60*UIRate)
     }
     
- //MARK: - Action
-    func messageBtnAction() {//消息
-        let messageVC = SysMessageViewController()
-        self.navigationController?.pushViewController(messageVC, animated: true)
+   //MARK: - MineTioViewClickDelegate
+    
+    func mineTopViewOnClick(tag: Int) {
+        switch tag {//消息
+        case 10000:
+            let messageVC = SysMessageViewController()
+            self.navigationController?.pushViewController(messageVC, animated: true)
+        case 20000://设置
+            let settingVC = SettingViewController()
+            self.navigationController?.pushViewController(settingVC, animated: true)
+        case 30000://头像
+            let settingVC = SettingViewController()
+            self.navigationController?.pushViewController(settingVC, animated: true)
+        default:
+            break
+        }
     }
     
-    func settingBtnAction(){
-        let settingVC = SettingViewController()
-        self.navigationController?.pushViewController(settingVC, animated: true)
+    //MARK: - StatusButtonClickDelegate
+    func clickStatusButtonAction(tag: Int){
+        switch tag {
+        case 10000://审核中
+            let statusVC = ExamingStatusVC()
+            self.navigationController?.pushViewController(statusVC, animated: true)
+        case 20000://待使用
+            self.shakeAnimation()
+            let statusVC = ForUsingStausVC()
+            self.navigationController?.pushViewController(statusVC, animated: true)
+        case 30000: //还款中
+            let statusVC = RepayingStatusVC()
+            self.navigationController?.pushViewController(statusVC, animated: true)
+        case 40000: //驳回－拒绝
+            let statusVC = RejuestStatusVC()
+            self.navigationController?.pushViewController(statusVC, animated: true)
+        default :
+            break
+        }
     }
-    
     
     //MARK: - 个人中心数据请求
     func requestHomeData(){
@@ -446,21 +263,25 @@ class MineViewController: UIViewController, UIGestureRecognizerDelegate,UICollec
             //隐藏HUD
             self.hideHud()
         })
-        
-
     }
     
     func refreshUI(json:JSON){
+        
+        //头像
+        UserHelper.setUserHeader(headerUrl: BASR_DEV_URL + json["head_img"].stringValue)
+        mineTopView.headerImageView.kf_setImage(with: URL(string: UserHelper.getUserHeaderUrl() ?? ""), placeholder: UIImage(named: "m_heder_icon_90x90"), options: nil, progressBlock: nil, completionHandler: nil)
+        //未读消息
         self.messageCount = json["size"].intValue
+        
         if json["jstatus"].stringValue == "5" {//有还款明细
-            self.moneyLabel.text = json["MonthRefund"].stringValue
-            self.dateLabel.text = json["nextMonthDay"].stringValue
+            self.mineTopView.moneyLabel.text = json["MonthRefund"].stringValue
+            self.mineTopView.dateLabel.text = json["nextMonthDay"].stringValue
         }
         if json["penalty_day"].intValue > 0 { //有逾期
             let day = json["penalty_day"].stringValue //天数
             let amount = json["demurrage"].stringValue //钱数
             
-            self.tipsTextLabel.text = "您有1期借款已逾期\(day)天，费用\(amount)元，请及时还款"
+            self.mineTopView.tipsTextLabel.text = "您有1期借款已逾期\(day)天，费用\(amount)元，请及时还款"
         }
         let status = json["jstatus"].stringValue//个人中心借款状态
             headerView.tipImage1.isHidden = true
@@ -482,3 +303,19 @@ class MineViewController: UIViewController, UIGestureRecognizerDelegate,UICollec
         }
     }
 }
+
+extension MineViewController {
+    
+    //晃动动画
+    func shakeAnimation(){
+        self.mineTopView.messageBtn.layer.removeAllAnimations()//移除，避免多次重复添加
+        self.momAnimation = CABasicAnimation(keyPath: "transform.rotation.z")
+        self.momAnimation.fromValue = NSNumber(value: -0.1) //左幅度
+        self.momAnimation.toValue = NSNumber(value: 0.1) //右幅度
+        self.momAnimation.duration = 0.1
+        self.momAnimation.repeatCount = HUGE //无限重复
+        self.momAnimation.autoreverses = true //动画结束时执行逆动画
+        self.momAnimation.isRemovedOnCompletion = false
+        self.mineTopView.messageBtn.layer.add(momAnimation, forKey: "centerLayer")
+    }
+ }

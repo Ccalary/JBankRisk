@@ -21,7 +21,7 @@ class NothingDefaultView: UIView {
     
     ///初始化默认frame
     convenience init(viewType: DefaultViewType) {
-        let frame = CGRect(x: 0, y: 0, width: SCREEN_WIDTH, height: 175*UIRate)
+        let frame = CGRect(x: 0, y: 0, width: SCREEN_WIDTH, height: 300*UIRate)
         self.init(frame: frame)
         switch viewType {
         case .nothing:

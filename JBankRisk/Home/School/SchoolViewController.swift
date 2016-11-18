@@ -373,7 +373,7 @@ class SchoolViewController:  UIViewController,UITableViewDelegate, UITableViewDa
                 if self.uploadSucDelegate != nil {
                     self.uploadSucDelegate?.upLoadInfoSuccess()
                 }
-                self.showHintInKeywindow(hint: "学校信息上传完成！")
+                self.showHintInKeywindow(hint: "学校信息上传完成！",yOffset: SCREEN_HEIGHT/2 - 100*UIRate)
                 
                 let idVC = ContactViewController()
                 self.navigationController?.pushViewController(idVC, animated: true)

@@ -71,10 +71,11 @@ extension UIViewController
         HUD.label.text = hint
         HUD.show(animated: true)
         HUD.removeFromSuperViewOnHide = false
+        HUD.offset.y = yOffset ?? 0
+        HUD.margin = 12*UIRate
         HUD.hide(animated: true, afterDelay: duration)
         hud = HUD
     }
-    
     
     /**
      显示纯文字提示信息，默认时间1.5s，默认偏移量0
@@ -95,6 +96,8 @@ extension UIViewController
         HUD.isUserInteractionEnabled = false
         HUD.removeFromSuperViewOnHide = false
         HUD.show(animated: true)
+        HUD.offset.y = yOffset ?? 0
+        HUD.margin = 12*UIRate
         HUD.hide(animated: true, afterDelay: duration)
         hud = HUD
     }

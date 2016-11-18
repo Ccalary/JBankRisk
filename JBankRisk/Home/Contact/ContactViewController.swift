@@ -365,7 +365,9 @@ class ContactViewController: UIViewController, UITableViewDelegate, UITableViewD
     func contactPicker(_ picker: CNContactPickerViewController, didSelect contact: CNContact) {
         var phoneNum = ""
         for i in contact.phoneNumbers {
-            phoneNum = i.value.stringValue //电话号码
+             let numStr = i.value.stringValue //电话号码
+             phoneNum = numStr.replacingOccurrences(of: "-", with: "")
+             phoneNum = phoneNum.replacingOccurrences(of: " ", with: "")
         }
         if contactType == 0{
              self.relativeContactInfo = ((contact.familyName + contact.givenName),phoneNum)
@@ -394,10 +396,20 @@ class ContactViewController: UIViewController, UITableViewDelegate, UITableViewD
         }else if textField.tag == 10002{
             self.relativeContactInfo.name = textField.text!
         }else if textField.tag == 10003{
+            //限制输入的长度，最长为11位
+            if (textField.text?.characters.count)! > 11{
+                let index = textField.text?.index((textField.text?.startIndex)!, offsetBy: 11)//到offsetBy的前一位
+                textField.text = textField.text?.substring(to: index!)
+            }
             self.relativeContactInfo.number = textField.text!
         }else if textField.tag == 10004{
             self.urgentContactInfo.name = textField.text!
         }else if textField.tag == 10005{
+            //限制输入的长度，最长为11位
+            if (textField.text?.characters.count)! > 11{
+                let index = textField.text?.index((textField.text?.startIndex)!, offsetBy: 11)//到offsetBy的前一位
+                textField.text = textField.text?.substring(to: index!)
+            }
             self.urgentContactInfo.number = textField.text!
         }
     }
@@ -469,7 +481,7 @@ class ContactViewController: UIViewController, UITableViewDelegate, UITableViewD
                 if self.uploadSucDelegate != nil {
                     self.uploadSucDelegate?.upLoadInfoSuccess()
                 }
-                self.showHintInKeywindow(hint: "联系信息上传完成！")
+                self.showHintInKeywindow(hint: "联系信息上传完成！",yOffset: SCREEN_HEIGHT/2 - 100*UIRate)
                 
                 self.pushToNextVC()
                 

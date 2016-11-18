@@ -48,7 +48,6 @@ class SettingTableViewCell: UITableViewCell {
             make.right.equalTo(self.snp.right).offset(-40*UIRate)
             make.centerY.equalTo(self)
         }
-        
     }
     
     lazy var leftTextLabel: UILabel = {
@@ -79,6 +78,8 @@ class SettingTableViewCell: UITableViewCell {
     lazy var headerImageView: UIImageView = {
         let imageView = UIImageView()
         imageView.isHidden = true
+        imageView.layer.masksToBounds = true
+        imageView.layer.cornerRadius = 45*UIRate/2
         imageView.image = UIImage(named: "s_header_icon_45x45")
         return imageView
     }()

@@ -8,8 +8,15 @@
 
 import UIKit
 
+protocol StatusButtonClickDelegate {
+    func clickStatusButtonAction(tag: Int)
+}
+
 class MineHeaderView: UICollectionReusableView {
 
+    var delegate: StatusButtonClickDelegate?
+    
+    
     override init(frame: CGRect ) {
         super.init(frame: frame)
         setupUI()
@@ -257,7 +264,8 @@ class MineHeaderView: UICollectionReusableView {
     //／按钮
     private lazy var button1: UIButton = {
         let button = UIButton()
-        button.addTarget(self, action: #selector(button1Action), for: .touchUpInside)
+        button.tag = 10000
+        button.addTarget(self, action: #selector(buttonAction(_:)), for: .touchUpInside)
         return button
     }()
     
@@ -305,7 +313,8 @@ class MineHeaderView: UICollectionReusableView {
     //／按钮
     private lazy var button2: UIButton = {
         let button = UIButton()
-        button.addTarget(self, action: #selector(button2Action), for: .touchUpInside)
+        button.tag = 20000
+        button.addTarget(self, action: #selector(buttonAction(_:)), for: .touchUpInside)
         return button
     }()
 /********/
@@ -352,7 +361,8 @@ class MineHeaderView: UICollectionReusableView {
     //／按钮
     private lazy var button3: UIButton = {
         let button = UIButton()
-        button.addTarget(self, action: #selector(button3Action), for: .touchUpInside)
+        button.tag = 30000
+        button.addTarget(self, action: #selector(buttonAction(_:)), for: .touchUpInside)
         return button
     }()
 /********/
@@ -399,7 +409,8 @@ class MineHeaderView: UICollectionReusableView {
     //／按钮
     private lazy var button4: UIButton = {
         let button = UIButton()
-        button.addTarget(self, action: #selector(button4Action), for: .touchUpInside)
+        button.tag = 40000
+        button.addTarget(self, action: #selector(buttonAction(_:)), for: .touchUpInside)
         return button
     }()
     
@@ -423,22 +434,14 @@ class MineHeaderView: UICollectionReusableView {
         return holdView
     }()
     
-    func button1Action(){
-        
-    }
     
-    func button2Action(){
+    //实现代理
+    func buttonAction(_ button:UIButton){
         
+        if self.delegate != nil {
+            self.delegate?.clickStatusButtonAction(tag: button.tag)
+        }
     }
-    
-    func button3Action(){
-        
-    }
-    
-    func button4Action(){
-        
-    }
-    
     
 
     

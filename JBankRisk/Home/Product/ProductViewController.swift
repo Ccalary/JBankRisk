@@ -299,13 +299,13 @@ class ProductViewController: UIViewController,UITableViewDelegate, UITableViewDa
     
     //获取位置
     func getAddress(){
-//        self.showHud(in: self.view, hint: "获取中...")
+        self.showHud(in: self.view, hint: "获取中...")
         locationManager.requestLocation(withReGeocode: true, completionBlock: { (location, code, error) in
             
             if (error != nil){
                 //隐藏HUD
 //                PrintLog(error.debugDescription)
-//                self.hideHud()
+                self.hideHud()
                 let alertController = UIAlertController(title: "获取商户名称失败",
                                                         message: "请点击所属商户尝试再次获取",//请检查是否在“设置－中诚消费－位置”中未允许本App访问您的位置
                                                         preferredStyle: .alert)
@@ -334,14 +334,16 @@ class ProductViewController: UIViewController,UITableViewDelegate, UITableViewDa
                 textField.text = textField.text?.substring(to: index!)
             }
             self.borrowMoney = textField.text!
-            //如果清空，则申请期限清空
-            if self.borrowMoney == "" {
+            //如果改变，则申请期限清空
+            if self.selectPeriodInfo.text.characters.count > 0 {
+                
                 self.selectPeriodInfo = (0,"")
                 self.repayment = ""
                 let position1 = IndexPath(row: 5, section: 0)
                 let position2 = IndexPath(row: 4, section: 0)
                 self.aTableView.reloadRows(at: [position1,position2], with: UITableViewRowAnimation.none)
             }
+            
         }else if textField.tag == 10001 {
             //限制输入的长度，最长为8位
             if (textField.text?.characters.count)! > 8{
@@ -372,12 +374,12 @@ class ProductViewController: UIViewController,UITableViewDelegate, UITableViewDa
             self.showHint(in: self.view, hint: "订单已生成，信息不可更改哦！")
             return
         }
-        //判断是否可以上传
+        //判断是否可以上传   //self.saleName.characters.count > 0//商户名称
         guard self.proName.characters.count > 0,
-            self.borrowMoney.characters.count > 0,
-            self.selectPeriodInfo.text.characters.count > 0,
-            self.workerName.characters.count > 0
-            else {
+             self.borrowMoney.characters.count > 0,
+             self.selectPeriodInfo.text.characters.count > 0,
+             self.workerName.characters.count > 0
+             else {
                 self.showHint(in: self.view, hint: "请完善信息再上传!")
                 
                 return
@@ -413,7 +415,7 @@ class ProductViewController: UIViewController,UITableViewDelegate, UITableViewDa
                 if self.uploadSucDelegate != nil {
                     self.uploadSucDelegate?.upLoadInfoSuccess()
                 }
-                self.showHintInKeywindow(hint: "产品信息上传完成！")
+                self.showHintInKeywindow(hint: "产品信息上传完成！",yOffset: SCREEN_HEIGHT/2 - 100*UIRate)
                 self.pushToNextViewController()
                 
         }, failure: {error in
@@ -491,10 +493,16 @@ extension ProductViewController {
             { response in
     
                 //隐藏HUD
-//                self.hideHud()
+                self.hideHud()
                 let json = JSON(response)
                 guard json["RET_CODE"] == "000000" else{
                     return self.showHint(in: self.view, hint: json["RET_DESC"].stringValue)
+                }
+                
+                let nameStr = json["saleName"].stringValue
+                guard nameStr.characters.count > 0  else {
+                    self.showHint(in: self.view, hint: "未能获取商户名称！")
+                    return
                 }
                 self.saleName = json["saleName"].stringValue
                 //刷新tableView
@@ -504,7 +512,7 @@ extension ProductViewController {
                 
         }, failure: {error in
             //隐藏HUD
-//            self.hideHud()
+            self.hideHud()
         })
     }
 }

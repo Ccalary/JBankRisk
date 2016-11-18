@@ -380,7 +380,7 @@ class WorkViewController: UIViewController,UITableViewDelegate, UITableViewDataS
                 if self.uploadSucDelegate != nil {
                     self.uploadSucDelegate?.upLoadInfoSuccess()
                 }
-                self.showHintInKeywindow(hint: "工作信息上传完成！")
+                self.showHintInKeywindow(hint: "工作信息上传完成！",yOffset: SCREEN_HEIGHT/2 - 100*UIRate)
                 
                 let idVC = ContactViewController()
                 self.navigationController?.pushViewController(idVC, animated: true)

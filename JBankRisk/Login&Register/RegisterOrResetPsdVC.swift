@@ -22,6 +22,8 @@ class RegisterOrResetPsdVC: UIViewController {
         case resetPsd
     }
     
+    var isPush: Bool = true
+    
     var viewType: RegisterOrResetPsdViewType = .register
     var mTimer: Timer!
     var seconds: Int = defaultSeconds
@@ -30,6 +32,7 @@ class RegisterOrResetPsdVC: UIViewController {
     
     override func viewDidLoad() {
        super.viewDidLoad()
+        
     }
     
     override func viewDidAppear(_ animated: Bool) {
@@ -222,7 +225,6 @@ class RegisterOrResetPsdVC: UIViewController {
         label.font = UIFontBoldSize(size: 15*UIRate)
         label.textAlignment = .center
         label.textColor = UIColorHex("666666")
-        label.text = "13773047057"
         return label
     }()
 
@@ -431,9 +433,13 @@ class RegisterOrResetPsdVC: UIViewController {
                     guard json["RET_CODE"] == "000000" else{
                         return self.showHint(in: self.view, hint: json["RET_DESC"].stringValue)
                     }
-                    
+                    UserHelper.setLoginInfo(dic: json)
+                    if !self.isPush{
+                        NotificationCenter.default.post(name: NSNotification.Name(rawValue: NotificationLoginSuccess), object: self)
+                    }
                     _ = self.navigationController?.popToRootViewController(animated: true)
-                    self.showHintInKeywindow(hint: "注册并登录成功")
+                    self.showHintInKeywindow(hint: "注册并登录成功",yOffset: SCREEN_HEIGHT/2 - 100*UIRate)
+                    
                     
             }, failure: {error in
                 
@@ -451,9 +457,12 @@ class RegisterOrResetPsdVC: UIViewController {
                     guard json["RET_CODE"] == "000000" else{
                         return self.showHint(in: self.view, hint: json["RET_DESC"].stringValue)
                     }
-                    
+                    UserHelper.setLoginInfo(dic: json)
+                    if !self.isPush{
+                        NotificationCenter.default.post(name: NSNotification.Name(rawValue: NotificationLoginSuccess), object: self)
+                    }
                     _ = self.navigationController?.popToRootViewController(animated: true)
-                    self.showHintInKeywindow(hint: "密码重置并登录成功")
+                    self.showHintInKeywindow(hint: "密码重置并登录成功",yOffset: SCREEN_HEIGHT/2 - 100*UIRate)
                     
             }, failure: {error in
                 
@@ -470,7 +479,7 @@ class RegisterOrResetPsdVC: UIViewController {
     func protocolBtnAction(){
         
         let webVC = BaseWebViewController()
-        webVC.requestUrl = "https://www.baidu.com"
+        webVC.requestUrl = BM_APPLY_PROTOCOL
         self.navigationController?.pushViewController(webVC, animated: false
         )
     }

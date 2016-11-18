@@ -19,15 +19,20 @@ class LoginPsdOrSetPsdVC: UIViewController{
         case setPassword
     }
     
+    var isPush: Bool = true
+    
     var viewType = LoginPsdOrSetPsdViewType.loginPassword
     var phoneNum = ""
     var randCode = ""
+    
     
     override func viewDidLoad() {
         super.viewDidLoad()
 
        self.setupUI()
        self.showView()
+        
+       
     }
 
     init(viewType: LoginPsdOrSetPsdViewType, phoneNum: String) {
@@ -260,8 +265,14 @@ class LoginPsdOrSetPsdVC: UIViewController{
                     guard json["RET_CODE"] == "000000" else{
                         return self.showHint(in: self.view, hint: json["RET_DESC"].stringValue)
                     }
+                    UserHelper.setLoginInfo(dic: json)
+                    
+                    if !self.isPush{
+                        NotificationCenter.default.post(name: NSNotification.Name(rawValue: NotificationLoginSuccess), object: self)
+                    }
+                    
                     _ = self.navigationController?.popToRootViewController(animated: true)
-                    self.showHintInKeywindow(hint: "登录成功")
+                    self.showHintInKeywindow(hint: "登录成功",yOffset: SCREEN_HEIGHT/2 - 100*UIRate)
                     
             }, failure: {error in
                 
@@ -282,8 +293,14 @@ class LoginPsdOrSetPsdVC: UIViewController{
                     guard json["RET_CODE"] == "000000" else{
                         return self.showHint(in: self.view, hint: json["RET_DESC"].stringValue)
                     }
+                    UserHelper.setLoginInfo(dic: json)
+                    
+                    if !self.isPush{
+                        NotificationCenter.default.post(name: NSNotification.Name(rawValue: NotificationLoginSuccess), object: self)
+                    }
+                    
                     _ = self.navigationController?.popToRootViewController(animated: true)
-                    self.showHintInKeywindow(hint: "注册并登录成功")
+                    self.showHintInKeywindow(hint: "注册并登录成功",yOffset: SCREEN_HEIGHT/2 - 100*UIRate)
                     
             }, failure: {error in
                 
@@ -297,6 +314,7 @@ class LoginPsdOrSetPsdVC: UIViewController{
         
         self.view.endEditing(true)
         let registerVC = RegisterOrResetPsdVC(viewType: .resetPsd, phoneNum: self.phoneNum)
+        registerVC.isPush = self.isPush
         self.navigationController?.pushViewController(registerVC, animated: true)
         
         self.sendRandomCodeTo(number: self.phoneNum)

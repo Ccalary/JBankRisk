@@ -575,8 +575,11 @@ class IdentityViewController: UIViewController {
     private lazy var idNumLabel: UITextField = {
         let label = UITextField()
         label.font = UIFontSize(size: 15*UIRate)
+        label.tag = 10002
+        label.addTarget(self, action: #selector(textFieldAction(_:)), for: .editingChanged)
         label.placeholder = "请输入您的身份证号"
         label.textColor = UIColorHex("666666")
+    
         return label
     }()
 
@@ -629,7 +632,7 @@ class IdentityViewController: UIViewController {
     
     //MARK: - Action
     func textFieldAction(_ textField: UITextField){
-        //tag: 10000手机号  10001:验证码
+        //tag: 10000手机号  10001:验证码  10002:身份证号
         if textField.tag == 10000 {
             //限制输入的长度，最长为11位
             if (textField.text?.characters.count)! > 11{
@@ -643,10 +646,16 @@ class IdentityViewController: UIViewController {
                 clearImage.isHidden = true
             }
             
-        }else {
+        }else if textField.tag == 10001{
             //限制输入的长度，最长为4位
             if (textField.text?.characters.count)! > 4{
                 let index = textField.text?.index((textField.text?.startIndex)!, offsetBy: 4)//到offsetBy的前一位
+                textField.text = textField.text?.substring(to: index!)
+            }
+        } else {
+            //限制输入的长度，最长为18位
+            if (textField.text?.characters.count)! > 18{
+                let index = textField.text?.index((textField.text?.startIndex)!, offsetBy: 18)//到offsetBy的前一位
                 textField.text = textField.text?.substring(to: index!)
             }
         }
@@ -750,11 +759,14 @@ class IdentityViewController: UIViewController {
                 //mflag: 1-新用户注册， 0 － 老用户登录
                 if json["mflag"].stringValue == "1" {
                     self.registerSuccessView()
+                    UserHelper.setLoginInfo(dic: json)
+                    
                 }else {
                     
                     self.getTheUploadProgree(flag: json["flag"].stringValue)
                    
-                     self.showHintInKeywindow(hint: "身份信息上传完成！")
+                    self.showHintInKeywindow(hint: "身份信息上传完成！",yOffset: SCREEN_HEIGHT/2 - 100*UIRate)
+                    UserHelper.setLoginInfo(dic: json)
                     //进入下一步
                     let idVC = ProductViewController()
                     self.navigationController?.pushViewController(idVC, animated: true)
@@ -798,10 +810,9 @@ class IdentityViewController: UIViewController {
     func getTheUploadProgree(flag: String){
         //flag 进度  1－ 2- 3- 4- 5-   9完成
         if flag == "2"{
-            UserHelper.setProduct(isUpload: true)
+            UserHelper.setIdentity(isUpload: true)
         }else if flag == "3"{
             UserHelper.setProduct(isUpload: true)
-            
         }else if flag == "4"{
             UserHelper.setProduct(isUpload: true)
             switch self.roleType {

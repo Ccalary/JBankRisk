@@ -120,6 +120,9 @@ class HomeViewController: UIViewController, UIGestureRecognizerDelegate{
                 
                 //第一个为1，依次类推
                 self.flagIndex = json["flag"].intValue
+                if UserHelper.getUserId() != nil {
+                     self.getTheUploadProgree(flag: json["flag"].stringValue,userType:json["userType"].stringValue)
+                }
                 
                 self.imageArray = json["bannnerList"].arrayObject as! [String]?
                 
@@ -145,6 +148,57 @@ class HomeViewController: UIViewController, UIGestureRecognizerDelegate{
         self.cellDataArray = UserHelper.getHomeCellDataArray()
     }
     
+    //老用户判断进程
+    func getTheUploadProgree(flag: String, userType: String){
+        //flag 进度  1－ 2- 3- 4- 5-   9完成
+        if flag == "2"{
+            UserHelper.setIdentity(isUpload: true)
+        }else if flag == "3"{
+            UserHelper.setProduct(isUpload: true)
+        }else if flag == "4"{
+            UserHelper.setProduct(isUpload: true)
+            switch userType {// 1-学生 2- 白领 3－ 自由族 4-未选择
+            case "1":
+                UserHelper.setSchool(isUpload: true)
+            case "2":
+                UserHelper.setWork(isUpload: true)
+            case "3":
+                UserHelper.setContact(isUpload: true)
+            default:
+                break
+            }
+            
+        }else if flag == "5"{
+            UserHelper.setProduct(isUpload: true)
+            UserHelper.setContact(isUpload: true)
+            
+            switch userType {// 1-学生 2- 白领 3－ 自由族 4-未选择
+            case "1":
+                UserHelper.setSchool(isUpload: true)
+            case "2":
+                UserHelper.setWork(isUpload: true)
+            default:
+                break
+            }
+
+        }else if flag == "9" {
+            
+            switch userType {// 1-学生 2- 白领 3－ 自由族 4-未选择
+            case "1":
+                UserHelper.setSchool(isUpload: true)
+            case "2":
+                UserHelper.setWork(isUpload: true)
+            default:
+                break
+            }
+            UserHelper.setProduct(isUpload: true)
+            UserHelper.setContact(isUpload: true)
+            UserHelper.setData(isUpload: true)
+            UserHelper.setAllFinishIsUpload(isUpload: true)
+        }
+        
+    }
+
 
 }
 
@@ -219,20 +273,22 @@ extension HomeViewController: UITableViewDelegate, UITableViewDataSource,CyclePi
             self.navigationController?.pushViewController(borrowMoneyVC, animated: false)
             
         case 1:
-//            let repayDetailVC = NeedRepayViewController()
-//            self.navigationController?.pushViewController(repayDetailVC, animated: true)
-//
-//            let phoneCallView = PopupAreaView()
-//            let popupController = CNPPopupController(contents: [phoneCallView])!
-//            popupController.present(animated: true)
-//            phoneCallView.onClickSelect = {_ in
-//                popupController.dismiss(animated: true)
-//            }
-            break
+            
+            guard UserHelper.isLogin() else {
+                let loginVC = LoginViewController()
+                self.navigationController?.pushViewController(loginVC, animated: true)
+                return
+            }
+                let repayDetailVC = BorrowStatusVC()
+                self.navigationController?.pushViewController(repayDetailVC, animated: true)
         case 2:
-//            let registerVC = RepayPeriodDetailVC()
-//            self.navigationController?.pushViewController(registerVC, animated: true)
-            break
+            guard UserHelper.isLogin() else {
+                let loginVC = LoginViewController()
+                self.navigationController?.pushViewController(loginVC, animated: true)
+                return
+            }
+                let repayBillVC = RepayBillViewController()
+                self.navigationController?.pushViewController(repayBillVC, animated: true)
         default:
             break
         }
@@ -266,7 +322,7 @@ extension HomeViewController: UITableViewDelegate, UITableViewDataSource,CyclePi
         }
         self.manager?.startListening()
     }
-    
+
     //MARK: - CyclePictureViewDelegate的方法(点击跳转)
     func cyclePictureSkip(To index: Int) {
         //        let bannerUrlVC = BaseWebViewController()

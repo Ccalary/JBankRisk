@@ -122,12 +122,12 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "JBankRisk/Home/Work/WorkViewController.swift"
-            timestampString = "501073452.834729"
+            timestampString = "501159202.597055"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "404"
-            endingLineNumber = "404"
-            landmarkName = "requestWorkInfo()"
+            startingLineNumber = "47"
+            endingLineNumber = "47"
+            landmarkName = "viewDidLoad()"
             landmarkType = "7">
          </BreakpointContent>
       </BreakpointProxy>
@@ -137,13 +137,29 @@
             shouldBeEnabled = "Yes"
             ignoreCount = "0"
             continueAfterRunningActions = "No"
-            filePath = "JBankRisk/Mine/MineViewController.swift"
-            timestampString = "501084719.764872"
+            filePath = "JBankRisk/Mine/Setting/SettingViewController.swift"
+            timestampString = "501181093.966225"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "453"
-            endingLineNumber = "453"
-            landmarkName = "refreshUI(json:)"
+            startingLineNumber = "288"
+            endingLineNumber = "288"
+            landmarkName = "uploadHeaderImage(image:)"
+            landmarkType = "7">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            shouldBeEnabled = "Yes"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "JBankRisk/Mine/Setting/SettingViewController.swift"
+            timestampString = "501181095.415496"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "290"
+            endingLineNumber = "290"
+            landmarkName = "uploadHeaderImage(image:)"
             landmarkType = "7">
          </BreakpointContent>
       </BreakpointProxy>

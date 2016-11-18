@@ -7,6 +7,7 @@
 //
 
 import UIKit
+import SwiftyJSON
 
 class UserHelper {
     
@@ -18,23 +19,24 @@ class UserHelper {
     }
     
     //保存登录信息
-    static func setLoginInfo(dic:Dictionary<String,String>){
+    static func setLoginInfo(dic:JSON){
         let defaults = UserDefaults()
         defaults.set("1", forKey: "isLogin")//已登录
-        defaults.set(dic["APP_SESSION_KEY"], forKey: "APP_SESSION_KEY")//版本号
-        defaults.set(dic["userId"], forKey: "userId")//userId
-        defaults.set(dic["mobile"], forKey: "mobile")//电话
-        
-        defaults.set(dic, forKey: "loginInfo")//登录信息
+//        defaults.set(dic["APP_SESSION_KEY"], forKey: "APP_SESSION_KEY")//版本号
+        defaults.set(dic["userId"].stringValue, forKey: "userId")//userId
+        defaults.set(dic["mobile"].stringValue, forKey: "mobile")//电话
         defaults.synchronize()
     }
     
     //退出登录清除信息
-    static func logout(){
+    static func setLogoutInfo(){
          let defaults = UserDefaults()
          defaults.set("0", forKey: "isLogin") //退出登录
-         defaults.set("", forKey: "user_id")
-         defaults.set(nil, forKey: "loginInfo")//清空登录信息
+         defaults.set(nil, forKey: "userId") //清空userId
+         defaults.set(nil, forKey: "mobile")  //情况电话
+         defaults.set(nil, forKey: "homeCellArray") //清空首页缓存数据
+        
+         defaults.synchronize()
     }
     
     ///获得用户角色
@@ -49,18 +51,6 @@ class UserHelper {
         let defaults = UserDefaults()
         defaults.set(role, forKey: "userRole")
         defaults.synchronize()
-    }
-
-    ///地址（list）信息
-    static func getChinaAreaInfo() -> NSArray? {
-        let defaults = UserDefaults()
-        return defaults.object(forKey: "chinaAreaInfo") as? NSArray
-    }
-    
-    static func setChinaAreaInfo(areaArray:NSArray){
-        let defaults = UserDefaults()
-         defaults.set(areaArray, forKey: "chinaAreaInfo")
-         defaults.synchronize()
     }
 
     //获取用户电话
@@ -86,7 +76,17 @@ class UserHelper {
         defaults.synchronize()
     }
     
+    ///地址（list）信息
+    static func getChinaAreaInfo() -> NSArray? {
+        let defaults = UserDefaults()
+        return defaults.object(forKey: "chinaAreaInfo") as? NSArray
+    }
     
+    static func setChinaAreaInfo(areaArray:NSArray){
+        let defaults = UserDefaults()
+         defaults.set(areaArray, forKey: "chinaAreaInfo")
+         defaults.synchronize()
+    }
     
     /****************首页缓存***************/
     //首页banner图地址
@@ -101,7 +101,7 @@ class UserHelper {
         defaults.synchronize()
     }
     
-    //首页banner图地址
+    //首页banner信息
     static func getHomeCellDataArray() -> [Dictionary<String,String>]? {
         let defaults = UserDefaults()
         return defaults.object(forKey: "homeCellArray") as? [Dictionary<String,String>]
@@ -211,7 +211,21 @@ class UserHelper {
         defaults.set(isUpload, forKey: "\(self.getUserId())finishUplod")
         defaults.synchronize()
     }
+    
+    /*************个人中心***************/
+    //用户头像地址
+    static func getUserHeaderUrl() -> String? {
+        let defaults = UserDefaults()
+        return defaults.object(forKey: "\(self.getUserId())userHeaderUrl") as? String
+    }
+    
+    static func setUserHeader(headerUrl: String){
+        let defaults = UserDefaults()
+        defaults.set(headerUrl, forKey: "\(self.getUserId())userHeaderUrl")
+        defaults.synchronize()
+    }
 
+    
     
 }
 

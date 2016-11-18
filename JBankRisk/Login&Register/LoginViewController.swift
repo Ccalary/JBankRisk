@@ -15,6 +15,9 @@ class LoginViewController: UIViewController {
 
     var errorContraints: Constraint?
     
+    //是push 还是present
+    var isPush = true
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         
@@ -28,11 +31,24 @@ class LoginViewController: UIViewController {
         super.didReceiveMemoryWarning()
     }
    
+    deinit {
+        if !isPush{
+            NotificationCenter.default.removeObserver(self)
+        }
+    }
+    
     //MARK: - 基本UI
     func setupUI(){
         self.title = "登录"
         self.view.backgroundColor = defaultBackgroundColor
         self.navigationItem.rightBarButtonItem = UIBarButtonItem(image: UIImage(named:"navigation_right_phone_18x21"), style: .plain, target: self, action: #selector(rightNavigationBarBtnAction))
+        
+        if !isPush{
+            //左侧返回按钮
+            self.navigationItem.leftBarButtonItem = UIBarButtonItem(image: UIImage(named:"navigation_left_back_13x21"), style: .plain, target: self, action: #selector(navigationBack))
+            
+            NotificationCenter.default.addObserver(self, selector: #selector(LoginSuccessAction), name: NSNotification.Name(rawValue: NotificationLoginSuccess), object: nil)
+        }
         
         let aTap = UITapGestureRecognizer(target: self, action: #selector(tapViewAction))
         aTap.numberOfTapsRequired = 1
@@ -230,6 +246,12 @@ class LoginViewController: UIViewController {
         nextStepBtn.setBackgroundImage(UIImage(named:"login_btn_grayred_345x44"), for: .normal)
     }
     
+    //左侧返回按钮
+    func navigationBack(){
+        self.view.endEditing(true)
+        self.navigationController?.dismiss(animated: true, completion: nil)
+    }
+    
     //下一步
     func nextStepBtnAction(){
         
@@ -258,11 +280,12 @@ class LoginViewController: UIViewController {
                 ///0已注册1未注册
                 if json["flag"] == "0" {
                     let loginPsdVC = LoginPsdOrSetPsdVC(viewType: .loginPassword, phoneNum: phoneNum)
+                    loginPsdVC.isPush = self.isPush
                     self.navigationController?.pushViewController(loginPsdVC, animated: true)
                 }else if json["flag"] == "1"{
                    let registerVC = RegisterOrResetPsdVC(viewType: .register, phoneNum: phoneNum)
+                    registerVC.isPush = self.isPush
                     registerVC.viewType = .register
-                    
                     self.navigationController?.pushViewController(registerVC, animated: true)
                     
                     //发送验证码
@@ -279,6 +302,7 @@ class LoginViewController: UIViewController {
         self.view.endEditing(true)
         
         let loginCodeVC = LoginCodeViewController()
+        loginCodeVC.isPush = self.isPush
         self.navigationController?.pushViewController(loginCodeVC, animated: true)
     }
     
@@ -321,4 +345,12 @@ class LoginViewController: UIViewController {
             }, failure: {error in
         })
     }
+    
+    //MARK: Noticifation
+    func LoginSuccessAction(){
+          self.navigationController?.dismiss(animated: true, completion: nil)
+          self.tabBarController?.selectedIndex = 1
+          
+    }
+    
 }

@@ -18,6 +18,8 @@ class LoginCodeViewController: UIViewController {
     var mTimer: Timer!
     var seconds: Int = defaultSeconds
     
+    var isPush: Bool = true
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         
@@ -286,11 +288,17 @@ class LoginCodeViewController: UIViewController {
                 }
                 //0-登录成功 1-去注册
                 if json["flag"] == "0" {
+                    UserHelper.setLoginInfo(dic: json)
+                    
+                    if !self.isPush{
+                        NotificationCenter.default.post(name: NSNotification.Name(rawValue: NotificationLoginSuccess), object: self)
+                    }
                     _ = self.navigationController?.popToRootViewController(animated: true)
-                    self.showHintInKeywindow(hint: "登录成功")
+                    self.showHintInKeywindow(hint: "登录成功",yOffset: SCREEN_HEIGHT/2 - 100*UIRate)
                 }else if json["flag"] == "1" {
                     let setPsdVC = LoginPsdOrSetPsdVC(viewType: .setPassword, phoneNum: phoneNum)
                     setPsdVC.randCode = randCode
+                    setPsdVC.isPush = self.isPush
                     self.navigationController?.pushViewController(setPsdVC, animated: true)
                 }
                 

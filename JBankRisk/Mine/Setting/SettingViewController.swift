@@ -7,14 +7,27 @@
 //
 
 import UIKit
+import SwiftyJSON
 
-class SettingViewController: UIViewController,UITableViewDelegate, UITableViewDataSource {
+class SettingViewController: UIViewController,UITableViewDelegate, UITableViewDataSource,UIImagePickerControllerDelegate,UINavigationControllerDelegate {
 
     var leftTextInfo = ["头像","","手机号码","修改帐号密码","","关于我们","我要吐槽"]
+    
+    ///相机，相册
+    var cameraPicker: UIImagePickerController!
+    var photoPicker: UIImagePickerController!
+    //头像地址
+    var headerUrl: String = "" {
+        didSet {
+        }
+    }
     
     override func viewDidLoad() {
         super.viewDidLoad()
         self.setupUI()
+        
+        self.initPhotoPicker()
+        self.initCameraPicker()
     }
     
     override func didReceiveMemoryWarning() {
@@ -126,14 +139,18 @@ class SettingViewController: UIViewController,UITableViewDelegate, UITableViewDa
         cell.selectionStyle = .none
         cell.leftTextLabel.text = leftTextInfo[indexPath.row]
         cell.backgroundColor = UIColor.white
+        cell.arrowImageView.isHidden = false
+        cell.headerImageView.isHidden = true
+        cell.rightTextLabel.isHidden = true
         
         if indexPath.row == 1 || indexPath.row == 4 {
             cell.arrowImageView.isHidden = true
             cell.backgroundColor = defaultBackgroundColor
         }else if indexPath.row == 0 {
             cell.headerImageView.isHidden = false
+            cell.headerImageView.kf_setImage(with: URL(string: UserHelper.getUserHeaderUrl() ?? ""), placeholder: UIImage(named: "s_header_icon_45x45"), options: nil, progressBlock: nil, completionHandler: nil)
         }else if indexPath.row == 2 {
-            cell.rightTextLabel.text = "1243223543543"
+            cell.rightTextLabel.text = UserHelper.getUserMobile()!
             cell.rightTextLabel.isHidden = false
         }
         
@@ -153,8 +170,25 @@ class SettingViewController: UIViewController,UITableViewDelegate, UITableViewDa
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         switch indexPath.row {
+        case 0://
+            let popupView = PopupPhotoSelectView()
+            let popupController = CNPPopupController(contents: [popupView])!
+            popupController.present(animated: true)
+            popupView.onClickCamera = {_ in //相机
+                popupController.dismiss(animated: true)
+                self.present(self.cameraPicker, animated: true, completion: nil)
+            }
+            popupView.onClickPhoto = { _ in //相册选取
+                
+                self.present(self.photoPicker, animated: true, completion: nil)
+                popupController.dismiss(animated: true)
+            }
+            popupView.onClickClose = { _ in //关闭
+                popupController.dismiss(animated: true)
+            }
+            break
         case 2://手机号码
-            let viewController = ChangePhoneNumVC(phoneNum: "1232437824")
+            let viewController = ChangePhoneNumVC(phoneNum: UserHelper.getUserMobile()!)
             self.navigationController?.pushViewController(viewController, animated: true)
         case 3: //重置密码
             let resetVC = ResetPsdViewController()
@@ -192,6 +226,26 @@ class SettingViewController: UIViewController,UITableViewDelegate, UITableViewDa
         }
     }
     
+    //MARK: - Method
+    func initCameraPicker(){
+        cameraPicker = UIImagePickerController()
+        cameraPicker.delegate = self
+        cameraPicker.sourceType = .camera
+    }
+    
+    func initPhotoPicker(){
+        photoPicker =  UIImagePickerController()
+        photoPicker.delegate = self
+        photoPicker.sourceType = .photoLibrary
+    }
+    
+    func imagePickerController(_ picker: UIImagePickerController, didFinishPickingMediaWithInfo info: [String : Any]) {
+        self.dismiss(animated: true, completion: nil)
+        let image = info[UIImagePickerControllerOriginalImage] as! UIImage
+        self.uploadHeaderImage(image: image)
+    }
+    
+    //退出登录
     func exitBtnAction(){
         
         let phoneCallView = PopupLogoutView()
@@ -202,8 +256,49 @@ class SettingViewController: UIViewController,UITableViewDelegate, UITableViewDa
             popupController.dismiss(animated:true)
         }
         phoneCallView.onClickSure = {_ in
+            UserHelper.setLogoutInfo()
             popupController.dismiss(animated: true)
+             self.tabBarController?.selectedIndex = 0
+            _ = self.navigationController?.popToRootViewController(animated: true)
+            self.showHintInKeywindow(hint: "退出登录", yOffset: SCREEN_HEIGHT/2 - 100*UIRate)
         }
+    }
+    
+    func uploadHeaderImage(image:UIImage){
+        
+        var imageDataArray:[Data] = []
+        var imageNameArray:[String] = []
+        
+        imageDataArray.append(UIImageJPEGRepresentation(image, 0.1)!)
+        let imageName = String(describing: NSDate()) + ".png"
+        imageNameArray.append(imageName)
+        
+        self.showHud(in: self.view,hint:"上传中...")
+        //参数000-头像上传
+        let params: [String: String] = ["userId":UserHelper.getUserId()!, "flag":"000"]
+        
+        NetConnect.bm_upload_photo_info(params:params , data: imageDataArray, name: imageNameArray, success: { response in
+            
+            //隐藏HUD
+            self.hideHud()
+            let json = JSON(response)
+            guard json["RET_CODE"] == "000000" else{
+                return self.showHint(in: self.view, hint: json["RET_DESC"].stringValue)
+            }
+            let headerUrl = BASR_DEV_URL + json["requestMap"]["appPhoto"].stringValue
+            //保存头像地址
+            UserHelper.setUserHeader(headerUrl: headerUrl)
+            let position = IndexPath(row: 0, section: 0)
+            self.aTableView.reloadRows(at: [position], with: UITableViewRowAnimation.none)
+            self.showHint(in: self.view, hint: "头像上传成功")
+            
+            
+        }, failure: { error in
+            //隐藏HUD
+            self.hideHud()
+            
+        })
+
     }
     
 }
