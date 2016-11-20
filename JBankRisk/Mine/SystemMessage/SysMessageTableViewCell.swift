@@ -145,8 +145,4 @@ class SysMessageTableViewCell: UITableViewCell {
         return imageView
     }()
 
-    
-    
-    
-
 }

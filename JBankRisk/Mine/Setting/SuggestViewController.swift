@@ -198,6 +198,7 @@ class SuggestViewController: UIViewController,UITextViewDelegate, UICollectionVi
       {
         if indexPath.row == photoArray.count - 1 {
             
+            
             let popupView = PopupPhotoSelectView()
             let popupController = CNPPopupController(contents: [popupView])!
             popupController.present(animated: true)
@@ -314,6 +315,5 @@ class SuggestViewController: UIViewController,UITextViewDelegate, UICollectionVi
     func sureBtnAction() {
         
     }
-    
-    
+
 }

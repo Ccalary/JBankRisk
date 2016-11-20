@@ -231,6 +231,14 @@ class LoginViewController: UIViewController {
     
     func tapViewAction(){
         self.view.endEditing(true)
+        
+        if self.errorTextLabel.alpha == 1 {
+            self.hideErrorTips()
+        }
+    }
+    
+    //隐藏错误提示
+    func hideErrorTips(){
         UIView.animate(withDuration: 0.5) {
             self.errorContraints?.update(offset: 0)
             self.errorTextLabel.alpha = 0
@@ -244,6 +252,10 @@ class LoginViewController: UIViewController {
         clearImage.isHidden = true
         nextStepBtn.isUserInteractionEnabled = false
         nextStepBtn.setBackgroundImage(UIImage(named:"login_btn_grayred_345x44"), for: .normal)
+        
+        if self.errorTextLabel.alpha == 1 {
+            self.hideErrorTips()
+        }
     }
     
     //左侧返回按钮
@@ -257,14 +269,6 @@ class LoginViewController: UIViewController {
         
         self.view.endEditing(true)
         
-//        if (mTextField.text?.characters.count)! < 11 {
-//
-//            UIView.animate(withDuration: 0.5) {
-//                self.errorContraints?.update(offset: 64)
-//                self.errorTextLabel.alpha = 1.0
-//                self.view.layoutIfNeeded()
-//            }
-//        }
         let phoneNum = mTextField.text!
         
         var params = NetConnect.getBaseRequestParams()
@@ -275,7 +279,17 @@ class LoginViewController: UIViewController {
             { response in
                 let json = JSON(response)
                 guard json["RET_CODE"] == "000000" else{
-                    return self.showHint(in: self.view, hint: json["RET_DESC"].stringValue)
+                    
+                    if json["RET_CODE"] == "100101" {
+                        UIView.animate(withDuration: 0.5) {
+                            self.errorContraints?.update(offset: 64)
+                            self.errorTextLabel.alpha = 1.0
+                            self.view.layoutIfNeeded()
+                        }
+                        return
+                    }else {
+                         return self.showHint(in: self.view, hint: json["RET_DESC"].stringValue)
+                    }
                 }
                 ///0已注册1未注册
                 if json["flag"] == "0" {
@@ -329,6 +343,10 @@ class LoginViewController: UIViewController {
             nextStepBtn.isUserInteractionEnabled = false
             nextStepBtn.setBackgroundImage(UIImage(named:"login_btn_grayred_345x44"), for: .normal)
         }
+        
+        if self.errorTextLabel.alpha == 1 {
+            self.hideErrorTips()
+        }
     }
     
     ///发送验证码
@@ -348,9 +366,8 @@ class LoginViewController: UIViewController {
     
     //MARK: Noticifation
     func LoginSuccessAction(){
-          self.navigationController?.dismiss(animated: true, completion: nil)
-          self.tabBarController?.selectedIndex = 1
-          
+        self.navigationController?.dismiss(animated: true, completion: nil)
+        self.tabBarController?.selectedIndex = 1
     }
     
 }

@@ -138,7 +138,6 @@ class PopupDeadlineView: UIView, UICollectionViewDelegate,UICollectionViewDataSo
             make.top.equalTo(divideLine1.snp.bottom).offset(15*UIRate)
             make.centerX.equalTo(self)
         }
-        
     }
     
     private lazy var titleLabel: UILabel = {
@@ -185,7 +184,6 @@ class PopupDeadlineView: UIView, UICollectionViewDelegate,UICollectionViewDataSo
         return collectionView
     }()
     
-    
     private lazy var montTextLabel: UILabel = {
         let label = UILabel()
         label.font = UIFontSize(size: 15*UIRate)
@@ -230,8 +228,6 @@ class PopupDeadlineView: UIView, UICollectionViewDelegate,UICollectionViewDataSo
         label.text = "元"
         return label
     }()
-
-    
     
     private lazy var totalTextLabel: UILabel = {
         let label = UILabel()
@@ -284,11 +280,9 @@ class PopupDeadlineView: UIView, UICollectionViewDelegate,UICollectionViewDataSo
         }
         
         if indexPath.row == dataArray.count - 1 {
-            
             let defaultSelectCell = IndexPath(row: selectInfo.cell, section: 0)
             self.aCollectionView.selectItem(at: defaultSelectCell, animated: true, scrollPosition: UICollectionViewScrollPosition.left)
         }
-        
         return cell
     }
     
@@ -308,9 +302,7 @@ class PopupDeadlineView: UIView, UICollectionViewDelegate,UICollectionViewDataSo
         cell.textLabel.textColor = UIColorHex("666666")
     }
     
-    
     //MARK: - Action
-    
     var onClickCancle : (()->())?
     var onClickSure: ((_ selectedCell: Int,_ selectStr: String,_ monthRepay: String)->())?
     
@@ -344,11 +336,9 @@ class PopupDeadlineView: UIView, UICollectionViewDelegate,UICollectionViewDataSo
             guard json["RET_CODE"] == "000000" else{
                 return
             }
-        let monthAmt = String(format: "%.2f", json["monthAmt"].doubleValue)
-        let totalAmt = String(format: "%.2f", json["totalAmt"].doubleValue)
 
-        self.monthMoneyLabel.text = monthAmt
-        self.totalMoneyLabel.text = totalAmt
+        self.monthMoneyLabel.text = toolsChangeMoneyStyle(amount: json["monthAmt"].doubleValue)
+        self.totalMoneyLabel.text = toolsChangeMoneyStyle(amount: json["totalAmt"].doubleValue)
             
         }, failure: { error in
             

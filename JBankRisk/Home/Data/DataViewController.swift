@@ -9,8 +9,10 @@
 
 import UIKit
 import SwiftyJSON
+import Photos
 
-class DataViewController: UIViewController,UITableViewDelegate, UITableViewDataSource,UICollectionViewDelegate,UICollectionViewDataSource, UICollectionViewDelegateFlowLayout,UIImagePickerControllerDelegate,UINavigationControllerDelegate{
+
+class DataViewController: UIViewController,UITableViewDelegate, UITableViewDataSource,UICollectionViewDelegate,UICollectionViewDataSource, UICollectionViewDelegateFlowLayout,UIImagePickerControllerDelegate,UINavigationControllerDelegate,PhotoPickerControllerDelegate{
     
     var WorkerCellData:[CellDataInfo] = [ CellDataInfo(leftText: "身份证", holdText: "上传身份证正反面", content: "", cellType: .cameraType),
                                           CellDataInfo(leftText: "亲签照", holdText: "上传手持合同的照片", content: "", cellType: .cameraType),
@@ -31,14 +33,27 @@ class DataViewController: UIViewController,UITableViewDelegate, UITableViewDataS
                                           CellDataInfo(leftText: "居住证明", holdText: "上传居住证明文件照片", content: "", cellType: .cameraType),
                                           CellDataInfo(leftText: "社保", holdText: "社保公积金缴纳信息（选填）", content: "", cellType: .cameraType),
                                           CellDataInfo(leftText: "财力证明", holdText: "上传可证明财力的文件（选填）", content: "", cellType: .cameraType)]
+    
+    //补交材料
+    var reuploadData:[CellDataInfo] = [ CellDataInfo(leftText: "房产证", holdText: "上传您所拥有的房产证照片", content: "", cellType: .cameraType),
+                                        CellDataInfo(leftText: "行驶证", holdText: "上传您的汽车行驶证照片", content: "", cellType: .cameraType),
+                                        CellDataInfo(leftText: "收入流水", holdText: "上传银行卡6个月收入流水", content: "", cellType: .cameraType),
+                                        CellDataInfo(leftText: "其他材料", holdText: "选填", content: "", cellType: .cameraType)]
+    
+    //是否是补交材料
+    var isReupload = false
+    
     var uploadSucDelegate:UploadSuccessDelegate?
     
     var dataArray: [CellDataInfo]!
     var tableViewHeight: CGFloat!
     
+    //相册多选
+    var selectModel = [PhotoImageModel]()
+    
     ///相机，相册
     var cameraPicker: UIImagePickerController!
-    var photoPicker: UIImagePickerController!
+//    var photoPicker: UIImagePickerController!
     ///图片与描述
     var photoArray:[(image:UIImage,dis:String,selectCell: Int)] = [] {
         didSet{
@@ -56,21 +71,26 @@ class DataViewController: UIViewController,UITableViewDelegate, UITableViewDataS
     override func viewDidLoad() {
         super.viewDidLoad()
         self.setupUI()
-        self.initPhotoPicker()
+//        self.initPhotoPicker()
         self.initCameraPicker()
         
         if UserHelper.getDataIsUpload() {
 //            self.requestPhotoInfo()
         }
-        
     }
     
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
     }
     
-    init(roleType: RoleType) {
+    deinit {
+        self.bigBgholdView.removeFromSuperview()
+    }
+    
+    init(roleType: RoleType, isReupload: Bool = false) {
         super.init(nibName: nil, bundle: nil)
+        
+        self.isReupload = isReupload
         
         switch roleType {
         case .worker:
@@ -115,12 +135,16 @@ class DataViewController: UIViewController,UITableViewDelegate, UITableViewDataS
             }
             dataArray = FreedomCellData
         }
+        
+        //补交
+        if isReupload {
+            dataArray = reuploadData
+        }
+        
         tableViewHeight = CGFloat(dataArray.count)*50*UIRate
         
         numArray = Array(repeating: 0, count: dataArray.count)
     }
-    
-    
     
     required init?(coder aDecoder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
@@ -130,7 +154,6 @@ class DataViewController: UIViewController,UITableViewDelegate, UITableViewDataS
         self.navigationController!.navigationBar.isTranslucent = true;
         self.automaticallyAdjustsScrollViewInsets = false;
         self.view.backgroundColor = defaultBackgroundColor
-        self.title = "资料上传"
         
         self.navigationItem.leftBarButtonItem = UIBarButtonItem(image: UIImage(named:"navigation_left_back_13x21"), style: .plain, target: self, action: #selector(leftNavigationBarBtnAction))
         
@@ -139,14 +162,26 @@ class DataViewController: UIViewController,UITableViewDelegate, UITableViewDataS
         self.view.addSubview(starImageView)
         self.view.addSubview(topDivideLine)
         
+        var scrollViewHeight: CGFloat = 0.0
+        if isReupload {
+            scrollViewHeight = SCREEN_HEIGHT - 64 - 84*UIRate
+        }else {
+            scrollViewHeight = SCREEN_HEIGHT - 64 - 124*UIRate
+        }
+        
         self.view.addSubview(aScrollView)
         self.aScrollView.addSubview(aTableView)
         self.aScrollView.addSubview(divideLine1)
         self.aScrollView.addSubview(aCollectionView)
-        self.view.addSubview(lastStepBtn)
-        self.view.addSubview(nextStepBtn)
-        self.view.addSubview(botTextLabel)
-        self.view.addSubview(protocolBtn)
+        
+        
+        /******点击图片放大*****/
+        UIApplication.shared.keyWindow?.addSubview(bigBgholdView)
+        self.bigBgholdView.addSubview(bigImageView)
+        
+        let aTap = UITapGestureRecognizer(target: self, action: #selector(tapViewAction))
+        aTap.numberOfTapsRequired = 1
+        self.bigBgholdView.addGestureRecognizer(aTap)
         
         
         topView.snp.makeConstraints { (make) in
@@ -174,7 +209,7 @@ class DataViewController: UIViewController,UITableViewDelegate, UITableViewDataS
         
         aScrollView.snp.makeConstraints { (make) in
             make.width.equalTo(self.view)
-            make.height.equalTo(SCREEN_HEIGHT - 64 - 124*UIRate)
+            make.height.equalTo(scrollViewHeight)
             make.centerX.equalTo(self.view)
             make.top.equalTo(64 + 30*UIRate)
         }
@@ -199,6 +234,39 @@ class DataViewController: UIViewController,UITableViewDelegate, UITableViewDataS
             make.centerX.equalTo(aScrollView)
             make.top.equalTo(self.aTableView.snp.bottom).offset(10*UIRate)
         }
+        
+        /*******/
+        bigBgholdView.snp.makeConstraints { (make) in
+            make.width.equalTo(SCREEN_WIDTH)
+            make.height.equalTo(SCREEN_HEIGHT)
+            make.top.equalTo(0)
+            make.left.equalTo(0)
+        }
+
+        bigImageView.snp.makeConstraints { (make) in
+            make.size.equalTo(bigBgholdView)
+            make.center.equalTo(bigBgholdView)
+        }
+        
+        bigImageView.transform = CGAffineTransform(scaleX: 0, y: 0)
+        
+        /*******/
+        if isReupload {
+            self.reupLoadSetupUI()
+        }else {
+            self.normalSetupUI()
+        }
+    }
+    
+    func normalSetupUI(){
+        self.title = "资料上传"
+        self.topTextLabel.text = "请上传真实资料，乱填或误填将会影响借款申请！"
+        self.nextStepBtn.setBackgroundImage(UIImage(named: "btn_red_254x44"), for: .normal)
+        
+        self.view.addSubview(lastStepBtn)
+        self.view.addSubview(nextStepBtn)
+        self.view.addSubview(botTextLabel)
+        self.view.addSubview(protocolBtn)
         
         lastStepBtn.snp.makeConstraints { (make) in
             make.width.equalTo(85*UIRate)
@@ -230,11 +298,51 @@ class DataViewController: UIViewController,UITableViewDelegate, UITableViewDataS
         let contentHeight = tableViewHeight + 262*UIRate + 20*UIRate
         
         if contentHeight < scrollHeight {
-             aScrollView.contentSize = CGSize(width: SCREEN_WIDTH, height: scrollHeight + 1)
+            aScrollView.contentSize = CGSize(width: SCREEN_WIDTH, height: scrollHeight + 1)
         }else{
             aScrollView.contentSize = CGSize(width: SCREEN_WIDTH, height: contentHeight)
         }
     }
+    
+    //补交材料
+    func reupLoadSetupUI(){
+        self.title = "补交材料"
+        self.topTextLabel.text = "您只有一次补交材料的机会哦！"
+        self.nextStepBtn.setBackgroundImage(UIImage(named: "login_btn_red_345x44"), for: .normal)
+        
+        self.view.addSubview(nextStepBtn)
+        
+        nextStepBtn.snp.makeConstraints { (make) in
+            make.width.equalTo(345*UIRate)
+            make.height.equalTo(44*UIRate)
+            make.centerX.equalTo(self.view)
+            make.bottom.equalTo(-10*UIRate)
+        }
+        
+        let scrollHeight = SCREEN_HEIGHT - 64 - 64*UIRate - 20*UIRate
+        let contentHeight = tableViewHeight + 262*UIRate + 20*UIRate
+        
+        if contentHeight < scrollHeight {
+            aScrollView.contentSize = CGSize(width: SCREEN_WIDTH, height: scrollHeight + 1)
+        }else{
+            aScrollView.contentSize = CGSize(width: SCREEN_WIDTH, height: contentHeight)
+        }
+    }
+
+    fileprivate lazy var bigBgholdView: UIView = {
+        let holdView = UIView()
+        holdView.alpha = 0
+        holdView.backgroundColor = UIColorHex("000000", 0.8)
+        return holdView
+    }()
+    
+    //图片
+    fileprivate lazy var bigImageView: UIImageView = {
+        let imageView = UIImageView()
+        imageView.contentMode = .scaleAspectFit
+        return imageView
+    }()
+    
     
     private lazy var topView: UIView = {
         let holdView = UIView()
@@ -247,7 +355,6 @@ class DataViewController: UIViewController,UITableViewDelegate, UITableViewDataS
         let label = UILabel()
         label.font = UIFontSize(size: 15*UIRate)
         label.textColor = UIColorHex("666666")
-        label.text = "请上传真实资料，乱填或误填将会影响借款申请！"
         return label
     }()
     
@@ -314,7 +421,6 @@ class DataViewController: UIViewController,UITableViewDelegate, UITableViewDataS
     //／按钮
     private lazy var nextStepBtn: UIButton = {
         let button = UIButton()
-        button.setBackgroundImage(UIImage(named: "btn_red_254x44"), for: .normal)
         button.setTitle("提交申请", for: UIControlState.normal)
         button.titleLabel?.font = UIFontBoldSize(size: 18*UIRate)
         button.addTarget(self, action: #selector(nextStepBtnAction), for: .touchUpInside)
@@ -384,10 +490,8 @@ class DataViewController: UIViewController,UITableViewDelegate, UITableViewDataS
         }
         popupView.onClickPhoto = { _ in //相册选取
             
-            self.present(self.photoPicker, animated: true, completion: nil)
-            
+            self.selectFromPhoto()
             popupController.dismiss(animated: true)
-           
         }
         
         popupView.onClickClose = { _ in //关闭
@@ -440,6 +544,12 @@ class DataViewController: UIViewController,UITableViewDelegate, UITableViewDataS
     }
     
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
+        
+        bigImageView.image = photoArray[indexPath.row].image
+        UIView.animate(withDuration: 0.3, delay: 0, usingSpringWithDamping: 0.6, initialSpringVelocity: 0.3, options: UIViewAnimationOptions.curveEaseIn, animations: { _ in
+            self.bigBgholdView.alpha = 1
+            self.bigImageView.transform = CGAffineTransform(scaleX: 1, y: 1)
+        }, completion: nil)
     }
     
     func collectionView(_ collectionView: UICollectionView, didDeselectItemAt indexPath: IndexPath) {
@@ -452,19 +562,16 @@ class DataViewController: UIViewController,UITableViewDelegate, UITableViewDataS
         cameraPicker.sourceType = .camera
     }
     
-    func initPhotoPicker(){
-        photoPicker =  UIImagePickerController()
-        photoPicker.delegate = self
-        photoPicker.sourceType = .photoLibrary
-    }
-    
     func imagePickerController(_ picker: UIImagePickerController, didFinishPickingMediaWithInfo info: [String : Any]) {
         self.dismiss(animated: true, completion: nil)
         let image = info[UIImagePickerControllerOriginalImage] as! UIImage
-        photoArray.append((image,dataArray[selectCell].leftText,selectCell))
-        numArray[selectCell] += 1
-        dataArray[selectCell].content = "已上传\(numArray[selectCell])张"
-        self.reloadOneTabelViewCell(at: selectCell)
+        //主线程刷新
+        DispatchQueue.main.async {
+            self.photoArray.append((image,self.dataArray[self.selectCell].leftText,self.selectCell))
+            self.numArray[self.selectCell] += 1
+            self.dataArray[self.selectCell].content = "已上传\(self.numArray[self.selectCell])张"
+            self.reloadOneTabelViewCell(at: self.selectCell)
+        }
     }
     
     //刷新某行
@@ -476,6 +583,15 @@ class DataViewController: UIViewController,UITableViewDelegate, UITableViewDataS
 
 //MARK: - Action
 extension DataViewController {
+    
+    func tapViewAction(){
+        
+        
+        UIView.animate(withDuration: 0.5, delay: 0, usingSpringWithDamping: 0.4, initialSpringVelocity: 0.3, options: UIViewAnimationOptions.curveEaseInOut, animations: { _ in
+            self.bigBgholdView.alpha = 0
+            self.bigImageView.transform = CGAffineTransform(scaleX: 0, y: 0)
+        }, completion: nil)
+    }
     
     //申请协议
     func protocolBtnAction(){
@@ -491,8 +607,12 @@ extension DataViewController {
     
     //返回
     func leftNavigationBarBtnAction(){
-        let borrowVC = self.navigationController?.viewControllers[1] as! BorrowMoneyViewController
-        _ = self.navigationController?.popToViewController(borrowVC, animated: true)
+        if isReupload {
+             _ = self.navigationController?.popViewController(animated: true)
+        }else{
+            let borrowVC = self.navigationController?.viewControllers[1] as! BorrowMoneyViewController
+            _ = self.navigationController?.popToViewController(borrowVC, animated: true)
+        }
     }
     //提交申请
     func nextStepBtnAction(){
@@ -600,6 +720,77 @@ extension DataViewController {
         //        self.bottomHoldView.isHidden = false
         //        self.idImageView.image = UIImage(named: "bm_idCard_did_65x43")
     }
+}
 
+/**
+ 从相册中选择图片
+ */
+
+extension DataViewController {
+    //相册选择图片
+    fileprivate func selectFromPhoto(){
+        
+        PHPhotoLibrary.requestAuthorization { (status) -> Void in
+            switch status {
+            case .authorized:
+                self.showLocalPhotoGallery()
+                break
+            default:
+                self.showNoPermissionDailog()
+                break
+            }
+        }
+    }
     
+    private func showNoPermissionDailog(){
+        let alert = UIAlertController.init(title: nil, message: "没有打开相册的权限", preferredStyle: .alert)
+        alert.addAction(UIAlertAction.init(title: "确定", style: .default, handler: nil))
+        self.present(alert, animated: true, completion: nil)
+    }
+    
+    private func showLocalPhotoGallery(){
+        let picker = PhotoPickerController(type: PageType.AllAlbum)
+        picker.imageSelectDelegate = self
+        picker.modalPresentationStyle = .popover
+        
+        // max select number
+        PhotoPickerController.imageMaxSelectedNum = 10
+        
+        self.show(picker, sender: nil)
+    }
+    
+    //delegate
+    func onImageSelectFinished(images: [PHAsset]) {
+        self.renderSelectImages(images: images)
+    }
+    
+    private func renderSelectImages(images: [PHAsset]){
+        let pixSize = 200*UIRate
+        for item in images {
+            self.selectModel.insert(PhotoImageModel(type: ModelType.Image, data: item), at: 0)
+            
+            let itemModel = self.selectModel[0]
+            
+            if let asset = itemModel.data {
+                
+                let imageOptions = PHImageRequestOptions()
+                imageOptions.isSynchronous = true
+                
+                PHImageManager.default().requestImage(for: asset, targetSize: CGSize(width: pixSize, height: pixSize), contentMode: PHImageContentMode.aspectFill, options: imageOptions, resultHandler: { (image, info) -> Void in
+                    
+                    PrintLog(image)
+                    if image != nil {
+                    //主线程刷新
+                    DispatchQueue.main.async {
+                    self.photoArray.append((image!,self.dataArray[self.selectCell].leftText,self.selectCell))
+                        self.numArray[self.selectCell] += 1
+                        self.dataArray[self.selectCell].content = "已上传\(self.numArray[self.selectCell])张"
+                        self.reloadOneTabelViewCell(at: self.selectCell)
+                    }
+                }
+            })
+        }
+    }
+}
+
 }

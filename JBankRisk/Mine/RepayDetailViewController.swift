@@ -7,12 +7,14 @@
 // 
 
 import UIKit
+import SwiftyJSON
 
 class RepayDetailViewController: UIViewController, UITableViewDelegate, UITableViewDataSource,UIGestureRecognizerDelegate {
 
     override func viewDidLoad() {
         super.viewDidLoad()
         self.setupUI()
+        self.requestData()
     }
     
     override func didReceiveMemoryWarning() {
@@ -334,5 +336,34 @@ class RepayDetailViewController: UIViewController, UITableViewDelegate, UITableV
             })
         }
     }
+    
+    //MARK: - 请求数据
+    func requestData(){
+        //添加HUD
+        self.showHud(in: self.view, hint: "加载中...")
+        
+        var params = NetConnect.getBaseRequestParams()
+        params["userId"] = UserHelper.getUserId()!
+        
+        NetConnect.pc_repayment_all_detail(parameters: params, success: { response in
+            //隐藏HUD
+            self.hideHud()
+            let json = JSON(response)
+            guard json["RET_CODE"] == "000000" else{
+                return self.showHint(in: self.view, hint: json["RET_DESC"].stringValue)
+            }
+            
+            self.refreshUI(json: json)
+            
+        }, failure:{ error in
+            //隐藏HUD
+            self.hideHud()
+        })
+    }
+
+    func refreshUI(json: JSON){
+        
+    }
+    
 }
 

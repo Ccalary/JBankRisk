@@ -9,16 +9,48 @@
 import UIKit
 
 class BorrowStatusView: UIView {
-
+    
     override init(frame: CGRect ) {
         super.init(frame: frame)
-        setupUI()
     }
     
     ///初始化默认frame
-    convenience init() {
+    convenience init(statusType: OrderStausType) {
         let frame = CGRect(x: 0, y: 0, width: SCREEN_WIDTH, height: 250*UIRate)
         self.init(frame: frame)
+        /*
+        case finish      //订单完结
+        case examing     //审核中
+        case fullSuccess //满额通过
+        case checking    //校验中
+        case repaying    //还款中
+        case fail        //审核未通过
+        case upLoadBill  //上传服务单
+        case reUploadData//补交材料
+        case defaultStatus //缺省
+       */
+        switch statusType {
+            case .finish://订单完结
+                self.statusImageView.image = UIImage(named:"bs_finish_110x90")
+            case .examing: //审核中
+                self.statusImageView.image = UIImage(named:"bs_examing_110x90")
+            case .fullSuccess://满额通过
+                self.statusImageView.image = UIImage(named:"bs_fullSuccess_110x90")
+            case .checking://校验中
+                self.statusImageView.image = UIImage(named:"bs_checking_110x90")
+            case .repaying://还款中
+                self.statusImageView.image = UIImage(named:"bs_repaying_110x90")
+            case .fail://审核未通过
+                self.statusImageView.image = UIImage(named:"bs_fail_110x90")
+            case .upLoadBill: //上传服务单
+                break
+            case .reUploadData: //补交材料
+                break
+            case .defaultStatus:
+                break
+        }
+        
+        setupUI()
     }
     
     required init?(coder aDecoder: NSCoder) {

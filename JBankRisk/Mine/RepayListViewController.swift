@@ -11,6 +11,16 @@ import SnapKit
 
 class RepayListViewController: UIViewController,UIGestureRecognizerDelegate,UITableViewDelegate, UITableViewDataSource {
     
+    var isHaveData = false
+    
+    //标题
+    var titleText = "" {
+        didSet{
+            self.titleTextLabel.text = titleText
+            self.navTextLabel.text = titleText            
+        }
+    }
+    
     //是否打开了下拉框
     var isTransformed: Bool = false
     var selectViewConstraint: Constraint?
@@ -23,9 +33,7 @@ class RepayListViewController: UIViewController,UIGestureRecognizerDelegate,UITa
 
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
-        
     }
-   
 
     func setTitle(){
         let titleView = UIView(frame: CGRect(x: 0, y: 0, width: 100*UIRate, height: 40))
@@ -54,18 +62,57 @@ class RepayListViewController: UIViewController,UIGestureRecognizerDelegate,UITa
         self.navigationItem.titleView = titleView
     }
 
+    //Nav
+    func setNavUI(){
+        self.view.addSubview(navHoldView)
+        self.navHoldView.addSubview(navImageView)
+        self.navHoldView.addSubview(navTextLabel)
+        self.navHoldView.addSubview(navDivideLine)
+        
+        navHoldView.snp.makeConstraints { (make) in
+            make.width.equalTo(self.view)
+            make.height.equalTo(64)
+            make.centerX.equalTo(self.view)
+            make.top.equalTo(0)
+        }
+        
+        navImageView.snp.makeConstraints { (make) in
+            make.width.equalTo(13)
+            make.height.equalTo(21)
+            make.left.equalTo(19)
+            make.centerY.equalTo(10)
+        }
+        
+        navTextLabel.snp.makeConstraints { (make) in
+            make.centerX.equalTo(self.view)
+            make.centerY.equalTo(navImageView)
+        }
+        
+        navDivideLine.snp.makeConstraints { (make) in
+            make.width.equalTo(self.view)
+            make.height.equalTo(0.5*UIRate)
+            make.centerX.equalTo(self.view)
+            make.bottom.equalTo(navHoldView)
+        }
+    }
     
     func setupUI(){
         self.navigationController!.navigationBar.isTranslucent = true;
         self.automaticallyAdjustsScrollViewInsets = false;
         self.view.backgroundColor = defaultBackgroundColor
         
-        self.setupUINormalUI()
+        if !isHaveData {
+            self.setupDefaultUI()
+            self.navTextLabel.text = self.title
+        }else {
+            self.setupUINormalUI()
+            self.navTextLabel.text = self.titleTextLabel.text
+        }
+        self.setNavUI()
     }
     
     func setupDefaultUI(){
         self.title = "还款明细"
-        
         self.view.addSubview(defaultView)
         
         defaultView.snp.makeConstraints { (make) in
@@ -78,6 +125,14 @@ class RepayListViewController: UIViewController,UIGestureRecognizerDelegate,UITa
     
     func setupUINormalUI(){
         self.setTitle()
+        
+        self.view.addSubview(tableHeaderView)
+        self.tableHeaderView.addSubview(timeTextLabel)
+        self.tableHeaderView.addSubview(naemTextLabel)
+        self.tableHeaderView.addSubview(moneyTextLabel)
+        self.tableHeaderView.addSubview(divideLine1)
+        self.view.addSubview(aTableView)
+        
         self.view.addSubview(selectBgView)
         self.view.addSubview(selectView)
 
@@ -85,14 +140,6 @@ class RepayListViewController: UIViewController,UIGestureRecognizerDelegate,UITa
         aTap.numberOfTapsRequired = 1
         aTap.delegate = self
         selectBgView.addGestureRecognizer(aTap)
-        
-        self.view.addSubview(tableHeaderView)
-        self.tableHeaderView.addSubview(timeTextLabel)
-        self.tableHeaderView.addSubview(naemTextLabel)
-        self.tableHeaderView.addSubview(moneyTextLabel)
-        self.tableHeaderView.addSubview(divideLine1)
-        
-        self.view.addSubview(aTableView)
         
         selectBgView.snp.makeConstraints { (make) in
             make.size.equalTo(self.view)
@@ -117,9 +164,9 @@ class RepayListViewController: UIViewController,UIGestureRecognizerDelegate,UITa
         }
         
         timeTextLabel.snp.makeConstraints { (make) in
-            make.width.equalTo((SCREEN_WIDTH - 30*UIRate)/3)
+            make.width.equalTo(SCREEN_WIDTH/3.0)
             make.height.equalTo(45*UIRate)
-            make.left.equalTo(15*UIRate)
+            make.left.equalTo(0)
             make.centerY.equalTo(tableHeaderView)
         }
         
@@ -131,7 +178,7 @@ class RepayListViewController: UIViewController,UIGestureRecognizerDelegate,UITa
         
         moneyTextLabel.snp.makeConstraints { (make) in
             make.size.equalTo(timeTextLabel)
-            make.right.equalTo(-15*UIRate)
+            make.right.equalTo(0)
             make.centerY.equalTo(tableHeaderView)
         }
         
@@ -144,13 +191,43 @@ class RepayListViewController: UIViewController,UIGestureRecognizerDelegate,UITa
     
         aTableView.snp.makeConstraints { (make) in
             make.width.equalTo(self.view)
-            make.height.equalTo(300*UIRate)
+            make.height.equalTo(SCREEN_HEIGHT - 64 - 45*UIRate)
             make.centerX.equalTo(self.view)
             make.top.equalTo(tableHeaderView.snp.bottom)
         }
 
     }
     
+    /***Nav隐藏时使用***/
+    private lazy var navHoldView: UIView = {
+        let holdView = UIView()
+        holdView.backgroundColor = UIColor.white
+        return holdView
+    }()
+    
+    //图片
+    private lazy var navImageView: UIImageView = {
+        let imageView = UIImageView()
+        imageView.image = UIImage(named: "navigation_left_back_13x21")
+        return imageView
+    }()
+    
+    private lazy var navTextLabel: UILabel = {
+        let label = UILabel()
+        label.font = UIFontSize(size: 18)
+        label.textAlignment = .center
+        label.textColor = UIColorHex("666666")
+        return label
+    }()
+    
+    //分割线
+    private lazy var navDivideLine: UIView = {
+        let lineView = UIView()
+        lineView.backgroundColor = defaultDivideLineColor
+        return lineView
+    }()
+    
+    /*********/
     //缺省页
     private lazy var defaultView: NothingDefaultView = {
         let holdView = NothingDefaultView(viewType: NothingDefaultView.DefaultViewType.nothing)
@@ -174,15 +251,12 @@ class RepayListViewController: UIViewController,UIGestureRecognizerDelegate,UITa
         return imageView
     }()
     
-
-    
     //／title按钮
     private lazy var titleButton: UIButton = {
         let button = UIButton()
         button.addTarget(self, action: #selector(titleButtonAction), for: .touchUpInside)
         return button
     }()
-
     
     //下拉选择View
     private lazy var selectView: NeedRepayTimeView = {
@@ -245,12 +319,12 @@ class RepayListViewController: UIViewController,UIGestureRecognizerDelegate,UITa
         tableView.delegate = self
         tableView.dataSource = self
         tableView.tableFooterView = UIView()
+        tableView.backgroundColor = defaultBackgroundColor
         tableView.register(RepayListTableViewCell.self, forCellReuseIdentifier: "CellID")
         //tableView 单元格分割线的显示
         if tableView.responds(to:#selector(setter: UITableViewCell.separatorInset)) {
             tableView.separatorInset = .zero
         }
-        
         if tableView.responds(to: #selector(setter: UITableViewCell.layoutMargins)) {
             tableView.layoutMargins = .zero
         }
@@ -290,7 +364,6 @@ class RepayListViewController: UIViewController,UIGestureRecognizerDelegate,UITa
             cell.layoutMargins = .zero
         }
     }
-
     
     ///消除手势与TableView的冲突
     func gestureRecognizer(_ gestureRecognizer: UIGestureRecognizer, shouldReceive touch: UITouch) -> Bool {
@@ -305,13 +378,12 @@ class RepayListViewController: UIViewController,UIGestureRecognizerDelegate,UITa
     //点击了下拉框的回调
     func selectViewClick(){
         selectView.onClickCell = { (title) in
-            self.titleTextLabel.text = title
+            self.titleText = title
             self.closeSelectView()
         }
     }
     
     //MARK: - Action
-    
     func tapViewAction(){
         if isTransformed{
             self.closeSelectView()

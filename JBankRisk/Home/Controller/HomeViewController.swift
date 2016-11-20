@@ -42,10 +42,13 @@ class HomeViewController: UIViewController, UIGestureRecognizerDelegate{
     }
     override func viewWillAppear(_ animated: Bool) {
          self.navigationController?.isNavigationBarHidden = true
+    }
+    
+    override func viewDidAppear(_ animated: Bool) {
          self.requestHomeData()
     }
     
-    override func viewWillDisappear(_ animated: Bool) {
+    override func viewDidDisappear(_ animated: Bool) {
          self.navigationController?.isNavigationBarHidden = false
     }
     
@@ -196,10 +199,7 @@ class HomeViewController: UIViewController, UIGestureRecognizerDelegate{
             UserHelper.setData(isUpload: true)
             UserHelper.setAllFinishIsUpload(isUpload: true)
         }
-        
     }
-
-
 }
 
 extension HomeViewController: UITableViewDelegate, UITableViewDataSource,CyclePictureViewDelegate{
@@ -287,8 +287,8 @@ extension HomeViewController: UITableViewDelegate, UITableViewDataSource,CyclePi
                 self.navigationController?.pushViewController(loginVC, animated: true)
                 return
             }
-                let repayBillVC = RepayBillViewController()
-                self.navigationController?.pushViewController(repayBillVC, animated: true)
+                let repayDetailVC = RepayListViewController()
+                self.navigationController?.pushViewController(repayDetailVC, animated: true)
         default:
             break
         }

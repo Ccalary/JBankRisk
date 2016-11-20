@@ -30,7 +30,7 @@ class IdentityViewController: UIViewController {
        self.setupUI()
        getCurrentIndex()
        
-       if UserHelper.getUserId() != nil {
+       if UserHelper.getIdentityIsUpload() {
             self.requestIdentityInfo()
         }
     }

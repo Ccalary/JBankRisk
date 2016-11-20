@@ -96,6 +96,20 @@ let PC_HOME_URL = BASR_DEV_URL + "/jinangk.xhtml?TX_CODE=490311"
 ///3.2借款纪录
 let PC_BORROW_RECORD = BASR_DEV_URL + "/jinangk.xhtml?TX_CODE=490044"
 
+///3.3借款状态
+let PC_BORROW_STATUS = BASR_DEV_URL + "/jinangk.xhtml?TX_CODE=490112"
+
+///3.4还款账单
+let PC_REPAYMENT_BILL = BASR_DEV_URL + "/jinangk.xhtml?TX_CODE=490314"
+
+///3.5总还款详情
+let PC_REPAYMENT_ALL_DETAIL = BASR_DEV_URL + "/jinangk.xhtml?TX_CODE=490225"
+
+///3.5月还款详情
+let PC_REPAYMENT_MONTH_DETAIL = BASR_DEV_URL + "/jinangk.xhtml?TX_CODE=490048"
+
+
+
 
 
 

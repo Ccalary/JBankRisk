@@ -98,7 +98,7 @@ class AboutOursViewController: UIViewController, UITableViewDelegate, UITableVie
         label.font = UIFontSize(size: 15*UIRate)
         label.textAlignment = .center
         label.textColor = UIColorHex("f42e2f")
-        label.text = "v.1.0.0"
+        label.text = "v." + APP_VERSION  //版本号
         return label
     }()
     
@@ -151,7 +151,6 @@ class AboutOursViewController: UIViewController, UITableViewDelegate, UITableVie
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: "oursCellID") as! AboutOursTableViewCell
         //去除选择效果
-        cell.selectionStyle = .none
         cell.backgroundColor = UIColor.white
         cell.leftTextLabel.text = leftTextInfo[indexPath.row]
         
@@ -172,11 +171,10 @@ class AboutOursViewController: UIViewController, UITableViewDelegate, UITableVie
             cell.backgroundColor = defaultBackgroundColor
         case 5:
             cell.leftImageView.image = UIImage(named:"s_new_version_20x20")
-            cell.rightTextLabel.text = "1.0.0"
+            cell.rightTextLabel.text = APP_VERSION
         default:
             break
         }
-        
         
         return cell
     }
@@ -190,6 +188,8 @@ class AboutOursViewController: UIViewController, UITableViewDelegate, UITableVie
     }
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        tableView.deselectRow(at: indexPath, animated: true)
+        
         switch indexPath.row {
         case 1://服务热线
             let phoneCallView = PopupPhoneCallView()

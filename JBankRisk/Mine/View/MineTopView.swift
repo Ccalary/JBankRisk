@@ -7,6 +7,7 @@
 //
 
 import UIKit
+import SnapKit
 
 protocol MineTioViewClickDelegate {
     
@@ -15,6 +16,11 @@ protocol MineTioViewClickDelegate {
 
 class MineTopView: UIView {
 
+    //逾期提醒
+    var tipsHoldViewContraint: Constraint!
+    //本月待还
+    var repayHoldViewContraint: Constraint!
+    
     
     var delegate: MineTioViewClickDelegate?
     
@@ -105,7 +111,7 @@ class MineTopView: UIView {
         /********/
         tipsHoldView.snp.makeConstraints { (make) in
         make.width.equalTo(self)
-        make.height.equalTo(25*UIRate)
+        self.tipsHoldViewContraint = make.height.equalTo(25*UIRate).constraint
         make.centerX.equalTo(self)
         make.top.equalTo(topImageView.snp.bottom)
         }
@@ -116,12 +122,11 @@ class MineTopView: UIView {
         }
         
         /*********/
-        
         repayHoldView.snp.makeConstraints { (make) in
         make.width.equalTo(self)
-        make.height.equalTo(70*UIRate)
+        self.repayHoldViewContraint = make.height.equalTo(70*UIRate).constraint
         make.centerX.equalTo(self)
-        make.top.equalTo(topImageView.snp.bottom).offset(25*UIRate)
+        make.top.equalTo(tipsHoldView.snp.bottom)
         }
         
         repayDivideLine.snp.makeConstraints { (make) in
@@ -229,12 +234,11 @@ class MineTopView: UIView {
         textLabel.font = UIFontSize(size: 15*UIRate)
         textLabel.textAlignment = .center
         textLabel.textColor = UIColor.white
-        textLabel.text = "您好： \(toolsChangePhoneNumStyle(mobile: UserHelper.getUserMobile()!))"
         return textLabel
     }()
     
     /*****************/
-    private lazy var tipsHoldView: UIView = {
+    lazy var tipsHoldView: UIView = {
         let holdView = UIView()
         holdView.backgroundColor = UIColorHex("ffe0df")
         return holdView
@@ -245,12 +249,12 @@ class MineTopView: UIView {
         label.font = UIFontSize(size: 15*UIRate)
         label.textAlignment = .center
         label.textColor = UIColorHex("e9342d")
-        label.text = "您有借款逾期，请尽早还款"
+        label.text = ""
         return label
     }()
     
     /*************/
-    private lazy var repayHoldView: UIView = {
+    lazy var repayHoldView: UIView = {
         let holdView = UIView()
         holdView.backgroundColor = UIColor.white
         return holdView
@@ -308,7 +312,7 @@ class MineTopView: UIView {
         label.font = UIFontSize(size: 20*UIRate)
         label.textAlignment = .center
         label.textColor = UIColorHex("f42e2f")
-        label.text = "11月11日"
+        label.text = "11.11"
         return label
     }()
     

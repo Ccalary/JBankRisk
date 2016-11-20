@@ -267,15 +267,48 @@ class NetConnect {
             failure(error)
         })
     }
-
-
     
+    //3.3 借款状态
+    static func pc_borrow_status(parameters: Parameters,success:@escaping (_ response:[String:AnyObject]) -> (),failure:@escaping(_ error: Error) -> ()){
+        
+        NetworkRequest.sharedInstance.getRequest(urlString: PC_BORROW_STATUS, params: parameters, success: { (response) in
+            success(response)
+        }, failture: { (error) in
+            failure(error)
+        })
+    }
+    
+    //3.4 还款账单
+    static func pc_repayment_bill(parameters: Parameters,success:@escaping (_ response:[String:AnyObject]) -> (),failure:@escaping(_ error: Error) -> ()){
+        
+        NetworkRequest.sharedInstance.getRequest(urlString: PC_REPAYMENT_BILL, params: parameters, success: { (response) in
+            success(response)
+        }, failture: { (error) in
+            failure(error)
+        })
+    }
+    
+    //3.5 总还款详情
+    static func pc_repayment_all_detail(parameters: Parameters,success:@escaping (_ response:[String:AnyObject]) -> (),failure:@escaping(_ error: Error) -> ()){
+        
+        NetworkRequest.sharedInstance.getRequest(urlString: PC_REPAYMENT_ALL_DETAIL, params: parameters, success: { (response) in
+            success(response)
+        }, failture: { (error) in
+            failure(error)
+        })
+    }
+    
+    //3.6 月还款详情
+    static func pc_repayment_month_detail(parameters: Parameters,success:@escaping (_ response:[String:AnyObject]) -> (),failure:@escaping(_ error: Error) -> ()){
+        
+        NetworkRequest.sharedInstance.getRequest(urlString: PC_REPAYMENT_MONTH_DETAIL, params: parameters, success: { (response) in
+            success(response)
+        }, failture: { (error) in
+            failure(error)
+        })
+    }
+
+
+
 }
-
-
-
-
-
-
-
 

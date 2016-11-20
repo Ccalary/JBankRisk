@@ -31,8 +31,6 @@ class LoginPsdOrSetPsdVC: UIViewController{
 
        self.setupUI()
        self.showView()
-        
-       
     }
 
     init(viewType: LoginPsdOrSetPsdViewType, phoneNum: String) {
@@ -305,8 +303,6 @@ class LoginPsdOrSetPsdVC: UIViewController{
             }, failure: {error in
                 
             })
-            
-
         }
     }
     //忘记密码

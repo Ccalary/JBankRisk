@@ -11,7 +11,12 @@ import SwiftyJSON
 
 class BorrowRecordViewController: UIViewController,UITableViewDelegate, UITableViewDataSource {
 
-    var dataArray:[(name:String, status: String)] = [("瘦脸","申请中"),("瘦脸","录入中"),("瘦脸","还款中")]
+    var dataArray = [(String,String)]()
+    
+    //借款信息
+    var orderInfo:JSON?
+    //是否有数据
+    var isHaveData = false
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -20,20 +25,60 @@ class BorrowRecordViewController: UIViewController,UITableViewDelegate, UITableV
 
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
-        
     }
     
     //MARK: -基本UI
-    
     func setupUI(){
         self.navigationController!.navigationBar.isTranslucent = true;
         self.automaticallyAdjustsScrollViewInsets = false;
         self.title = "借款记录"
         self.view.backgroundColor = defaultBackgroundColor
         
+        self.setNavUI()
         
-        setupNormalUI()
+        if isHaveData {
+            setupNormalUI()
+            self.requestData()
+        }else{
+           self.setupDefaultUI()
+        }
     }
+    
+    func setNavUI(){
+        self.view.addSubview(navHoldView)
+        self.navHoldView.addSubview(navImageView)
+        self.navHoldView.addSubview(navTextLabel)
+        self.navHoldView.addSubview(navDivideLine)
+        
+        navTextLabel.text = self.title
+        
+        navHoldView.snp.makeConstraints { (make) in
+            make.width.equalTo(self.view)
+            make.height.equalTo(64)
+            make.centerX.equalTo(self.view)
+            make.top.equalTo(0)
+        }
+        
+        navImageView.snp.makeConstraints { (make) in
+            make.width.equalTo(13)
+            make.height.equalTo(21)
+            make.left.equalTo(19)
+            make.centerY.equalTo(10)
+        }
+        
+        navTextLabel.snp.makeConstraints { (make) in
+            make.centerX.equalTo(self.view)
+            make.centerY.equalTo(navImageView)
+        }
+        
+        navDivideLine.snp.makeConstraints { (make) in
+            make.width.equalTo(self.view)
+            make.height.equalTo(0.5*UIRate)
+            make.centerX.equalTo(self.view)
+            make.bottom.equalTo(navHoldView)
+        }
+    }
+
     
     func setupDefaultUI(){
         self.view.addSubview(defaultView)
@@ -62,6 +107,12 @@ class BorrowRecordViewController: UIViewController,UITableViewDelegate, UITableV
             make.top.equalTo(64)
         }
         self.initHeader()
+        
+        //刷新
+        self.aTableView.addPullRefreshHandler({ _ in
+            self.requestData()
+            self.aTableView.stopPullRefreshEver()
+        })
     }
     
     //header
@@ -123,7 +174,36 @@ class BorrowRecordViewController: UIViewController,UITableViewDelegate, UITableV
         }
     }
     
+    /***Nav隐藏时使用***/
+    private lazy var navHoldView: UIView = {
+        let holdView = UIView()
+        holdView.backgroundColor = UIColor.white
+        return holdView
+    }()
     
+    //图片
+    private lazy var navImageView: UIImageView = {
+        let imageView = UIImageView()
+        imageView.image = UIImage(named: "navigation_left_back_13x21")
+        return imageView
+    }()
+    
+    private lazy var navTextLabel: UILabel = {
+        let label = UILabel()
+        label.font = UIFontSize(size: 18)
+        label.textAlignment = .center
+        label.textColor = UIColorHex("666666")
+        return label
+    }()
+    
+    //分割线
+    private lazy var navDivideLine: UIView = {
+        let lineView = UIView()
+        lineView.backgroundColor = defaultDivideLineColor
+        return lineView
+    }()
+
+    /********/
     //借款纪录缺省页
     private lazy var defaultView: BorrowDefaultView = {
         let holdView = BorrowDefaultView(viewType: BorrowDefaultView.BorrowDefaultViewType.borrowRecord)
@@ -209,14 +289,14 @@ class BorrowRecordViewController: UIViewController,UITableViewDelegate, UITableV
     }
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return 3
+        return dataArray.count
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: "borrowCellID") as! BorrowRecordTableViewCell
         
-        cell.leftTextLabel.text = dataArray[indexPath.row].name
-        cell.rightTextLabel.text = dataArray[indexPath.row].status
+        cell.leftTextLabel.text = dataArray[indexPath.row].0
+        cell.rightTextLabel.text = dataArray[indexPath.row].1
         
         return cell
     }
@@ -227,6 +307,10 @@ class BorrowRecordViewController: UIViewController,UITableViewDelegate, UITableV
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         tableView.deselectRow(at: indexPath, animated: true)
+        
+        let borrowStatusVC = BorrowStatusVC()
+        borrowStatusVC.orderInfo = self.orderInfo
+        self.navigationController?.pushViewController(borrowStatusVC, animated: true)
     }
 
     //设置分割线
@@ -240,6 +324,7 @@ class BorrowRecordViewController: UIViewController,UITableViewDelegate, UITableV
         }
     }
 
+    //MARK: - 请求数据
     func requestData(){
         //添加HUD
         self.showHud(in: self.view, hint: "加载中...")
@@ -255,13 +340,22 @@ class BorrowRecordViewController: UIViewController,UITableViewDelegate, UITableV
                 return self.showHint(in: self.view, hint: json["RET_DESC"].stringValue)
             }
             
+            self.orderInfo = json["orderInfo"]
+            self.refreshUI(json: json["orderInfo"])
+            
         }, failure:{ error in
             //隐藏HUD
             self.hideHud()
         })
-
-        
     }
     
+    //刷新界面
+    func refreshUI(json: JSON){
+        let money = json["amt"].doubleValue
+        self.moneyLabel.text = toolsChangeMoneyStyle(amount: money)
+        self.dataArray.removeAll()
+        self.dataArray.append((json["orderName"].stringValue,json["status"].stringValue))
+        self.aTableView.reloadData()
+    }
 
 }

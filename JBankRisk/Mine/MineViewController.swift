@@ -8,14 +8,26 @@
 
 import UIKit
 import SwiftyJSON
+import SnapKit
 
 class MineViewController: UIViewController, UIGestureRecognizerDelegate,UICollectionViewDelegate,UICollectionViewDataSource, UICollectionViewDelegateFlowLayout, StatusButtonClickDelegate,MineTioViewClickDelegate{
 
+    var topHeight = 220*UIRate//总高度
+    var topImageHeight = 220*UIRate//头部
+    var tipViewHeight = 25*UIRate//提示条
+    var repayViewHeight = 70*UIRate//还款栏
+    
+    //topView高度改变
+    var mineTopConstrain: Constraint!
+    
     var headerView:MineHeaderView!
     var footerView:MineFooterView!
     
     //摇摆动画
     var momAnimation:CABasicAnimation!
+    
+    //借款状态码
+    var moneyStatus = ""
     
     //未读信息个数
     var messageCount = 0 {
@@ -41,16 +53,18 @@ class MineViewController: UIViewController, UIGestureRecognizerDelegate,UICollec
         self.navigationController?.interactivePopGestureRecognizer?.delegate = self
         //加载UI
         self.setupUI()
-        
-        
     }
 
     override func viewWillAppear(_ animated: Bool) {
         self.navigationController?.isNavigationBarHidden = true
+        
+    }
+    
+    override func viewDidAppear(_ animated: Bool) {
         self.requestHomeData()
     }
     
-    override func viewWillDisappear(_ animated: Bool) {
+    override func viewDidDisappear(_ animated: Bool) {
         self.navigationController?.isNavigationBarHidden = false
     }
 
@@ -91,7 +105,7 @@ class MineViewController: UIViewController, UIGestureRecognizerDelegate,UICollec
         
         mineTopView.snp.makeConstraints { (make) in
             make.width.equalTo(self.view)
-            make.height.equalTo(315*UIRate)
+            self.mineTopConstrain = make.height.equalTo(topImageHeight).constraint
             make.centerX.equalTo(self.view)
             make.top.equalTo(0)
         }
@@ -155,7 +169,7 @@ class MineViewController: UIViewController, UIGestureRecognizerDelegate,UICollec
             cell.textLabel.text = "还款账单"
         case 2:
             cell.imageView.image = UIImage(named: "m_repay_detail_28x28")
-            cell.textLabel.text = "还款明细"
+            cell.textLabel.text = "已还明细"
         default:
             break
         }
@@ -167,13 +181,24 @@ class MineViewController: UIViewController, UIGestureRecognizerDelegate,UICollec
         
         if indexPath.row == 0 { //借款记录
             let borrowRecordVC = BorrowRecordViewController()
+            if moneyStatus == "" {//如果状态码没有，则加载缺省界面
+                borrowRecordVC.isHaveData = false
+            }else {
+                borrowRecordVC.isHaveData = true
+            }
             self.navigationController?.pushViewController(borrowRecordVC, animated: true)
         }else if indexPath.row == 1 { //还款账单
             let repayVC = RepayBillViewController()
+            //5-还款中 0-已完结
+            if moneyStatus == "5" || moneyStatus == "0" {
+                repayVC.isHaveData = true
+            }else {
+                repayVC.isHaveData = false
+            }
             self.navigationController?.pushViewController(repayVC, animated: true)
         }else if indexPath.row == 2 { //还款明细
             let repayDetailVC = RepayListViewController()
-             self.navigationController?.pushViewController(repayDetailVC, animated: true)
+            self.navigationController?.pushViewController(repayDetailVC, animated: true)
         }
     }
     
@@ -266,30 +291,50 @@ class MineViewController: UIViewController, UIGestureRecognizerDelegate,UICollec
     }
     
     func refreshUI(json:JSON){
+        //重置高度
+        topHeight = topImageHeight
         
         //头像
         UserHelper.setUserHeader(headerUrl: BASR_DEV_URL + json["head_img"].stringValue)
         mineTopView.headerImageView.kf_setImage(with: URL(string: UserHelper.getUserHeaderUrl() ?? ""), placeholder: UIImage(named: "m_heder_icon_90x90"), options: nil, progressBlock: nil, completionHandler: nil)
+        //用户名
+        self.mineTopView.sayHelloTextLabel.text = "您好： \(toolsChangePhoneNumStyle(mobile: UserHelper.getUserMobile()!))"
+        
         //未读消息
         self.messageCount = json["size"].intValue
         
-        if json["jstatus"].stringValue == "5" {//有还款明细
-            self.mineTopView.moneyLabel.text = json["MonthRefund"].stringValue
-            self.mineTopView.dateLabel.text = json["nextMonthDay"].stringValue
-        }
-        if json["penalty_day"].intValue > 0 { //有逾期
+        //有逾期
+        if json["penalty_day"].intValue > 0 {
             let day = json["penalty_day"].stringValue //天数
             let amount = json["demurrage"].stringValue //钱数
             
             self.mineTopView.tipsTextLabel.text = "您有1期借款已逾期\(day)天，费用\(amount)元，请及时还款"
+            self.mineTopView.tipsHoldViewContraint.update(offset: tipViewHeight)
+            topHeight = topHeight + tipViewHeight
+            
+        }else {
+            self.mineTopView.tipsHoldViewContraint.update(offset: 0)
         }
-        let status = json["jstatus"].stringValue//个人中心借款状态
+        
+        if json["jstatus"].stringValue == "5" {//有还款明细
+            self.mineTopView.moneyLabel.text = json["MonthRefund"].stringValue
+            self.mineTopView.dateLabel.text = toolsChangeDateStyleToMMDD(time: json["nextMonthDay"].stringValue)
+             self.mineTopView.repayHoldViewContraint.update(offset: repayViewHeight)
+            topHeight = topHeight + repayViewHeight
+        }else {
+            self.mineTopView.repayHoldViewContraint.update(offset: 0)
+            
+        }
+        self.mineTopConstrain.update(offset: topHeight)
+        
+        
+       moneyStatus = json["jstatus"].stringValue//个人中心借款状态
             headerView.tipImage1.isHidden = true
             headerView.tipImage2.isHidden = true
             headerView.tipImage3.isHidden = true
             headerView.tipImage4.isHidden = true
-        //0 - 订单完结 2－ 审核中 3-满额通过 4-等待放款，教验中 5-还款中 7－审核悲剧 8-重新上传服务单 9-补交材料 99-录入中
-        switch status {
+        //0- 订单完结 2－ 审核中 3-满额通过 4-等待放款，教验中 5-还款中 7－审核悲剧 8-重新上传服务单 9-补交材料 99-录入中
+        switch moneyStatus {
          case "2": //审核中
             headerView.tipImage1.isHidden = false
         case "3","4","8": //待使用

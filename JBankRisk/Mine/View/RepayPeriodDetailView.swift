@@ -17,12 +17,14 @@ enum RepayStatusType {
 
 class RepayPeriodDetailView: UIView, UITableViewDelegate, UITableViewDataSource {
     
-    var finishData:[String] = ["应还本息：  ","还款时间：  ","到期时间：  "]
-    var overdueData:[String] = ["应还本息：  ","剩余未还：  ","到期时间：  ","逾期天数：  ","逾期罚金：  "]
-    var advanceData:[String] = ["应还本息：  ","剩余未还：  ","还款时间：  ","到期时间：  "]
-    var notData:[String] = ["应还本息：  ","剩余未还：  ","到期时间：  "]
+    //行数
+    var cellNum = 0
     
-    var dataArray: [String] = []
+    var dataArray = [String]() {
+        didSet{
+            self.aTableView.reloadData()
+        }
+    }
     var viewType: RepayStatusType = .finish
     
     override init(frame: CGRect ) {
@@ -36,16 +38,16 @@ class RepayPeriodDetailView: UIView, UITableViewDelegate, UITableViewDataSource 
         self.viewType = viewType
         switch self.viewType {
         case .finish:
-            dataArray = finishData
+            cellNum = 2
         case .overdue:
-            dataArray = overdueData
+            cellNum = 5
         case .advance:
-            dataArray = advanceData
+            cellNum = 3
         case .not:
-            dataArray = notData
+            cellNum = 3
         }
         
-        let height = CGFloat(dataArray.count)*30*UIRate + 85*UIRate
+        let height = CGFloat(cellNum)*30*UIRate + 85*UIRate
         self.frame = CGRect(x: 0, y: 0, width: SCREEN_WIDTH, height: height)
         
         self.setupUI()
@@ -65,14 +67,14 @@ class RepayPeriodDetailView: UIView, UITableViewDelegate, UITableViewDataSource 
         
         holdView.snp.makeConstraints { (make) in
             make.width.equalTo(self)
-            make.height.equalTo(CGFloat(dataArray.count)*30*UIRate + 85*UIRate)
+            make.height.equalTo(CGFloat(cellNum)*30*UIRate + 85*UIRate)
             make.centerX.equalTo(self)
             make.top.equalTo(0)
         }
         
         aTableView.snp.makeConstraints { (make) in
             make.width.equalTo(self)
-            make.height.equalTo(CGFloat(dataArray.count)*30*UIRate)
+            make.height.equalTo(CGFloat(cellNum)*30*UIRate)
             make.centerX.equalTo(self)
             make.top.equalTo(10*UIRate)
         }
@@ -111,7 +113,7 @@ class RepayPeriodDetailView: UIView, UITableViewDelegate, UITableViewDataSource 
         return lineView
     }()
     
-    private lazy var aTableView: UITableView = {
+   lazy var aTableView: UITableView = {
         
         let tableView = UITableView()
         tableView.delegate = self
@@ -149,7 +151,7 @@ class RepayPeriodDetailView: UIView, UITableViewDelegate, UITableViewDataSource 
   
         cell.selectionStyle = .none
         cell.arrowImageView.isHidden = true
-        cell.centerLabel.text = dataArray[indexPath.row] + "100元"
+        cell.centerLabel.text = dataArray[indexPath.row]
         
         return cell
     }
@@ -162,4 +164,5 @@ class RepayPeriodDetailView: UIView, UITableViewDelegate, UITableViewDataSource 
     func nextStepBtnAction(){
         
     }
+    
 }

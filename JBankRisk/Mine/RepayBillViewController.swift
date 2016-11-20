@@ -7,9 +7,21 @@
 //
 
 import UIKit
+import SwiftyJSON
 
 class RepayBillViewController: UIViewController, UITableViewDataSource, UITableViewDelegate{
 
+    //是否有数据
+    var isHaveData = false
+    //月还款id
+    var repaymentId = ""
+    //月还款状态
+    var monthRepayStatus: RepayStatusType = .finish
+    
+    var monthDataArray:[(name:String, period:String, status:String)] = [("暂无待还借款","","")]
+    var allDataArray = [(name:String, period:String, status:String)]()
+    
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         self.setupUI()
@@ -27,9 +39,52 @@ class RepayBillViewController: UIViewController, UITableViewDataSource, UITableV
         self.title = "还款账单"
         self.view.backgroundColor = defaultBackgroundColor
         
-        setupDefaultUI()
+        self.setNavUI()
+        
+        if isHaveData {
+            setupNormalUI()
+            self.requestData()
+        }else {
+            setupDefaultUI()
+        }
     }
     
+    //Nav
+    func setNavUI(){
+        self.view.addSubview(navHoldView)
+        self.navHoldView.addSubview(navImageView)
+        self.navHoldView.addSubview(navTextLabel)
+        self.navHoldView.addSubview(navDivideLine)
+        
+        navTextLabel.text = self.title
+        
+        navHoldView.snp.makeConstraints { (make) in
+            make.width.equalTo(self.view)
+            make.height.equalTo(64)
+            make.centerX.equalTo(self.view)
+            make.top.equalTo(0)
+        }
+        
+        navImageView.snp.makeConstraints { (make) in
+            make.width.equalTo(13)
+            make.height.equalTo(21)
+            make.left.equalTo(19)
+            make.centerY.equalTo(10)
+        }
+        
+        navTextLabel.snp.makeConstraints { (make) in
+            make.centerX.equalTo(self.view)
+            make.centerY.equalTo(navImageView)
+        }
+        
+        navDivideLine.snp.makeConstraints { (make) in
+            make.width.equalTo(self.view)
+            make.height.equalTo(0.5*UIRate)
+            make.centerX.equalTo(self.view)
+            make.bottom.equalTo(navHoldView)
+        }
+    }
+
     func setupDefaultUI(){
         self.view.addSubview(defaultView)
         
@@ -44,9 +99,7 @@ class RepayBillViewController: UIViewController, UITableViewDataSource, UITableV
         defaultView.onClickApplyAction = { _ in
             
         }
-        
     }
-
     
     func setupNormalUI(){
         self.title = "还款账单"
@@ -198,8 +251,134 @@ class RepayBillViewController: UIViewController, UITableViewDataSource, UITableV
             make.bottom.equalTo(repayHoldView)
         }
 
+        
+        //刷新
+        self.aTableView.addPullRefreshHandler({ _ in
+            self.requestData()
+            self.aTableView.stopPullRefreshEver()
+        })
+
+        
+    }
+    //月头部
+    func monthTableViewHeader() -> UIView {
+        
+        let headerView = UIView(frame: CGRect(x: 0, y: 0, width: SCREEN_WIDTH, height: 50*UIRate))
+        headerView.backgroundColor = UIColor.white
+        
+        headerView.addSubview(monthIconView)
+        headerView.addSubview(monthBillTextLabel)
+        headerView.addSubview(recentTimeLabel)
+        headerView.addSubview(monthBilldivideLine)
+        
+        monthIconView.snp.makeConstraints { (make) in
+            make.width.height.equalTo(20*UIRate)
+            make.left.equalTo(8*UIRate)
+            make.centerY.equalTo(headerView)
+        }
+        
+        monthBillTextLabel.snp.makeConstraints { (make) in
+            make.left.equalTo(30*UIRate)
+            make.centerY.equalTo(headerView)
+        }
+        
+        recentTimeLabel.snp.makeConstraints { (make) in
+            make.right.equalTo(-15*UIRate)
+            make.centerY.equalTo(headerView)
+        }
+        
+        monthBilldivideLine.snp.makeConstraints { (make) in
+            make.width.equalTo(headerView)
+            make.height.equalTo(0.5*UIRate)
+            make.centerX.equalTo(headerView)
+            make.bottom.equalTo(headerView)
+        }
+
+        return headerView
+    }
+    //全部头部
+    func allTableViewHeader() -> UIView{
+        let headerView = UIView(frame: CGRect(x: 0, y: 0, width: SCREEN_WIDTH, height: 60*UIRate))
+        headerView.backgroundColor = UIColor.white
+        
+        headerView.addSubview(totalTopHoldView)
+        headerView.addSubview(totalBilldivideLine1)
+        headerView.addSubview(totalBilldivideLine2)
+        headerView.addSubview(totalIconView)
+        headerView.addSubview(totalBillTextLabel)
+        headerView.addSubview(totalBilldivideLine3)
+        
+        totalTopHoldView.snp.makeConstraints { (make) in
+            make.width.equalTo(headerView)
+            make.height.equalTo(10*UIRate)
+            make.centerX.equalTo(headerView)
+            make.top.equalTo(headerView)
+        }
+        
+        totalBilldivideLine1.snp.makeConstraints { (make) in
+            make.width.equalTo(headerView)
+            make.height.equalTo(0.5*UIRate)
+            make.centerX.equalTo(headerView)
+            make.bottom.equalTo(totalTopHoldView)
+        }
+        
+        totalBilldivideLine2.snp.makeConstraints { (make) in
+            make.width.equalTo(headerView)
+            make.height.equalTo(0.5*UIRate)
+            make.centerX.equalTo(headerView)
+            make.top.equalTo(totalTopHoldView)
+        }
+        
+        totalIconView.snp.makeConstraints { (make) in
+            make.width.height.equalTo(20*UIRate)
+            make.left.equalTo(8*UIRate)
+            make.centerY.equalTo(headerView).offset(5*UIRate)
+        }
+        totalBillTextLabel.snp.makeConstraints { (make) in
+            make.left.equalTo(30*UIRate)
+            make.centerY.equalTo(totalIconView)
+        }
+        
+        totalBilldivideLine3.snp.makeConstraints { (make) in
+            make.width.equalTo(headerView)
+            make.height.equalTo(0.5*UIRate)
+            make.centerX.equalTo(headerView)
+            make.bottom.equalTo(headerView)
+        }
+        
+        return headerView
     }
     
+    /***Nav隐藏时使用***/
+    private lazy var navHoldView: UIView = {
+        let holdView = UIView()
+        holdView.backgroundColor = UIColor.white
+        return holdView
+    }()
+    
+    //图片
+    private lazy var navImageView: UIImageView = {
+        let imageView = UIImageView()
+        imageView.image = UIImage(named: "navigation_left_back_13x21")
+        return imageView
+    }()
+    
+    private lazy var navTextLabel: UILabel = {
+        let label = UILabel()
+        label.font = UIFontSize(size: 18)
+        label.textAlignment = .center
+        label.textColor = UIColorHex("666666")
+        return label
+    }()
+    
+    //分割线
+    private lazy var navDivideLine: UIView = {
+        let lineView = UIView()
+        lineView.backgroundColor = defaultDivideLineColor
+        return lineView
+    }()
+    
+    /********/
     //还款账单缺省页
     private lazy var defaultView: BorrowDefaultView = {
         let holdView = BorrowDefaultView(viewType: BorrowDefaultView.BorrowDefaultViewType.repayBill)
@@ -240,7 +419,7 @@ class RepayBillViewController: UIViewController, UITableViewDataSource, UITableV
         label.font = UIFontSize(size: 36*UIRate)
         label.textAlignment = .center
         label.textColor = UIColor.white
-        label.text = "1599,009.00"
+        label.text = "0.00"
         return label
     }()
 
@@ -310,7 +489,7 @@ class RepayBillViewController: UIViewController, UITableViewDataSource, UITableV
         label.font = UIFontSize(size: 20*UIRate)
         label.textAlignment = .center
         label.textColor = UIColorHex("f42e2f")
-        label.text = "100.00"
+        label.text = "0.00"
         return label
     }()
     
@@ -371,7 +550,6 @@ class RepayBillViewController: UIViewController, UITableViewDataSource, UITableV
         label.font = UIFontSize(size: 15*UIRate)
         label.textAlignment = .center
         label.textColor = UIColorHex("666666")
-        label.text = "最近还款日10.01"
         return label
     }()
 
@@ -454,9 +632,9 @@ class RepayBillViewController: UIViewController, UITableViewDataSource, UITableV
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         if section == 0{
-            return 2
+            return monthDataArray.count
         }else {
-            return 1
+            return allDataArray.count
         }
     }
     
@@ -464,16 +642,30 @@ class RepayBillViewController: UIViewController, UITableViewDataSource, UITableV
         let cell = tableView.dequeueReusableCell(withIdentifier: "borrowCellID") as! BorrowRecordTableViewCell
         
          if indexPath.section == 0 {
-            cell.leftTextLabel.text = "瘦脸"
-            cell.rightSecondTextLabel.text = "第一期"
-            cell.rightTextLabel.text = "未还清"
+            cell.leftTextLabel.text = monthDataArray[indexPath.row].name
+            cell.rightSecondTextLabel.text = monthDataArray[indexPath.row].period
+            cell.rightTextLabel.text = monthDataArray[indexPath.row].status
+            
+            //如果无还款，改变左边label字体颜色
+            if monthDataArray[indexPath.row].period == "" {
+                cell.leftTextLabel.textColor = UIColorHex("999999")
+                cell.arrowImageView.isHidden = true
+            }else {
+                cell.leftTextLabel.textColor = UIColorHex("666666")
+                cell.arrowImageView.isHidden = false
+            }
+            //如果有逾期，改变右边label字体颜色
+            if monthDataArray[indexPath.row].status.contains("逾期"){
+                cell.rightTextLabel.textColor = UIColorHex("f42e2f")
+            }else {
+                cell.rightTextLabel.textColor = UIColorHex("00b2ff")
+            }
            
         }else {
         
-            cell.selectionStyle = .none
-            cell.leftTextLabel.text = "瘦脸+隆鼻"
-            cell.rightSecondTextLabel.text = "第二期"
-            cell.rightTextLabel.text = "还款中"
+            cell.leftTextLabel.text = allDataArray[indexPath.row].name
+            cell.rightSecondTextLabel.text = allDataArray[indexPath.row].period
+            cell.rightTextLabel.text = allDataArray[indexPath.row].status
            
         }
          return cell
@@ -487,97 +679,28 @@ class RepayBillViewController: UIViewController, UITableViewDataSource, UITableV
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         tableView.deselectRow(at: indexPath, animated: true)
         
-        let repayDetailVC = RepayDetailViewController()
-        self.navigationController?.pushViewController(repayDetailVC, animated: true)
+        if indexPath.section == 0 { //月详情
+            let repayDetailVC = RepayPeriodDetailVC()
+            repayDetailVC.repaymentId = self.repaymentId
+            
+           repayDetailVC.repayStatusType = monthRepayStatus //还款状态
+            self.navigationController?.pushViewController(repayDetailVC, animated: true)
+        }else {
+            let repayDetailVC = RepayDetailViewController()
+            self.navigationController?.pushViewController(repayDetailVC, animated: true)
+        }
     }
     
     //Header
     func tableView(_ tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
         
         if section == 0 {
-           let headerView = UIView(frame: CGRect(x: 0, y: 0, width: SCREEN_WIDTH, height: 50*UIRate))
-            headerView.backgroundColor = UIColor.white
-            
-            headerView.addSubview(monthIconView)
-            headerView.addSubview(monthBillTextLabel)
-            headerView.addSubview(recentTimeLabel)
-            headerView.addSubview(monthBilldivideLine)
-            
-            monthIconView.snp.makeConstraints { (make) in
-                make.width.height.equalTo(20*UIRate)
-                make.left.equalTo(8*UIRate)
-                make.centerY.equalTo(headerView)
-            }
-            
-            monthBillTextLabel.snp.makeConstraints { (make) in
-                make.left.equalTo(30*UIRate)
-                make.centerY.equalTo(headerView)
-            }
-            
-            recentTimeLabel.snp.makeConstraints { (make) in
-                make.right.equalTo(-15*UIRate)
-                make.centerY.equalTo(headerView)
-            }
-            
-            monthBilldivideLine.snp.makeConstraints { (make) in
-                make.width.equalTo(headerView)
-                make.height.equalTo(0.5*UIRate)
-                make.centerX.equalTo(headerView)
-                make.bottom.equalTo(headerView)
-            }
-
-            return headerView
+           
+            return monthTableViewHeader()
          
         }else {
-            let headerView = UIView(frame: CGRect(x: 0, y: 0, width: SCREEN_WIDTH, height: 60*UIRate))
-            headerView.backgroundColor = UIColor.white
             
-            headerView.addSubview(totalTopHoldView)
-            headerView.addSubview(totalBilldivideLine1)
-            headerView.addSubview(totalBilldivideLine2)
-            headerView.addSubview(totalIconView)
-            headerView.addSubview(totalBillTextLabel)
-            headerView.addSubview(totalBilldivideLine3)
-            
-            totalTopHoldView.snp.makeConstraints { (make) in
-                make.width.equalTo(headerView)
-                make.height.equalTo(10*UIRate)
-                make.centerX.equalTo(headerView)
-                make.top.equalTo(headerView)
-            }
-            
-            totalBilldivideLine1.snp.makeConstraints { (make) in
-                make.width.equalTo(headerView)
-                make.height.equalTo(0.5*UIRate)
-                make.centerX.equalTo(headerView)
-                make.bottom.equalTo(totalTopHoldView)
-            }
-            
-            totalBilldivideLine2.snp.makeConstraints { (make) in
-                make.width.equalTo(headerView)
-                make.height.equalTo(0.5*UIRate)
-                make.centerX.equalTo(headerView)
-                make.top.equalTo(totalTopHoldView)
-            }
-            
-            totalIconView.snp.makeConstraints { (make) in
-                make.width.height.equalTo(20*UIRate)
-                make.left.equalTo(8*UIRate)
-                make.centerY.equalTo(headerView).offset(5*UIRate)
-            }
-            totalBillTextLabel.snp.makeConstraints { (make) in
-                make.left.equalTo(30*UIRate)
-                make.centerY.equalTo(totalIconView)
-            }
-            
-            totalBilldivideLine3.snp.makeConstraints { (make) in
-                make.width.equalTo(headerView)
-                make.height.equalTo(0.5*UIRate)
-                make.centerX.equalTo(headerView)
-                make.bottom.equalTo(headerView)
-            }
-
-            return headerView
+            return allTableViewHeader()
         }
     }
     
@@ -599,6 +722,101 @@ class RepayBillViewController: UIViewController, UITableViewDataSource, UITableV
             cell.layoutMargins = .zero
         }
     }
+    
+    //MARK: - 请求数据
+    func requestData(){
+        //添加HUD
+        self.showHud(in: self.view, hint: "加载中...")
+        
+        var params = NetConnect.getBaseRequestParams()
+        params["userId"] = UserHelper.getUserId()!
+        
+        NetConnect.pc_repayment_bill(parameters: params, success: { response in
+            //隐藏HUD
+            self.hideHud()
+            let json = JSON(response)
+            guard json["RET_CODE"] == "000000" else{
+                return self.showHint(in: self.view, hint: json["RET_DESC"].stringValue)
+            }
+            
+            self.refreshUI(monthJson: json["backMap"]["menu"],allJson: json["allMenu"])
+            
+        }, failure:{ error in
+            //隐藏HUD
+            self.hideHud()
+        })
+    }
+
+    func refreshUI(monthJson: JSON, allJson: JSON){
+        //应还总额
+        totalMoneyLabel.text = toolsChangeMoneyStyle(amount: monthJson["totalRefund"].doubleValue)
+        //本月应还
+        moneyLabel.text = toolsChangeMoneyStyle(amount: monthJson["MonthRefund"].doubleValue)
+        //累计已还
+        amountLabel.text = toolsChangeMoneyStyle(amount: monthJson["accountRefund"].doubleValue)
+        self.refreshMonthList(json: monthJson)
+        
+        self.refreshAllList(json: allJson)
+        
+        self.aTableView.reloadData()
+    }
+    
+    //本月账单
+    func refreshMonthList(json: JSON){
+        //本月有还款
+        if json["MonthRefund"].doubleValue > 0 {
+            
+            self.repaymentId = json["repayment_id"].stringValue
+            self.recentTimeLabel.text = "最近还款日" + toolsChangeDateStyleToMMDD(time: json["realpayDate"].stringValue)
+            monthDataArray.removeAll()
+            
+            let name = json["orderName"].stringValue
+            let period = "第" + json["term"].stringValue + "期"
+            var status = ""
+            
+            //0-已支付 1-未支付 2-提前支付 3-逾期未支付 4-逾期已支付
+            let repayStatus = json["is_pay"].stringValue
+            if repayStatus == "0" ||  repayStatus == "2" || repayStatus == "4"{
+                status = "完成"
+                monthRepayStatus = .finish
+            }else {
+                //有逾期
+                if json["penalty_day"].intValue > 0 {
+                    status = "逾期\(json["penalty_day"].stringValue)天"
+                    monthRepayStatus = .overdue
+                }else {
+                    status = "未还清"
+                    monthRepayStatus = .not
+                }
+            }
+            monthDataArray.append((name,period,status))
+        }else {
+            monthDataArray = [("暂无待还借款","","")]
+        }
+    }
+    
+    func refreshAllList(json: JSON){
+        
+        allDataArray.removeAll()
+        
+        let name = json["orderName"].stringValue
+        var period = ""
+        var status = ""
+        
+        let term = json["term"].stringValue
+        let total = json["total"].stringValue
+        //5-还款中   0-已完结
+        if json["jstatus"].stringValue == "5" {
+            period = "第" + term + "/" + total + "期"
+            status = "还款中"
+        }else if json["jstatus"].stringValue == "0"{
+            period = total + "期"
+            status = "已结束"
+        }
+        
+        allDataArray.append((name,period,status))
+    }
+    
 }
 
 extension RepayBillViewController {
@@ -617,6 +835,7 @@ extension RepayBillViewController {
     
     //累计还款
     func amountBtnAction(){
-        
+        let repayListVC = RepayListViewController()
+        self.navigationController?.pushViewController(repayListVC, animated: true)
     }
 }

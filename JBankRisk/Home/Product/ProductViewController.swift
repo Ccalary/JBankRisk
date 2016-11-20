@@ -9,7 +9,7 @@
 import UIKit
 import SwiftyJSON
 
-class ProductViewController: UIViewController,UITableViewDelegate, UITableViewDataSource,AMapLocationManagerDelegate {
+class ProductViewController: UIViewController,UITableViewDelegate, UITableViewDataSource,UITextFieldDelegate,AMapLocationManagerDelegate {
     
      var ProductCellData:[CellDataInfo] = [ CellDataInfo(leftText: "所属商户", holdText: "商户名称", content: "", cellType: .defaultType),
         CellDataInfo(leftText: "产品名称", holdText: "请输入产品名称", content: "", cellType: .clearType),
@@ -59,7 +59,6 @@ class ProductViewController: UIViewController,UITableViewDelegate, UITableViewDa
 
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
-       
     }
     
     func setupUI(){
@@ -112,7 +111,6 @@ class ProductViewController: UIViewController,UITableViewDelegate, UITableViewDa
             make.right.equalTo(self.view).offset(-15*UIRate)
             make.bottom.equalTo(lastStepBtn)
         }
-        
     }
 
     private lazy var aScrollView: UIScrollView = {
@@ -138,7 +136,6 @@ class ProductViewController: UIViewController,UITableViewDelegate, UITableViewDa
             tableView.layoutMargins = .zero
         }
         return tableView
-        
     }()
     
     //分割线
@@ -183,7 +180,7 @@ class ProductViewController: UIViewController,UITableViewDelegate, UITableViewDa
         cell.selectionStyle = .none
         cell.cellDataInfo = ProductCellData[indexPath.row]
         cell.backgroundColor = UIColor.white
-        
+
         switch indexPath.row {
         case 0://商户名称
             cell.centerTextField.text = self.saleName
@@ -260,7 +257,6 @@ class ProductViewController: UIViewController,UITableViewDelegate, UITableViewDa
                         self.aTableView.reloadRows(at: [position1,position2], with: UITableViewRowAnimation.none)
                         
                         popupController.dismiss(animated: true)
-                
                     }
                     phoneCallView.onClickCancle = { _ in
                         popupController.dismiss(animated: true)
@@ -464,7 +460,6 @@ class ProductViewController: UIViewController,UITableViewDelegate, UITableViewDa
             //隐藏HUD
             self.hideHud()
         })
-        
     }
     
     //填充信息
@@ -474,7 +469,7 @@ class ProductViewController: UIViewController,UITableViewDelegate, UITableViewDa
         self.proName = json["orderName"].stringValue
         self.borrowMoney = json["amt"].stringValue
         self.selectPeriodInfo.text = json["total"].stringValue + "期"
-        self.repayment = json["term_amt"].stringValue
+        self.repayment = toolsChangeMoneyStyle(amount: json["term_amt"].doubleValue) 
         self.workerName = json["employee_id"].stringValue
         self.aTableView.reloadData()
     }

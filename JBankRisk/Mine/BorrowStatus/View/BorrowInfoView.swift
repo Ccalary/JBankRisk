@@ -164,10 +164,8 @@ class BorrowInfoView: UIView , UITableViewDelegate, UITableViewDataSource{
         let cell = tableView.dequeueReusableCell(withIdentifier: "CellID") as! RepayListTableViewCell
         //去除选择效果
         cell.selectionStyle = .none
-        cell.leftTextLabel.textAlignment = .left
-        cell.rightTextLabel.textAlignment = .right
-        cell.leftTextLabel.text = dataArray[indexPath.row]
-        cell.rightTextLabel.text = "测试"
+        cell.leftOffTextLabel.text = dataArray[indexPath.row]
+        cell.rightOffTextLabel.text = "测试"
         
         return cell
     }
