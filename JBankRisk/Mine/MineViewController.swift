@@ -252,7 +252,6 @@ class MineViewController: UIViewController, UIGestureRecognizerDelegate,UICollec
             let statusVC = ExamingStatusVC()
             self.navigationController?.pushViewController(statusVC, animated: true)
         case 20000://待使用
-            self.shakeAnimation()
             let statusVC = ForUsingStausVC()
             self.navigationController?.pushViewController(statusVC, animated: true)
         case 30000: //还款中
@@ -317,16 +316,17 @@ class MineViewController: UIViewController, UIGestureRecognizerDelegate,UICollec
         }
         
         if json["jstatus"].stringValue == "5" {//有还款明细
-            self.mineTopView.moneyLabel.text = json["MonthRefund"].stringValue
-            self.mineTopView.dateLabel.text = toolsChangeDateStyleToMMDD(time: json["nextMonthDay"].stringValue)
-             self.mineTopView.repayHoldViewContraint.update(offset: repayViewHeight)
+            self.mineTopView.moneyLabel.text = toolsChangeMoneyStyle(amount: json["MonthRefund"].doubleValue)
+            
+            self.mineTopView.dateLabel.text = toolsChangeDateStyle(toMMMonthDDDay: json["nextMonthDay"].stringValue)
+            
+            self.mineTopView.repayHoldViewContraint.update(offset: repayViewHeight)
             topHeight = topHeight + repayViewHeight
         }else {
             self.mineTopView.repayHoldViewContraint.update(offset: 0)
             
         }
         self.mineTopConstrain.update(offset: topHeight)
-        
         
        moneyStatus = json["jstatus"].stringValue//个人中心借款状态
             headerView.tipImage1.isHidden = true
@@ -363,4 +363,5 @@ extension MineViewController {
         self.momAnimation.isRemovedOnCompletion = false
         self.mineTopView.messageBtn.layer.add(momAnimation, forKey: "centerLayer")
     }
+    
  }

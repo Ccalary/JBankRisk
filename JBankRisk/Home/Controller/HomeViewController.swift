@@ -20,6 +20,11 @@ class HomeViewController: UIViewController, UIGestureRecognizerDelegate{
     var bannerView: CyclePictureView! //图片轮播
     var imageArray:[String]? = [""] //储存所有照片
     
+    //进度查询数据
+    var orderJson:JSON!
+    
+    var isHaveData = false
+    
     //cell数据
     var cellDataArray: [Dictionary<String,String>]? = [["":""],["":""],["":""]]
 
@@ -120,6 +125,8 @@ class HomeViewController: UIViewController, UIGestureRecognizerDelegate{
                 guard json["RET_CODE"] == "000000" else{
                     return self.showHint(in: self.view, hint: json["RET_DESC"].stringValue)
                 }
+                
+                self.orderJson = json["detail"]
                 
                 //第一个为1，依次类推
                 self.flagIndex = json["flag"].intValue
@@ -274,13 +281,21 @@ extension HomeViewController: UITableViewDelegate, UITableViewDataSource,CyclePi
             
         case 1:
             
-            guard UserHelper.isLogin() else {
-                let loginVC = LoginViewController()
-                self.navigationController?.pushViewController(loginVC, animated: true)
-                return
-            }
-                let repayDetailVC = BorrowStatusVC()
-                self.navigationController?.pushViewController(repayDetailVC, animated: true)
+          let popupView =  PopupNewVersionView()
+          let popupController = CNPPopupController(contents: [popupView])!
+          popupController.present(animated: true)
+          popupView.onClickCancle = { _ in
+            popupController.dismiss(animated: true)
+          }
+
+//            guard UserHelper.isLogin() else {
+//                let loginVC = LoginViewController()
+//                self.navigationController?.pushViewController(loginVC, animated: true)
+//                return
+//            }
+//                let repayDetailVC = BorrowStatusVC()
+//                repayDetailVC.orderInfo = self.orderJson
+//                self.navigationController?.pushViewController(repayDetailVC, animated: true)
         case 2:
             guard UserHelper.isLogin() else {
                 let loginVC = LoginViewController()

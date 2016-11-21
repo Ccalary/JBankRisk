@@ -26,6 +26,7 @@ class SuggestCollectionViewCell: UICollectionViewCell {
         self.addSubview(holdView)
         self.addSubview(cameraImageView)
         self.addSubview(textLabel)
+        self.addSubview(deleteImageView)
         self.addSubview(deleteBtn)
         
         holdView.snp.makeConstraints { (make) in
@@ -51,10 +52,16 @@ class SuggestCollectionViewCell: UICollectionViewCell {
             make.centerX.equalTo(cameraImageView)
         }
         
-        deleteBtn.snp.makeConstraints { (make) in
+        deleteImageView.snp.makeConstraints { (make) in
             make.width.height.equalTo(12*UIRate)
             make.centerX.equalTo(imageView.snp.right)
             make.centerY.equalTo(imageView.snp.top)
+
+        }
+        
+        deleteBtn.snp.makeConstraints { (make) in
+            make.width.height.equalTo(30*UIRate)
+            make.center.equalTo(deleteImageView.snp.right)
         }
     }
     
@@ -87,12 +94,18 @@ class SuggestCollectionViewCell: UICollectionViewCell {
         return label
     }()
     
+    lazy var deleteImageView : UIImageView = {
+        let imageView = UIImageView()
+        imageView.image = UIImage(named: "bm_close_red_12x12")
+        return imageView
+    }()
+    
     lazy var deleteBtn : UIButton = {
         let button = UIButton()
-        button.setBackgroundImage(UIImage(named:"bm_close_red_12x12"), for: .normal)
         button.addTarget(self, action: #selector(deleteBtnAction), for: .touchUpInside)
         return button
     }()
+
     
     var onClickDelete: (() ->())?
     

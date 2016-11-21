@@ -307,7 +307,26 @@ class NetConnect {
             failure(error)
         })
     }
-
+    
+    //3.7 应还详情
+    static func pc_need_repayment_detail(parameters: Parameters,success:@escaping (_ response:[String:AnyObject]) -> (),failure:@escaping(_ error: Error) -> ()){
+        
+        NetworkRequest.sharedInstance.getRequest(urlString: PC_NEED_REPAYMENT_DETAIL, params: parameters, success: { (response) in
+            success(response)
+        }, failture: { (error) in
+            failure(error)
+        })
+    }
+    
+    //3.8 已还明细
+    static func pc_repay_list_detail(parameters: Parameters,success:@escaping (_ response:[String:AnyObject]) -> (),failure:@escaping(_ error: Error) -> ()){
+        
+        NetworkRequest.sharedInstance.getRequest(urlString: PC_REPAY_LIST_DETAIL, params: parameters, success: { (response) in
+            success(response)
+        }, failture: { (error) in
+            failure(error)
+        })
+    }
 
 
 }

@@ -312,7 +312,7 @@ class MineTopView: UIView {
         label.font = UIFontSize(size: 20*UIRate)
         label.textAlignment = .center
         label.textColor = UIColorHex("f42e2f")
-        label.text = "11.11"
+        label.text = ""
         return label
     }()
     

@@ -8,6 +8,7 @@
 
 import UIKit
 import SnapKit
+import SwiftyJSON
 
 class NeedRepayViewController: UIViewController,UITableViewDelegate, UITableViewDataSource, UIGestureRecognizerDelegate {
 
@@ -16,11 +17,21 @@ class NeedRepayViewController: UIViewController,UITableViewDelegate, UITableView
     var selectViewConstraint: Constraint?
     var titleButton: UIButton!
     
+    //数据
+    var dataArray: [JSON] = [] {
+        didSet{
+            self.aTableView.reloadData()
+        }
+    }
+    //筛选
+    var selectIndex = 1
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         self.setTitle()
         self.setupUI()
         self.selectViewClick()
+        self.requestData()
     }
 
     override func didReceiveMemoryWarning() {
@@ -58,6 +69,7 @@ class NeedRepayViewController: UIViewController,UITableViewDelegate, UITableView
         selectBgView.addGestureRecognizer(aTap)
         
         self.view.addSubview(aTableView)
+        self.view.addSubview(defaultView)
         self.aTableView.tableHeaderView = bannerImageView
         
         self.bannerImageView.addSubview(totalTextLabel)
@@ -65,6 +77,14 @@ class NeedRepayViewController: UIViewController,UITableViewDelegate, UITableView
         
         self.view.addSubview(selectBgView)
         self.view.addSubview(selectView)
+        
+        defaultView.snp.makeConstraints { (make) in
+            make.width.equalTo(self.view)
+            make.height.equalTo(SCREEN_HEIGHT - 64)
+            make.centerX.equalTo(self.view)
+            make.top.equalTo(156*UIRate + 64)
+        }
+
         
         aTableView.snp.makeConstraints { (make) in
             make.width.equalTo(self.view)
@@ -96,13 +116,19 @@ class NeedRepayViewController: UIViewController,UITableViewDelegate, UITableView
         }
     }
     
+    //缺省页
+    private lazy var defaultView: NothingDefaultView = {
+        let holdView = NothingDefaultView(viewType: NothingDefaultView.DefaultViewType.nothing)
+        holdView.isHidden = true
+        return holdView
+    }()
+    
     //navigationBar图片
     private lazy var titleArrowImgView: UIImageView = {
         let imageView = UIImageView()
         imageView.image = UIImage(named: "triangle_down_6x6")
         return imageView
     }()
-    
     
     //top图片
     private lazy var bannerImageView: UIImageView = {
@@ -125,10 +151,9 @@ class NeedRepayViewController: UIViewController,UITableViewDelegate, UITableView
         label.font = UIFontSize(size: 30*UIRate)
         label.textAlignment = .center
         label.textColor = UIColor.white
-        label.text = "150,000.00"
+        label.text = "0.00"
         return label
     }()
-
     
     private lazy var aTableView: UITableView = {
         
@@ -137,8 +162,6 @@ class NeedRepayViewController: UIViewController,UITableViewDelegate, UITableView
         tableView.dataSource = self
         tableView.tableFooterView = UIView()
         tableView.register(RepayDetailTableViewCell.self, forCellReuseIdentifier: "cellID")
-        
-        
         //tableView 单元格分割线的显示
         if tableView.responds(to:#selector(setter: UITableViewCell.separatorInset)) {
             tableView.separatorInset = .zero
@@ -153,7 +176,7 @@ class NeedRepayViewController: UIViewController,UITableViewDelegate, UITableView
     
     //下拉选择View
     private lazy var selectView: NeedRepayTimeView = {
-        let selectView = NeedRepayTimeView(viewType: NeedRepayTimeView.SelectViewType.timeSelect)
+        let selectView = NeedRepayTimeView()
         return selectView
     }()
 
@@ -165,28 +188,26 @@ class NeedRepayViewController: UIViewController,UITableViewDelegate, UITableView
         return holdView
     }()
     
-
-    
     //MARK: - UITableView Delegate&&DataSource
     func numberOfSections(in tableView: UITableView) -> Int {
         return 1
     }
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return 3
+        //缺省页
+        if dataArray.count == 0 {
+            self.defaultView.isHidden = false
+        }else {
+             self.defaultView.isHidden = true
+        }
+        return dataArray.count
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: "cellID") as! RepayDetailTableViewCell
-        //去除选择效果
-//        cell.selectionStyle = .none
-        cell.leftTopTextLabel2.text = "第4期"
-        cell.leftTopTextLabel.text = "隆鼻"
-        cell.leftBottomTextLabel.text = "2016.11.11"
-        cell.statusTextLabel.text = "待还"
-        cell.noticeTextLabel.text = "逾期5天"
-        cell.moneyTextLabel.text = "600.00元"
-        
+
+        cell.textColorTheme = .needReDark
+        cell.needRepayCellWithData(dic: (dataArray[indexPath.row].dictionary)!)
         return cell
     }
     
@@ -196,6 +217,26 @@ class NeedRepayViewController: UIViewController,UITableViewDelegate, UITableView
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         tableView.deselectRow(at: indexPath, animated: true)
+        
+        var monthRepayStatus: RepayStatusType = .finish
+        //0-已支付 1-未支付 2-提前支付 3-逾期未支付 4-逾期已支付
+        let repayStatus = (dataArray[indexPath.row].dictionary?["is_pay"]?.stringValue)!
+        if repayStatus == "0" ||  repayStatus == "2" || repayStatus == "4"{
+            monthRepayStatus = .finish
+        }else {
+            //有逾期
+            if (dataArray[indexPath.row].dictionary?["penalty_day"]?.intValue)! > 0 {
+                monthRepayStatus = .overdue
+            }else {
+                monthRepayStatus = .not
+            }
+        }
+        
+        let repayDetailVC = RepayPeriodDetailVC()
+        repayDetailVC.repaymentId = (dataArray[indexPath.row].dictionary?["repayment_id"]?.stringValue)!
+        repayDetailVC.repayStatusType = monthRepayStatus //还款状态
+        self.navigationController?.pushViewController(repayDetailVC, animated: true)
+        
     }
     
     //设置分割线
@@ -221,9 +262,11 @@ class NeedRepayViewController: UIViewController,UITableViewDelegate, UITableView
     //MARK: - Method
     //点击了下拉框的回调
     func selectViewClick(){
-        selectView.onClickCell = { (title) in
+        selectView.onClickCell = { (title,index) in
             self.titleButton.setTitle(title, for: .normal)
+            self.selectIndex = index
             self.closeSelectView()
+            self.requestData()
         }
     }
     
@@ -265,6 +308,37 @@ class NeedRepayViewController: UIViewController,UITableViewDelegate, UITableView
             self.selectBgView.alpha = 0
         })
         isTransformed = !isTransformed
+    }
+    
+    //MARK: - 请求数据
+    func requestData(){
+        //添加HUD
+        self.showHud(in: self.view, hint: "加载中...")
+        
+        var params = NetConnect.getBaseRequestParams()
+        params["userId"] = UserHelper.getUserId()!
+        params["flag"] = selectIndex //1-全部应还 2-本月应还 3-近7日  4-今日
+        
+        NetConnect.pc_need_repayment_detail(parameters: params, success: { response in
+            //隐藏HUD
+            self.hideHud()
+            let json = JSON(response)
+            guard json["RET_CODE"] == "000000" else{
+                return self.showHint(in: self.view, hint: json["RET_DESC"].stringValue)
+            }
+            
+            self.refreshUI(json: json["needRepay"])
+            self.moneyLabel.text =  toolsChangeMoneyStyle(amount: json["back"]["needPayTotal"].doubleValue)
+            
+        }, failure:{ error in
+            //隐藏HUD
+            self.hideHud()
+        })
+    }
+    
+    func refreshUI(json: JSON){
+       dataArray.removeAll()
+       dataArray = json.arrayValue
     }
     
 }

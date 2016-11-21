@@ -53,7 +53,7 @@ func toolsDeleteSymbol(with string: String?) -> String {
 }
 
 ///日期处理--后台给的是8位数（20161112） -> 11.12
-func toolsChangeDateStyleToMMDD(time: String) -> String{
+func toolsChangeDateStyle(toMMDD time: String) -> String{
     guard time.characters.count == 8 else {
         return time
     }
@@ -64,7 +64,7 @@ func toolsChangeDateStyleToMMDD(time: String) -> String{
 }
 
 ///日期处理--后台给的是8位数（20161112） -> 2016.11.12
-func toolsChangeDateStyleToYYYYMMDD(string: String) -> String{
+func toolsChangeDateStyle(toYYYYMMDD string: String) -> String{
     guard string.characters.count == 8 else {
         return string
     }
@@ -74,6 +74,19 @@ func toolsChangeDateStyleToYYYYMMDD(string: String) -> String{
     return time
 }
 
+///日期处理--后台给的是8位数（20161112） -> 11月12日
+func toolsChangeDateStyle(toMMMonthDDDay string: String) -> String {
+    guard string.characters.count == 8 else {
+        return string
+    }
+    
+    let monthDayStr = string.substring(from: string.index(string.startIndex, offsetBy: 4))
+    
+    let monthStr = monthDayStr.substring(to: monthDayStr.index(monthDayStr.startIndex, offsetBy:2))
+    let dayStr = monthDayStr.substring(from: monthDayStr.index(monthDayStr.startIndex, offsetBy:2))
+    let str = "\(monthStr)月\(dayStr)日"
+    return str
+}
 
 
 

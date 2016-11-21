@@ -13,7 +13,7 @@ class FilterRepayView: UIView,UITableViewDelegate, UITableViewDataSource {
     let imageData:[String] = ["m_all_image_20x20","m_payback_image_20x02","m_finish_image_20x20"]
     let textData:[String] = ["全部","待还","完成"]
     
-    var onClickCell: (()->())?
+    var onClickCell: ((_ index: Int)->())?
     
     override init(frame: CGRect ) {
         super.init(frame: frame)
@@ -113,7 +113,7 @@ class FilterRepayView: UIView,UITableViewDelegate, UITableViewDataSource {
         tableView.deselectRow(at: indexPath, animated: true)
         
         if let onClickCell = onClickCell {
-            onClickCell()
+            onClickCell(indexPath.row + 1)
         }
     }
     

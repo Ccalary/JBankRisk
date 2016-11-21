@@ -15,6 +15,8 @@ class RepayBillViewController: UIViewController, UITableViewDataSource, UITableV
     var isHaveData = false
     //月还款id
     var repaymentId = ""
+    //总还款id
+    var allRepayId = ""
     //月还款状态
     var monthRepayStatus: RepayStatusType = .finish
     
@@ -662,7 +664,6 @@ class RepayBillViewController: UIViewController, UITableViewDataSource, UITableV
             }
            
         }else {
-        
             cell.leftTextLabel.text = allDataArray[indexPath.row].name
             cell.rightSecondTextLabel.text = allDataArray[indexPath.row].period
             cell.rightTextLabel.text = allDataArray[indexPath.row].status
@@ -680,6 +681,12 @@ class RepayBillViewController: UIViewController, UITableViewDataSource, UITableV
         tableView.deselectRow(at: indexPath, animated: true)
         
         if indexPath.section == 0 { //月详情
+            //无还款
+           if monthDataArray[indexPath.row].period == "" {
+             //什么都不做
+            return
+           }
+            
             let repayDetailVC = RepayPeriodDetailVC()
             repayDetailVC.repaymentId = self.repaymentId
             
@@ -687,6 +694,7 @@ class RepayBillViewController: UIViewController, UITableViewDataSource, UITableV
             self.navigationController?.pushViewController(repayDetailVC, animated: true)
         }else {
             let repayDetailVC = RepayDetailViewController()
+            repayDetailVC.orderId = self.allRepayId//产品id
             self.navigationController?.pushViewController(repayDetailVC, animated: true)
         }
     }
@@ -767,7 +775,7 @@ class RepayBillViewController: UIViewController, UITableViewDataSource, UITableV
         if json["MonthRefund"].doubleValue > 0 {
             
             self.repaymentId = json["repayment_id"].stringValue
-            self.recentTimeLabel.text = "最近还款日" + toolsChangeDateStyleToMMDD(time: json["realpayDate"].stringValue)
+            self.recentTimeLabel.text = "最近还款日" + toolsChangeDateStyle(toMMDD: json["realpayDate"].stringValue)
             monthDataArray.removeAll()
             
             let name = json["orderName"].stringValue
@@ -799,6 +807,9 @@ class RepayBillViewController: UIViewController, UITableViewDataSource, UITableV
         
         allDataArray.removeAll()
         
+        //现在有问题，后台已一单来做的，没有包成list
+        allRepayId = json["orderId"].stringValue
+        
         let name = json["orderName"].stringValue
         var period = ""
         var status = ""
@@ -816,7 +827,6 @@ class RepayBillViewController: UIViewController, UITableViewDataSource, UITableV
         
         allDataArray.append((name,period,status))
     }
-    
 }
 
 extension RepayBillViewController {

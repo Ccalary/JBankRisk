@@ -9,19 +9,10 @@
 import UIKit
 
 class NeedRepayTimeView: UIView, UITableViewDataSource, UITableViewDelegate {
-
-    enum SelectViewType {
-        case timeSelect //还款时间
-        case nameSelect //产品选择
-    }
     
-    var viewType: SelectViewType!
-    var dataArray = [String]()
+    let dataArray:[String] = ["全部应还","本月应还","近7日应还","今日应还"]
     
-    let textArray:[String] = ["全部应还","本月应还","近7日应还","今日应还"]
-    let timeArray:[String] = ["全部纪录","隆鼻","瘦脸"]
-    
-    var onClickCell:((_ title: String)->())?
+    var onClickCell:((_ title: String,_ index: Int)->())?
     //选中的cell
     var selectCell: Int = 0
     
@@ -30,16 +21,9 @@ class NeedRepayTimeView: UIView, UITableViewDataSource, UITableViewDelegate {
     }
     
     ///初始化默认frame
-    convenience init(viewType: SelectViewType) {
+    convenience init() {
         let frame = CGRect()
         self.init(frame: frame)
-        self.viewType = viewType
-        switch self.viewType! {
-        case .timeSelect:
-            dataArray = textArray
-        case .nameSelect:
-            dataArray = timeArray
-        }
         self.frame = CGRect(x: 0, y: 0, width: SCREEN_WIDTH, height: CGFloat(dataArray.count)*45*UIRate)
         
         setupUI()
@@ -113,7 +97,7 @@ class NeedRepayTimeView: UIView, UITableViewDataSource, UITableViewDelegate {
         self.selectCell = indexPath.row
         self.aTableView.reloadData()
         if let onClickCell = onClickCell {
-            onClickCell(dataArray[indexPath.row])
+            onClickCell(dataArray[indexPath.row], indexPath.row)
         }
     }
     

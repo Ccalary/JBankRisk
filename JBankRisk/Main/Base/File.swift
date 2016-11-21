@@ -75,6 +75,19 @@ func changeTextColor(text: String, color: UIColor, range: NSRange) -> NSAttribut
     
     return attributeStr
 }
+//富文本，改变字体大小
+func changeTextSize(text: String, size: CGFloat, range: NSRange) -> NSAttributedString{
+    let attributeStr = NSMutableAttributedString(string: text)
+    attributeStr.addAttribute(NSFontAttributeName, value:size , range: range)
+    return attributeStr
+}
+
+//富文本，改变字体大小和颜色
+func changeTextSizeAndColor(text: String, size: CGFloat,color: UIColor, range: NSRange) -> NSAttributedString{
+    let attributeStr = NSMutableAttributedString(string: text)
+    attributeStr.addAttributes([NSFontAttributeName : size, NSForegroundColorAttributeName: color], range: range)
+    return attributeStr
+}
 
 ///改变行间距
 func changeTextLineSpace(text: String, lineSpace: CGFloat = 5*UIRate) -> NSAttributedString{

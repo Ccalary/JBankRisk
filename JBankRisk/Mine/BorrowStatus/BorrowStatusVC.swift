@@ -28,6 +28,10 @@ class BorrowStatusVC: UIViewController {
     
     var orderInfo: JSON?
     
+    var topHeight: CGFloat = 0
+    
+    var isHaveData = true //是否加载缺省页
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         
@@ -36,16 +40,24 @@ class BorrowStatusVC: UIViewController {
             switch status {
             case "0"://订单完结
                 statusType = .finish
+                infoView.isHidden = true
+                topHeight = 280*UIRate
             case "2": //审核中
                 statusType = .examing
+                topHeight = 200*UIRate
             case "3"://满额通过
                 statusType = .fullSuccess
+                topHeight = 280*UIRate
             case "4"://校验中
                 statusType = .checking
+                topHeight = 200*UIRate
             case "5"://还款中
                  statusType = .repaying
+                 topHeight = 280*UIRate
+                infoView.isHidden = true
             case "7"://审核未通过
                 statusType = .fail
+                topHeight = 280*UIRate
             case "8": //上传服务单
                 statusType = .upLoadBill
             case "9": //补交材料
@@ -55,6 +67,8 @@ class BorrowStatusVC: UIViewController {
             }
         }
         setupUI()
+        
+        self.onClickButton()
     }
 
     override func didReceiveMemoryWarning() {
@@ -98,8 +112,8 @@ class BorrowStatusVC: UIViewController {
     }
     
     func setupUI(){
-        self.view.backgroundColor = UIColor.white
-        self.title = "借款状态"
+        self.view.backgroundColor = defaultBackgroundColor
+        self.title = self.orderInfo?["orderName"].stringValue
         self.setNavUI()
         
         self.view.addSubview(statusView)
@@ -107,7 +121,7 @@ class BorrowStatusVC: UIViewController {
         
         statusView.snp.makeConstraints { (make) in
             make.width.equalTo(self.view)
-            make.height.equalTo(280*UIRate)
+            make.height.equalTo(topHeight)
             make.centerX.equalTo(self.view)
             make.top.equalTo(64)
         }
@@ -117,6 +131,13 @@ class BorrowStatusVC: UIViewController {
             make.height.equalTo(300*UIRate)
             make.centerX.equalTo(self.view)
             make.top.equalTo(self.statusView.snp.bottom)
+        }
+        
+        //协议
+        infoView.onClickProtocol = {
+            let webView = BaseWebViewController()
+            webView.requestUrl = PC_PROTOCOL_DETAIL + "&" + (self.orderInfo?["order_id"].stringValue)!
+            self.navigationController?.pushViewController(webView, animated: true)
         }
     }
     
@@ -152,13 +173,22 @@ class BorrowStatusVC: UIViewController {
     /*********/
 
     private lazy var statusView: BorrowStatusView = {
-        let holdView = BorrowStatusView()
+        let holdView = BorrowStatusView(statusType: self.statusType)
         return holdView
     }()
     
     private lazy var infoView: BorrowInfoView = {
-        let holdView = BorrowInfoView(viewType: BorrowInfoView.BorrowInfoType.fiveData)
+        let holdView = BorrowInfoView(json: self.orderInfo!)
         return holdView
     }()
+    
+    
+    //点击按钮
+    func onClickButton(){
+        
+        statusView.onClickButton = {
+            
+        }
+    }
     
 }

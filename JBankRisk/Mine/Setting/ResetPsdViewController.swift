@@ -9,7 +9,7 @@
 import UIKit
 
 class ResetPsdViewController: UIViewController {
-
+    
     override func viewDidLoad() {
         super.viewDidLoad()
 
@@ -24,14 +24,26 @@ class ResetPsdViewController: UIViewController {
         self.view.backgroundColor = defaultBackgroundColor
         self.title = "修改密码"
         
+        let aTap = UITapGestureRecognizer(target: self, action: #selector(tapViewAction))
+        aTap.numberOfTapsRequired = 1
+        self.view.addGestureRecognizer(aTap)
+        
         self.view.addSubview(holdView)
         self.holdView.addSubview(oldTextField)
         self.holdView.addSubview(newTextField)
         self.holdView.addSubview(againTextField)
         
         self.holdView.addSubview(clearBtn1)
+        self.holdView.addSubview(seePsdImage1)
+        self.holdView.addSubview(seePsdBtn1)
+        
         self.holdView.addSubview(clearBtn2)
+        self.holdView.addSubview(seePsdImage2)
+        self.holdView.addSubview(seePsdBtn2)
+        
         self.holdView.addSubview(clearBtn3)
+        self.holdView.addSubview(seePsdImage3)
+        self.holdView.addSubview(seePsdBtn3)
         
         self.holdView.addSubview(divideLine1)
         self.holdView.addSubview(divideLine2)
@@ -66,25 +78,66 @@ class ResetPsdViewController: UIViewController {
             make.left.equalTo(20*UIRate)
             make.centerY.equalTo(newTextField).offset(45*UIRate)
         }
-
+        
         clearBtn1.snp.makeConstraints { (make) in
             make.width.height.equalTo(15*UIRate)
-            make.right.equalTo(holdView.snp.right).offset(-20*UIRate)
+            make.right.equalTo(-50*UIRate)
             make.centerY.equalTo(oldTextField)
+        }
+        
+        seePsdImage1.snp.makeConstraints { (make) in
+            make.width.equalTo(18*UIRate)
+            make.height.equalTo(13*UIRate)
+            make.left.equalTo(clearBtn1.snp.right).offset(13*UIRate)
+            make.centerY.equalTo(oldTextField)
+        }
+
+        seePsdBtn1.snp.makeConstraints { (make) in
+            make.width.equalTo(30*UIRate)
+            make.height.equalTo(30*UIRate)
+            make.center.equalTo(seePsdImage1)
         }
         
         clearBtn2.snp.makeConstraints { (make) in
             make.width.height.equalTo(15*UIRate)
-            make.right.equalTo(holdView.snp.right).offset(-20*UIRate)
+            make.right.equalTo(-50*UIRate)
             make.centerY.equalTo(newTextField)
         }
         
+        seePsdImage2.snp.makeConstraints { (make) in
+            make.width.equalTo(18*UIRate)
+            make.height.equalTo(13*UIRate)
+            make.left.equalTo(clearBtn2.snp.right).offset(13*UIRate)
+            make.centerY.equalTo(newTextField)
+        }
+        
+        seePsdBtn2.snp.makeConstraints { (make) in
+            make.width.equalTo(30*UIRate)
+            make.height.equalTo(30*UIRate)
+            make.center.equalTo(seePsdImage2)
+        }
+
+        
         clearBtn3.snp.makeConstraints { (make) in
             make.width.height.equalTo(15*UIRate)
-            make.right.equalTo(holdView.snp.right).offset(-20*UIRate)
+           make.right.equalTo(-50*UIRate)
             make.centerY.equalTo(againTextField)
         }
         
+        
+        seePsdImage3.snp.makeConstraints { (make) in
+            make.width.equalTo(18*UIRate)
+            make.height.equalTo(13*UIRate)
+            make.left.equalTo(clearBtn3.snp.right).offset(13*UIRate)
+            make.centerY.equalTo(againTextField)
+        }
+        
+        seePsdBtn3.snp.makeConstraints { (make) in
+            make.width.equalTo(30*UIRate)
+            make.height.equalTo(30*UIRate)
+            make.center.equalTo(seePsdImage3)
+        }
+
         
         divideLine1.snp.makeConstraints { (make) in
             make.width.equalTo(self.view)
@@ -160,6 +213,23 @@ class ResetPsdViewController: UIViewController {
         return textField
     }()
     
+    ///查看密码
+    private lazy var seePsdImage1: UIImageView = {
+        let imageView = UIImageView()
+        imageView.isHidden = true
+        imageView.image = UIImage(named: "login_btn_close_eyes_18x13")
+        return imageView
+    }()
+    
+    
+    private lazy var seePsdBtn1: UIButton = {
+        let button = UIButton()
+        button.tag = 20001
+        button.addTarget(self, action: #selector(seePsdBtnAction), for: .touchUpInside)
+        return button
+    }()
+
+    
     private lazy var clearBtn1: UIButton = {
         let button = UIButton()
         button.isHidden = true
@@ -170,12 +240,45 @@ class ResetPsdViewController: UIViewController {
     }()
 
     
+    ///查看密码
+    private lazy var seePsdImage2: UIImageView = {
+        let imageView = UIImageView()
+        imageView.isHidden = true
+        imageView.image = UIImage(named: "login_btn_close_eyes_18x13")
+        return imageView
+    }()
+    
+    
+    private lazy var seePsdBtn2: UIButton = {
+        let button = UIButton()
+        button.tag = 20002
+        button.addTarget(self, action: #selector(seePsdBtnAction), for: .touchUpInside)
+        return button
+    }()
+
+    
     private lazy var clearBtn2: UIButton = {
         let button = UIButton()
         button.isHidden = true
         button.tag = 10001
          button.setBackgroundImage(UIImage(named:"login_btn_clear_15x15"), for: .normal)
         button.addTarget(self, action: #selector(clearBtnAction(_:)), for: .touchUpInside)
+        return button
+    }()
+
+    ///查看密码
+    private lazy var seePsdImage3: UIImageView = {
+        let imageView = UIImageView()
+        imageView.isHidden = true
+        imageView.image = UIImage(named: "login_btn_close_eyes_18x13")
+        return imageView
+    }()
+    
+    
+    private lazy var seePsdBtn3: UIButton = {
+        let button = UIButton()
+        button.tag = 20003
+        button.addTarget(self, action: #selector(seePsdBtnAction), for: .touchUpInside)
         return button
     }()
 
@@ -222,29 +325,52 @@ class ResetPsdViewController: UIViewController {
     private lazy var sureBtn: UIButton = {
         let button = UIButton()
         button.setBackgroundImage(UIImage(named: "login_btn_grayred_345x44"), for: .normal)
+        button.isUserInteractionEnabled = false
         button.setTitle("确认修改", for: UIControlState.normal)
         button.titleLabel?.font = UIFontBoldSize(size: 18*UIRate)
         button.addTarget(self, action: #selector(sureBtnAction), for: .touchUpInside)
         return button
     }()
     
+    func tapViewAction(){
+        self.view.endEditing(true)
+    }
+    
+    //判断是否可以修改
+    func judgeEnableOrNot(){
+        guard (oldTextField.text?.characters.count)! > 0,
+              (newTextField.text?.characters.count)! > 0,
+              (againTextField.text?.characters.count)! > 0
+            else {
+            sureBtn.setBackgroundImage(UIImage(named: "login_btn_grayred_345x44"), for: .normal)
+            sureBtn.isUserInteractionEnabled = false
+            return
+        }
+        
+        sureBtn.setBackgroundImage(UIImage(named: "login_btn_red_345x44"), for: .normal)
+        sureBtn.isUserInteractionEnabled = true
+    }
+    
     func textFieldAction(_ textField: UITextField){
         
         if textField.tag == 10000 {
             if (textField.text?.characters.count)! > 0 {
                 clearBtn1.isHidden = false
+                seePsdImage1.isHidden = false
             }
         }
         
         if textField.tag == 10001 {
             if (textField.text?.characters.count)! > 0 {
                 clearBtn2.isHidden = false
+                seePsdImage2.isHidden = false
             }
         }
         
         if textField.tag == 10002 {
             if (textField.text?.characters.count)! > 0 {
                 clearBtn3.isHidden = false
+                seePsdImage3.isHidden = false
             }
         }
         
@@ -253,6 +379,8 @@ class ResetPsdViewController: UIViewController {
             let index = textField.text?.index((textField.text?.startIndex)!, offsetBy: 16)//到offsetBy的前一位
             textField.text = textField.text?.substring(to: index!)
         }
+        
+        self.judgeEnableOrNot()
 
     }
     
@@ -260,18 +388,65 @@ class ResetPsdViewController: UIViewController {
         if button.tag == 10000 {
             oldTextField.text = ""
             button.isHidden = true
+            seePsdImage1.isHidden = true
         }
         
         if button.tag == 10001 {
             newTextField.text = ""
             button.isHidden = true
+            seePsdImage2.isHidden = true
         }
         
         if button.tag == 10002 {
             againTextField.text = ""
             button.isHidden = true
+            seePsdImage3.isHidden = true
+        }
+        
+        sureBtn.setBackgroundImage(UIImage(named: "login_btn_grayred_345x44"), for: .normal)
+        sureBtn.isUserInteractionEnabled = false
+
+    }
+    
+    func seePsdBtnAction(_ button: UIButton){
+        if button.tag == 20001 {
+            
+            if oldTextField.isSecureTextEntry {
+                seePsdImage1.image = UIImage(named: "login_btn_open_eyes_18x10.5")
+                oldTextField.isSecureTextEntry = false
+            }else
+            {
+                seePsdImage1.image = UIImage(named: "login_btn_close_eyes_18x13")
+                oldTextField.isSecureTextEntry = true
+            }
+        }
+        
+        if button.tag == 20002 {
+            
+            if newTextField.isSecureTextEntry {
+                seePsdImage2.image = UIImage(named: "login_btn_open_eyes_18x10.5")
+                newTextField.isSecureTextEntry = false
+            }else
+            {
+                seePsdImage2.image = UIImage(named: "login_btn_close_eyes_18x13")
+                newTextField.isSecureTextEntry = true
+            }
+
+        }
+        
+        if button.tag == 20003 {
+    
+            if againTextField.isSecureTextEntry {
+                seePsdImage3.image = UIImage(named: "login_btn_open_eyes_18x10.5")
+                againTextField.isSecureTextEntry = false
+            }else
+            {
+                seePsdImage3.image = UIImage(named: "login_btn_close_eyes_18x13")
+                againTextField.isSecureTextEntry = true
+            }
         }
     }
+    
     
     func sureBtnAction(){
         

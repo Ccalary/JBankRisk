@@ -18,7 +18,7 @@ class RepayPeriodDetailVC: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         self.setupUI()
-        
+        self.gotoRepay()
         self.requestData()
     }
 
@@ -77,6 +77,8 @@ class RepayPeriodDetailVC: UIViewController {
             make.left.equalTo(0)
             make.top.equalTo(topImageView.snp.bottom)
         }
+        
+       
     }
     
     //图片
@@ -124,6 +126,14 @@ class RepayPeriodDetailVC: UIViewController {
         return holdView
     }()
     
+    //去还款
+    func gotoRepay(){
+        
+        detailView.onClickNextStepBtn = {
+            let repayVC = RepayWayViewController()
+            self.navigationController?.pushViewController(repayVC, animated: true)
+        }
+    }
 
     //MARK: - 请求数据
     func requestData(){
@@ -158,7 +168,7 @@ class RepayPeriodDetailVC: UIViewController {
         //剩余未还
         let restRepay = "剩余未还:    " + toolsChangeMoneyStyle(amount: json["amt_total"].doubleValue - json["pay_amt_total"].doubleValue) + "元"
         //到期时间
-        let repayTime = "到期时间:    " + toolsChangeDateStyleToYYYYMMDD(string: json["realpay_date"].stringValue)
+        let repayTime = "到期时间:    " + toolsChangeDateStyle(toYYYYMMDD: json["realpay_date"].stringValue)
         //逾期天数
         let overDay = "逾期天数:    " + json["penalty_day"].stringValue + "天"
         //逾期罚金

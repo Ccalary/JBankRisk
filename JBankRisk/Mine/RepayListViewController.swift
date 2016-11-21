@@ -8,16 +8,32 @@
 
 import UIKit
 import SnapKit
+import SwiftyJSON
 
 class RepayListViewController: UIViewController,UIGestureRecognizerDelegate,UITableViewDelegate, UITableViewDataSource {
     
-    var isHaveData = false
+    var isHaveData = true
+    
+    var dataArray: [JSON] = [] {
+        didSet{
+            self.aTableView.reloadData()
+        }
+    }
+    
+    //产品名字
+    var nameArray: [JSON] = [] {
+        didSet{
+            self.selectView.dataArray = nameArray
+        }
+    }
+    
+    var orderId = ""
     
     //标题
     var titleText = "" {
         didSet{
             self.titleTextLabel.text = titleText
-            self.navTextLabel.text = titleText            
+            self.navTextLabel.text = titleText
         }
     }
     
@@ -29,6 +45,7 @@ class RepayListViewController: UIViewController,UIGestureRecognizerDelegate,UITa
         super.viewDidLoad()
 
        self.setupUI()
+       self.requestData()
     }
 
     override func didReceiveMemoryWarning() {
@@ -195,7 +212,6 @@ class RepayListViewController: UIViewController,UIGestureRecognizerDelegate,UITa
             make.centerX.equalTo(self.view)
             make.top.equalTo(tableHeaderView.snp.bottom)
         }
-
     }
     
     /***Nav隐藏时使用***/
@@ -214,7 +230,7 @@ class RepayListViewController: UIViewController,UIGestureRecognizerDelegate,UITa
     
     private lazy var navTextLabel: UILabel = {
         let label = UILabel()
-        label.font = UIFontSize(size: 18)
+        label.font = UIFontSize(size: 15*UIRate)
         label.textAlignment = .center
         label.textColor = UIColorHex("666666")
         return label
@@ -259,8 +275,8 @@ class RepayListViewController: UIViewController,UIGestureRecognizerDelegate,UITa
     }()
     
     //下拉选择View
-    private lazy var selectView: NeedRepayTimeView = {
-        let selectView = NeedRepayTimeView(viewType: NeedRepayTimeView.SelectViewType.nameSelect)
+    private lazy var selectView: RepayedNameView = {
+        let selectView = RepayedNameView()
         return selectView
     }()
     
@@ -311,7 +327,6 @@ class RepayListViewController: UIViewController,UIGestureRecognizerDelegate,UITa
         lineView.backgroundColor = defaultDivideLineColor
         return lineView
     }()
-
     
     private lazy var aTableView: UITableView = {
         
@@ -337,16 +352,14 @@ class RepayListViewController: UIViewController,UIGestureRecognizerDelegate,UITa
     }
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return 3
+        return dataArray.count
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: "CellID") as! RepayListTableViewCell
         //去除选择效果
         cell.selectionStyle = .none
-        cell.leftTextLabel.text = "2016.10.11"
-        cell.centerTextLabel.text = "瘦脸"
-        cell.rightTextLabel.text = "500.00"
+        cell.cellWithData(dic: dataArray[indexPath.row].dictionary!)
         return cell
     }
     
@@ -372,14 +385,15 @@ class RepayListViewController: UIViewController,UIGestureRecognizerDelegate,UITa
         }
         return true
     }
-
     
     //MARK: - Method
     //点击了下拉框的回调
     func selectViewClick(){
-        selectView.onClickCell = { (title) in
+        selectView.onClickCell = { (title, nameId) in
             self.titleText = title
+            self.orderId = nameId
             self.closeSelectView()
+            self.requestData()
         }
     }
     
@@ -419,4 +433,41 @@ class RepayListViewController: UIViewController,UIGestureRecognizerDelegate,UITa
         })
         isTransformed = !isTransformed
     }
+    
+    
+    //MARK: - 请求数据
+    func requestData(){
+        //添加HUD
+        self.showHud(in: self.view, hint: "加载中...")
+        
+        var params = NetConnect.getBaseRequestParams()
+        params["userId"] = UserHelper.getUserId()!
+        params["orderId"] = self.orderId //""获取全部  有的话－筛选
+        
+        NetConnect.pc_repay_list_detail(parameters: params, success: { response in
+            //隐藏HUD
+            self.hideHud()
+            let json = JSON(response)
+            guard json["RET_CODE"] == "000000" else{
+                return self.showHint(in: self.view, hint: json["RET_DESC"].stringValue)
+            }
+            
+            self.refreshUI(json: json["areadyList"])
+            self.refreshNameUI(json: json["OrderInfo"])
+            
+        }, failure:{ error in
+            //隐藏HUD
+            self.hideHud()
+        })
+    }
+
+    
+    func refreshUI(json: JSON){
+        dataArray = json.arrayValue
+    }
+    
+    func refreshNameUI(json: JSON){
+        nameArray = json.arrayValue
+    }
+    
 }

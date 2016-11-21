@@ -7,6 +7,7 @@
 //
 
 import UIKit
+import SwiftyJSON
 
 class RepayListTableViewCell: UITableViewCell {
 
@@ -106,4 +107,11 @@ class RepayListTableViewCell: UITableViewCell {
         return label
     }()
 
+    //数据
+    func cellWithData(dic: Dictionary<String, JSON>){
+     
+        leftTextLabel.text = toolsChangeDateStyle(toYYYYMMDD: (dic["realpay_date"]?.stringValue)!)
+        centerTextLabel.text = dic["orderName"]?.stringValue
+        rightTextLabel.text = toolsChangeMoneyStyle(amount: (dic["pay_amt_total"]?.doubleValue)!)
+    }
 }

@@ -7,7 +7,7 @@
 //
 
 import UIKit
-let LOCAL = "http://192.168.1.246:8080" //本地
+let LOCAL = "http://192.168.1.121:8080" //本地
 let ONLINE = "http://106.38.109.11:8081" //线上
 
 let BASR_DEV_URL = ONLINE
@@ -105,10 +105,17 @@ let PC_REPAYMENT_BILL = BASR_DEV_URL + "/jinangk.xhtml?TX_CODE=490314"
 ///3.5总还款详情
 let PC_REPAYMENT_ALL_DETAIL = BASR_DEV_URL + "/jinangk.xhtml?TX_CODE=490225"
 
-///3.5月还款详情
+///3.6月还款详情
 let PC_REPAYMENT_MONTH_DETAIL = BASR_DEV_URL + "/jinangk.xhtml?TX_CODE=490048"
 
+///3.7应还详情
+let PC_NEED_REPAYMENT_DETAIL = BASR_DEV_URL + "/jinangk.xhtml?TX_CODE=490235"
 
+///3.8已还明细
+let PC_REPAY_LIST_DETAIL = BASR_DEV_URL + "/jinangk.xhtml?TX_CODE=490375"
+
+///3.9合同详情
+let PC_PROTOCOL_DETAIL = BASR_DEV_URL + "/jinangk.xhtml?TX_CODE=490666"
 
 
 

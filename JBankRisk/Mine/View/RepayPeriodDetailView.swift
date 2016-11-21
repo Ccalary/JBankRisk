@@ -152,6 +152,12 @@ class RepayPeriodDetailView: UIView, UITableViewDelegate, UITableViewDataSource 
         cell.selectionStyle = .none
         cell.arrowImageView.isHidden = true
         cell.centerLabel.text = dataArray[indexPath.row]
+        if dataArray[indexPath.row].contains("逾期"){
+            cell.centerLabel.textColor = UIColorHex("e9342d")
+            cell.centerLabel.attributedText = changeTextColor(text: dataArray[indexPath.row], color: UIColorHex("666666"), range: NSRange(location: 0, length: 5))
+        }else{
+            cell.centerLabel.textColor = UIColorHex("666666")
+        }
         
         return cell
     }
@@ -160,9 +166,18 @@ class RepayPeriodDetailView: UIView, UITableViewDelegate, UITableViewDataSource 
         return 30*UIRate
     }
     
+    
+    var onClickNextStepBtn:(()->())?
+    
     //MARK: - Action
     func nextStepBtnAction(){
         
+        //去还款
+        if let onClickNextStepBtn = onClickNextStepBtn{
+            onClickNextStepBtn()
+        }
+        
     }
+    
     
 }

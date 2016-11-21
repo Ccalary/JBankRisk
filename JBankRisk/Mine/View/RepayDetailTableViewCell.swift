@@ -7,24 +7,20 @@
 //
 
 import UIKit
+import SwiftyJSON
 
 class RepayDetailTableViewCell: UITableViewCell {
 
     enum ColorTheme {
         case dark//深色
         case light//浅色
+        case needReDark//应还颜色
     }
     
     //cell颜色的区分
     var textColorTheme: ColorTheme = .dark {
         didSet{
             switch textColorTheme {
-            case .dark:
-                self.leftTopTextLabel.textColor = UIColorHex("666666")
-                self.leftBottomTextLabel.textColor = UIColorHex("666666")
-                self.statusTextLabel.textColor = UIColorHex("fdb300")//黄色
-                self.noticeTextLabel.textColor = UIColorHex("fdb300")
-                self.moneyTextLabel.textColor = UIColorHex("666666")
             case .light:
                 
                 self.leftTopTextLabel.textColor = UIColorHex("c5c5c5")
@@ -32,7 +28,21 @@ class RepayDetailTableViewCell: UITableViewCell {
                 self.statusTextLabel.textColor = UIColorHex("00b2ff")//蓝色
                 self.noticeTextLabel.textColor = UIColorHex("e9342d")//红色
                 self.moneyTextLabel.textColor = UIColorHex("c5c5c5")
+            case .dark:
+                self.leftTopTextLabel.textColor = UIColorHex("666666")
+                self.leftBottomTextLabel.textColor = UIColorHex("666666")
+                self.statusTextLabel.textColor = UIColorHex("fdb300")//黄色
+                self.noticeTextLabel.textColor = UIColorHex("fdb300")
+                self.moneyTextLabel.textColor = UIColorHex("666666")
+                
+            case .needReDark:
+                self.leftTopTextLabel.textColor = UIColorHex("666666")
+                self.leftBottomTextLabel.textColor = UIColorHex("666666")
+                self.statusTextLabel.textColor = UIColorHex("00b2ff")//蓝色
+                self.noticeTextLabel.textColor = UIColorHex("e9342d")//红色
+                self.moneyTextLabel.textColor = UIColorHex("666666")
             }
+           
         }
     }
     
@@ -183,4 +193,58 @@ class RepayDetailTableViewCell: UITableViewCell {
         label.textColor = UIColorHex("666666")
         return label
     }()
+    
+    
+    //还款详情待还
+    func waitCellWithData(dic: Dictionary<String,JSON>){
+        leftTopTextLabel.text = "第\(dic["term"]!.stringValue)期"
+        leftBottomTextLabel.text = toolsChangeDateStyle(toYYYYMMDD: (dic["realpay_date"]?.stringValue)!)
+        statusTextLabel.text = "待还"
+        let penaltyDay = dic["penalty_day"]?.intValue //逾期
+        
+        if penaltyDay! > 0 {//有逾期
+            noticeTextLabel.text = "逾期\(penaltyDay!)天"
+        }else {
+            noticeTextLabel.text = ""
+        }
+        
+        moneyTextLabel.text = toolsChangeMoneyStyle(amount: (dic["showMoney"]?.doubleValue)!) + "元"
+    }
+    
+    //还款详情已还
+    func alreadyCellWithData(dic: Dictionary<String,JSON>){
+        
+        leftTopTextLabel.text = "第\(dic["term"]!.stringValue)期"
+        leftBottomTextLabel.text = toolsChangeDateStyle(toYYYYMMDD: (dic["realpay_date"]?.stringValue)!)
+        statusTextLabel.text = "完成"
+        let penaltyDay = dic["penalty_day"]?.intValue //逾期
+        
+        if penaltyDay! > 0 {//有逾期
+            noticeTextLabel.text = "逾期\(penaltyDay!)天"
+        }else {
+            noticeTextLabel.text = ""
+        }
+        
+        moneyTextLabel.text = toolsChangeMoneyStyle(amount: (dic["pay_amt_total"]?.doubleValue)!)
+             + "元"
+    }
+    
+    //应还
+    func needRepayCellWithData(dic: Dictionary<String,JSON>){
+        
+        leftTopTextLabel.text = dic["orderName"]?.stringValue
+        leftTopTextLabel2.text = "第" + (dic["term"]?.stringValue)! + "期"
+        leftBottomTextLabel.text = toolsChangeDateStyle(toYYYYMMDD: (dic["realpay_date"]?.stringValue)!)
+        statusTextLabel.text = "待还"
+        let penaltyDay = dic["penalty_day"]?.intValue //逾期
+        
+        if penaltyDay! > 0 {//有逾期
+            noticeTextLabel.text = "逾期\(penaltyDay!)天"
+        }else {
+            noticeTextLabel.text = ""
+        }
+        
+        moneyTextLabel.text = toolsChangeMoneyStyle(amount: (dic["showMoney"]?.doubleValue)!)
+            + "元"
+    }
 }

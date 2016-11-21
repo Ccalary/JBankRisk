@@ -11,6 +11,15 @@ import SwiftyJSON
 
 class RepayDetailViewController: UIViewController, UITableViewDelegate, UITableViewDataSource,UIGestureRecognizerDelegate {
 
+    //产品id
+    var orderId = ""
+    //筛选
+    var selectIndex = 1
+    
+    var waitDataArray: [JSON] = []
+    
+    var alreadyDataArray: [JSON] = []
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         self.setupUI()
@@ -22,8 +31,8 @@ class RepayDetailViewController: UIViewController, UITableViewDelegate, UITableV
         
     }
     
-    override func viewDidDisappear(_ animated: Bool) {
-        self.popBgHoldView.removeFromSuperview()
+    deinit {
+         self.popBgHoldView.removeFromSuperview()
     }
     
     func setupUI(){
@@ -105,7 +114,7 @@ class RepayDetailViewController: UIViewController, UITableViewDelegate, UITableV
             make.top.equalTo(55)
             make.right.equalTo(-8*UIRate)
         }
-    }
+  }
     
     private lazy var aTableView: UITableView = {
         
@@ -137,7 +146,6 @@ class RepayDetailViewController: UIViewController, UITableViewDelegate, UITableV
         label.font = UIFontSize(size: 15*UIRate)
         label.textAlignment = .center
         label.textColor = UIColor.white
-        label.text = "隆鼻＋双眼皮"
         return label
     }()
     
@@ -162,7 +170,7 @@ class RepayDetailViewController: UIViewController, UITableViewDelegate, UITableV
         label.font = UIFontSize(size: 30*UIRate)
         label.textAlignment = .center
         label.textColor = UIColor.white
-        label.text = "1599,009.00"
+        label.text = "0.00"
         return label
     }()
     
@@ -180,7 +188,7 @@ class RepayDetailViewController: UIViewController, UITableViewDelegate, UITableV
         label.font = UIFontSize(size: 30*UIRate)
         label.textAlignment = .center
         label.textColor = UIColor.white
-        label.text = "99,009.00"
+        label.text = "0.00"
         return label
     }()
     
@@ -216,6 +224,7 @@ class RepayDetailViewController: UIViewController, UITableViewDelegate, UITableV
     
     private lazy var popView: FilterRepayView = {
         let filterView = FilterRepayView()
+        
         return filterView
     }()
     
@@ -226,9 +235,9 @@ class RepayDetailViewController: UIViewController, UITableViewDelegate, UITableV
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         if section == 0 {
-            return 4
+            return waitDataArray.count
         }else {
-            return 3
+            return alreadyDataArray.count
         }
     }
     
@@ -239,24 +248,56 @@ class RepayDetailViewController: UIViewController, UITableViewDelegate, UITableV
         
         if indexPath.section == 0{
             cell.textColorTheme = .light
-            cell.leftTopTextLabel.text = "第4期"
-            cell.leftBottomTextLabel.text = "2016.11.11"
-            cell.statusTextLabel.text = "待还"
-            cell.noticeTextLabel.text = "逾期5天"
-            cell.moneyTextLabel.text = "600.00元"
+            cell.waitCellWithData(dic: (waitDataArray[indexPath.row].dictionary)!)
+            
         }else {
             cell.textColorTheme = .dark
-            cell.leftTopTextLabel.text = "第4期"
-            cell.leftBottomTextLabel.text = "2016.11.11"
-            cell.statusTextLabel.text = "完成"
-            cell.noticeTextLabel.text = "逾期5天"
-            cell.moneyTextLabel.text = "600.00元"
+            cell.alreadyCellWithData(dic:(alreadyDataArray[indexPath.row].dictionary)!)
         }
         return cell
     }
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         
+        if indexPath.section ==  0 {
+            var monthRepayStatus: RepayStatusType = .finish
+            //0-已支付 1-未支付 2-提前支付 3-逾期未支付 4-逾期已支付
+            let repayStatus = (waitDataArray[indexPath.row].dictionary?["is_pay"]?.stringValue)!
+            if repayStatus == "0" ||  repayStatus == "2" || repayStatus == "4"{
+                monthRepayStatus = .finish
+            }else {
+                //有逾期
+                if (waitDataArray[indexPath.row].dictionary?["penalty_day"]?.intValue)! > 0 {
+                    monthRepayStatus = .overdue
+                }else {
+                    monthRepayStatus = .not
+                }
+            }
+            let repayDetailVC = RepayPeriodDetailVC()
+            repayDetailVC.repaymentId = (waitDataArray[indexPath.row].dictionary?["repayment_id"]?.stringValue)!
+            repayDetailVC.repayStatusType = monthRepayStatus //还款状态
+            self.navigationController?.pushViewController(repayDetailVC, animated: true)
+
+        }else {
+            
+            var monthRepayStatus: RepayStatusType = .finish
+            //0-已支付 1-未支付 2-提前支付 3-逾期未支付 4-逾期已支付
+            let repayStatus = (alreadyDataArray[indexPath.row].dictionary?["is_pay"]?.stringValue)!
+            if repayStatus == "0" ||  repayStatus == "2" || repayStatus == "4"{
+                monthRepayStatus = .finish
+            }else {
+                //有逾期
+                if (alreadyDataArray[indexPath.row].dictionary?["penalty_day"]?.intValue)! > 0 {
+                    monthRepayStatus = .overdue
+                }else {
+                    monthRepayStatus = .not
+                }
+            }
+            let repayDetailVC = RepayPeriodDetailVC()
+            repayDetailVC.repaymentId = (alreadyDataArray[indexPath.row].dictionary?["repayment_id"]?.stringValue)!
+            repayDetailVC.repayStatusType = monthRepayStatus //还款状态
+            self.navigationController?.pushViewController(repayDetailVC, animated: true)
+        }
     }
     
     func tableView(_ tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
@@ -290,7 +331,11 @@ class RepayDetailViewController: UIViewController, UITableViewDelegate, UITableV
         if section == 0 {
             return 0
         }else {
-            return 10*UIRate
+            if alreadyDataArray.count > 0 {
+                return 10*UIRate
+            }else {
+                return 0
+            }
         }
     }
     
@@ -330,7 +375,9 @@ class RepayDetailViewController: UIViewController, UITableViewDelegate, UITableV
         UIView.animate(withDuration: 0.5, animations: { _ in
             self.popBgHoldView.alpha = 1
         })
-        popView.onClickCell = { _ in
+        popView.onClickCell = { index in
+            self.selectIndex = index
+            self.requestData()
             UIView.animate(withDuration: 0.5, animations: { _ in
                 self.popBgHoldView.alpha = 0
             })
@@ -344,6 +391,8 @@ class RepayDetailViewController: UIViewController, UITableViewDelegate, UITableV
         
         var params = NetConnect.getBaseRequestParams()
         params["userId"] = UserHelper.getUserId()!
+        params["orderId"] = self.orderId//产品id
+        params["flag"] = selectIndex //1-全部 2-待还 3-完成
         
         NetConnect.pc_repayment_all_detail(parameters: params, success: { response in
             //隐藏HUD
@@ -353,7 +402,11 @@ class RepayDetailViewController: UIViewController, UITableViewDelegate, UITableV
                 return self.showHint(in: self.view, hint: json["RET_DESC"].stringValue)
             }
             
-            self.refreshUI(json: json)
+            self.refreshUI(json: json["back"])
+            self.refreshWaitUI(json: json["waitPay"])
+            self.refreshAlreadyUI(json: json["alreayPay"])
+            
+            self.aTableView.reloadData()
             
         }, failure:{ error in
             //隐藏HUD
@@ -362,7 +415,19 @@ class RepayDetailViewController: UIViewController, UITableViewDelegate, UITableV
     }
 
     func refreshUI(json: JSON){
-        
+        nameTextLabel.text = json["orderName"].stringValue
+        totalMoneyLabel.text = toolsChangeMoneyStyle(amount: json["totalAmt"].doubleValue)
+        restMoneyLabel.text = toolsChangeMoneyStyle(amount: json["restTotal"].doubleValue)
+    }
+    
+    func refreshAlreadyUI(json: JSON){
+        alreadyDataArray.removeAll()
+        alreadyDataArray = json.arrayValue
+    }
+    
+    func refreshWaitUI(json: JSON){
+        waitDataArray.removeAll()
+        waitDataArray = json.arrayValue
     }
     
 }

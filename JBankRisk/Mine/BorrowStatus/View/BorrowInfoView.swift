@@ -7,18 +7,13 @@
 //
 
 import UIKit
+import SwiftyJSON
 
 class BorrowInfoView: UIView , UITableViewDelegate, UITableViewDataSource{
 
-    enum BorrowInfoType {
-        case fiveData
-        case sixData
-    }
+    var dataArray = ["产品名称","所属商户","申请金额","申请期限","月还款额"]
     
-    var titleFiveData = ["产品名称","所属商户","申请金额","申请期限","月还款额"]
-    var titleSixData = ["产品名称","所属商户","批复金额","申请金额","申请期限","月还款额"]
-    
-    var dataArray = [String]()
+    var json: JSON!
     
     override init(frame: CGRect ) {
         super.init(frame: frame)
@@ -26,17 +21,11 @@ class BorrowInfoView: UIView , UITableViewDelegate, UITableViewDataSource{
     }
     
     ///初始化默认frame
-    convenience init(viewType: BorrowInfoType) {
-        let frame = CGRect()
+    convenience init(json: JSON) {
+        let frame = CGRect(x: 0, y: 0, width: SCREEN_WIDTH, height: 60*UIRate + 5*30*UIRate + 50*UIRate)
         self.init(frame: frame)
+        self.json = json
         
-        switch viewType {
-        case .fiveData:
-            dataArray = titleFiveData
-        case .sixData:
-            dataArray = titleSixData
-        }
-        self.frame = CGRect(x: 0, y: 0, width: SCREEN_WIDTH, height: 60*UIRate + CGFloat(dataArray.count)*30*UIRate + 50*UIRate)
         setupUI()
     }
     
@@ -165,7 +154,21 @@ class BorrowInfoView: UIView , UITableViewDelegate, UITableViewDataSource{
         //去除选择效果
         cell.selectionStyle = .none
         cell.leftOffTextLabel.text = dataArray[indexPath.row]
-        cell.rightOffTextLabel.text = "测试"
+        switch indexPath.row {
+        case 0:
+            cell.rightOffTextLabel.text = json["orderName"].stringValue
+        case 1:
+             cell.rightOffTextLabel.text = json["sale_name"].stringValue
+        case 2:
+             cell.rightOffTextLabel.text = toolsChangeMoneyStyle(amount: json["amt"].doubleValue) + "元"
+        case 3:
+             cell.rightOffTextLabel.text = json["total"].stringValue + "期"
+        case 4:
+             cell.rightOffTextLabel.text = toolsChangeMoneyStyle(amount: json["term_amt"].doubleValue) + "元"
+            
+        default:
+            break
+        }
         
         return cell
     }
@@ -174,10 +177,13 @@ class BorrowInfoView: UIView , UITableViewDelegate, UITableViewDataSource{
         return 30*UIRate
     }
     
+    var onClickProtocol:(()->())?
     
-    
+    //协议
     func protocolBtnAction(){
-        
+        if let onClickProtocol = onClickProtocol{
+            onClickProtocol()
+        }
     }
 
 }

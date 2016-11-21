@@ -100,15 +100,10 @@ class ForUsingStausVC: UIViewController {
         lineView.backgroundColor = defaultDivideLineColor
         return lineView
     }()
-    
     /*********/
     
     private lazy var defaultView: BorrowDefaultView = {
         let holdView = BorrowDefaultView(viewType: BorrowDefaultView.BorrowDefaultViewType.applyStatus1)
         return holdView
     }()
-
-
-    
-    
 }

@@ -32,16 +32,29 @@ class BorrowStatusView: UIView {
         switch statusType {
             case .finish://订单完结
                 self.statusImageView.image = UIImage(named:"bs_finish_110x90")
+                nextStepBtn.isHidden = false
+                nextStepBtn.setTitle("还款详情", for: UIControlState.normal)
             case .examing: //审核中
                 self.statusImageView.image = UIImage(named:"bs_examing_110x90")
+                disTextLabel.text = "正在飞速的审核，稍等下下就好了哦！"
             case .fullSuccess://满额通过
                 self.statusImageView.image = UIImage(named:"bs_fullSuccess_110x90")
+                disTextLabel.text = "恭喜您借款成功"
+                nextStepBtn.isHidden = false
+                nextStepBtn.setTitle("立即使用", for: UIControlState.normal)
+                tipsTextLabel.text = "借款有效期30天，请及时使用"
             case .checking://校验中
                 self.statusImageView.image = UIImage(named:"bs_checking_110x90")
+                disTextLabel.text = "正在校验，请稍后"
             case .repaying://还款中
                 self.statusImageView.image = UIImage(named:"bs_repaying_110x90")
+                nextStepBtn.isHidden = false
+                nextStepBtn.setTitle("还款详情", for: UIControlState.normal)
             case .fail://审核未通过
                 self.statusImageView.image = UIImage(named:"bs_fail_110x90")
+                disTextLabel.text = "填写真实有效的信息，可以帮助提高通过几率哦！"
+                nextStepBtn.isHidden = false
+                nextStepBtn.setTitle("重新申请", for: UIControlState.normal)
             case .upLoadBill: //上传服务单
                 break
             case .reUploadData: //补交材料
@@ -124,7 +137,7 @@ class BorrowStatusView: UIView {
         label.font = UIFontSize(size: 15*UIRate)
         label.textAlignment = .center
         label.textColor = UIColorHex("666666")
-        label.text = "部分资料不合格，请上传真实正确的资料"
+//        label.text = "部分资料不合格，请上传真实正确的资料"
         return label
     }()
     
@@ -132,8 +145,8 @@ class BorrowStatusView: UIView {
     private lazy var nextStepBtn: UIButton = {
         let button = UIButton()
         button.setBackgroundImage(UIImage(named: "btn_red_254x44"), for: .normal)
-        
-        button.setTitle("下一步", for: UIControlState.normal)
+        button.isHidden = true
+        button.setTitle("", for: UIControlState.normal)
         button.titleLabel?.font = UIFontSize(size: 18*UIRate)
         button.addTarget(self, action: #selector(nextStepBtnAction), for: .touchUpInside)
         return button
@@ -144,7 +157,7 @@ class BorrowStatusView: UIView {
         label.font = UIFontSize(size: 15*UIRate)
         label.textAlignment = .center
         label.textColor = UIColorHex("e9342d")
-        label.text = "借款有效期30天"
+//        label.text = "借款有效期30天"
         return label
     }()
 
@@ -155,8 +168,12 @@ class BorrowStatusView: UIView {
         return lineView
     }()
 
+    var onClickButton:(()->())?
+    
     func nextStepBtnAction(){
-        
+        if let onClickButton = onClickButton {
+            onClickButton()
+        }
     }
     
 }
