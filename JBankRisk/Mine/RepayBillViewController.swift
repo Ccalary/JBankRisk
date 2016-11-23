@@ -99,7 +99,12 @@ class RepayBillViewController: UIViewController, UITableViewDataSource, UITableV
         
         //去申请回调
         defaultView.onClickApplyAction = { _ in
-            
+            if UserHelper.getUserRole() == nil {
+                UserHelper.setUserRole(role: "白领")
+            }
+            let borrowMoneyVC = BorrowMoneyViewController()
+            borrowMoneyVC.currentIndex = 0
+            self.navigationController?.pushViewController(borrowMoneyVC, animated: false)
         }
     }
     

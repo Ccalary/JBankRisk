@@ -45,7 +45,6 @@ class BorrowDefaultView: UIView {
             disText = "当前暂无还款信息～"
             self.nextStepBtn.isHidden = true
         }
-        
         setupUI()
     }
     
@@ -77,7 +76,6 @@ class BorrowDefaultView: UIView {
             make.centerX.equalTo(self)
             make.top.equalTo(textLabel.snp.bottom).offset(20*UIRate)
         }
-        
     }
     
     //图片

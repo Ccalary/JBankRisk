@@ -1,16 +1,16 @@
 //
-//  BaseWebViewController.swift
+//  JulixinWebViewController.swift
 //  JBankRisk
 //
-//  Created by 曹后红 on 16/10/10.
+//  Created by caohouhong on 16/11/22.
 //  Copyright © 2016年 jingjinsuo. All rights reserved.
-//  网页的基类
+//
 
 import UIKit
 import NJKWebViewProgress
 
-class BaseWebViewController: UIViewController, UIWebViewDelegate, NJKWebViewProgressDelegate {
-
+class JulixinWebViewController:  UIViewController, UIWebViewDelegate, NJKWebViewProgressDelegate {
+    
     //头部标题
     var webTitle: String?
     
@@ -18,7 +18,7 @@ class BaseWebViewController: UIViewController, UIWebViewDelegate, NJKWebViewProg
     var requestUrl: String?
     var progressView: NJKWebViewProgressView?
     var progressProxy:NJKWebViewProgress?
-  
+    
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -39,7 +39,7 @@ class BaseWebViewController: UIViewController, UIWebViewDelegate, NJKWebViewProg
         progressView = NJKWebViewProgressView(frame: CGRect(x: 0, y: (naviagtionBarBounds?.size.height)! - progressBarHeight, width: (naviagtionBarBounds?.size.width)!, height: progressBarHeight))
         
         progressView?.autoresizingMask = UIViewAutoresizing.flexibleWidth
-       
+        
         loadURL()
     }
     
@@ -55,7 +55,7 @@ class BaseWebViewController: UIViewController, UIWebViewDelegate, NJKWebViewProg
     override func viewDidDisappear(_ animated: Bool) {
         progressView?.removeFromSuperview()
     }
-
+    
     //基本UI
     func setupUI(){
         self.automaticallyAdjustsScrollViewInsets = false;
@@ -101,7 +101,7 @@ class BaseWebViewController: UIViewController, UIWebViewDelegate, NJKWebViewProg
         if webTitle != nil {
             self.title = webTitle
         }else {
-           self.title = webView.stringByEvaluatingJavaScript(from: "document.title")
+            self.title = webView.stringByEvaluatingJavaScript(from: "document.title")
         }
     }
     
@@ -122,13 +122,17 @@ class BaseWebViewController: UIViewController, UIWebViewDelegate, NJKWebViewProg
             webView?.goBack()
         }else
         {
-            self.navigationController!.popViewController(animated: true)
+            //回到首页
+            let homeVC = self.navigationController?.viewControllers[0] as! HomeViewController
+            _ = self.navigationController?.popToViewController(homeVC, animated: true)
         }
     }
     
     //关闭
     func doLeftNavigationBarTextBtnAction(){
-        self.navigationController!.popViewController(animated: true)
+        //回到首页
+        let homeVC = self.navigationController?.viewControllers[0] as! HomeViewController
+        _ = self.navigationController?.popToViewController(homeVC, animated: true)
     }
     
 }

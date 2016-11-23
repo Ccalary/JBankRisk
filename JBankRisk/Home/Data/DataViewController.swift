@@ -14,7 +14,7 @@ import Photos
 
 class DataViewController: UIViewController,UITableViewDelegate, UITableViewDataSource,UICollectionViewDelegate,UICollectionViewDataSource, UICollectionViewDelegateFlowLayout,UIImagePickerControllerDelegate,UINavigationControllerDelegate,PhotoPickerControllerDelegate{
     
-    var WorkerCellData:[CellDataInfo] = [ CellDataInfo(leftText: "身份证", holdText: "上传身份证正反面", content: "", cellType: .cameraType),
+    var WorkerCellData:[CellDataInfo] = [ CellDataInfo(leftText: "身份证", holdText: "上传手持身份证照片", content: "", cellType: .cameraType),
                                           CellDataInfo(leftText: "亲签照", holdText: "上传手持合同的照片", content: "", cellType: .cameraType),
                                           CellDataInfo(leftText: "征信报告", holdText: "上传人民银行征信报告", content: "", cellType: .cameraType),
                                           CellDataInfo(leftText: "收入流水", holdText: "上传银行卡6个月收入流水", content: "", cellType: .cameraType),
@@ -22,11 +22,11 @@ class DataViewController: UIViewController,UITableViewDelegate, UITableViewDataS
                                           CellDataInfo(leftText: "社保", holdText: "社保公积金缴纳信息（选填）", content: "", cellType: .cameraType),
                                           CellDataInfo(leftText: "财力证明", holdText: "上传可证明财力的文件（选填）", content: "", cellType: .cameraType)]
     
-    var StudentCellData:[CellDataInfo] = [ CellDataInfo(leftText: "身份证", holdText: "上传身份证正反面", content: "", cellType: .cameraType),
+    var StudentCellData:[CellDataInfo] = [ CellDataInfo(leftText: "身份证", holdText: "上传手持身份证照片", content: "", cellType: .cameraType),
                                           CellDataInfo(leftText: "亲签照", holdText: "上传手持合同的照片", content: "", cellType: .cameraType),
                                           CellDataInfo(leftText: "在读证明", holdText: "上传学信网个人信息或校园卡", content: "", cellType: .cameraType)]
     
-    var FreedomCellData:[CellDataInfo] = [ CellDataInfo(leftText: "身份证", holdText: "上传身份证正反面", content: "", cellType: .cameraType),
+    var FreedomCellData:[CellDataInfo] = [ CellDataInfo(leftText: "身份证", holdText: "上传手持身份证照片", content: "", cellType: .cameraType),
                                           CellDataInfo(leftText: "亲签照", holdText: "上传手持合同的照片", content: "", cellType: .cameraType),
                                           CellDataInfo(leftText: "征信报告", holdText: "上传人民银行征信报告", content: "", cellType: .cameraType),
                                           CellDataInfo(leftText: "收入流水", holdText: "上传银行卡6个月收入流水", content: "", cellType: .cameraType),
@@ -67,7 +67,6 @@ class DataViewController: UIViewController,UITableViewDelegate, UITableViewDataS
     //上传张数
     var numArray = [Int]()
     
-    
     override func viewDidLoad() {
         super.viewDidLoad()
         self.setupUI()
@@ -92,6 +91,11 @@ class DataViewController: UIViewController,UITableViewDelegate, UITableViewDataS
         
         self.isReupload = isReupload
         
+        //补交
+        if isReupload {
+            dataArray = reuploadData
+        }else{
+            
         switch roleType {
         case .worker:
             if let money = UserHelper.getUserBorrowAmt() {
@@ -135,11 +139,7 @@ class DataViewController: UIViewController,UITableViewDelegate, UITableViewDataS
             }
             dataArray = FreedomCellData
         }
-        
-        //补交
-        if isReupload {
-            dataArray = reuploadData
-        }
+    }
         
         tableViewHeight = CGFloat(dataArray.count)*50*UIRate
         
@@ -586,7 +586,6 @@ extension DataViewController {
     
     func tapViewAction(){
         
-        
         UIView.animate(withDuration: 0.5, delay: 0, usingSpringWithDamping: 0.4, initialSpringVelocity: 0.3, options: UIViewAnimationOptions.curveEaseInOut, animations: { _ in
             self.bigBgholdView.alpha = 0
             self.bigImageView.transform = CGAffineTransform(scaleX: 0, y: 0)
@@ -617,19 +616,67 @@ extension DataViewController {
     //提交申请
     func nextStepBtnAction(){
         
-        let popupView = PopupSubmitTipsView()
-        let popupController = CNPPopupController(contents: [popupView])!
-        popupController.present(animated: true)
-        popupView.onClickCancle = {_ in
-            popupController.dismiss(animated: true)
+        if !isReupload{ //正常申请
+            let popupView = PopupSubmitTipsView()
+            let popupController = CNPPopupController(contents: [popupView])!
+            popupController.present(animated: true)
+            popupView.onClickCancle = {_ in
+                popupController.dismiss(animated: true)
+            }
+            popupView.onClickSure = { _ in
+                popupController.dismiss(animated: true)
+                self.uploadPhoto()
+            }
+
+        }else { //补交
+         
+            self.reuploadPhoto()
         }
-        popupView.onClickSure = { _ in
-            popupController.dismiss(animated: true)
-            self.uploadPhoto()
+}
+    
+    //MARK: - 补交附件
+    func reuploadPhoto(){
+        
+        guard photoArray.count >= 2 else {
+            self.showHint(in: self.view, hint: "最少上传两张照片")
+            return
         }
+        
+        //添加HUD
+        self.showHud(in: self.view, hint:"上传中...")
+        
+        var imageDataArray:[Data] = []
+        var imageNameArray:[String] = []
+        
+        for i in 0..<photoArray.count {
+            imageDataArray.append(UIImageJPEGRepresentation(photoArray[i].image, 0.1)!)
+            let imageName = String(describing: NSDate()) + "\(i).png"
+            imageNameArray.append(imageName)
+        }
+        //参数666-多张上传
+        let params: [String: String] = ["userId":UserHelper.getUserId()!, "flag":"666"]
+        
+        NetConnect.bm_upload_photo_info(params:params , data: imageDataArray, name: imageNameArray, success: { response in
+            
+            //隐藏HUD
+            self.hideHud()
+            
+            let json = JSON(response)
+            guard json["RET_CODE"] == "000000" else{
+                return self.showHint(in: self.view, hint: json["RET_DESC"].stringValue)
+            }
+            
+            self.showHintInKeywindow(hint: "补交材料上传成功！",yOffset: SCREEN_HEIGHT/2 - 100*UIRate)
+            
+           _ = self.navigationController?.popViewController(animated: true)
+        }, failure: { error in
+            //隐藏HUD
+            self.hideHud()
+        })
     }
     
-    //照片上传
+    
+    //MARK: - 照片上传
     func uploadPhoto(){
         
         //是否已生成订单
@@ -674,7 +721,7 @@ extension DataViewController {
             }
             self.showHintInKeywindow(hint: "附件上传成功！",yOffset: SCREEN_HEIGHT/2 - 100*UIRate)
             
-            let webVC = BaseWebViewController()
+            let webVC = JulixinWebViewController()
             webVC.requestUrl = json["actionUrl"].stringValue
             webVC.webTitle = "聚立信"
             self.navigationController?.pushViewController(webVC, animated: false)
@@ -708,7 +755,6 @@ extension DataViewController {
             //隐藏HUD
             self.hideHud()
         })
-        
     }
     //填充信息
     func refreshUI(json: JSON){
@@ -790,7 +836,6 @@ extension DataViewController {
                 }
             })
         }
-    }
-}
-
+     }
+   }
 }

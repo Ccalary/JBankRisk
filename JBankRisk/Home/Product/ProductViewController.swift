@@ -499,7 +499,7 @@ extension ProductViewController {
                     self.showHint(in: self.view, hint: "未能获取商户名称！")
                     return
                 }
-                self.saleName = json["saleName"].stringValue
+                self.saleName = nameStr
                 //刷新tableView
                 let position1 = IndexPath(row: 0, section: 0)
                 self.aTableView.reloadRows(at: [position1], with: UITableViewRowAnimation.none)
@@ -511,4 +511,3 @@ extension ProductViewController {
         })
     }
 }
-

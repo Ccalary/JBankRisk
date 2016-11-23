@@ -110,7 +110,6 @@ class SysMessageTableViewCell: UITableViewCell {
         let label = UILabel()
         label.font = UIFontSize(size: 13*UIRate)
         label.textColor = UIColorHex("666666")
-        label.text = "标题"
         return label
     }()
     
@@ -118,7 +117,6 @@ class SysMessageTableViewCell: UITableViewCell {
         let label = UILabel()
         label.font = UIFontSize(size: 13*UIRate)
         label.textColor = UIColorHex("d4d4d4")
-        label.text = "消息内容"
         return label
     }()
     
@@ -127,7 +125,6 @@ class SysMessageTableViewCell: UITableViewCell {
         label.font = UIFontSize(size: 13*UIRate)
         label.textAlignment = .center
         label.textColor = UIColorHex("666666")
-        label.text = "2016/11/11"
         return label
     }()
     

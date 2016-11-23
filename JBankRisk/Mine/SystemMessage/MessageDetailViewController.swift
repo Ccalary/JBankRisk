@@ -10,12 +10,14 @@ import UIKit
 
 class MessageDetailViewController: UIViewController {
 
+    //消息内容
+    var contentText = ""
+    
+    var timeStamp = ""
+    
     override func viewDidLoad() {
         super.viewDidLoad()
        self.setupUI()
-        
-        
-        let contentText = "就是对雷锋精神动力大幅降低肌肤啦圣诞节放大老师家看电视了附近的伤口附近丢失哦双节快乐对方角度来说 家里的沙发经历多少附近丢失了附近丢失了几行法师看对方发 三闾大夫就是大了发动机拉萨的激发了三十分 的士力架飞机似的 附近的伤口分 风急浪大开始见风使舵两附近分 时间的浪费教室里的风景"
         
         let attibute = [NSFontAttributeName:self.contentTextLabel.font]
         let height = autoLabelHeight(with: contentText, labelWidth: SCREEN_WIDTH - 50*UIRate, attributes: attibute)
@@ -88,7 +90,7 @@ class MessageDetailViewController: UIViewController {
         let label = UILabel()
         label.font = UIFontBoldSize(size: 20*UIRate)
         label.textColor = UIColorHex("666666")
-        label.text = "借款进度提醒"
+        label.text = "中诚消费借款进度提醒"
         return label
     }()
     
@@ -97,7 +99,7 @@ class MessageDetailViewController: UIViewController {
         label.font = UIFontSize(size: 15*UIRate)
         label.textAlignment = .center
         label.textColor = UIColorHex("d4d4d4")
-        label.text = "2016-11-01 18:43:00"
+        label.text = self.timeStamp
         return label
     }()
     

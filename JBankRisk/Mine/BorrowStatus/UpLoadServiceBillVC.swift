@@ -21,7 +21,6 @@ class UpLoadServiceBillVC: UIViewController,UIImagePickerControllerDelegate,UINa
         self.setupUI()
         self.initPhotoPicker()
         self.initCameraPicker()
-
     }
 
     override func didReceiveMemoryWarning() {
@@ -210,7 +209,8 @@ class UpLoadServiceBillVC: UIViewController,UIImagePickerControllerDelegate,UINa
             guard json["RET_CODE"] == "000000" else{
                 return self.showHint(in: self.view, hint: json["RET_DESC"].stringValue)
             }
-            self.showHint(in: self.view, hint: "服务单上传成功")
+            self.showHintInKeywindow(hint: "服务单上传成功")
+            _ = self.navigationController?.popViewController(animated: true)
             
         }, failure: { error in
             //隐藏HUD

@@ -26,6 +26,7 @@ class MineViewController: UIViewController, UIGestureRecognizerDelegate,UICollec
     //摇摆动画
     var momAnimation:CABasicAnimation!
     
+    var messageIsHaveData = false
     //借款状态码
     var moneyStatus = ""
     
@@ -34,9 +35,11 @@ class MineViewController: UIViewController, UIGestureRecognizerDelegate,UICollec
         didSet{
             if messageCount > 0 {
                 self.mineTopView.messageRedDot.isHidden = false
+                messageIsHaveData = true
                 self.shakeAnimation()//添加晃动动画
             }else {
                 self.mineTopView.messageRedDot.isHidden = true
+                messageIsHaveData = false
                 //移除晃动动画
                 self.mineTopView.messageBtn.layer.removeAllAnimations()
             }
@@ -173,7 +176,6 @@ class MineViewController: UIViewController, UIGestureRecognizerDelegate,UICollec
         default:
             break
         }
-        
         return cell
     }
     
@@ -198,6 +200,11 @@ class MineViewController: UIViewController, UIGestureRecognizerDelegate,UICollec
             self.navigationController?.pushViewController(repayVC, animated: true)
         }else if indexPath.row == 2 { //还款明细
             let repayDetailVC = RepayListViewController()
+            if moneyStatus == "5" || moneyStatus == "0" {
+                repayDetailVC.isHaveData = true
+            }else {
+                repayDetailVC.isHaveData = false
+            }
             self.navigationController?.pushViewController(repayDetailVC, animated: true)
         }
     }
@@ -233,6 +240,7 @@ class MineViewController: UIViewController, UIGestureRecognizerDelegate,UICollec
         switch tag {//消息
         case 10000:
             let messageVC = SysMessageViewController()
+            messageVC.isHaveData = self.messageIsHaveData
             self.navigationController?.pushViewController(messageVC, animated: true)
         case 20000://设置
             let settingVC = SettingViewController()
@@ -249,17 +257,41 @@ class MineViewController: UIViewController, UIGestureRecognizerDelegate,UICollec
     func clickStatusButtonAction(tag: Int){
         switch tag {
         case 10000://审核中
-            let statusVC = ExamingStatusVC()
-            self.navigationController?.pushViewController(statusVC, animated: true)
+            if  headerView.tipImage1.isHidden {
+                let statusVC = ExamingStatusVC()
+                 self.navigationController?.pushViewController(statusVC, animated: true)
+            }else {
+                let statusVC = BorrowStatusVC()
+                self.navigationController?.pushViewController(statusVC, animated: true)
+            }
+           
         case 20000://待使用
-            let statusVC = ForUsingStausVC()
-            self.navigationController?.pushViewController(statusVC, animated: true)
+            if  headerView.tipImage2.isHidden {
+                let statusVC = ForUsingStausVC()
+                self.navigationController?.pushViewController(statusVC, animated: true)
+            }else {
+                let statusVC = BorrowStatusVC()
+                self.navigationController?.pushViewController(statusVC, animated: true)
+            }
+           
         case 30000: //还款中
-            let statusVC = RepayingStatusVC()
-            self.navigationController?.pushViewController(statusVC, animated: true)
+            if  headerView.tipImage3.isHidden {
+                let statusVC = RepayingStatusVC()
+                self.navigationController?.pushViewController(statusVC, animated: true)
+            }else {
+                let statusVC = BorrowStatusVC()
+                self.navigationController?.pushViewController(statusVC, animated: true)
+            }
+          
         case 40000: //驳回－拒绝
-            let statusVC = RejuestStatusVC()
-            self.navigationController?.pushViewController(statusVC, animated: true)
+            if  headerView.tipImage4.isHidden {
+                let statusVC = RejuestStatusVC()
+                self.navigationController?.pushViewController(statusVC, animated: true)
+            }else {
+                let statusVC = BorrowStatusVC()
+                self.navigationController?.pushViewController(statusVC, animated: true)
+            }
+           
         default :
             break
         }

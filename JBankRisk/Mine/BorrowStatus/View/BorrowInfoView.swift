@@ -13,7 +13,11 @@ class BorrowInfoView: UIView , UITableViewDelegate, UITableViewDataSource{
 
     var dataArray = ["产品名称","所属商户","申请金额","申请期限","月还款额"]
     
-    var json: JSON!
+    var json: JSON = []{
+        didSet{
+            self.aTableView.reloadData()
+        }
+    }
     
     override init(frame: CGRect ) {
         super.init(frame: frame)
@@ -21,11 +25,9 @@ class BorrowInfoView: UIView , UITableViewDelegate, UITableViewDataSource{
     }
     
     ///初始化默认frame
-    convenience init(json: JSON) {
+    convenience init() {
         let frame = CGRect(x: 0, y: 0, width: SCREEN_WIDTH, height: 60*UIRate + 5*30*UIRate + 50*UIRate)
         self.init(frame: frame)
-        self.json = json
-        
         setupUI()
     }
     

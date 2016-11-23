@@ -20,7 +20,6 @@ class NetConnect {
         return params
     }
     
-    
     /*************注册登录模块(RL)*************/
     /// 1.1注册
     static func rl_register(parameters: Parameters,success:@escaping (_ response:[String:AnyObject]) -> (),failure:@escaping(_ error: Error) -> ()){
@@ -328,6 +327,25 @@ class NetConnect {
         })
     }
 
+    //3.9 消息
+    static func pc_message_detail(parameters: Parameters,success:@escaping (_ response:[String:AnyObject]) -> (),failure:@escaping(_ error: Error) -> ()){
+        
+        NetworkRequest.sharedInstance.getRequest(urlString: PC_MESSAGE_URL, params: parameters, success: { (response) in
+            success(response)
+        }, failture: { (error) in
+            failure(error)
+        })
+    }
+    
+    //3.10 消息
+    static func pc_message_readed(parameters: Parameters,success:@escaping (_ response:[String:AnyObject]) -> (),failure:@escaping(_ error: Error) -> ()){
+        
+        NetworkRequest.sharedInstance.getRequest(urlString: PC_MESSAGE_READED_URL, params: parameters, success: { (response) in
+            success(response)
+        }, failture: { (error) in
+            failure(error)
+        })
+    }
 
 }
 

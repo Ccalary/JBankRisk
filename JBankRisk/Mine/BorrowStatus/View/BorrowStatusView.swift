@@ -10,26 +10,27 @@ import UIKit
 
 class BorrowStatusView: UIView {
     
+    //状态为9审核未通过时的描述
+    var failDis = ""
+    
     override init(frame: CGRect ) {
         super.init(frame: frame)
     }
     
-    ///初始化默认frame
-    convenience init(statusType: OrderStausType) {
-        let frame = CGRect(x: 0, y: 0, width: SCREEN_WIDTH, height: 250*UIRate)
-        self.init(frame: frame)
-        /*
-        case finish      //订单完结
-        case examing     //审核中
-        case fullSuccess //满额通过
-        case checking    //校验中
-        case repaying    //还款中
-        case fail        //审核未通过
-        case upLoadBill  //上传服务单
-        case reUploadData//补交材料
-        case defaultStatus //缺省
-       */
-        switch statusType {
+    var statusType: OrderStausType = .defaultStatus {
+        didSet{
+            /*
+             case finish      //订单完结
+             case examing     //审核中
+             case fullSuccess //满额通过
+             case checking    //校验中
+             case repaying    //还款中
+             case fail        //审核未通过
+             case upLoadBill  //上传服务单
+             case reUploadData//补交材料
+             case defaultStatus //缺省
+             */
+            switch statusType {
             case .finish://订单完结
                 self.statusImageView.image = UIImage(named:"bs_finish_110x90")
                 nextStepBtn.isHidden = false
@@ -37,6 +38,7 @@ class BorrowStatusView: UIView {
             case .examing: //审核中
                 self.statusImageView.image = UIImage(named:"bs_examing_110x90")
                 disTextLabel.text = "正在飞速的审核，稍等下下就好了哦！"
+                nextStepBtn.isHidden = true
             case .fullSuccess://满额通过
                 self.statusImageView.image = UIImage(named:"bs_fullSuccess_110x90")
                 disTextLabel.text = "恭喜您借款成功"
@@ -46,22 +48,37 @@ class BorrowStatusView: UIView {
             case .checking://校验中
                 self.statusImageView.image = UIImage(named:"bs_checking_110x90")
                 disTextLabel.text = "正在校验，请稍后"
+                nextStepBtn.isHidden = true
             case .repaying://还款中
                 self.statusImageView.image = UIImage(named:"bs_repaying_110x90")
                 nextStepBtn.isHidden = false
                 nextStepBtn.setTitle("还款详情", for: UIControlState.normal)
             case .fail://审核未通过
                 self.statusImageView.image = UIImage(named:"bs_fail_110x90")
-                disTextLabel.text = "填写真实有效的信息，可以帮助提高通过几率哦！"
-                nextStepBtn.isHidden = false
+                disTextLabel.text = "如若再次申请，请联系客服人员"
+                nextStepBtn.isHidden = true
+                /*
+                nextStepBtn.isHidden = true
                 nextStepBtn.setTitle("重新申请", for: UIControlState.normal)
+                */
             case .upLoadBill: //上传服务单
                 break
-            case .reUploadData: //补交材料
+            case .reUploadData: //补交材料(申请被驳回)
+                self.statusImageView.image = UIImage(named:"bs_reupload_110x90")
+                disTextLabel.text = failDis
+                nextStepBtn.isHidden = false
+                nextStepBtn.setTitle("补交材料", for: UIControlState.normal)
                 break
             case .defaultStatus:
                 break
+            }
         }
+    }
+    
+    ///初始化默认frame
+    convenience init() {
+        let frame = CGRect(x: 0, y: 0, width: SCREEN_WIDTH, height: 250*UIRate)
+        self.init(frame: frame)
         
         setupUI()
     }
@@ -117,7 +134,7 @@ class BorrowStatusView: UIView {
             make.bottom.equalTo(self)
         }
     }
-
+    
     //图片
     private lazy var bgImageView: UIImageView = {
         let imageView = UIImageView()
@@ -128,7 +145,6 @@ class BorrowStatusView: UIView {
     //状态图片
     private lazy var statusImageView: UIImageView = {
         let imageView = UIImageView()
-        imageView.image = UIImage(named: "bs_examing_110x90")
         return imageView
     }()
     
@@ -136,8 +152,8 @@ class BorrowStatusView: UIView {
         let label = UILabel()
         label.font = UIFontSize(size: 15*UIRate)
         label.textAlignment = .center
+        label.numberOfLines = 0
         label.textColor = UIColorHex("666666")
-//        label.text = "部分资料不合格，请上传真实正确的资料"
         return label
     }()
     
@@ -157,7 +173,6 @@ class BorrowStatusView: UIView {
         label.font = UIFontSize(size: 15*UIRate)
         label.textAlignment = .center
         label.textColor = UIColorHex("e9342d")
-//        label.text = "借款有效期30天"
         return label
     }()
 

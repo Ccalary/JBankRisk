@@ -20,16 +20,14 @@ class HomeViewController: UIViewController, UIGestureRecognizerDelegate{
     var bannerView: CyclePictureView! //图片轮播
     var imageArray:[String]? = [""] //储存所有照片
     
-    //进度查询数据
-    var orderJson:JSON!
-    
-    var isHaveData = false
-    
     //cell数据
     var cellDataArray: [Dictionary<String,String>]? = [["":""],["":""],["":""]]
 
     //判断进行到哪一步
     var flagIndex = 0
+    
+    //还款状态判断
+    var mJstatus = ""
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -125,15 +123,14 @@ class HomeViewController: UIViewController, UIGestureRecognizerDelegate{
                 guard json["RET_CODE"] == "000000" else{
                     return self.showHint(in: self.view, hint: json["RET_DESC"].stringValue)
                 }
-                
-                self.orderJson = json["detail"]
-                
                 //第一个为1，依次类推
                 self.flagIndex = json["flag"].intValue
+                //还款状态
+                self.mJstatus = json["jstatus"].stringValue
+                
                 if UserHelper.getUserId() != nil {
                      self.getTheUploadProgree(flag: json["flag"].stringValue,userType:json["userType"].stringValue)
                 }
-                
                 self.imageArray = json["bannnerList"].arrayObject as! [String]?
                 
                 self.cellDataArray = json["list"].arrayObject as? [Dictionary<String, String>]
@@ -281,28 +278,41 @@ extension HomeViewController: UITableViewDelegate, UITableViewDataSource,CyclePi
             
         case 1:
             
-          let popupView =  PopupNewVersionView()
-          let popupController = CNPPopupController(contents: [popupView])!
-          popupController.present(animated: true)
-          popupView.onClickCancle = { _ in
-            popupController.dismiss(animated: true)
-          }
+//          let popupView =  PopupNewVersionView()
+//          let popupController = CNPPopupController(contents: [popupView])!
+//          popupController.present(animated: true)
+//          popupView.onClickCancle = { _ in
+//            popupController.dismiss(animated: true)
+//          }
 
-//            guard UserHelper.isLogin() else {
-//                let loginVC = LoginViewController()
-//                self.navigationController?.pushViewController(loginVC, animated: true)
-//                return
-//            }
-//                let repayDetailVC = BorrowStatusVC()
-//                repayDetailVC.orderInfo = self.orderJson
-//                self.navigationController?.pushViewController(repayDetailVC, animated: true)
+            guard UserHelper.isLogin() else {
+                let loginVC = LoginViewController()
+                self.navigationController?.pushViewController(loginVC, animated: true)
+                return
+            }
+            let repayDetailVC = BorrowStatusVC()
+            //9 为不加载缺省页
+            if self.flagIndex == 9 {
+                repayDetailVC.isHaveData = true
+            }else {
+                repayDetailVC.isHaveData = false
+            }
+            self.navigationController?.pushViewController(repayDetailVC, animated: true)
         case 2:
             guard UserHelper.isLogin() else {
                 let loginVC = LoginViewController()
                 self.navigationController?.pushViewController(loginVC, animated: true)
                 return
             }
-                let repayDetailVC = RepayListViewController()
+            
+               let repayDetailVC = RepayListViewController()
+               // 5-还款中 0-已完结
+                if mJstatus == "5" || mJstatus == "0"{
+                    repayDetailVC.isHaveData = true
+                }else {
+                    repayDetailVC.isHaveData = false
+                }
+
                 self.navigationController?.pushViewController(repayDetailVC, animated: true)
         default:
             break

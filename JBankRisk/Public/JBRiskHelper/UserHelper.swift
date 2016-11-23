@@ -34,6 +34,7 @@ class UserHelper {
          defaults.set("0", forKey: "isLogin") //退出登录
          defaults.set(nil, forKey: "userId") //清空userId
          defaults.set(nil, forKey: "mobile")  //情况电话
+         defaults.set(nil, forKey: "userRole")//角色
          defaults.set(nil, forKey: "homeCellArray") //清空首页缓存数据
         
          defaults.synchronize()
@@ -107,7 +108,7 @@ class UserHelper {
         return defaults.object(forKey: "homeCellArray") as? [Dictionary<String,String>]
     }
     
-    static func setHomeCellDataArray(cellArray: [Dictionary<String,String>]){
+    static func setHomeCellDataArray(cellArray: [Dictionary<String,String>]?){
         let defaults = UserDefaults()
         defaults.set(cellArray, forKey: "homeCellArray")
         defaults.synchronize()

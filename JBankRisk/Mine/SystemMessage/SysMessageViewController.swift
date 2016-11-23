@@ -7,17 +7,35 @@
 //
 
 import UIKit
+import SwiftyJSON
 
 class SysMessageViewController: UIViewController,UITableViewDelegate, UITableViewDataSource {
 
+    var isHaveData = false 
+    
+    var page: Int = 1
+    
+    var messageId = ""
+    
+    var dataArray: [JSON] = [] {
+        didSet{
+            self.aTableView.reloadData()
+        }
+    }
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         self.setupUI()
+       
     }
 
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
     
+    }
+    
+    override func viewDidAppear(_ animated: Bool) {
+         self.requestData()
     }
     
     //Nav
@@ -56,13 +74,18 @@ class SysMessageViewController: UIViewController,UITableViewDelegate, UITableVie
         }
     }
     
-    func setupUI(){
-        self.navigationController!.navigationBar.isTranslucent = true;
-        self.automaticallyAdjustsScrollViewInsets = false;
-        self.view.backgroundColor = defaultBackgroundColor
-        self.title = "消息"
+    func setupDefaultUI(){
+        self.view.addSubview(defaultView)
         
-        self.setNavUI()
+        defaultView.snp.makeConstraints { (make) in
+            make.width.equalTo(self.view)
+            make.height.equalTo(SCREEN_HEIGHT - 64)
+            make.centerX.equalTo(self.view)
+            make.top.equalTo(50*UIRate + 64)
+        }
+    }
+
+    func setupNormalUI(){
         
         self.view.addSubview(aTableView)
         
@@ -72,6 +95,28 @@ class SysMessageViewController: UIViewController,UITableViewDelegate, UITableVie
             make.centerX.equalTo(self.view)
             make.top.equalTo(64)
         }
+        
+        self.aTableView.addPullRefreshHandler({ _ in
+            self.requestData()
+            self.aTableView.stopPullRefreshEver()
+        })
+
+    }
+    
+    func setupUI(){
+        self.navigationController!.navigationBar.isTranslucent = true;
+        self.automaticallyAdjustsScrollViewInsets = false;
+        self.view.backgroundColor = defaultBackgroundColor
+        self.title = "消息"
+        self.setNavUI()
+        
+        if !isHaveData {
+            self.setupDefaultUI()
+        }else {
+            self.setupNormalUI()
+        }
+        
+        
     }
     
     /***Nav隐藏时使用***/
@@ -103,6 +148,13 @@ class SysMessageViewController: UIViewController,UITableViewDelegate, UITableVie
         return lineView
     }()
     
+    /**********/
+    //缺省页
+    private lazy var defaultView: NothingDefaultView = {
+        let holdView = NothingDefaultView(viewType: NothingDefaultView.DefaultViewType.nothing)
+        return holdView
+    }()
+    
     /********/
     private lazy var aTableView: UITableView = {
         
@@ -118,12 +170,10 @@ class SysMessageViewController: UIViewController,UITableViewDelegate, UITableVie
         if tableView.responds(to:#selector(setter: UITableViewCell.separatorInset)) {
             tableView.separatorInset = .zero
         }
-        
         if tableView.responds(to: #selector(setter: UITableViewCell.layoutMargins)) {
             tableView.layoutMargins = .zero
         }
         return tableView
-        
     }()
     //MARK: - UITableView Delegate&&DataSource
     func numberOfSections(in tableView: UITableView) -> Int {
@@ -131,7 +181,7 @@ class SysMessageViewController: UIViewController,UITableViewDelegate, UITableVie
     }
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return 3
+        return dataArray.count
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
@@ -139,6 +189,16 @@ class SysMessageViewController: UIViewController,UITableViewDelegate, UITableVie
         //去除选择效果
         cell.selectionStyle = .none
         
+        //标题
+        cell.topTextLabel.text = "借款进度提醒"
+        cell.bottomTextLabel.text = dataArray[indexPath.row].dictionary?["result"]?.stringValue
+        cell.timeTextLabel.text = toolsChangeDateStyle(toYYYYMMDD: (dataArray[indexPath.row].dictionary?["time_stamp"]!.stringValue)!)
+        //0-未读  1-已读
+        if dataArray[indexPath.row].dictionary?["flag"]?.stringValue == "0"{
+           cell.redImageView.isHidden = false
+        }else {
+           cell.redImageView.isHidden = true
+        }
         return cell
     }
     
@@ -149,7 +209,13 @@ class SysMessageViewController: UIViewController,UITableViewDelegate, UITableVie
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         
         let viewController = MessageDetailViewController()
+        viewController.timeStamp = toolsChangeDateStyle(toYYYYMMDD: (dataArray[indexPath.row].dictionary?["time_stamp"]!.stringValue)!)
+        viewController.contentText = (dataArray[indexPath.row].dictionary?["result"]?.stringValue)!
         self.navigationController?.pushViewController(viewController, animated: true)
+        
+        self.messageId = (dataArray[indexPath.row].dictionary?["auditId"]?.stringValue)!
+        
+        self.requestReadData()
     }
     
     //设置分割线
@@ -162,5 +228,56 @@ class SysMessageViewController: UIViewController,UITableViewDelegate, UITableVie
             cell.layoutMargins = .zero
         }
     }
+    
+    
+    //MARK: - 请求数据
+    func requestData(){
+        //添加HUD
+        self.showHud(in: self.view, hint: "加载中...")
+        
+        var params = NetConnect.getBaseRequestParams()
+        params["userId"] = UserHelper.getUserId()!
+        params["page"] = self.page
+        
+        NetConnect.pc_message_detail(parameters: params, success: { response in
+            //隐藏HUD
+            self.hideHud()
+            let json = JSON(response)
+            guard json["RET_CODE"] == "000000" else{
+                return self.showHint(in: self.view, hint: json["RET_DESC"].stringValue)
+            }
+            self.refreshUI(josn: json["appInfoStatus"])
+        
+        }, failure:{ error in
+            //隐藏HUD
+            self.hideHud()
+        })
+    }
+
+    func refreshUI(josn: JSON){
+        
+        dataArray = josn.arrayValue
+    }
+    
+    //MARK: -消息已读
+    func requestReadData(){
+        
+        var params = NetConnect.getBaseRequestParams()
+        params["userId"] = UserHelper.getUserId()!
+        params["auditId"] = self.messageId
+        
+        NetConnect.pc_message_readed(parameters: params, success: { response in
+            
+            let json = JSON(response)
+            guard json["RET_CODE"] == "000000" else{
+                return self.showHint(in: self.view, hint: json["RET_DESC"].stringValue)
+            }
+            
+        }, failure:{ error in
+        
+        })
+    }
+
+    
 }
 

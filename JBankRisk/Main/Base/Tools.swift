@@ -74,6 +74,18 @@ func toolsChangeDateStyle(toYYYYMMDD string: String) -> String{
     return time
 }
 
+///日期处理--后台给的是8位数（20161112） -> 2016.11.12
+func toolsChange14DateStyle(toYYYYMMDD string: String) -> String{
+    guard string.characters.count > 8 else {
+        return string
+    }
+    var time = string.substring(to: string.index(string.startIndex, offsetBy: 8))
+    time.insert(".", at: time.index(time.startIndex, offsetBy: 4))
+    time.insert(".", at: time.index(time.endIndex, offsetBy: -2))
+    return time
+}
+
+
 ///日期处理--后台给的是8位数（20161112） -> 11月12日
 func toolsChangeDateStyle(toMMMonthDDDay string: String) -> String {
     guard string.characters.count == 8 else {
