@@ -114,6 +114,13 @@ class RepayDetailViewController: UIViewController, UITableViewDelegate, UITableV
             make.top.equalTo(55)
             make.right.equalTo(-8*UIRate)
         }
+        
+        
+        self.aTableView.addPullRefreshHandler({ [weak self] in
+            self?.requestData()
+            self?.aTableView.stopPullRefreshEver()
+        })
+        
   }
     
     private lazy var aTableView: UITableView = {
@@ -265,14 +272,19 @@ class RepayDetailViewController: UIViewController, UITableViewDelegate, UITableV
             let repayStatus = (waitDataArray[indexPath.row].dictionary?["is_pay"]?.stringValue)!
             if repayStatus == "0" ||  repayStatus == "2" || repayStatus == "4"{
                 monthRepayStatus = .finish
-            }else {
-                //有逾期
-                if (waitDataArray[indexPath.row].dictionary?["penalty_day"]?.intValue)! > 0 {
-                    monthRepayStatus = .overdue
+            }else  {//有逾期
+                if let penaltyDay = waitDataArray[indexPath.row].dictionary?["penalty_day"]?.intValue {
+                    
+                    if penaltyDay > 0 {
+                        monthRepayStatus = .overdue
+                    }else {
+                        monthRepayStatus = .not
+                    }
+                    
                 }else {
                     monthRepayStatus = .not
-                }
             }
+        }
             let repayDetailVC = RepayPeriodDetailVC()
             repayDetailVC.repaymentId = (waitDataArray[indexPath.row].dictionary?["repayment_id"]?.stringValue)!
             repayDetailVC.repayStatusType = monthRepayStatus //还款状态
@@ -287,12 +299,20 @@ class RepayDetailViewController: UIViewController, UITableViewDelegate, UITableV
                 monthRepayStatus = .finish
             }else {
                 //有逾期
-                if (alreadyDataArray[indexPath.row].dictionary?["penalty_day"]?.intValue)! > 0 {
-                    monthRepayStatus = .overdue
+                
+                 if let penaltyDay = alreadyDataArray[indexPath.row].dictionary?["penalty_day"]?.intValue {
+                    
+                    if penaltyDay > 0 {
+                         monthRepayStatus = .overdue
+                    }else {
+                        monthRepayStatus = .not
+                    }
+                   
                 }else {
                     monthRepayStatus = .not
                 }
             }
+
             let repayDetailVC = RepayPeriodDetailVC()
             repayDetailVC.repaymentId = (alreadyDataArray[indexPath.row].dictionary?["repayment_id"]?.stringValue)!
             repayDetailVC.repayStatusType = monthRepayStatus //还款状态

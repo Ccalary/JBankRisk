@@ -202,12 +202,15 @@ class RepayDetailTableViewCell: UITableViewCell {
         statusTextLabel.text = "待还"
         let penaltyDay = dic["penalty_day"]?.intValue //逾期
         
-        if penaltyDay! > 0 {//有逾期
-            noticeTextLabel.text = "逾期\(penaltyDay!)天"
+        if let penaltyDay = penaltyDay{
+            
+           if penaltyDay > 0 {//有逾期
+            noticeTextLabel.text = "逾期\(penaltyDay)天"
         }else {
             noticeTextLabel.text = ""
         }
-        
+     }
+    
         moneyTextLabel.text = toolsChangeMoneyStyle(amount: (dic["showMoney"]?.doubleValue)!) + "元"
     }
     
@@ -219,10 +222,13 @@ class RepayDetailTableViewCell: UITableViewCell {
         statusTextLabel.text = "完成"
         let penaltyDay = dic["penalty_day"]?.intValue //逾期
         
-        if penaltyDay! > 0 {//有逾期
-            noticeTextLabel.text = "逾期\(penaltyDay!)天"
-        }else {
-            noticeTextLabel.text = ""
+        if let penaltyDay = penaltyDay{
+            
+            if penaltyDay > 0 {//有逾期
+                noticeTextLabel.text = "逾期\(penaltyDay)天"
+            }else {
+                noticeTextLabel.text = ""
+            }
         }
         
         moneyTextLabel.text = toolsChangeMoneyStyle(amount: (dic["pay_amt_total"]?.doubleValue)!)
@@ -238,10 +244,12 @@ class RepayDetailTableViewCell: UITableViewCell {
         statusTextLabel.text = "待还"
         let penaltyDay = dic["penalty_day"]?.intValue //逾期
         
-        if penaltyDay! > 0 {//有逾期
-            noticeTextLabel.text = "逾期\(penaltyDay!)天"
-        }else {
-            noticeTextLabel.text = ""
+        if let penaltyDay = penaltyDay {
+            if penaltyDay > 0 {//有逾期
+                noticeTextLabel.text = "逾期\(penaltyDay)天"
+            }else {
+                noticeTextLabel.text = ""
+            }
         }
         
         moneyTextLabel.text = toolsChangeMoneyStyle(amount: (dic["showMoney"]?.doubleValue)!)

@@ -86,6 +86,7 @@
 		0D61C42C1DB0C2CB00C2BC23 /* BorrowMoneyViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0D61C42B1DB0C2CB00C2BC23 /* BorrowMoneyViewController.swift */; };
 		0D61C42E1DB0CE0000C2BC23 /* BorrowMoneyView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0D61C42D1DB0CE0000C2BC23 /* BorrowMoneyView.swift */; };
 		0D61C4321DB128F600C2BC23 /* BorrowMoneyDoneView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0D61C4311DB128F600C2BC23 /* BorrowMoneyDoneView.swift */; };
+		0D64C8B01DE6E9200071EEE8 /* DataReuploadVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0D64C8AF1DE6E9200071EEE8 /* DataReuploadVC.swift */; };
 		0D7BBB881DE316480071B84E /* RepayedNameView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0D7BBB871DE316480071B84E /* RepayedNameView.swift */; };
 		0D84AACE1DE1919D00957B0A /* CNPPopupController.m in Sources */ = {isa = PBXBuildFile; fileRef = 0D84AAB81DE1919D00957B0A /* CNPPopupController.m */; };
 		0D84AACF1DE1919D00957B0A /* iCarousel.m in Sources */ = {isa = PBXBuildFile; fileRef = 0D84AABB1DE1919D00957B0A /* iCarousel.m */; };
@@ -100,6 +101,8 @@
 		0D84AAD81DE1919D00957B0A /* UIScrollViewExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0D84AACD1DE1919D00957B0A /* UIScrollViewExtension.swift */; };
 		0D8C33EF1DCA27E800F33F0C /* chinaarea.plist in Resources */ = {isa = PBXBuildFile; fileRef = 0D8C33EE1DCA27E800F33F0C /* chinaarea.plist */; };
 		0D8C33FB1DCA3E1600F33F0C /* PopupAreaView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0D8C33FA1DCA3E1600F33F0C /* PopupAreaView.swift */; };
+		0D8EB7571DE5B0190002BF08 /* PopupProgressView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0D8EB7561DE5B0190002BF08 /* PopupProgressView.swift */; };
+		0D8EB75B1DE5C0400002BF08 /* BorrowStatusDefaultVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0D8EB75A1DE5C0400002BF08 /* BorrowStatusDefaultVC.swift */; };
 		0D9290C61DDD9FA000DB77FD /* PopupRegisterTipsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0D9290C51DDD9FA000DB77FD /* PopupRegisterTipsView.swift */; };
 		0DAF60321DA8DFAD0009054F /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0DAF60311DA8DFAD0009054F /* AppDelegate.swift */; };
 		0DAF60371DA8DFAD0009054F /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 0DAF60351DA8DFAD0009054F /* Main.storyboard */; };
@@ -109,10 +112,7 @@
 		0DB36C611DDE138E0083825D /* MineTopView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0DB36C601DDE138E0083825D /* MineTopView.swift */; };
 		0DB36C651DDE98850083825D /* BorrowProgressVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0DB36C641DDE98850083825D /* BorrowProgressVC.swift */; };
 		0DB36C671DDE99290083825D /* BorrowDefaultView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0DB36C661DDE99290083825D /* BorrowDefaultView.swift */; };
-		0DB36C6A1DDEABD20083825D /* ExamingStatusVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0DB36C691DDEABD20083825D /* ExamingStatusVC.swift */; };
-		0DB36C6C1DDEAD700083825D /* ForUsingStausVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0DB36C6B1DDEAD700083825D /* ForUsingStausVC.swift */; };
 		0DB36C6E1DDEADC40083825D /* RepayingStatusVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0DB36C6D1DDEADC40083825D /* RepayingStatusVC.swift */; };
-		0DB36C701DDEAE440083825D /* RejuestStatusVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0DB36C6F1DDEAE440083825D /* RejuestStatusVC.swift */; };
 		0DB36C741DDEBA7B0083825D /* RepayListViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0DB36C731DDEBA7B0083825D /* RepayListViewController.swift */; };
 		0DB36C761DDECFB30083825D /* RepayListTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0DB36C751DDECFB30083825D /* RepayListTableViewCell.swift */; };
 		0DB36C7C1DDEE5BC0083825D /* BorrowStatusVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0DB36C7B1DDEE5BC0083825D /* BorrowStatusVC.swift */; };
@@ -239,6 +239,7 @@
 		0D61C42B1DB0C2CB00C2BC23 /* BorrowMoneyViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BorrowMoneyViewController.swift; sourceTree = "<group>"; };
 		0D61C42D1DB0CE0000C2BC23 /* BorrowMoneyView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BorrowMoneyView.swift; sourceTree = "<group>"; };
 		0D61C4311DB128F600C2BC23 /* BorrowMoneyDoneView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BorrowMoneyDoneView.swift; sourceTree = "<group>"; };
+		0D64C8AF1DE6E9200071EEE8 /* DataReuploadVC.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DataReuploadVC.swift; sourceTree = "<group>"; };
 		0D7BBB871DE316480071B84E /* RepayedNameView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RepayedNameView.swift; sourceTree = "<group>"; };
 		0D84AAB71DE1919D00957B0A /* CNPPopupController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CNPPopupController.h; sourceTree = "<group>"; };
 		0D84AAB81DE1919D00957B0A /* CNPPopupController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CNPPopupController.m; sourceTree = "<group>"; };
@@ -260,6 +261,8 @@
 		0D84AACD1DE1919D00957B0A /* UIScrollViewExtension.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = UIScrollViewExtension.swift; sourceTree = "<group>"; };
 		0D8C33EE1DCA27E800F33F0C /* chinaarea.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = chinaarea.plist; sourceTree = "<group>"; };
 		0D8C33FA1DCA3E1600F33F0C /* PopupAreaView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PopupAreaView.swift; sourceTree = "<group>"; };
+		0D8EB7561DE5B0190002BF08 /* PopupProgressView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PopupProgressView.swift; sourceTree = "<group>"; };
+		0D8EB75A1DE5C0400002BF08 /* BorrowStatusDefaultVC.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BorrowStatusDefaultVC.swift; sourceTree = "<group>"; };
 		0D9290C51DDD9FA000DB77FD /* PopupRegisterTipsView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PopupRegisterTipsView.swift; sourceTree = "<group>"; };
 		0DAF602E1DA8DFAD0009054F /* JBankRisk.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = JBankRisk.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		0DAF60311DA8DFAD0009054F /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = AppDelegate.swift; path = ../AppDelegate.swift; sourceTree = "<group>"; };
@@ -275,10 +278,7 @@
 		0DB36C601DDE138E0083825D /* MineTopView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MineTopView.swift; sourceTree = "<group>"; };
 		0DB36C641DDE98850083825D /* BorrowProgressVC.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BorrowProgressVC.swift; sourceTree = "<group>"; };
 		0DB36C661DDE99290083825D /* BorrowDefaultView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BorrowDefaultView.swift; sourceTree = "<group>"; };
-		0DB36C691DDEABD20083825D /* ExamingStatusVC.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ExamingStatusVC.swift; sourceTree = "<group>"; };
-		0DB36C6B1DDEAD700083825D /* ForUsingStausVC.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ForUsingStausVC.swift; sourceTree = "<group>"; };
 		0DB36C6D1DDEADC40083825D /* RepayingStatusVC.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RepayingStatusVC.swift; sourceTree = "<group>"; };
-		0DB36C6F1DDEAE440083825D /* RejuestStatusVC.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RejuestStatusVC.swift; sourceTree = "<group>"; };
 		0DB36C731DDEBA7B0083825D /* RepayListViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RepayListViewController.swift; sourceTree = "<group>"; };
 		0DB36C751DDECFB30083825D /* RepayListTableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RepayListTableViewCell.swift; sourceTree = "<group>"; };
 		0DB36C7B1DDEE5BC0083825D /* BorrowStatusVC.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BorrowStatusVC.swift; sourceTree = "<group>"; };
@@ -367,6 +367,7 @@
 				0D1EAA851DC8D4FF00789E37 /* DataViewController.swift */,
 				0DECC8741DCB07D30022D3F6 /* DataCollectionViewCell.swift */,
 				0D536EE31DE47D95008B3BC3 /* JulixinWebViewController.swift */,
+				0D64C8AF1DE6E9200071EEE8 /* DataReuploadVC.swift */,
 			);
 			path = Data;
 			sourceTree = "<group>";
@@ -788,10 +789,8 @@
 			isa = PBXGroup;
 			children = (
 				0DB36C811DDF61B60083825D /* View */,
-				0DB36C691DDEABD20083825D /* ExamingStatusVC.swift */,
-				0DB36C6B1DDEAD700083825D /* ForUsingStausVC.swift */,
 				0DB36C6D1DDEADC40083825D /* RepayingStatusVC.swift */,
-				0DB36C6F1DDEAE440083825D /* RejuestStatusVC.swift */,
+				0D8EB75A1DE5C0400002BF08 /* BorrowStatusDefaultVC.swift */,
 				0DB36C7B1DDEE5BC0083825D /* BorrowStatusVC.swift */,
 				0DB44FB51DE40576004E1695 /* UpLoadServiceBillVC.swift */,
 			);
@@ -826,6 +825,7 @@
 				0D3ADC8F1DCC455800838043 /* PopupLogoutView.swift */,
 				0D9290C51DDD9FA000DB77FD /* PopupRegisterTipsView.swift */,
 				0DB44FB31DE35204004E1695 /* PopupNewVersionView.swift */,
+				0D8EB7561DE5B0190002BF08 /* PopupProgressView.swift */,
 			);
 			path = PopupView;
 			sourceTree = "<group>";
@@ -1097,7 +1097,6 @@
 				0D536EE41DE47D95008B3BC3 /* JulixinWebViewController.swift in Sources */,
 				0D84AACF1DE1919D00957B0A /* iCarousel.m in Sources */,
 				0D536EE01DE4347A008B3BC3 /* BorrowProgressView.swift in Sources */,
-				0DB36C701DDEAE440083825D /* RejuestStatusVC.swift in Sources */,
 				0D1E82611DE1927A0040B39E /* PhotoPreviewViewController.swift in Sources */,
 				0DB36C741DDEBA7B0083825D /* RepayListViewController.swift in Sources */,
 				0D006DDD1DC7810D0091CF33 /* UserHelper.swift in Sources */,
@@ -1127,9 +1126,9 @@
 				0D61C4321DB128F600C2BC23 /* BorrowMoneyDoneView.swift in Sources */,
 				0D1E82601DE1927A0040B39E /* PhotoPreviewToolbarView.swift in Sources */,
 				0D1E825C1DE1927A0040B39E /* PhotoPickerConfig.swift in Sources */,
+				0D8EB7571DE5B0190002BF08 /* PopupProgressView.swift in Sources */,
 				0D0A6ED81DD76DF7006B54DD /* NeedRepayViewController.swift in Sources */,
 				0D1EAA821DC8C91500789E37 /* WorkViewController.swift in Sources */,
-				0DB36C6C1DDEAD700083825D /* ForUsingStausVC.swift in Sources */,
 				0D84AAD01DE1919D00957B0A /* Capture.m in Sources */,
 				0D24F2FE1DCB72F300BBAC8F /* MineCollectionViewCell.swift in Sources */,
 				0DB36C761DDECFB30083825D /* RepayListTableViewCell.swift in Sources */,
@@ -1151,15 +1150,16 @@
 				0DC8B15B1DD8B0ED001323D3 /* RepayPeriodDetailView.swift in Sources */,
 				0DECC8751DCB07D30022D3F6 /* DataCollectionViewCell.swift in Sources */,
 				0D0E2A3B1DAB40DB00A64F76 /* HomeViewController.swift in Sources */,
+				0D8EB75B1DE5C0400002BF08 /* BorrowStatusDefaultVC.swift in Sources */,
 				0D0E2A451DABB86E00A64F76 /* BaseWebViewController.swift in Sources */,
 				0D1EAA881DC97D2500789E37 /* PopupStaticSelectView.swift in Sources */,
-				0DB36C6A1DDEABD20083825D /* ExamingStatusVC.swift in Sources */,
 				0D2841091DACC1D600059FD2 /* HomeTableViewCell.swift in Sources */,
 				0D1E82631DE1927A0040B39E /* UIImage+Extension.swift in Sources */,
 				0D1E82581DE1927A0040B39E /* PhotoCollectionViewController.swift in Sources */,
 				0DB36C7E1DDF01520083825D /* Base.swift in Sources */,
 				0D3ADC9F1DCC94F400838043 /* MessageDetailViewController.swift in Sources */,
 				0D0E2A361DAB389D00A64F76 /* CyclePictureView.swift in Sources */,
+				0D64C8B01DE6E9200071EEE8 /* DataReuploadVC.swift in Sources */,
 				0D1EAA901DC9B4D200789E37 /* PopupDeadlineView.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

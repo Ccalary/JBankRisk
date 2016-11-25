@@ -480,6 +480,7 @@ class RegisterOrResetPsdVC: UIViewController {
         
         let webVC = BaseWebViewController()
         webVC.requestUrl = BM_APPLY_PROTOCOL
+        webVC.webTitle = "中诚消费协议"
         self.navigationController?.pushViewController(webVC, animated: false
         )
     }

@@ -63,11 +63,10 @@ class LoginPsdOrSetPsdVC: UIViewController{
                 make.right.equalTo(loginBtn)
             }
 
-            break
         case .setPassword:
             self.title = "设置密码"
             loginBtn.setTitle("确认", for: .normal)
-            break
+            mTextField.placeholder = "请输入6-16位密码"
         }
     }
     
@@ -273,7 +272,6 @@ class LoginPsdOrSetPsdVC: UIViewController{
                     self.showHintInKeywindow(hint: "登录成功",yOffset: SCREEN_HEIGHT/2 - 100*UIRate)
                     
             }, failure: {error in
-                
             })
 
         case .setPassword:
@@ -318,7 +316,8 @@ class LoginPsdOrSetPsdVC: UIViewController{
     
     func mTextFieldAction(_ textField: UITextField){
        
-        if (textField.text?.characters.count)! == 0{
+        //6-16位
+        if (textField.text?.characters.count)! < 6{
             loginBtn.setBackgroundImage(UIImage(named: "login_btn_grayred_345x44"), for: .normal)
             loginBtn.isUserInteractionEnabled = false
             clearImage.isHidden = true

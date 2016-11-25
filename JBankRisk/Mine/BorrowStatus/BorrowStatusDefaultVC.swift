@@ -1,23 +1,25 @@
 //
-//  ExamingStatusVC.swift
+//  BorrowStatusDefaultVC.swift
 //  JBankRisk
 //
-//  Created by caohouhong on 16/11/18.
+//  Created by caohouhong on 16/11/23.
 //  Copyright © 2016年 jingjinsuo. All rights reserved.
 //
 
 import UIKit
 
-class ExamingStatusVC: UIViewController {
+class BorrowStatusDefaultVC: UIViewController {
 
+    //nav 标题
+    var defaultTitle = ""
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         self.setupUI()
     }
-
+    
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
-        
     }
     
     //Nav
@@ -59,7 +61,7 @@ class ExamingStatusVC: UIViewController {
     //基本UI
     func setupUI(){
         self.view.backgroundColor = defaultBackgroundColor
-        self.title = "审核中"
+        self.title = defaultTitle
         self.setNavUI()
         
         self.view.addSubview(defaultView)
@@ -100,13 +102,10 @@ class ExamingStatusVC: UIViewController {
         lineView.backgroundColor = defaultDivideLineColor
         return lineView
     }()
-
-   /*********/
+    
+    /*********/
     private lazy var defaultView: BorrowDefaultView = {
         let holdView = BorrowDefaultView(viewType: BorrowDefaultView.BorrowDefaultViewType.applyStatus1)
         return holdView
     }()
-    
-
-
 }

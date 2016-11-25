@@ -123,16 +123,42 @@ class JulixinWebViewController:  UIViewController, UIWebViewDelegate, NJKWebView
         }else
         {
             //回到首页
-            let homeVC = self.navigationController?.viewControllers[0] as! HomeViewController
-            _ = self.navigationController?.popToViewController(homeVC, animated: true)
+            for i in 0..<(self.navigationController?.viewControllers.count)! {
+                
+                if self.navigationController?.viewControllers[i].isKind(of: HomeViewController.self) == true {
+                    
+                    _ = self.navigationController?.popToViewController(self.navigationController?.viewControllers[i] as! HomeViewController, animated: true)
+                    return
+                }
+            }
+            
+            for i in 0..<(self.navigationController?.viewControllers.count)! {
+                
+                if self.navigationController?.viewControllers[i].isKind(of: BorrowMoneyViewController.self) == true {
+                    _ = self.navigationController?.popToViewController(self.navigationController?.viewControllers[i] as! BorrowMoneyViewController, animated: true)
+                }
+            }
         }
     }
     
     //关闭
     func doLeftNavigationBarTextBtnAction(){
         //回到首页
-        let homeVC = self.navigationController?.viewControllers[0] as! HomeViewController
-        _ = self.navigationController?.popToViewController(homeVC, animated: true)
+        for i in 0..<(self.navigationController?.viewControllers.count)! {
+            
+            if self.navigationController?.viewControllers[i].isKind(of: HomeViewController.self) == true {
+                
+                _ = self.navigationController?.popToViewController(self.navigationController?.viewControllers[i] as! HomeViewController, animated: true)
+                return
+            }
+        }
+        
+        for i in 0..<(self.navigationController?.viewControllers.count)! {
+            
+            if self.navigationController?.viewControllers[i].isKind(of: BorrowMoneyViewController.self) == true {
+                _ = self.navigationController?.popToViewController(self.navigationController?.viewControllers[i] as! BorrowMoneyViewController, animated: true)
+            }
+        }
+
     }
-    
 }

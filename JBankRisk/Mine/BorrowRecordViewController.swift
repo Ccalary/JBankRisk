@@ -13,8 +13,9 @@ class BorrowRecordViewController: UIViewController,UITableViewDelegate, UITableV
 
     var dataArray = [(String,String)]()
     
-    //借款信息
-    var orderInfo:JSON?
+    //借款状态信息
+    var mJstatus = ""
+    
     //是否有数据
     var isHaveData = false
     
@@ -227,7 +228,7 @@ class BorrowRecordViewController: UIViewController,UITableViewDelegate, UITableV
         label.font = UIFontSize(size: 15*UIRate)
         label.textAlignment = .center
         label.textColor = UIColor.white
-        label.text = "累计借款(元)"
+        label.text = "累计成功借款(元)"
         return label
     }()
     
@@ -313,9 +314,14 @@ class BorrowRecordViewController: UIViewController,UITableViewDelegate, UITableV
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         tableView.deselectRow(at: indexPath, animated: true)
         
-        let borrowStatusVC = BorrowStatusVC()
-        borrowStatusVC.orderInfo = self.orderInfo
-        self.navigationController?.pushViewController(borrowStatusVC, animated: true)
+        //录入中 进入借款流程
+        if mJstatus == "99" {
+            let borrowMoneyVC = BorrowMoneyViewController()
+            self.navigationController?.pushViewController(borrowMoneyVC, animated: false)
+        }else {
+            let borrowStatusVC = BorrowStatusVC()
+            self.navigationController?.pushViewController(borrowStatusVC, animated: true)
+        }
     }
 
     //设置分割线
@@ -345,7 +351,6 @@ class BorrowRecordViewController: UIViewController,UITableViewDelegate, UITableV
                 return self.showHint(in: self.view, hint: json["RET_DESC"].stringValue)
             }
             
-            self.orderInfo = json["orderInfo"]
             self.refreshUI(json: json["orderInfo"])
             
         }, failure:{ error in
@@ -360,6 +365,7 @@ class BorrowRecordViewController: UIViewController,UITableViewDelegate, UITableV
         self.moneyLabel.text = toolsChangeMoneyStyle(amount: money)
         self.dataArray.removeAll()
         self.dataArray.append((json["orderName"].stringValue,json["status"].stringValue))
+        self.mJstatus = json["jstatus"].stringValue
         self.aTableView.reloadData()
     }
 

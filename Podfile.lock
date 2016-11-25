@@ -1,5 +1,5 @@
 PODS:
-  - Alamofire (4.0.1)
+  - Alamofire (4.2.0)
   - AMapFoundation (1.3.1)
   - AMapLocation (2.1.1):
     - AMapFoundation (~> 1.2)
@@ -15,7 +15,7 @@ PODS:
   - SwiftyJSON (3.1.0)
 
 DEPENDENCIES:
-  - Alamofire (~> 4.0)
+  - Alamofire (~> 4.2.0)
   - AMapLocation
   - IQKeyboardManagerSwift
   - Kingfisher (~> 3.0.0)
@@ -25,7 +25,7 @@ DEPENDENCIES:
   - SwiftyJSON
 
 SPEC CHECKSUMS:
-  Alamofire: 7682d43245de14874acd142ec137b144aa1dd335
+  Alamofire: aa2e09d871c9160ac53c90e83c68064a94e3dfbe
   AMapFoundation: 636834a27cd003084f56b4232f3031e6a44c7e7e
   AMapLocation: dd203f76b034ef5cb546600f4e1ffad2a3a14072
   IQKeyboardManagerSwift: 58bbcf46b5cf9fd4ed625d28a60cb2fbae4ab0f4
@@ -35,6 +35,6 @@ SPEC CHECKSUMS:
   SnapKit: f818b8326d45b4e1c777d0ab27b5c0a3624bfdeb
   SwiftyJSON: 29b9f2a64f118c07e691667c2ba1efe536acfe0b
 
-PODFILE CHECKSUM: 1f01b5556593455ccde4b6c65e286ff86c044073
+PODFILE CHECKSUM: 527879aeb7db5ee359b47fc32a39f1c5f730bd01
 
 COCOAPODS: 1.1.1

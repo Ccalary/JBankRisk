@@ -20,7 +20,6 @@ class RepayingStatusVC: UIViewController {
         super.didReceiveMemoryWarning()
         
     }
-    
     //Nav
     func setNavUI(){
         self.view.addSubview(navHoldView)

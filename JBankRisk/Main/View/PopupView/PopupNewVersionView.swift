@@ -10,15 +10,39 @@ import UIKit
 
 class PopupNewVersionView: UIView {
 
+    //更新描述
+    var disText = ""
+    
     override init(frame: CGRect ) {
         super.init(frame: frame)
-        setupUI()
+       
     }
     
     ///初始化默认frame
-    convenience init() {
+    convenience init(disText: String) {
         let frame = CGRect(x: 0, y: 0, width: SCREEN_WIDTH - 80*UIRate, height: 360*UIRate)
         self.init(frame: frame)
+        self.setupUI()
+        
+        let contentText = disText
+        let attibute = [NSFontAttributeName:self.noticeLabel.font]
+        let height = autoLabelHeight(with: contentText, labelWidth: SCREEN_WIDTH - 140*UIRate, attributes: attibute)
+        
+        //重新对label布局
+        self.noticeLabel.text = contentText
+        self.noticeLabel.snp.remakeConstraints({ (make) in
+            make.width.equalTo(self.frame.size.width - 60*UIRate)
+            make.height.equalTo(height)
+            make.centerX.equalTo(self)
+            make.top.equalTo(titleLabel.snp.bottom).offset(15*UIRate)
+        })
+        
+        var viewHeight = 150*UIRate + 105*UIRate + height
+        //如果大于360 则按大的尺寸来，若小于则为360
+        viewHeight = viewHeight > 360*UIRate ? viewHeight : 360*UIRate
+        
+        self.frame = CGRect(x: 0, y: 0, width: SCREEN_WIDTH - 80*UIRate, height: viewHeight)
+        
     }
     
     required init?(coder aDecoder: NSCoder) {
@@ -67,7 +91,6 @@ class PopupNewVersionView: UIView {
         }
     }
     
-    
     //图片
     private lazy var topImageView: UIImageView = {
         let imageView = UIImageView()
@@ -87,10 +110,8 @@ class PopupNewVersionView: UIView {
     private lazy var noticeLabel: UILabel = {
         let label = UILabel()
         label.font = UIFontSize(size: 15*UIRate)
-        label.textAlignment = .center
         label.textColor = UIColorHex("7e84a3")
         label.numberOfLines = 0
-        label.text = "1.升级啦升级啦升级啦升级啦升级啦升级啦升级啦\n2.升级啦升级啦升级啦升级啦升级啦升级啦升级啦升级啦升级啦升级啦升级啦"
         return label
     }()
     
@@ -123,7 +144,6 @@ class PopupNewVersionView: UIView {
             onClickCancle()
         }
     }
-    
     //升级
     func sureBtnAction(){
         if let onClickSure = onClickSure {

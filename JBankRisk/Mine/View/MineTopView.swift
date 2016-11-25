@@ -303,7 +303,6 @@ class MineTopView: UIView {
         label.font = UIFontSize(size: 15*UIRate)
         label.textAlignment = .center
         label.textColor = UIColorHex("848484")
-        label.text = "下期还款日"
         return label
     }()
     

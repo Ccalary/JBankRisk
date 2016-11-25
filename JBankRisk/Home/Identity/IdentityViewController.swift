@@ -22,7 +22,7 @@ class IdentityViewController: UIViewController {
     var delegate: ReselectRoleDelegate?
     var uploadSucDelegate: UploadSuccessDelegate?
     
-    var roleType:RoleType = RoleType(rawValue: UserHelper.getUserRole()!)!
+    var roleType:RoleType = RoleType(rawValue: UserHelper.getUserRole() ?? "白领")!
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -227,6 +227,7 @@ class IdentityViewController: UIViewController {
         }
 
         codeTextField.snp.makeConstraints { (make) in
+            make.width.equalTo(250*UIRate)
             make.left.equalTo(100*UIRate)
             make.centerY.equalTo(randCodeLabel)
         }
@@ -726,9 +727,7 @@ class IdentityViewController: UIViewController {
         //添加HUD
         self.showHud(in: self.view, hint: "上传中...")
         
-        var params = [String:Any]()
-        params["companyId"] = "10000101"
-        params["userId"] = UserHelper.getUserId() ?? ""
+        var params = NetConnect.getBaseRequestParams()
         params["mobile"] = phoneNumField.text!
         params["userType"] = currentIndex + 1 //上传1-学生 2-白领 3-自由族
         params["randCode"] = codeTextField.text!
@@ -744,6 +743,7 @@ class IdentityViewController: UIViewController {
                     return self.showHint(in: self.view, hint: json["RET_DESC"].stringValue)
                 }
                 //保存用户id
+                
                 UserHelper.setUserId(userId: json["userId"].stringValue)
                 UserHelper.setIdentity(isUpload: true)
                 UserHelper.setUserMobile(mobile: self.phoneNumField.text!)
@@ -873,7 +873,6 @@ class IdentityViewController: UIViewController {
         //隐藏HUD
         self.hideHud()
     })
-    
    }
     //填充信息
     func refreshUI(json: JSON){

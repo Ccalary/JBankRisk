@@ -10,7 +10,7 @@ import UIKit
 import SnapKit
 import SwiftyJSON
 
-class NeedRepayViewController: UIViewController,UITableViewDelegate, UITableViewDataSource, UIGestureRecognizerDelegate {
+class NeedRepayViewController: UIViewController,UITableViewDelegate, UITableViewDataSource, UIGestureRecognizerDelegate, UIScrollViewDelegate{
 
     //是否打开了下拉框
     var isTransformed: Bool = false
@@ -25,6 +25,9 @@ class NeedRepayViewController: UIViewController,UITableViewDelegate, UITableView
     }
     //筛选
     var selectIndex = 1
+    
+    //分页
+    var page: Int = 1
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -69,6 +72,13 @@ class NeedRepayViewController: UIViewController,UITableViewDelegate, UITableView
         selectBgView.addGestureRecognizer(aTap)
         
         self.view.addSubview(aTableView)
+        
+        //刷新
+        self.aTableView.addPullRefreshHandler({ [weak self] in
+            self?.requestData()
+            self?.aTableView.stopPullRefreshEver()
+        })
+        
         self.view.addSubview(defaultView)
         self.aTableView.tableHeaderView = bannerImageView
         
@@ -114,6 +124,7 @@ class NeedRepayViewController: UIViewController,UITableViewDelegate, UITableView
             make.centerX.equalTo(self.view)
             self.selectViewConstraint = make.top.equalTo(-180*UIRate).constraint
         }
+        
     }
     
     //缺省页
@@ -223,15 +234,21 @@ class NeedRepayViewController: UIViewController,UITableViewDelegate, UITableView
         let repayStatus = (dataArray[indexPath.row].dictionary?["is_pay"]?.stringValue)!
         if repayStatus == "0" ||  repayStatus == "2" || repayStatus == "4"{
             monthRepayStatus = .finish
-        }else {
-            //有逾期
-            if (dataArray[indexPath.row].dictionary?["penalty_day"]?.intValue)! > 0 {
-                monthRepayStatus = .overdue
+        }else { //有逾期
+            
+            if let penaltyDay = dataArray[indexPath.row].dictionary?["penalty_day"]?.intValue {
+                
+                if penaltyDay > 0 {
+                    monthRepayStatus = .overdue
+                }else {
+                    monthRepayStatus = .not
+                }
+                
             }else {
                 monthRepayStatus = .not
-            }
         }
-        
+    }
+
         let repayDetailVC = RepayPeriodDetailVC()
         repayDetailVC.repaymentId = (dataArray[indexPath.row].dictionary?["repayment_id"]?.stringValue)!
         repayDetailVC.repayStatusType = monthRepayStatus //还款状态
@@ -258,7 +275,6 @@ class NeedRepayViewController: UIViewController,UITableViewDelegate, UITableView
         return true
     }
 
-    
     //MARK: - Method
     //点击了下拉框的回调
     func selectViewClick(){
@@ -309,6 +325,19 @@ class NeedRepayViewController: UIViewController,UITableViewDelegate, UITableView
         })
         isTransformed = !isTransformed
     }
+    
+//    //MARK: - UIScrollViewDelegate
+//    func scrollViewDidScroll(_ scrollView: UIScrollView) {
+//        let height = scrollView.frame.size.height
+//        let contentYoffset = scrollView.contentOffset.y
+//        let disFromBottom = scrollView.contentSize.height - contentYoffset
+//        
+//        if disFromBottom < height {
+//            requestData()
+//        }
+//        
+//    }
+    
     
     //MARK: - 请求数据
     func requestData(){

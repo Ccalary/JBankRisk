@@ -7,6 +7,7 @@
 //
 
 import UIKit
+import SwiftyJSON
 
 class ResetPsdViewController: UIViewController {
     
@@ -196,7 +197,7 @@ class ResetPsdViewController: UIViewController {
     ///验证码输入框
     private lazy var newTextField: UITextField = {
         let textField = UITextField()
-        textField.placeholder = "请输入新密码"
+        textField.placeholder = "请输入6-16位新密码"
         textField.isSecureTextEntry = true
         textField.tag = 10001
         textField.addTarget(self, action: #selector(textFieldAction(_:)), for: .editingChanged)
@@ -255,7 +256,6 @@ class ResetPsdViewController: UIViewController {
         button.addTarget(self, action: #selector(seePsdBtnAction), for: .touchUpInside)
         return button
     }()
-
     
     private lazy var clearBtn2: UIButton = {
         let button = UIButton()
@@ -339,8 +339,8 @@ class ResetPsdViewController: UIViewController {
     //判断是否可以修改
     func judgeEnableOrNot(){
         guard (oldTextField.text?.characters.count)! > 0,
-              (newTextField.text?.characters.count)! > 0,
-              (againTextField.text?.characters.count)! > 0
+              (newTextField.text?.characters.count)! >= 6,
+              (againTextField.text?.characters.count)! >= 6
             else {
             sureBtn.setBackgroundImage(UIImage(named: "login_btn_grayred_345x44"), for: .normal)
             sureBtn.isUserInteractionEnabled = false
@@ -379,9 +379,7 @@ class ResetPsdViewController: UIViewController {
             let index = textField.text?.index((textField.text?.startIndex)!, offsetBy: 16)//到offsetBy的前一位
             textField.text = textField.text?.substring(to: index!)
         }
-        
         self.judgeEnableOrNot()
-
     }
     
     func clearBtnAction(_ button: UIButton){
@@ -431,7 +429,6 @@ class ResetPsdViewController: UIViewController {
                 seePsdImage2.image = UIImage(named: "login_btn_close_eyes_18x13")
                 newTextField.isSecureTextEntry = true
             }
-
         }
         
         if button.tag == 20003 {
@@ -447,12 +444,39 @@ class ResetPsdViewController: UIViewController {
         }
     }
     
-    
     func sureBtnAction(){
+        self.view.endEditing(true)
+        self.requestData()
+    }
+    
+    //更改密码接口
+    func requestData(){
+        //添加HUD
+        self.showHud(in: self.view, hint: "加载中...")
         
+        var params = NetConnect.getBaseRequestParams()
+        params["userId"] = UserHelper.getUserId()!
+        params["old_password"] = oldTextField.text
+        params["new_password"] = newTextField.text
+        params["reset_password"] = againTextField.text
+        
+        NetConnect.other_change_psd(parameters: params, success: { response in
+            //隐藏HUD
+            self.hideHud()
+            let json = JSON(response)
+            guard json["RET_CODE"] == "000000" else{
+                return self.showHint(in: self.view, hint: json["RET_DESC"].stringValue)
+            }
+             self.showHintInKeywindow(hint: "密码修改成功",yOffset: SCREEN_HEIGHT/2 - 150*UIRate)
+           _ = self.navigationController?.popViewController(animated: true)
+            
+        }, failure:{ error in
+            //隐藏HUD
+            self.hideHud()
+        })
     }
-    
-    
-    }
+}
+
+
 
     

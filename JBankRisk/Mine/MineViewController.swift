@@ -12,7 +12,10 @@ import SnapKit
 
 class MineViewController: UIViewController, UIGestureRecognizerDelegate,UICollectionViewDelegate,UICollectionViewDataSource, UICollectionViewDelegateFlowLayout, StatusButtonClickDelegate,MineTioViewClickDelegate{
 
-    var topHeight = 220*UIRate//总高度
+    var topHeight:CGFloat = 0//总高度
+    var mineHeight:CGFloat = 0 //
+    var monthHeight:CGFloat = 0 //
+    
     var topImageHeight = 220*UIRate//头部
     var tipViewHeight = 25*UIRate//提示条
     var repayViewHeight = 70*UIRate//还款栏
@@ -35,11 +38,9 @@ class MineViewController: UIViewController, UIGestureRecognizerDelegate,UICollec
         didSet{
             if messageCount > 0 {
                 self.mineTopView.messageRedDot.isHidden = false
-                messageIsHaveData = true
                 self.shakeAnimation()//添加晃动动画
             }else {
                 self.mineTopView.messageRedDot.isHidden = true
-                messageIsHaveData = false
                 //移除晃动动画
                 self.mineTopView.messageBtn.layer.removeAllAnimations()
             }
@@ -101,9 +102,9 @@ class MineViewController: UIViewController, UIGestureRecognizerDelegate,UICollec
         
         aScrollView.contentSize = CGSize(width: SCREEN_WIDTH, height: 667*UIRate - 49 + 1)
         
-        self.aScrollView.addPullRefreshHandler({ _ in
-            self.requestHomeData()
-            self.aScrollView.stopPullRefreshEver()
+        self.aScrollView.addPullRefreshHandler({ [weak self] in
+            self?.requestHomeData()
+            self?.aScrollView.stopPullRefreshEver()
         })
         
         mineTopView.snp.makeConstraints { (make) in
@@ -120,7 +121,6 @@ class MineViewController: UIViewController, UIGestureRecognizerDelegate,UICollec
             make.top.equalTo(mineTopView.snp.bottom)
         }
     }
-    
     
     private lazy var aScrollView : UIScrollView = {
         let scrollView = UIScrollView()
@@ -149,7 +149,6 @@ class MineViewController: UIViewController, UIGestureRecognizerDelegate,UICollec
         
         return collectionView
     }()
-
     
     //MARK: - collectionView delegate
     func numberOfSections(in collectionView: UICollectionView) -> Int {
@@ -258,7 +257,8 @@ class MineViewController: UIViewController, UIGestureRecognizerDelegate,UICollec
         switch tag {
         case 10000://审核中
             if  headerView.tipImage1.isHidden {
-                let statusVC = ExamingStatusVC()
+                let statusVC = BorrowStatusDefaultVC()
+                statusVC.defaultTitle = "审核中"
                  self.navigationController?.pushViewController(statusVC, animated: true)
             }else {
                 let statusVC = BorrowStatusVC()
@@ -267,7 +267,8 @@ class MineViewController: UIViewController, UIGestureRecognizerDelegate,UICollec
            
         case 20000://待使用
             if  headerView.tipImage2.isHidden {
-                let statusVC = ForUsingStausVC()
+                let statusVC = BorrowStatusDefaultVC()
+                statusVC.defaultTitle = "待使用"
                 self.navigationController?.pushViewController(statusVC, animated: true)
             }else {
                 let statusVC = BorrowStatusVC()
@@ -285,7 +286,8 @@ class MineViewController: UIViewController, UIGestureRecognizerDelegate,UICollec
           
         case 40000: //驳回－拒绝
             if  headerView.tipImage4.isHidden {
-                let statusVC = RejuestStatusVC()
+                let statusVC = BorrowStatusDefaultVC()
+                statusVC.defaultTitle = "驳回/拒绝"
                 self.navigationController?.pushViewController(statusVC, animated: true)
             }else {
                 let statusVC = BorrowStatusVC()
@@ -323,7 +325,7 @@ class MineViewController: UIViewController, UIGestureRecognizerDelegate,UICollec
     
     func refreshUI(json:JSON){
         //重置高度
-        topHeight = topImageHeight
+        topHeight = 0
         
         //头像
         UserHelper.setUserHeader(headerUrl: BASR_DEV_URL + json["head_img"].stringValue)
@@ -334,38 +336,58 @@ class MineViewController: UIViewController, UIGestureRecognizerDelegate,UICollec
         //未读消息
         self.messageCount = json["size"].intValue
         
-        //有逾期
-        if json["penalty_day"].intValue > 0 {
-            let day = json["penalty_day"].stringValue //天数
-            let amount = json["demurrage"].stringValue //钱数
+        //有逾期话术
+        let message = json["message"].stringValue
+        if  message.characters.count > 0 {
             
-            self.mineTopView.tipsTextLabel.text = "您有1期借款已逾期\(day)天，费用\(amount)元，请及时还款"
+            self.mineTopView.tipsTextLabel.text = message
             self.mineTopView.tipsHoldViewContraint.update(offset: tipViewHeight)
-            topHeight = topHeight + tipViewHeight
-            
+            mineHeight = tipViewHeight
         }else {
+            self.mineTopView.tipsTextLabel.text = ""
             self.mineTopView.tipsHoldViewContraint.update(offset: 0)
+            mineHeight = 0
         }
         
         if json["jstatus"].stringValue == "5" {//有还款明细
+            
             self.mineTopView.moneyLabel.text = toolsChangeMoneyStyle(amount: json["MonthRefund"].doubleValue)
             
             self.mineTopView.dateLabel.text = toolsChangeDateStyle(toMMMonthDDDay: json["nextMonthDay"].stringValue)
+            self.mineTopView.dateTextLabel.text = "下期还款日"
+            
+//            //0 2 4 本月已还
+//            if json["is_pay"] == "0" || json["is_pay"] == "2" || json["is_pay"] == "4" {
+//                self.mineTopView.dateLabel.text = toolsChangeDateStyle(toMMMonthDDDay: json["nextMonthDay"].stringValue)
+//                self.mineTopView.dateTextLabel.text = "下期还款日"
+//            }else { //
+//                
+//                if json["penalty_day"].intValue > 0 {
+//                    
+//                }
+//            }
             
             self.mineTopView.repayHoldViewContraint.update(offset: repayViewHeight)
-            topHeight = topHeight + repayViewHeight
+            monthHeight =  repayViewHeight
+            topHeight = topImageHeight + mineHeight + monthHeight
         }else {
             self.mineTopView.repayHoldViewContraint.update(offset: 0)
-            
+            monthHeight = 0
+            topHeight = topImageHeight + mineHeight + monthHeight
         }
         self.mineTopConstrain.update(offset: topHeight)
         
        moneyStatus = json["jstatus"].stringValue//个人中心借款状态
+        if moneyStatus == "" || moneyStatus == "99"{//只要jstatus为空或为99-录入中，就没有单子产生
+            messageIsHaveData = false
+        }else {
+            messageIsHaveData = true
+        }
             headerView.tipImage1.isHidden = true
             headerView.tipImage2.isHidden = true
             headerView.tipImage3.isHidden = true
             headerView.tipImage4.isHidden = true
-        //0- 订单完结 2－ 审核中 3-满额通过 4-等待放款，教验中 5-还款中 7－审核悲剧 8-重新上传服务单 9-补交材料 99-录入中
+        //0- 订单完结 2－ 审核中 3-满额通过 4-等待放款，校验中 5-还款中 7－审核悲剧 8-重新上传服务单 9-补交材料 99-录入中
         switch moneyStatus {
          case "2": //审核中
             headerView.tipImage1.isHidden = false

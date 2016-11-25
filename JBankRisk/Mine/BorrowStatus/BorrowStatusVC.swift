@@ -46,7 +46,7 @@ class BorrowStatusVC: UIViewController {
             switch self.status {
             case "0"://订单完结
                 statusType = .finish
-                infoView.isHidden = true
+                infoView.isHidden = false
                 topHeight = 280*UIRate
             case "2": //审核中
                 statusType = .examing
@@ -63,20 +63,22 @@ class BorrowStatusVC: UIViewController {
             case "5"://还款中
                 statusType = .repaying
                 topHeight = 280*UIRate
-                infoView.isHidden = true
+                infoView.isHidden = false
             case "7"://审核未通过
                 statusType = .fail
                 topHeight = 200*UIRate
                 infoView.isHidden = false
             case "8": //上传服务单
                 statusType = .upLoadBill
-                
+                topHeight = 280*UIRate
+                infoView.isHidden = false
             case "9": //补交材料
                 statusType = .reUploadData
                 topHeight = 280*UIRate
                 infoView.isHidden = false
             default:
                 statusType = .defaultStatus
+                infoView.isHidden = true
             }
         }
     }
@@ -148,14 +150,25 @@ class BorrowStatusVC: UIViewController {
         self.title = ""
         self.setNavUI()
         
-        self.view.addSubview(statusView)
-        self.view.addSubview(infoView)
+        self.view.addSubview(mScrollView)
+        
+        self.mScrollView.addSubview(statusView)
+        self.mScrollView.addSubview(infoView)
+        
+        mScrollView.snp.makeConstraints { (make) in
+            make.width.equalTo(self.view)
+            make.height.equalTo(SCREEN_HEIGHT - 64)
+            make.centerX.equalTo(self.view)
+            make.top.equalTo(64)
+        }
+        
+        mScrollView.contentSize = CGSize(width: SCREEN_WIDTH, height: 667*UIRate - 64 + 1)
         
         statusView.snp.makeConstraints { (make) in
             make.width.equalTo(self.view)
             self.topViewConstraint = make.height.equalTo(topHeight).constraint
             make.centerX.equalTo(self.view)
-            make.top.equalTo(64)
+            make.top.equalTo(0)
         }
         
         infoView.snp.makeConstraints { (make) in
@@ -168,9 +181,15 @@ class BorrowStatusVC: UIViewController {
         //协议
         infoView.onClickProtocol = {
             let webView = BaseWebViewController()
-            webView.requestUrl = PC_PROTOCOL_DETAIL + "&orderId=" + (self.orderInfo?["order_id"].stringValue)!
+            webView.requestUrl = PC_PROTOCOL_DETAIL + "&orderId=" + (self.orderInfo?["orderId"].stringValue)!
+            webView.webTitle = "合同详情"
             self.navigationController?.pushViewController(webView, animated: true)
         }
+        
+        self.mScrollView.addPullRefreshHandler({ [weak self] in
+            self?.requestData()
+            self?.mScrollView.stopPullRefreshEver()
+        })
     }
     
     //缺省页面
@@ -197,6 +216,12 @@ class BorrowStatusVC: UIViewController {
         }
         
     }
+    
+    private lazy var mScrollView: UIScrollView = {
+        let holdView = UIScrollView()
+        holdView.backgroundColor = UIColor.clear
+        return holdView
+    }()
     
     /*******缺省页*******/
     private lazy var defaultProView: BorrowProgressView = {
@@ -286,7 +311,7 @@ class BorrowStatusVC: UIViewController {
          self.title = json["orderName"].stringValue
          navTextLabel.text = self.title
          self.infoView.json = json
-         self.orderId = json["order_id"].stringValue
+         self.orderId = json["orderId"].stringValue
     }
     
     //点击按钮
@@ -313,10 +338,12 @@ class BorrowStatusVC: UIViewController {
                 self.navigationController?.pushViewController(borrowMoneyVC, animated: false)
                   */
                 break
+            case .upLoadBill: //重新上传服务单
+                 let billVC = UpLoadServiceBillVC()
+                 self.navigationController?.pushViewController(billVC, animated: true)
             case .reUploadData://被驳回
-                let roleType = RoleType(rawValue: UserHelper.getUserRole()!)!
-                let dataVC = DataViewController(roleType: roleType, isReupload: true)
-               self.navigationController?.pushViewController(dataVC, animated: true)
+                let dataVC = DataReuploadVC()
+                self.navigationController?.pushViewController(dataVC, animated: true)
                 
             default:
                 break

@@ -256,7 +256,11 @@ class SettingViewController: UIViewController,UITableViewDelegate, UITableViewDa
             }
             break
         case 2://手机号码
-            let viewController = ChangePhoneNumVC(phoneNum: UserHelper.getUserMobile()!)
+            let viewController = ChangePhoneNumVC()
+            viewController.onClickChangeSuccess = { _ in
+                let position = IndexPath(row: 2, section: 0)
+                self.aTableView.reloadRows(at: [position], with: UITableViewRowAnimation.none)
+            }
             self.navigationController?.pushViewController(viewController, animated: true)
         case 3: //重置密码
             let resetVC = ResetPsdViewController()
@@ -359,7 +363,7 @@ class SettingViewController: UIViewController,UITableViewDelegate, UITableViewDa
             UserHelper.setUserHeader(headerUrl: headerUrl)
             let position = IndexPath(row: 0, section: 0)
             self.aTableView.reloadRows(at: [position], with: UITableViewRowAnimation.none)
-            self.showHint(in: self.view, hint: "头像上传成功")
+            self.showHint(in: self.view, hint: "头像上传成功",yOffset: SCREEN_HEIGHT/2 - 150*UIRate)
             
             
         }, failure: { error in

@@ -35,7 +35,9 @@ class SysMessageViewController: UIViewController,UITableViewDelegate, UITableVie
     }
     
     override func viewDidAppear(_ animated: Bool) {
-         self.requestData()
+        if isHaveData {
+            self.requestData()
+        }
     }
     
     //Nav
@@ -100,6 +102,7 @@ class SysMessageViewController: UIViewController,UITableViewDelegate, UITableVie
             self.requestData()
             self.aTableView.stopPullRefreshEver()
         })
+        
 
     }
     
@@ -110,12 +113,11 @@ class SysMessageViewController: UIViewController,UITableViewDelegate, UITableVie
         self.title = "消息"
         self.setNavUI()
         
-        if !isHaveData {
-            self.setupDefaultUI()
-        }else {
+        if isHaveData {
             self.setupNormalUI()
+        }else {
+            self.setupDefaultUI()
         }
-        
         
     }
     
@@ -255,7 +257,7 @@ class SysMessageViewController: UIViewController,UITableViewDelegate, UITableVie
     }
 
     func refreshUI(josn: JSON){
-        
+        dataArray.removeAll()
         dataArray = josn.arrayValue
     }
     

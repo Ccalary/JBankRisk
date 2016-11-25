@@ -32,28 +32,35 @@ class BorrowStatusView: UIView {
              */
             switch statusType {
             case .finish://订单完结
+                self.bgImageView.isHidden = false
                 self.statusImageView.image = UIImage(named:"bs_finish_110x90")
                 nextStepBtn.isHidden = false
                 nextStepBtn.setTitle("还款详情", for: UIControlState.normal)
             case .examing: //审核中
+                self.bgImageView.isHidden = false
                 self.statusImageView.image = UIImage(named:"bs_examing_110x90")
                 disTextLabel.text = "正在飞速的审核，稍等下下就好了哦！"
                 nextStepBtn.isHidden = true
             case .fullSuccess://满额通过
+                self.bgImageView.isHidden = false
                 self.statusImageView.image = UIImage(named:"bs_fullSuccess_110x90")
                 disTextLabel.text = "恭喜您借款成功"
                 nextStepBtn.isHidden = false
                 nextStepBtn.setTitle("立即使用", for: UIControlState.normal)
                 tipsTextLabel.text = "借款有效期30天，请及时使用"
             case .checking://校验中
+                self.bgImageView.isHidden = false
                 self.statusImageView.image = UIImage(named:"bs_checking_110x90")
                 disTextLabel.text = "正在校验，请稍后"
                 nextStepBtn.isHidden = true
             case .repaying://还款中
+                self.bgImageView.isHidden = false
                 self.statusImageView.image = UIImage(named:"bs_repaying_110x90")
                 nextStepBtn.isHidden = false
+                disTextLabel.text = "         "//改变还款详情布局
                 nextStepBtn.setTitle("还款详情", for: UIControlState.normal)
             case .fail://审核未通过
+                self.bgImageView.isHidden = false
                 self.statusImageView.image = UIImage(named:"bs_fail_110x90")
                 disTextLabel.text = "如若再次申请，请联系客服人员"
                 nextStepBtn.isHidden = true
@@ -62,14 +69,26 @@ class BorrowStatusView: UIView {
                 nextStepBtn.setTitle("重新申请", for: UIControlState.normal)
                 */
             case .upLoadBill: //上传服务单
+                self.bgImageView.isHidden = false
+                self.statusImageView.image = UIImage(named:"bs_upload_bill_110x90")
+                disTextLabel.text = "请上传正确的服务确认单"
+                nextStepBtn.isHidden = false
+                nextStepBtn.setTitle("去修改", for: UIControlState.normal)
+                tipsTextLabel.text = "借款有效期30天，请及时使用"
                 break
             case .reUploadData: //补交材料(申请被驳回)
+                self.bgImageView.isHidden = false
                 self.statusImageView.image = UIImage(named:"bs_reupload_110x90")
-                disTextLabel.text = failDis
+                if failDis == "" {
+                     disTextLabel.text = "请补充材料，可帮助提\n高借款成功率哦"
+                }else {
+                     disTextLabel.text = failDis
+                }
                 nextStepBtn.isHidden = false
                 nextStepBtn.setTitle("补交材料", for: UIControlState.normal)
                 break
             case .defaultStatus:
+                self.bgImageView.isHidden = true
                 break
             }
         }
@@ -135,9 +154,11 @@ class BorrowStatusView: UIView {
         }
     }
     
+       
     //图片
     private lazy var bgImageView: UIImageView = {
         let imageView = UIImageView()
+        imageView.isHidden = true
         imageView.image = UIImage(named: "m_status_bg_132x132")
         return imageView
     }()

@@ -347,5 +347,35 @@ class NetConnect {
         })
     }
 
+    
+    /******************其他******************/
+    //4.1 修改密码
+    static func other_change_psd(parameters: Parameters,success:@escaping (_ response:[String:AnyObject]) -> (),failure:@escaping(_ error: Error) -> ()){
+        
+        NetworkRequest.sharedInstance.postRequest(urlString: OT_CHANGE_PSD_URL, params: parameters, success: { (response) in
+            success(response)
+        }, failture: { (error) in
+            failure(error)
+        })
+    }
+    
+    //4.2 修改手机号
+    static func other_change_mobile(parameters: Parameters,success:@escaping (_ response:[String:AnyObject]) -> (),failure:@escaping(_ error: Error) -> ()){
+        
+        NetworkRequest.sharedInstance.postRequest(urlString: OT_CHANGE_MOBILE_URL, params: parameters, success: { (response) in
+            success(response)
+        }, failture: { (error) in
+            failure(error)
+        })
+    }
+    
+    //4.3 版本升级
+    static func other_updata_version(parameters: Parameters,success:@escaping (_ response:[String:AnyObject]) -> (),failure:@escaping(_ error: Error) -> ()){
+        NetworkRequest.sharedInstance.getRequest(urlString: OT_UPDATA_VERSION_URL, params: parameters, success: { (response) in
+            success(response)
+        }, failture: { (error) in
+            failure(error)
+        })
+    }    
 }
 

@@ -102,14 +102,22 @@ extension NetworkRequest {
                             success(value)
                             let json = JSON(value)
                             PrintLog(json)
+                         }
                         }
-                    }
                 case .failure(let encodingError):
                     PrintLog(encodingError)
                     failture(encodingError)
                 }
+        })
+    }
+    
+    
+    func dsf(data: Data){
+        
+        Alamofire.upload(data, to: "").uploadProgress{ progress in // main queue by default
+            print("Upload Progress: \(progress.fractionCompleted)")
+            
         }
-        )
     }
 }
 

@@ -327,11 +327,16 @@ class WorkViewController: UIViewController,UITableViewDelegate, UITableViewDataS
     
     //返回
     func leftNavigationBarBtnAction(){
-        let borrowVC = self.navigationController?.viewControllers[1] as! BorrowMoneyViewController
-        _ = self.navigationController?.popToViewController(borrowVC, animated: true)
+        
+        for i in 0..<(self.navigationController?.viewControllers.count)! {
+            
+            if self.navigationController?.viewControllers[i].isKind(of: BorrowMoneyViewController.self) == true {
+                
+              _ = self.navigationController?.popToViewController(self.navigationController?.viewControllers[i] as! BorrowMoneyViewController, animated: true)
+              break
+            }
+       }
     }
-
-    
     func nextStepBtnAction(){
         
         //是否已生成订单

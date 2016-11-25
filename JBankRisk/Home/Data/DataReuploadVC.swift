@@ -1,48 +1,25 @@
-
 //
-//  DataViewController.swift
+//  DataReuploadVC.swift
 //  JBankRisk
 //
-//  Created by caohouhong on 16/11/1.
+//  Created by caohouhong on 16/11/24.
 //  Copyright © 2016年 jingjinsuo. All rights reserved.
-//
+//  补交材料
 
 import UIKit
 import SwiftyJSON
 import Photos
-import Kingfisher
 
-
-class DataViewController: UIViewController,UITableViewDelegate, UITableViewDataSource,UICollectionViewDelegate,UICollectionViewDataSource, UICollectionViewDelegateFlowLayout,UIImagePickerControllerDelegate,UINavigationControllerDelegate,PhotoPickerControllerDelegate{
+class DataReuploadVC:  UIViewController,UITableViewDelegate, UITableViewDataSource,UICollectionViewDelegate,UICollectionViewDataSource, UICollectionViewDelegateFlowLayout,UIImagePickerControllerDelegate,UINavigationControllerDelegate,PhotoPickerControllerDelegate{
     
-    var WorkerCellData:[CellDataInfo] = [ CellDataInfo(leftText: "身份证", holdText: "上传身份证正反面", content: "", cellType: .cameraType),
-                                          CellDataInfo(leftText: "亲签照", holdText: "上传手持身份证照片", content: "", cellType: .cameraType),
-                                          CellDataInfo(leftText: "征信报告", holdText: "上传人民银行征信报告", content: "", cellType: .cameraType),
-                                          CellDataInfo(leftText: "收入流水", holdText: "上传银行卡6个月收入流水", content: "", cellType: .cameraType),
-                                          CellDataInfo(leftText: "居住证明", holdText: "上传居住证明文件照片", content: "", cellType: .cameraType),
-                                          CellDataInfo(leftText: "社保", holdText: "社保公积金缴纳信息（选填）", content: "", cellType: .cameraType),
-                                          CellDataInfo(leftText: "财力证明", holdText: "上传可证明财力的文件（选填）", content: "", cellType: .cameraType)]
-    
-    var StudentCellData:[CellDataInfo] = [ CellDataInfo(leftText: "身份证", holdText: "上传身份证正反面", content: "", cellType: .cameraType),
-                                          CellDataInfo(leftText: "亲签照", holdText: "上传手持身份证照片", content: "", cellType: .cameraType),
-                                          CellDataInfo(leftText: "在读证明", holdText: "上传学信网个人信息或校园卡", content: "", cellType: .cameraType)]
-    
-    var FreedomCellData:[CellDataInfo] = [ CellDataInfo(leftText: "身份证", holdText: "上传身份证正反面", content: "", cellType: .cameraType),
-                                          CellDataInfo(leftText: "亲签照", holdText: "上传手持身份证照片", content: "", cellType: .cameraType),
-                                          CellDataInfo(leftText: "征信报告", holdText: "上传人民银行征信报告", content: "", cellType: .cameraType),
-                                          CellDataInfo(leftText: "收入流水", holdText: "上传银行卡6个月收入流水", content: "", cellType: .cameraType),
-                                          CellDataInfo(leftText: "居住证明", holdText: "上传居住证明文件照片", content: "", cellType: .cameraType),
-                                          CellDataInfo(leftText: "社保", holdText: "社保公积金缴纳信息（选填）", content: "", cellType: .cameraType),
-                                          CellDataInfo(leftText: "财力证明", holdText: "上传可证明财力的文件（选填）", content: "", cellType: .cameraType)]
-    
-
-    //是否是下载
-    var isdownLoad: Bool = false
-    var downloadPhoto: [String] = []
+    //补交材料
+    var dataArray:[CellDataInfo] = [ CellDataInfo(leftText: "房产证", holdText: "上传您所拥有的房产证照片", content: "", cellType: .cameraType),
+                                        CellDataInfo(leftText: "行驶证", holdText: "上传您的汽车行驶证照片", content: "", cellType: .cameraType),
+                                        CellDataInfo(leftText: "收入流水", holdText: "上传银行卡6个月收入流水", content: "", cellType: .cameraType),
+                                        CellDataInfo(leftText: "其他材料", holdText: "选填", content: "", cellType: .cameraType)]
     
     var uploadSucDelegate:UploadSuccessDelegate?
     
-    var dataArray: [CellDataInfo]!
     var tableViewHeight: CGFloat!
     
     //相册多选
@@ -50,7 +27,7 @@ class DataViewController: UIViewController,UITableViewDelegate, UITableViewDataS
     
     ///相机，相册
     var cameraPicker: UIImagePickerController!
-//    var photoPicker: UIImagePickerController!
+    //    var photoPicker: UIImagePickerController!
     ///图片与描述
     var photoArray:[(image:UIImage,dis:String,selectCell: Int)] = [] {
         didSet{
@@ -66,15 +43,14 @@ class DataViewController: UIViewController,UITableViewDelegate, UITableViewDataS
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        
+        tableViewHeight = CGFloat(dataArray.count)*50*UIRate
+        
+        numArray = Array(repeating: 0, count: dataArray.count)
+        
         self.setupUI()
-//        self.initPhotoPicker()
         self.initCameraPicker()
         
-        if UserHelper.getDataIsUpload() {
-            
-            isdownLoad = true
-            self.requestPhotoInfo()
-        }
     }
     
     override func didReceiveMemoryWarning() {
@@ -84,63 +60,7 @@ class DataViewController: UIViewController,UITableViewDelegate, UITableViewDataS
     deinit {
         self.bigBgholdView.removeFromSuperview()
     }
-    
-    init(roleType: RoleType) {
-        super.init(nibName: nil, bundle: nil)
-        
-        switch roleType {
-        case .worker:
-            if let money = UserHelper.getUserBorrowAmt() {
-                if money <= 30000 {
-                 
-                    WorkerCellData = [CellDataInfo(leftText: "身份证", holdText: "上传身份证正反面", content: "", cellType: .cameraType),
-                    CellDataInfo(leftText: "亲签照", holdText: "上传手持身份证照片", content: "", cellType: .cameraType), CellDataInfo(leftText: "社保", holdText: "社保公积金缴纳信息（选填）", content: "", cellType: .cameraType)]
-                
-                }else if money <= 50000{
-                    
-                    WorkerCellData = [CellDataInfo(leftText: "身份证", holdText: "上传身份证正反面", content: "", cellType: .cameraType),
-                                      CellDataInfo(leftText: "亲签照", holdText: "上传手持身份证照片", content: "", cellType: .cameraType),
-                                      CellDataInfo(leftText: "收入流水", holdText: "上传银行卡6个月收入流水", content: "", cellType: .cameraType),
-                                      CellDataInfo(leftText: "居住证明", holdText: "上传居住证明文件照片", content: "", cellType: .cameraType),
-                                      CellDataInfo(leftText: "社保", holdText: "社保公积金缴纳信息（选填）", content: "", cellType: .cameraType)]
-                    
-                }else {
-                    //不变
-                }
-            }
-             dataArray = WorkerCellData
-            
-        case .student:
-            dataArray = StudentCellData
-        case .freedom:
-            if let money = UserHelper.getUserBorrowAmt(){
-                if money <= 10000{
-                    FreedomCellData = [ CellDataInfo(leftText: "身份证", holdText: "上传身份证正反面", content: "", cellType: .cameraType),
-                                        CellDataInfo(leftText: "亲签照", holdText: "上传手持身份证照片", content: "", cellType: .cameraType)]
-                }else if money <= 30000 {
-                    FreedomCellData = [ CellDataInfo(leftText: "身份证", holdText: "上传身份证正反面", content: "", cellType: .cameraType),
-                                        CellDataInfo(leftText: "亲签照", holdText: "上传手持身份证照片", content: "", cellType: .cameraType),
-                                        CellDataInfo(leftText: "收入流水", holdText: "上传银行卡6个月收入流水", content: "", cellType: .cameraType)]
-                }else if money <= 50000 {
-                    FreedomCellData = [ CellDataInfo(leftText: "身份证", holdText: "上传身份证正反面", content: "", cellType: .cameraType),
-                                        CellDataInfo(leftText: "亲签照", holdText: "上传手持身份证照片", content: "", cellType: .cameraType),
-                                        CellDataInfo(leftText: "收入流水", holdText: "上传银行卡6个月收入流水", content: "", cellType: .cameraType),CellDataInfo(leftText: "居住证明", holdText: "上传居住证明文件照片", content: "", cellType: .cameraType)]
-                }else {
-                    //不变
-                }
-            }
-            dataArray = FreedomCellData
-        }
-        
-        tableViewHeight = CGFloat(dataArray.count)*50*UIRate
-        
-        numArray = Array(repeating: 0, count: dataArray.count)
-    }
-    
-    required init?(coder aDecoder: NSCoder) {
-        fatalError("init(coder:) has not been implemented")
-    }
-    
+
     func setupUI(){
         self.navigationController!.navigationBar.isTranslucent = true;
         self.automaticallyAdjustsScrollViewInsets = false;
@@ -152,9 +72,7 @@ class DataViewController: UIViewController,UITableViewDelegate, UITableViewDataS
         self.view.addSubview(topTextLabel)
         self.view.addSubview(starImageView)
         self.view.addSubview(topDivideLine)
-        
-        let scrollViewHeight: CGFloat = SCREEN_HEIGHT - 64 - 124*UIRate
-        
+       
         self.view.addSubview(aScrollView)
         self.aScrollView.addSubview(aTableView)
         self.aScrollView.addSubview(divideLine1)
@@ -195,7 +113,7 @@ class DataViewController: UIViewController,UITableViewDelegate, UITableViewDataS
         
         aScrollView.snp.makeConstraints { (make) in
             make.width.equalTo(self.view)
-            make.height.equalTo(scrollViewHeight)
+            make.height.equalTo(SCREEN_HEIGHT - 64 - 84*UIRate)
             make.centerX.equalTo(self.view)
             make.top.equalTo(64 + 30*UIRate)
         }
@@ -228,57 +146,32 @@ class DataViewController: UIViewController,UITableViewDelegate, UITableViewDataS
             make.top.equalTo(0)
             make.left.equalTo(0)
         }
-
+        
         bigImageView.snp.makeConstraints { (make) in
             make.size.equalTo(bigBgholdView)
             make.center.equalTo(bigBgholdView)
         }
         
         bigImageView.transform = CGAffineTransform(scaleX: 0, y: 0)
-        
-        /*******/
-      
-        self.normalSetupUI()
-    
+        self.reupLoadSetupUI()
     }
     
-    func normalSetupUI(){
-        self.title = "资料上传"
+   //补交材料
+    func reupLoadSetupUI(){
+        self.title = "补交材料"
         self.topTextLabel.text = "请上传真实资料，乱填或误填将会影响借款申请！"
-        self.nextStepBtn.setBackgroundImage(UIImage(named: "btn_red_254x44"), for: .normal)
+        self.nextStepBtn.setBackgroundImage(UIImage(named: "login_btn_red_345x44"), for: .normal)
         
-        self.view.addSubview(lastStepBtn)
         self.view.addSubview(nextStepBtn)
-        self.view.addSubview(botTextLabel)
-        self.view.addSubview(protocolBtn)
-        
-        lastStepBtn.snp.makeConstraints { (make) in
-            make.width.equalTo(85*UIRate)
-            make.height.equalTo(44*UIRate)
-            make.left.equalTo(15*UIRate)
-            make.bottom.equalTo(self.view).offset(-10*UIRate)
-        }
         
         nextStepBtn.snp.makeConstraints { (make) in
-            make.width.equalTo(254*UIRate)
+            make.width.equalTo(345*UIRate)
             make.height.equalTo(44*UIRate)
-            make.right.equalTo(self.view).offset(-15*UIRate)
-            make.bottom.equalTo(lastStepBtn)
+            make.centerX.equalTo(self.view)
+            make.bottom.equalTo(-10*UIRate)
         }
         
-        botTextLabel.snp.makeConstraints { (make) in
-            make.right.equalTo(self.view.snp.centerX).offset(7*UIRate)
-            make.bottom.equalTo(nextStepBtn.snp.top).offset(-15*UIRate)
-        }
-        
-        protocolBtn.snp.makeConstraints { (make) in
-            make.width.equalTo(75*UIRate)
-            make.height.equalTo(30*UIRate)
-            make.left.equalTo(self.botTextLabel.snp.right)
-            make.centerY.equalTo(botTextLabel)
-        }
-        
-        let scrollHeight = SCREEN_HEIGHT - 64 - 124*UIRate
+        let scrollHeight = SCREEN_HEIGHT - 64 - 64*UIRate - 20*UIRate
         let contentHeight = tableViewHeight + 262*UIRate + 20*UIRate
         
         if contentHeight < scrollHeight {
@@ -301,6 +194,7 @@ class DataViewController: UIViewController,UITableViewDelegate, UITableViewDataS
         imageView.contentMode = .scaleAspectFit
         return imageView
     }()
+    
     
     private lazy var topView: UIView = {
         let holdView = UIView()
@@ -355,7 +249,7 @@ class DataViewController: UIViewController,UITableViewDelegate, UITableViewDataS
         
     }()
     
-    fileprivate lazy var aCollectionView: UICollectionView = {
+    private lazy var aCollectionView: UICollectionView = {
         let layout = UICollectionViewFlowLayout()
         layout.itemSize = CGSize(width: 106*UIRate, height: 131*UIRate)
         layout.minimumLineSpacing = 0
@@ -434,16 +328,10 @@ class DataViewController: UIViewController,UITableViewDelegate, UITableViewDataS
     
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
         
-       return 50*UIRate
+        return 50*UIRate
     }
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        
-        guard !isdownLoad else {
-            self.showHint(in: self.view, hint: "订单已生成，信息不可更改哦！")
-            return
-        }
-        
         let popupView = PopupPhotoSelectView()
         let popupController = CNPPopupController(contents: [popupView])!
         popupController.present(animated: true)
@@ -461,17 +349,18 @@ class DataViewController: UIViewController,UITableViewDelegate, UITableViewDataS
         popupView.onClickClose = { _ in //关闭
             popupController.dismiss(animated: true)
         }
+        
     }
     
     //设置分割线
     func tableView(_ tableView: UITableView, willDisplay cell: UITableViewCell, forRowAt indexPath: IndexPath) {
         
-            if cell.responds(to: #selector(setter: UITableViewCell.separatorInset)) {
-                cell.separatorInset = .zero
-            }
-            if cell.responds(to: #selector(setter: UITableViewCell.layoutMargins)) {
-                cell.layoutMargins = .zero
-            }
+        if cell.responds(to: #selector(setter: UITableViewCell.separatorInset)) {
+            cell.separatorInset = .zero
+        }
+        if cell.responds(to: #selector(setter: UITableViewCell.layoutMargins)) {
+            cell.layoutMargins = .zero
+        }
     }
     
     /******************/
@@ -481,39 +370,25 @@ class DataViewController: UIViewController,UITableViewDelegate, UITableViewDataS
     }
     
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        if isdownLoad {
-            return downloadPhoto.count
-        }else {
-             return photoArray.count
-        }
-       
+        return photoArray.count
     }
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "dataCell", for: indexPath) as! DataCollectionViewCell
+        cell.imageView.image = photoArray[indexPath.row].image
+        cell.textLabel.text = photoArray[indexPath.row].dis
         
-    
-        if isdownLoad {
-            let imageUrl = URL(string: BASR_DEV_URL + downloadPhoto[indexPath.row])
+        cell.onClickDelete = { _ in
+            let selectCell = self.photoArray[indexPath.row].selectCell
+            self.numArray[selectCell] -= 1
+            if self.numArray[selectCell] > 0{
+                self.dataArray[selectCell].content = "已上传\(self.numArray[selectCell])张"
+            }else {
+                self.dataArray[selectCell].content = ""
+            }
+            self.reloadOneTabelViewCell(at: selectCell)
             
-            cell.imageView.kf_setImage(with: imageUrl as Resource? )
-        }else {
-            
-            cell.imageView.image = photoArray[indexPath.row].image
-            cell.textLabel.text = photoArray[indexPath.row].dis
-            
-            cell.onClickDelete = { _ in
-                let selectCell = self.photoArray[indexPath.row].selectCell
-                self.numArray[selectCell] -= 1
-                if self.numArray[selectCell] > 0{
-                    self.dataArray[selectCell].content = "已上传\(self.numArray[selectCell])张"
-                }else {
-                    self.dataArray[selectCell].content = ""
-                }
-                self.reloadOneTabelViewCell(at: selectCell)
-                
-                self.photoArray.remove(at: indexPath.row)
-          }
+            self.photoArray.remove(at: indexPath.row)
             
         }
         
@@ -522,13 +397,7 @@ class DataViewController: UIViewController,UITableViewDelegate, UITableViewDataS
     
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
         
-        if isdownLoad {
-            let imageUrl = URL(string: BASR_DEV_URL + downloadPhoto[indexPath.row])
-            bigImageView.kf_setImage(with: imageUrl  as Resource? )
-        }else {
-            bigImageView.image = photoArray[indexPath.row].image
-        }
-        
+        bigImageView.image = photoArray[indexPath.row].image
         UIView.animate(withDuration: 0.3, delay: 0, usingSpringWithDamping: 0.6, initialSpringVelocity: 0.3, options: UIViewAnimationOptions.curveEaseIn, animations: { _ in
             self.bigBgholdView.alpha = 1
             self.bigImageView.transform = CGAffineTransform(scaleX: 1, y: 1)
@@ -565,7 +434,7 @@ class DataViewController: UIViewController,UITableViewDelegate, UITableViewDataS
 }
 
 //MARK: - Action
-extension DataViewController {
+extension DataReuploadVC {
     
     func tapViewAction(){
         
@@ -584,49 +453,21 @@ extension DataViewController {
     }
     
     func lastStepBtnAction(){
-         _ = self.navigationController?.popViewController(animated: true)
+        _ = self.navigationController?.popViewController(animated: true)
     }
     
     //返回
     func leftNavigationBarBtnAction(){
-    
-        for i in 0..<(self.navigationController?.viewControllers.count)! {
-            
-            if self.navigationController?.viewControllers[i].isKind(of: BorrowMoneyViewController.self) == true {
-                
-                _ = self.navigationController?.popToViewController(self.navigationController?.viewControllers[i] as! BorrowMoneyViewController, animated: true)
-                break
-            }
-        }
+        _ = self.navigationController?.popViewController(animated: true)
+        
     }
     //提交申请
     func nextStepBtnAction(){
-        
-        guard !isdownLoad else {
-            self.showHint(in: self.view, hint: "订单已生成，信息不可更改哦！")
-            return
-        }
-        
-            let popupView = PopupSubmitTipsView()
-            let popupController = CNPPopupController(contents: [popupView])!
-            popupController.present(animated: true)
-            popupView.onClickCancle = {_ in
-                popupController.dismiss(animated: true)
-            }
-            popupView.onClickSure = { _ in
-                popupController.dismiss(animated: true)
-                self.uploadPhoto()
-            }
-}
+       self.reuploadPhoto()
+    }
     
-    //MARK: - 照片上传
-    func uploadPhoto(){
-        
-        //是否已生成订单
-        guard !UserHelper.getAllFinishIsUpload() else {
-            self.showHint(in: self.view, hint: "订单已生成，信息不可更改哦！")
-            return
-        }
+    //MARK: - 补交附件
+    func reuploadPhoto(){
         
         guard photoArray.count >= 2 else {
             self.showHint(in: self.view, hint: "最少上传两张照片")
@@ -645,7 +486,7 @@ extension DataViewController {
             imageNameArray.append(imageName)
         }
         //参数666-多张上传
-        let params: [String: String] = ["userId":UserHelper.getUserId()!, "flag":"666"]
+        let params: [String: String] = ["userId":UserHelper.getUserId()!, "flag":"999"]
         
         NetConnect.bm_upload_photo_info(params:params , data: imageDataArray, name: imageNameArray, success: { response in
             
@@ -657,59 +498,13 @@ extension DataViewController {
                 return self.showHint(in: self.view, hint: json["RET_DESC"].stringValue)
             }
             
-            UserHelper.setData(isUpload: true)
+            self.showHintInKeywindow(hint: "补交材料上传成功！",yOffset: SCREEN_HEIGHT/2 - 100*UIRate)
             
-            if self.uploadSucDelegate != nil {
-                self.uploadSucDelegate?.upLoadInfoSuccess()
-            }
-            self.showHintInKeywindow(hint: "附件上传成功！",yOffset: SCREEN_HEIGHT/2 - 100*UIRate)
-            
-            let webVC = JulixinWebViewController()
-            webVC.requestUrl = json["actionUrl"].stringValue
-            webVC.webTitle = "聚信立"
-            self.navigationController?.pushViewController(webVC, animated: false)
-            
+            _ = self.navigationController?.popViewController(animated: true)
         }, failure: { error in
             //隐藏HUD
             self.hideHud()
         })
-    }
-    
-    //MARK:请求照片信息
-    func requestPhotoInfo(){
-        
-        //添加HUD
-        self.showHud(in: self.view, hint: "加载中...")
-        
-        let params = ["userId": UserHelper.getUserId()!]
-        
-        NetConnect.bm_get_data_info(parameters: params, success: { response in
-            //隐藏HUD
-            self.hideHud()
-            let json = JSON(response)
-            guard json["RET_CODE"] == "000000" else{
-                return self.showHint(in: self.view, hint: json["RET_DESC"].stringValue)
-            }
-            
-            self.refreshUI(json: json["imgList"])
-            
-        }, failure:{ error in
-            //隐藏HUD
-            self.hideHud()
-        })
-    }
-    
-    //填充信息
-    func refreshUI(json: JSON){
-
-        let photoArray = json.arrayValue
-        
-        for i in 0..<photoArray.count {
-             let photoStr = photoArray[i]["imgUrl"].stringValue
-             self.downloadPhoto.append((photoStr))
-        }
-        
-        self.aCollectionView.reloadData()
     }
 }
 
@@ -717,7 +512,7 @@ extension DataViewController {
  从相册中选择图片
  */
 
-extension DataViewController {
+extension DataReuploadVC {
     //相册选择图片
     fileprivate func selectFromPhoto(){
         
@@ -771,16 +566,16 @@ extension DataViewController {
                     
                     PrintLog(image)
                     if image != nil {
-                    //主线程刷新
-                    DispatchQueue.main.async {
-                    self.photoArray.append((image!,self.dataArray[self.selectCell].leftText,self.selectCell))
-                        self.numArray[self.selectCell] += 1
-                        self.dataArray[self.selectCell].content = "已上传\(self.numArray[self.selectCell])张"
-                        self.reloadOneTabelViewCell(at: self.selectCell)
+                        //主线程刷新
+                        DispatchQueue.main.async {
+                            self.photoArray.append((image!,self.dataArray[self.selectCell].leftText,self.selectCell))
+                            self.numArray[self.selectCell] += 1
+                            self.dataArray[self.selectCell].content = "已上传\(self.numArray[self.selectCell])张"
+                            self.reloadOneTabelViewCell(at: self.selectCell)
+                        }
                     }
-                }
-            })
+                })
+            }
         }
-     }
-   }
+    }
 }

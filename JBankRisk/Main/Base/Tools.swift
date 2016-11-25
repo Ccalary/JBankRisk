@@ -25,6 +25,10 @@ func toolsChangePhoneNumStyle(mobile: String) -> String{
 ///金额显示加逗号(,)分隔
 func toolsChangeMoneyStyle(amount: Double) -> String{
     
+    guard amount >= 0 else {
+        return String(amount)
+    }
+    
     //初始化NumberFormatter
     let format = NumberFormatter()
     //设置numberStyle（有多种格式）

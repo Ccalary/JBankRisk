@@ -97,7 +97,7 @@ class NeedRepayTimeView: UIView, UITableViewDataSource, UITableViewDelegate {
         self.selectCell = indexPath.row
         self.aTableView.reloadData()
         if let onClickCell = onClickCell {
-            onClickCell(dataArray[indexPath.row], indexPath.row)
+            onClickCell(dataArray[indexPath.row], indexPath.row + 1)
         }
     }
     

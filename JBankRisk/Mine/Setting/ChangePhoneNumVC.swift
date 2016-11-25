@@ -16,26 +16,19 @@ class ChangePhoneNumVC: UIViewController {
 
     var mTimer: Timer!
     var seconds: Int = defaultSeconds
-    var oldPhoneNum = ""
+    
+    //手机号修改成功
+    var onClickChangeSuccess:(()->())?
     
     override func viewDidLoad() {
         super.viewDidLoad()
         
         self.setupUI()
+        oldPhoneNumLabel.text = UserHelper.getUserMobile()
     }
     
     override func viewDidAppear(_ animated: Bool) {
         phoneNumField.becomeFirstResponder()
-    }
-    
-    init(phoneNum: String) {
-      super.init(nibName: nil, bundle: nil)
-      self.oldPhoneNum = phoneNum
-      oldPhoneNumLabel.text = self.oldPhoneNum
-    }
-    
-    required init?(coder aDecoder: NSCoder) {
-        fatalError("init(coder:) has not been implemented")
     }
     
     override func didReceiveMemoryWarning() {
@@ -61,7 +54,7 @@ class ChangePhoneNumVC: UIViewController {
         self.holdView.addSubview(clearBtn)
         
         self.holdView.addSubview(codeTextField)
-        self.holdView.addSubview(sureBtn)
+        
         self.holdView.addSubview(sendCodeBtn)
         
         //分割线
@@ -69,6 +62,8 @@ class ChangePhoneNumVC: UIViewController {
         self.holdView.addSubview(divideLine2)
         self.holdView.addSubview(divideLine3)
         self.holdView.addSubview(verticalLine)
+        
+        self.view.addSubview(sureBtn)
         
         
         phoneNumLabel.snp.makeConstraints { (make) in
@@ -166,11 +161,8 @@ class ChangePhoneNumVC: UIViewController {
         label.font = UIFontBoldSize(size: 15*UIRate)
         label.textAlignment = .center
         label.textColor = UIColorHex("666666")
-        label.text = "12301300242"
         return label
     }()
-
-    
     
     private lazy var holdView: UIView = {
         let holdView = UIView()
@@ -313,33 +305,38 @@ class ChangePhoneNumVC: UIViewController {
     func sureBtnAction(){
         self.view.endEditing(true)
         
+        //添加HUD
+        self.showHud(in: self.view, hint: "加载中...")
+        
         let phoneNum = phoneNumField.text!
         let randCode = codeTextField.text!
         
         var params = NetConnect.getBaseRequestParams()
+        params["userId"] = UserHelper.getUserId()!
         params["mobile"] = phoneNum
         params["randCode"] = randCode
         
-//        NetConnect.rl_randomCodeLogin(parameters: params, success:
-//            { response in
-//                let json = JSON(response)
-//                guard json["RET_CODE"] == "000000" else{
-//                    return self.showHint(in: self.view, hint: json["RET_DESC"].stringValue)
-//                }
-//                //0-登录成功 1-去注册
-//                if json["flag"] == "0" {
-//                    _ = self.navigationController?.popToRootViewController(animated: true)
-//                    self.showHintInKeywindow(hint: "登录成功")
-//                }else if json["flag"] == "1" {
-//                    let setPsdVC = LoginPsdOrSetPsdVC(viewType: .setPassword, phoneNum: phoneNum)
-//                    setPsdVC.randCode = randCode
-//                    self.navigationController?.pushViewController(setPsdVC, animated: true)
-//                }
-//                
-//        }, failure: {error in
-//            
-//        })
-        
+        NetConnect.other_change_mobile(parameters: params, success: { response in
+            //隐藏HUD
+            self.hideHud()
+            let json = JSON(response)
+            guard json["RET_CODE"] == "000000" else{
+                return self.showHint(in: self.view, hint: json["RET_DESC"].stringValue)
+            }
+            UserHelper.setUserMobile(mobile: json["mobile"].stringValue)
+            
+            self.showHintInKeywindow(hint: "手机号码修改成功",yOffset: SCREEN_HEIGHT/2 - 150*UIRate)
+            _ = self.navigationController?.popViewController(animated: true)
+            
+            if let onClickChangeSuccess = self.onClickChangeSuccess {
+                onClickChangeSuccess()
+            }
+            
+        }, failure:{ error in
+            //隐藏HUD
+            self.hideHud()
+        })
+    
     }
     ///发送短信验证码
     func sendCodeBtnAction(){
@@ -380,7 +377,7 @@ class ChangePhoneNumVC: UIViewController {
             }
         }
         
-        //验证码为4位，密码位6-16位按钮可点击
+        //验证码为4位，手机号位11位
         if (((phoneNumField.text?.characters.count)! == 11) && (codeTextField.text?.characters.count)! == 4){
             
             sureBtn.isUserInteractionEnabled = true
@@ -388,7 +385,7 @@ class ChangePhoneNumVC: UIViewController {
         }else{
             
             sureBtn.isUserInteractionEnabled = false
-            sureBtn.setBackgroundImage(UIImage(named:"login_btn_grayred_345x44"), for: .normal)
+        sureBtn.setBackgroundImage(UIImage(named:"login_btn_grayred_345x44"), for: .normal)
         }
     }
     
@@ -407,6 +404,4 @@ class ChangePhoneNumVC: UIViewController {
         })
     }
     
-    
-  
 }

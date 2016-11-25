@@ -8,6 +8,7 @@
 
 import UIKit
 import IQKeyboardManagerSwift
+import Alamofire
 
 @UIApplicationMain
 class AppDelegate: UIResponder, UIApplicationDelegate,UITabBarControllerDelegate {
@@ -15,9 +16,11 @@ class AppDelegate: UIResponder, UIApplicationDelegate,UITabBarControllerDelegate
     var window: UIWindow?
     var rootTabbar: HHTabBarController?
     
+    let manager = NetworkReachabilityManager(host: "www.baidu.com")
+    
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplicationLaunchOptionsKey: Any]?) -> Bool {
         
-        Thread.sleep(forTimeInterval: 1.0)//启动延时2秒
+        Thread.sleep(forTimeInterval: 1.0)//启动延时1秒
         
         //解决键盘遮挡问题
         IQKeyboardManager.sharedManager().enable = true
@@ -29,6 +32,9 @@ class AppDelegate: UIResponder, UIApplicationDelegate,UITabBarControllerDelegate
         rootTabbar?.delegate = self
         self.window?.rootViewController = rootTabbar
         self.window?.makeKeyAndVisible()
+        
+        //监听网络
+        self.listeningNetStatus()
         
         return true
     }
@@ -56,7 +62,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate,UITabBarControllerDelegate
     }
 
    
-    //MARK: - UITabBarControllerDelegate
+    //MARK: - UITabBarControllerDelegate，控制tabbar的点击
     func tabBarController(_ tabBarController: UITabBarController, shouldSelect viewController: UIViewController) -> Bool {
         
         //如果未登录
@@ -74,5 +80,25 @@ class AppDelegate: UIResponder, UIApplicationDelegate,UITabBarControllerDelegate
         }
       return true
   }
+    
+    //网络状态
+    func listeningNetStatus(){
+        self.manager?.listener = { status in
+            
+            switch status {
+            case .unknown:
+                self.rootTabbar?.showHintInKeywindow(hint: "未知网络连接",yOffset: SCREEN_HEIGHT/2 - 100*UIRate)
+            case .notReachable:
+                self.rootTabbar?.showHintInKeywindow(hint: "无网络连接",yOffset: SCREEN_HEIGHT/2 - 100*UIRate)
+            case .reachable(.ethernetOrWiFi):
+                self.rootTabbar?.showHintInKeywindow(hint: "WiFi连接",yOffset: SCREEN_HEIGHT/2 - 100*UIRate)
+            case .reachable(.wwan):
+                self.rootTabbar?.showHintInKeywindow(hint: "数据网络连接",yOffset: SCREEN_HEIGHT/2 - 100*UIRate)
+            }
+        }
+        self.manager?.startListening()
+    }
+
+    
 }
 

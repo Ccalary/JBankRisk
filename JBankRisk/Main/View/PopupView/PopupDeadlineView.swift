@@ -25,7 +25,7 @@ class PopupDeadlineView: UIView, UICollectionViewDelegate,UICollectionViewDataSo
     
     ///初始化默认frame
     convenience init(dataArray: Array<Any>, selectedCell: Int, borrowMoney: String, mViewController:UIViewController) {
-        let frame = CGRect(x: 0, y: 0, width: SCREEN_WIDTH - 40*UIRate, height: 255*UIRate)
+        let frame = CGRect()
         self.init(frame: frame)
         self.dataArray = dataArray as! [String]
         self.selectInfo = (selectedCell,self.dataArray[selectedCell])
@@ -33,7 +33,7 @@ class PopupDeadlineView: UIView, UICollectionViewDelegate,UICollectionViewDataSo
         self.mVC = mViewController
         let count:CGFloat = CGFloat((dataArray.count - 1)/3)
         collectionHeight = count*55*UIRate + 40*UIRate
-        self.frame = CGRect(x: 0, y: 0, width: SCREEN_WIDTH - 40*UIRate, height: 255*UIRate + collectionHeight)
+        self.frame = CGRect(x: 0, y: 0, width: SCREEN_WIDTH - 40*UIRate, height: 205*UIRate + collectionHeight)
         setupUI()
         
         self.requestCalculateRepay(money: self.borrowMoney, total: self.selectInfo.text)
@@ -54,13 +54,13 @@ class PopupDeadlineView: UIView, UICollectionViewDelegate,UICollectionViewDataSo
         self.addSubview(aCollectionView)
         
         self.addSubview(divideLine2)
-        self.addSubview(divideLine3)
+//        self.addSubview(divideLine3)
         self.addSubview(montTextLabel)
         self.addSubview(monthMoneyLabel)
-        self.addSubview(totalTextLabel)
-        self.addSubview(totalMoneyLabel)
+//        self.addSubview(totalTextLabel)
+//        self.addSubview(totalMoneyLabel)
         self.addSubview(yuanLabel1)
-        self.addSubview(yuanLabel2)
+//        self.addSubview(yuanLabel2)
         
         titleLabel.snp.makeConstraints { (make) in
             make.centerY.equalTo(self.snp.top).offset(25*UIRate)
@@ -87,17 +87,17 @@ class PopupDeadlineView: UIView, UICollectionViewDelegate,UICollectionViewDataSo
             make.centerY.equalTo(cancelBtn)
         }
         
-        divideLine3.snp.makeConstraints { (make) in
-            make.width.equalTo(self)
-            make.height.equalTo(0.5*UIRate)
-            make.top.equalTo(cancelBtn.snp.top).offset(-22*UIRate)
-            make.centerX.equalTo(self)
-        }
+//        divideLine3.snp.makeConstraints { (make) in
+//            make.width.equalTo(self)
+//            make.height.equalTo(0.5*UIRate)
+//            make.top.equalTo(cancelBtn.snp.top).offset(-22*UIRate)
+//            make.centerX.equalTo(self)
+//        }
         
         divideLine2.snp.makeConstraints { (make) in
             make.width.equalTo(self)
             make.height.equalTo(0.5*UIRate)
-            make.top.equalTo(divideLine3.snp.top).offset(-50*UIRate)
+            make.top.equalTo(cancelBtn.snp.top).offset(-22*UIRate)
             make.centerX.equalTo(self)
         }
 
@@ -111,25 +111,25 @@ class PopupDeadlineView: UIView, UICollectionViewDelegate,UICollectionViewDataSo
             make.centerY.equalTo(montTextLabel)
         }
         
-        totalTextLabel.snp.makeConstraints { (make) in
-            make.left.equalTo(35*UIRate)
-            make.centerY.equalTo(divideLine3).offset(-25*UIRate)
-        }
+//        totalTextLabel.snp.makeConstraints { (make) in
+//            make.left.equalTo(35*UIRate)
+//            make.centerY.equalTo(divideLine3).offset(-25*UIRate)
+//        }
         
-        totalMoneyLabel.snp.makeConstraints { (make) in
-            make.left.equalTo(115*UIRate)
-            make.centerY.equalTo(totalTextLabel)
-        }
+//        totalMoneyLabel.snp.makeConstraints { (make) in
+//            make.left.equalTo(115*UIRate)
+//            make.centerY.equalTo(totalTextLabel)
+//        }
         
         yuanLabel1.snp.makeConstraints { (make) in
             make.left.equalTo(monthMoneyLabel.snp.right)
             make.centerY.equalTo(montTextLabel)
         }
         
-        yuanLabel2.snp.makeConstraints { (make) in
-            make.left.equalTo(totalMoneyLabel.snp.right)
-            make.centerY.equalTo(totalTextLabel)
-        }
+//        yuanLabel2.snp.makeConstraints { (make) in
+//            make.left.equalTo(totalMoneyLabel.snp.right)
+//            make.centerY.equalTo(totalTextLabel)
+//        }
         
         aCollectionView.snp.makeConstraints { (make) in
             make.width.equalTo(270*UIRate)
@@ -202,14 +202,14 @@ class PopupDeadlineView: UIView, UICollectionViewDelegate,UICollectionViewDataSo
         return label
     }()
     
-    private lazy var totalMoneyLabel: UILabel = {
-        let label = UILabel()
-        label.font = UIFontSize(size: 15*UIRate)
-        label.textAlignment = .center
-        label.textColor = UIColorHex("666666")
-        label.text = "0.00"
-        return label
-    }()
+//    private lazy var totalMoneyLabel: UILabel = {
+//        let label = UILabel()
+//        label.font = UIFontSize(size: 15*UIRate)
+//        label.textAlignment = .center
+//        label.textColor = UIColorHex("666666")
+//        label.text = "0.00"
+//        return label
+//    }()
 
     private lazy var yuanLabel1: UILabel = {
         let label = UILabel()
@@ -220,23 +220,23 @@ class PopupDeadlineView: UIView, UICollectionViewDelegate,UICollectionViewDataSo
         return label
     }()
 
-    private lazy var yuanLabel2: UILabel = {
-        let label = UILabel()
-        label.font = UIFontSize(size: 15*UIRate)
-        label.textAlignment = .center
-        label.textColor = UIColorHex("666666")
-        label.text = "元"
-        return label
-    }()
+//    private lazy var yuanLabel2: UILabel = {
+//        let label = UILabel()
+//        label.font = UIFontSize(size: 15*UIRate)
+//        label.textAlignment = .center
+//        label.textColor = UIColorHex("666666")
+//        label.text = "元"
+//        return label
+//    }()
     
-    private lazy var totalTextLabel: UILabel = {
-        let label = UILabel()
-        label.font = UIFontSize(size: 15*UIRate)
-        label.textAlignment = .center
-        label.textColor = UIColorHex("666666")
-        label.text = "总还款额"
-        return label
-    }()
+//    private lazy var totalTextLabel: UILabel = {
+//        let label = UILabel()
+//        label.font = UIFontSize(size: 15*UIRate)
+//        label.textAlignment = .center
+//        label.textColor = UIColorHex("666666")
+//        label.text = "总还款额"
+//        return label
+//    }()
     
     ///取消按钮
     private lazy var cancelBtn: UIButton = {
@@ -338,7 +338,6 @@ class PopupDeadlineView: UIView, UICollectionViewDelegate,UICollectionViewDataSo
             }
 
         self.monthMoneyLabel.text = toolsChangeMoneyStyle(amount: json["monthAmt"].doubleValue)
-        self.totalMoneyLabel.text = toolsChangeMoneyStyle(amount: json["totalAmt"].doubleValue)
             
         }, failure: { error in
             

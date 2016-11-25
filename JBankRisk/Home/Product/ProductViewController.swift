@@ -24,7 +24,7 @@ class ProductViewController: UIViewController,UITableViewDelegate, UITableViewDa
     var uploadSucDelegate: UploadSuccessDelegate?
     
     //商户名称
-    var saleName = "jinjinsuo"
+    var saleName = "3333"
     //产品名称
     var proName = ""
     //选择的期限
@@ -359,8 +359,15 @@ class ProductViewController: UIViewController,UITableViewDelegate, UITableViewDa
     
     //返回
     func leftNavigationBarBtnAction(){
-        let borrowVC = self.navigationController?.viewControllers[1] as! BorrowMoneyViewController
-        _ = self.navigationController?.popToViewController(borrowVC, animated: true)
+        
+        for i in 0..<(self.navigationController?.viewControllers.count)! {
+            
+            if self.navigationController?.viewControllers[i].isKind(of: BorrowMoneyViewController.self) == true {
+                
+                _ = self.navigationController?.popToViewController(self.navigationController?.viewControllers[i] as! BorrowMoneyViewController, animated: true)
+                break
+            }
+        }
     }
     
     //下一步(上传用户信息)

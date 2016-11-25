@@ -15,8 +15,6 @@ let homeCellID = "HomeTableViewCell"
 
 class HomeViewController: UIViewController, UIGestureRecognizerDelegate{
     
-    let manager = NetworkReachabilityManager(host: "www.baidu.com")
-    
     var bannerView: CyclePictureView! //图片轮播
     var imageArray:[String]? = [""] //储存所有照片
     
@@ -35,13 +33,13 @@ class HomeViewController: UIViewController, UIGestureRecognizerDelegate{
         self.automaticallyAdjustsScrollViewInsets = false;
         //启动滑动返回（swipe back）
         self.navigationController?.interactivePopGestureRecognizer?.delegate = self
-        //监听网络
-//        self.listeningNetStatus()
         //读取缓存
         self.getDataFromCache()
         setup()
         initBannerImage()
-       
+        
+        requestUpdataVersion()
+        
     }
     override func viewWillAppear(_ animated: Bool) {
          self.navigationController?.isNavigationBarHidden = true
@@ -77,9 +75,9 @@ class HomeViewController: UIViewController, UIGestureRecognizerDelegate{
             mark.top.equalTo(0)
         }
         
-        self.aTableView.addPullRefreshHandler({ _ in
-            self.requestHomeData()
-             self.aTableView.stopPullRefreshEver()
+        self.aTableView.addPullRefreshHandler({ [weak self] in
+            self?.requestHomeData()
+             self?.aTableView.stopPullRefreshEver()
         })
     }
     
@@ -129,7 +127,10 @@ class HomeViewController: UIViewController, UIGestureRecognizerDelegate{
                 self.mJstatus = json["jstatus"].stringValue
                 
                 if UserHelper.getUserId() != nil {
+                    
                      self.getTheUploadProgree(flag: json["flag"].stringValue,userType:json["userType"].stringValue)
+                    
+                    self.borrowStatusNotice()//进度弹窗
                 }
                 self.imageArray = json["bannnerList"].arrayObject as! [String]?
                 
@@ -161,8 +162,10 @@ class HomeViewController: UIViewController, UIGestureRecognizerDelegate{
         if flag == "2"{
             UserHelper.setIdentity(isUpload: true)
         }else if flag == "3"{
+            UserHelper.setIdentity(isUpload: true)
             UserHelper.setProduct(isUpload: true)
         }else if flag == "4"{
+            UserHelper.setIdentity(isUpload: true)
             UserHelper.setProduct(isUpload: true)
             switch userType {// 1-学生 2- 白领 3－ 自由族 4-未选择
             case "1":
@@ -176,6 +179,7 @@ class HomeViewController: UIViewController, UIGestureRecognizerDelegate{
             }
             
         }else if flag == "5"{
+            UserHelper.setIdentity(isUpload: true)
             UserHelper.setProduct(isUpload: true)
             UserHelper.setContact(isUpload: true)
             
@@ -198,10 +202,37 @@ class HomeViewController: UIViewController, UIGestureRecognizerDelegate{
             default:
                 break
             }
+            UserHelper.setIdentity(isUpload: true)
             UserHelper.setProduct(isUpload: true)
             UserHelper.setContact(isUpload: true)
             UserHelper.setData(isUpload: true)
             UserHelper.setAllFinishIsUpload(isUpload: true)
+        }
+    }
+    
+    //进度弹窗
+    func borrowStatusNotice(){
+        
+        guard self.mJstatus != "",
+              self.mJstatus != UserHelper.getBorrowStatus()
+        else {
+            return
+        }
+        switch mJstatus {
+            
+        case "0","2","3","4","5","7","8","9":
+            UserHelper.setBorrow(status: self.mJstatus)
+            //根据status显示
+            let popupView = PopupProgressView(status: self.mJstatus)
+            let popupController = CNPPopupController(contents: [popupView])!
+            popupController.present(animated: true)
+            
+            popupView.onClickSure = {_ in
+                popupController.dismiss(animated:true)
+            }
+
+        default:
+            break
         }
     }
 }
@@ -277,14 +308,6 @@ extension HomeViewController: UITableViewDelegate, UITableViewDataSource,CyclePi
             self.navigationController?.pushViewController(borrowMoneyVC, animated: false)
             
         case 1:
-            
-//          let popupView =  PopupNewVersionView()
-//          let popupController = CNPPopupController(contents: [popupView])!
-//          popupController.present(animated: true)
-//          popupView.onClickCancle = { _ in
-//            popupController.dismiss(animated: true)
-//          }
-
             guard UserHelper.isLogin() else {
                 let loginVC = LoginViewController()
                 self.navigationController?.pushViewController(loginVC, animated: true)
@@ -305,7 +328,7 @@ extension HomeViewController: UITableViewDelegate, UITableViewDataSource,CyclePi
                 return
             }
             
-               let repayDetailVC = RepayListViewController()
+               let repayDetailVC = RepayBillViewController()
                // 5-还款中 0-已完结
                 if mJstatus == "5" || mJstatus == "0"{
                     repayDetailVC.isHaveData = true
@@ -330,24 +353,48 @@ extension HomeViewController: UITableViewDelegate, UITableViewDataSource,CyclePi
         }
     }
     
-    //网络状态
-    func listeningNetStatus(){
-        self.manager?.listener = { status in
+    //请求版本更新
+    func requestUpdataVersion(){
+        
+        var params = NetConnect.getBaseRequestParams()
+        params["channel"] = "3"
+        params["versionCode"] = APP_VERSION_CODE
+        
+        NetConnect.other_updata_version(parameters: params, success:
+            { response in
+                let json = JSON(response)
+                guard json["RET_CODE"] == "000000" else{
+                    return self.showHint(in: self.view, hint: json["RET_DESC"].stringValue)
+                    }
+                
+                //0-无更新 1-有更新 2-强制更新
+                if json["vjstatus"].stringValue == "1" || json["vjstatus"].stringValue == "2" {
+                    let popupView =  PopupNewVersionView(disText: json["updateDesc"].stringValue)
+                    let popupController = CNPPopupController(contents: [popupView])!
+                    popupController.present(animated: true)
+                    popupView.onClickCancle = { _ in
+                        
+                        if json["vjstatus"].stringValue == "2" {
+                            //强制更新，弹窗消不去
+                        }else {
+                             popupController.dismiss(animated: true)
+                        }
+                    }
+                    //升级
+                    popupView.onClickSure = { _ in
+                        let appstoreUrl = json["updateUrl"].stringValue
+                        let url = URL(string: appstoreUrl)
+                        if let url = url {
+                             UIApplication.shared.openURL(url)
+                        }
+                    }
+                }
+        }, failure: {error in
             
-            switch status {
-            case .unknown:
-                self.showHintInKeywindow(hint: "未知网络连接")
-            case .notReachable:
-                self.showHintInKeywindow(hint: "无网络连接")
-            case .reachable(.ethernetOrWiFi):
-                self.showHintInKeywindow(hint: "WiFi连接")
-            case .reachable(.wwan):
-                self.showHintInKeywindow(hint: "数据网络连接")
-            }
-        }
-        self.manager?.startListening()
+        })
     }
-
+    
+    
     //MARK: - CyclePictureViewDelegate的方法(点击跳转)
     func cyclePictureSkip(To index: Int) {
         //        let bannerUrlVC = BaseWebViewController()
@@ -355,4 +402,5 @@ extension HomeViewController: UITableViewDelegate, UITableViewDataSource,CyclePi
         //        self.navigationController?.pushViewController(bannerUrlVC, animated: false
         //        )
     }
+    
 }

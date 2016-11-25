@@ -209,7 +209,7 @@ class UpLoadServiceBillVC: UIViewController,UIImagePickerControllerDelegate,UINa
             guard json["RET_CODE"] == "000000" else{
                 return self.showHint(in: self.view, hint: json["RET_DESC"].stringValue)
             }
-            self.showHintInKeywindow(hint: "服务单上传成功")
+            self.showHintInKeywindow(hint: "服务单上传成功",yOffset: SCREEN_HEIGHT/2 - 100*UIRate)
             _ = self.navigationController?.popViewController(animated: true)
             
         }, failure: { error in

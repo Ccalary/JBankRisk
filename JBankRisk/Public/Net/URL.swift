@@ -10,7 +10,7 @@ import UIKit
 let LOCAL = "http://192.168.1.121:8080" //本地
 let ONLINE = "http://106.38.109.11:8081" //线上
 
-let BASR_DEV_URL = LOCAL
+let BASR_DEV_URL = ONLINE
 
 /*************注册登录模块(RL)*************/
 
@@ -76,16 +76,16 @@ let BM_GET_PRODUCT_INFO = BASR_DEV_URL + "/jinangk.xhtml?TX_CODE=490044"
 /// 2.15工作信息回传
 let BM_GET_WORK_INFO = BASR_DEV_URL + "/jinangk.xhtml?TX_CODE=490074"
 
-/// 2.14学校信息回传
+/// 2.16学校信息回传
 let BM_GET_SCHOOL_INFO = BASR_DEV_URL + "/jinangk.xhtml?TX_CODE=490094"
 
-/// 2.14联系信息回传
+/// 2.17联系信息回传
 let BM_GET_CONTACT_INFO = BASR_DEV_URL + "/jinangk.xhtml?TX_CODE=490093"
 
-/// 2.14照片信息回传
+/// 2.18照片信息回传
 let BM_GET_DATA_INFO = BASR_DEV_URL + "/jinangk.xhtml?TX_CODE=490114"
 
-/// 2.15借款状态与信息上传状态
+/// 2.19借款状态与信息上传状态
 let BM_BORROW_STATUS = BASR_DEV_URL + "/jinangk.xhtml?TX_CODE=490012"
 
 /***************************个人中心(PC)****************************/
@@ -122,4 +122,14 @@ let PC_MESSAGE_URL = BASR_DEV_URL + "/jinangk.xhtml?TX_CODE=490223"
 
 ///3.11消息已读
 let PC_MESSAGE_READED_URL = BASR_DEV_URL + "/jinangk.xhtml?TX_CODE=490224"
+
+/****************其他(other)******************/
+///4.1修改密码
+let OT_CHANGE_PSD_URL = BASR_DEV_URL + "/jinangk.xhtml?TX_CODE=490385"
+
+///4.2修改手机号
+let OT_CHANGE_MOBILE_URL = BASR_DEV_URL + "/jinangk.xhtml?TX_CODE=490113"
+
+///4.3版本升级
+let OT_UPDATA_VERSION_URL = BASR_DEV_URL + "/jinangk.xhtml?TX_CODE=490000"
 

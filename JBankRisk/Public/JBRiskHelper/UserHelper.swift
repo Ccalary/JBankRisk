@@ -25,7 +25,24 @@ class UserHelper {
 //        defaults.set(dic["APP_SESSION_KEY"], forKey: "APP_SESSION_KEY")//版本号
         defaults.set(dic["userId"].stringValue, forKey: "userId")//userId
         defaults.set(dic["mobile"].stringValue, forKey: "mobile")//电话
+        let role = changeRoleIntToString(roleType: dic["userType"].intValue)
+        defaults.set(role, forKey: "userRole")//角色
         defaults.synchronize()
+    }
+    
+    
+    //转换后台返回的角色信息： 1-学生 2-白领 3-自由族 4-无
+    static func changeRoleIntToString(roleType: Int) -> String?{
+        switch roleType {
+        case 1:
+            return "学生"
+        case 2:
+            return "白领"
+        case 3:
+            return "自由族"
+        default:
+            return nil
+        }
     }
     
     //退出登录清除信息
@@ -36,7 +53,6 @@ class UserHelper {
          defaults.set(nil, forKey: "mobile")  //情况电话
          defaults.set(nil, forKey: "userRole")//角色
          defaults.set(nil, forKey: "homeCellArray") //清空首页缓存数据
-        
          defaults.synchronize()
     }
     
@@ -74,6 +90,18 @@ class UserHelper {
     static func setUserId(userId: String){
         let defaults = UserDefaults()
         defaults.set(userId, forKey: "userId")
+        defaults.synchronize()
+    }
+    
+    //借款状态
+    static func getBorrowStatus() -> String? {
+        let defaults = UserDefaults()
+        return defaults.object(forKey: "\(self.getUserId())borrowStatus") as? String
+    }
+    
+    static func setBorrow(status: String?){
+        let defaults = UserDefaults()
+        defaults.set(status, forKey: "\(self.getUserId())borrowStatus")
         defaults.synchronize()
     }
     
@@ -117,12 +145,12 @@ class UserHelper {
     //获取用户借款金额
     static func getUserBorrowAmt() -> Int? {
         let defaults = UserDefaults()
-        return defaults.object(forKey: "userBorrowAmt") as? Int
+        return defaults.object(forKey: "\(self.getUserId())userBorrowAmt") as? Int
     }
     
     static func setUserBorrowAmt(money: Int){
         let defaults = UserDefaults()
-        defaults.set(money, forKey: "userBorrowAmt")
+        defaults.set(money, forKey: "\(self.getUserId())userBorrowAmt")
         defaults.synchronize()
     }
 

@@ -33,6 +33,9 @@ class RepayPeriodDetailVC: UIViewController {
         self.navigationController!.navigationBar.isTranslucent = true
         self.automaticallyAdjustsScrollViewInsets = false
         
+        self.navigationItem.rightBarButtonItem = UIBarButtonItem(title: "关闭", style: UIBarButtonItemStyle.plain, target: self, action: #selector(rightNavigationBarBtnAction))
+        self.navigationItem.rightBarButtonItem?.tintColor = UIColorHex("666666")
+        
         self.view.addSubview(topImageView)
         self.topImageView.addSubview(titleTextLabel)
         self.topImageView.addSubview(divideLine1)
@@ -134,7 +137,12 @@ class RepayPeriodDetailVC: UIViewController {
             self.navigationController?.pushViewController(repayVC, animated: true)
         }
     }
-
+    
+    //后退两个界面
+    func rightNavigationBarBtnAction(){
+    _ = self.navigationController?.popToViewController((self.navigationController?.viewControllers[(self.navigationController?.viewControllers.count)! - 3])! , animated: true)
+    }
+    
     //MARK: - 请求数据
     func requestData(){
         //添加HUD
@@ -172,7 +180,7 @@ class RepayPeriodDetailVC: UIViewController {
         //逾期天数
         let overDay = "逾期天数:    " + json["penalty_day"].stringValue + "天"
         //逾期罚金
-        let overFee = "逾期罚金:    " + toolsChangeMoneyStyle(amount: json["penalty_amt"].doubleValue) + "元"
+        let overFee = "逾期罚金:    " + toolsChangeMoneyStyle(amount: json["penalty_amt"].doubleValue + json["demurrage"].doubleValue) + "元"
         
         switch self.repayStatusType {
         case .finish://完成

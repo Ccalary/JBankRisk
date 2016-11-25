@@ -3,7 +3,7 @@ platform :ios, '9.0'
 use_frameworks!
 
 target ‘JBankRisk’ do
-   pod 'Alamofire', '~> 4.0'
+   pod 'Alamofire', '~> 4.2.0’
    pod 'SwiftyJSON'
    pod 'SnapKit', '~> 3.0.0'
    pod 'Kingfisher', '~> 3.0.0'

@@ -323,8 +323,14 @@ class SchoolViewController:  UIViewController,UITableViewDelegate, UITableViewDa
     
     //返回
     func leftNavigationBarBtnAction(){
-        let borrowVC = self.navigationController?.viewControllers[1] as! BorrowMoneyViewController
-        _ = self.navigationController?.popToViewController(borrowVC, animated: true)
+        for i in 0..<(self.navigationController?.viewControllers.count)! {
+            
+            if self.navigationController?.viewControllers[i].isKind(of: BorrowMoneyViewController.self) == true {
+                
+                _ = self.navigationController?.popToViewController(self.navigationController?.viewControllers[i] as! BorrowMoneyViewController, animated: true)
+                break
+            }
+        }
     }
     //下一步
     func nextStepBtnAction(){
@@ -354,7 +360,7 @@ class SchoolViewController:  UIViewController,UITableViewDelegate, UITableViewDa
         params["address"] = self.placeText
         params["school"] = self.schoolInfo.code
         params["studentType"] = "1" //学生类型，默认1-在校生
-        params["education"] = self.eduDegreeInfo.row + 1 //学制
+        params["education"] = self.eduDegreeInfo.row + 5 //学历
         params["school_len"] = self.eduSystemInfo.row + 1 //学制
         params["majoy"] = self.majoyText //专业
         params["grade"] = self.eduGradeInfo.row + 1
@@ -414,7 +420,7 @@ class SchoolViewController:  UIViewController,UITableViewDelegate, UITableViewDa
         self.province = self.areaInfo.pro
         self.placeText = json["address"].stringValue
         self.schoolInfo.text = json["school"].stringValue
-        self.eduDegreeInfo.row = json["education"].intValue - 1
+        self.eduDegreeInfo.row = json["education"].intValue - 5 //客户端与数据库数据不统一删除了4个低点的学历
         self.eduDegreeInfo.text = eduDegreeData[self.eduDegreeInfo.row]
         self.eduGradeInfo.row = json["grade"].intValue - 1
         self.eduGradeInfo.text = eduGradeData[self.eduGradeInfo.row]

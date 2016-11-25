@@ -9,9 +9,9 @@
 import UIKit
 
     let workYearData = ["3个月内","6个月内","1年","2年","3年","4年","5年","5年以上"]
-    let relativeData = ["配偶","父亲","母亲","子女"]
+    let relativeData = ["父亲","母亲","子女","配偶"]
     let houseData = ["自置按揭","自置无按揭","租用","宿舍","父母同住","其他"]
-    let eduDegreeData = ["初中及以下","高中","中技","中专","大专","本科","硕士","博士"]
+    let eduDegreeData = ["大专","本科","硕士","博士"]
     let eduSystemData = ["全日制","非全日制"]
     let eduGradeData = ["大一","大二","大三","大四"]
     let companyTypeData = ["外资（欧美）","外资（非欧美）","合资","国企","民营企业","外企代表处","政府机关","事业单位","非营利机构","上市公司","创业公司"]

@@ -207,6 +207,7 @@ class ContactViewController: UIViewController, UITableViewDelegate, UITableViewD
             cell.centerTextField.text = self.houseInfo.text
             cell.centerTextField.isEnabled = false
         case self.ContactCellData.count - 9://（若有）月供
+            cell.centerTextField.text = self.monthRent
             cell.centerTextField.keyboardType = .numberPad
             cell.centerTextField.tag = 10001
             cell.centerTextField.addTarget(self, action: #selector(textFieldAction(_:)), for: UIControlEvents.editingChanged)
@@ -220,6 +221,7 @@ class ContactViewController: UIViewController, UITableViewDelegate, UITableViewD
         case self.ContactCellData.count - 6: //亲属姓名
             cell.centerTextField.isEnabled = true
             cell.centerTextField.text = self.relativeContactInfo.name
+            cell.centerTextField.keyboardType = .default
             cell.centerTextField.tag = 10002
             cell.centerTextField.addTarget(self, action: #selector(textFieldAction(_:)), for: UIControlEvents.editingChanged)
         case self.ContactCellData.count - 5: //亲属电话
@@ -231,6 +233,7 @@ class ContactViewController: UIViewController, UITableViewDelegate, UITableViewD
         case self.ContactCellData.count - 2: //紧急联系人姓名
             cell.centerTextField.isEnabled = true
             cell.centerTextField.text = self.urgentContactInfo.name
+            cell.centerTextField.keyboardType = .default
             cell.centerTextField.tag = 10004
             cell.centerTextField.addTarget(self, action: #selector(textFieldAction(_:)), for: UIControlEvents.editingChanged)
         case self.ContactCellData.count - 1: //紧急联系人电话
@@ -420,13 +423,18 @@ class ContactViewController: UIViewController, UITableViewDelegate, UITableViewD
     
     //返回
     func leftNavigationBarBtnAction(){
-        let borrowVC = self.navigationController?.viewControllers[1] as! BorrowMoneyViewController
-        _ = self.navigationController?.popToViewController(borrowVC, animated: true)
+        for i in 0..<(self.navigationController?.viewControllers.count)! {
+            
+            if self.navigationController?.viewControllers[i].isKind(of: BorrowMoneyViewController.self) == true {
+                
+                _ = self.navigationController?.popToViewController(self.navigationController?.viewControllers[i] as! BorrowMoneyViewController, animated: true)
+                break
+            }
+        }
     }
     
     //下一步
     func nextStepBtnAction(){
-        
         //是否已生成订单
         guard !UserHelper.getAllFinishIsUpload() else {
             self.showHint(in: self.view, hint: "订单已生成，信息不可更改哦！")
@@ -457,6 +465,7 @@ class ContactViewController: UIViewController, UITableViewDelegate, UITableViewD
         params["area"] = self.areaInfo.county//县
         params["address"] = self.areaDetail //详细地址
         params["isHouse"] = self.houseInfo.row + 1 //住房情况
+        params["forTheMonth"] = self.monthRent
         params["residenceTime"] = self.liveTimeInfo.text //居住时间
         params["contactsType1"] = "1"//固定
         params["contactsType2"] = "2"
@@ -519,7 +528,6 @@ class ContactViewController: UIViewController, UITableViewDelegate, UITableViewD
             //隐藏HUD
             self.hideHud()
         })
-        
     }
     //填充信息
     func refreshUI(json: JSON, contact: JSON){
@@ -529,6 +537,7 @@ class ContactViewController: UIViewController, UITableViewDelegate, UITableViewD
         self.areaDetail = json["address"].stringValue
         self.houseInfo.row = json["is_house"].intValue - 1
         self.houseInfo.text = houseData[self.houseInfo.row]
+        self.monthRent = json["forTheMonth"].stringValue
         self.liveTimeInfo.text = json["residenceTime"].stringValue
         
         self.relativeInfo.row = contact[0]["relation"].intValue - 1
@@ -539,6 +548,10 @@ class ContactViewController: UIViewController, UITableViewDelegate, UITableViewD
         self.urgentContactInfo.name = contact[1]["NAME"].stringValue
         self.urgentContactInfo.number = contact[1]["mobile"].stringValue
         
+        //如果有月租则显示
+        if self.houseInfo.row == 0 || self.houseInfo.row == 2 || self.houseInfo.row == 5 {
+         self.ContactCellData.insert( CellDataInfo(leftText: "房租月供", holdText: "请填写每月供款金额", content: self.monthRent, cellType: .textType), at: 3)
+        }
         self.aTableView.reloadData()
     }
 }
