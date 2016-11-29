@@ -55,12 +55,12 @@ class RepayDetailViewController: UIViewController, UITableViewDelegate, UITableV
         
         self.aTableView.tableHeaderView = self.topImageView
         self.topImageView.addSubview(nameTextLabel)
-        self.topImageView.addSubview(topDivideLine)
-        self.topImageView.addSubview(totalTextLabel)
-        self.topImageView.addSubview(totalMoneyLabel)
-        self.topImageView.addSubview(restTextLabel)
-        self.topImageView.addSubview(restMoneyLabel)
-        self.topImageView.addSubview(topVerDivideLine)
+//        self.topImageView.addSubview(topDivideLine)
+//        self.topImageView.addSubview(totalTextLabel)
+//        self.topImageView.addSubview(totalMoneyLabel)
+//        self.topImageView.addSubview(restTextLabel)
+//        self.topImageView.addSubview(restMoneyLabel)
+//        self.topImageView.addSubview(topVerDivideLine)
         
         aTableView.snp.makeConstraints { (make) in
             make.width.equalTo(self.view)
@@ -71,9 +71,10 @@ class RepayDetailViewController: UIViewController, UITableViewDelegate, UITableV
         
         nameTextLabel.snp.makeConstraints { (make) in
             make.centerX.equalTo(self.view)
-            make.centerY.equalTo(topImageView.snp.top).offset(17.5*UIRate)
+            make.centerY.equalTo(0)
         }
         
+        /*
         topDivideLine.snp.makeConstraints { (make) in
             make.width.equalTo(self.view)
             make.height.equalTo(0.5*UIRate)
@@ -107,14 +108,14 @@ class RepayDetailViewController: UIViewController, UITableViewDelegate, UITableV
             make.centerX.equalTo(self.view)
             make.top.equalTo(60*UIRate)
         }
-        
+ */
+ 
         popView.snp.makeConstraints { (make) in
             make.width.equalTo(80*UIRate)
             make.height.equalTo(125*UIRate)
             make.top.equalTo(55)
             make.right.equalTo(-8*UIRate)
         }
-        
         
         self.aTableView.addPullRefreshHandler({ [weak self] in
             self?.requestData()
@@ -143,19 +144,20 @@ class RepayDetailViewController: UIViewController, UITableViewDelegate, UITableV
     
     //图片
     private lazy var topImageView: UIImageView = {
-        let imageView = UIImageView(frame: CGRect(x: 0, y: 0, width: SCREEN_WIDTH, height: 156*UIRate))
-        imageView.image = UIImage(named: "m_banner_image3_375x156")
+        let imageView = UIImageView(frame: CGRect(x: 0, y: 0, width: SCREEN_WIDTH, height: 50*UIRate))
+        imageView.image = UIImage(named: "m_banner_small_375x50")
         return imageView
     }()
     
     private lazy var nameTextLabel: UILabel = {
         let label = UILabel()
-        label.font = UIFontSize(size: 15*UIRate)
+        label.font = UIFontSize(size: 18*UIRate)
         label.textAlignment = .center
         label.textColor = UIColor.white
         return label
     }()
     
+    /*
     //分割线
     private lazy var topDivideLine: UIView = {
         let lineView = UIView()
@@ -206,6 +208,7 @@ class RepayDetailViewController: UIViewController, UITableViewDelegate, UITableV
         return lineView
     }()
     
+ */
     //section分割线
     private lazy var divideLine1: UIView = {
         let lineView = UIView()
@@ -219,7 +222,7 @@ class RepayDetailViewController: UIViewController, UITableViewDelegate, UITableV
         lineView.backgroundColor = defaultDivideLineColor
         return lineView
     }()
-
+ 
     /*****筛选*****/
     //MARK: - 筛选
     private lazy var popBgHoldView: UIView = {
@@ -436,8 +439,8 @@ class RepayDetailViewController: UIViewController, UITableViewDelegate, UITableV
 
     func refreshUI(json: JSON){
         nameTextLabel.text = json["orderName"].stringValue
-        totalMoneyLabel.text = toolsChangeMoneyStyle(amount: json["totalAmt"].doubleValue)
-        restMoneyLabel.text = toolsChangeMoneyStyle(amount: json["restTotal"].doubleValue)
+//        totalMoneyLabel.text = toolsChangeMoneyStyle(amount: json["totalAmt"].doubleValue)
+//        restMoneyLabel.text = toolsChangeMoneyStyle(amount: json["restTotal"].doubleValue)
     }
     
     func refreshAlreadyUI(json: JSON){

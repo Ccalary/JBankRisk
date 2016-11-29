@@ -13,12 +13,16 @@ import SnapKit
 class MineViewController: UIViewController, UIGestureRecognizerDelegate,UICollectionViewDelegate,UICollectionViewDataSource, UICollectionViewDelegateFlowLayout, StatusButtonClickDelegate,MineTioViewClickDelegate{
 
     var topHeight:CGFloat = 0//总高度
-    var mineHeight:CGFloat = 0 //
-    var monthHeight:CGFloat = 0 //
     
     var topImageHeight = 220*UIRate//头部
     var tipViewHeight = 25*UIRate//提示条
     var repayViewHeight = 70*UIRate//还款栏
+    
+    //产品id
+    var orderId = ""
+    
+    //var 还款状态
+    var repayStatus = ""
     
     //topView高度改变
     var mineTopConstrain: Constraint!
@@ -247,6 +251,10 @@ class MineViewController: UIViewController, UIGestureRecognizerDelegate,UICollec
         case 30000://头像
             let settingVC = SettingViewController()
             self.navigationController?.pushViewController(settingVC, animated: true)
+        case 40000://逾期
+            let repayDetailVC = RepayDetailViewController()
+            repayDetailVC.orderId = self.orderId
+            self.navigationController?.pushViewController(repayDetailVC, animated: true)
         default:
             break
         }
@@ -316,6 +324,7 @@ class MineViewController: UIViewController, UIGestureRecognizerDelegate,UICollec
             }
          
             self.refreshUI(json: json["detail"])
+            self.refreshNameUI(json: json["memberByInfo"])
             
         }, failure:{ error in
             //隐藏HUD
@@ -323,15 +332,41 @@ class MineViewController: UIViewController, UIGestureRecognizerDelegate,UICollec
         })
     }
     
+    //问候语
+    func refreshNameUI(json: JSON){
+        
+        let realName = json["realName"].stringValue
+        let sex = json["sex"].stringValue
+        var sexName = "先生"
+        
+        //0- 女  1-男
+        if !realName.isEmpty && !sex.isEmpty{
+              let firstName = realName.substring(to: realName.index(realName.startIndex, offsetBy: 1))
+              if sex == "1"{
+                sexName = "先生"
+              }else if sex == "0"{
+                sexName = "女士"
+              }else {
+                sexName = "**"
+            }
+            //用户名
+            self.mineTopView.sayHelloTextLabel.text = "您好： \(firstName + sexName)"
+            
+        }else {
+            
+            //用户名
+            self.mineTopView.sayHelloTextLabel.text = "您好： \(toolsChangePhoneNumStyle(mobile: UserHelper.getUserMobile()!))"
+        }
+    }
+    
+    
     func refreshUI(json:JSON){
         //重置高度
-        topHeight = 0
+        topHeight = topImageHeight
         
         //头像
         UserHelper.setUserHeader(headerUrl: BASR_DEV_URL + json["head_img"].stringValue)
         mineTopView.headerImageView.kf_setImage(with: URL(string: UserHelper.getUserHeaderUrl() ?? ""), placeholder: UIImage(named: "m_heder_icon_90x90"), options: nil, progressBlock: nil, completionHandler: nil)
-        //用户名
-        self.mineTopView.sayHelloTextLabel.text = "您好： \(toolsChangePhoneNumStyle(mobile: UserHelper.getUserMobile()!))"
         
         //未读消息
         self.messageCount = json["size"].intValue
@@ -339,41 +374,49 @@ class MineViewController: UIViewController, UIGestureRecognizerDelegate,UICollec
         //有逾期话术
         let message = json["message"].stringValue
         if  message.characters.count > 0 {
-            
+            self.mineTopView.overdueBtn.isHidden = false
+            self.orderId = json["orderId"].stringValue
             self.mineTopView.tipsTextLabel.text = message
             self.mineTopView.tipsHoldViewContraint.update(offset: tipViewHeight)
-            mineHeight = tipViewHeight
+            topHeight = topHeight + tipViewHeight
         }else {
+            self.mineTopView.overdueBtn.isHidden = true
             self.mineTopView.tipsTextLabel.text = ""
             self.mineTopView.tipsHoldViewContraint.update(offset: 0)
-            mineHeight = 0
+            topHeight = topHeight + 0
         }
         
         if json["jstatus"].stringValue == "5" {//有还款明细
             
             self.mineTopView.moneyLabel.text = toolsChangeMoneyStyle(amount: json["MonthRefund"].doubleValue)
             
-            self.mineTopView.dateLabel.text = toolsChangeDateStyle(toMMMonthDDDay: json["nextMonthDay"].stringValue)
-            self.mineTopView.dateTextLabel.text = "下期还款日"
+            //show1: 1-下期还款日   2-今日应还  3-最近还款日  4-逾期
+            repayStatus = json["show1"].stringValue
             
-//            //0 2 4 本月已还
-//            if json["is_pay"] == "0" || json["is_pay"] == "2" || json["is_pay"] == "4" {
-//                self.mineTopView.dateLabel.text = toolsChangeDateStyle(toMMMonthDDDay: json["nextMonthDay"].stringValue)
-//                self.mineTopView.dateTextLabel.text = "下期还款日"
-//            }else { //
-//                
-//                if json["penalty_day"].intValue > 0 {
-//                    
-//                }
-//            }
+            switch repayStatus {
+            case "1":
+                self.mineTopView.dateTextLabel.text = "下期还款日"
+                self.mineTopView.dateLabel.text = toolsChangeDateStyle(toMMMonthDDDay: json["show2"].stringValue)
+            case "2":
+                self.mineTopView.dateTextLabel.text = "今日应还(元)"
+                self.mineTopView.dateLabel.text = toolsChangeMoneyStyle(amount: json["show2"].doubleValue)
+            case "3":
+                self.mineTopView.dateTextLabel.text = "最近还款日"
+                self.mineTopView.dateLabel.text = toolsChangeDateStyle(toMMMonthDDDay: json["show2"].stringValue)
+            case "4":
+                self.mineTopView.dateTextLabel.text = "逾期金额(元)"
+                self.mineTopView.dateLabel.text = toolsChangeMoneyStyle(amount: json["show2"].doubleValue)
+            default:
+                self.mineTopView.dateTextLabel.text = "下期还款日"
+               self.mineTopView.dateLabel.text = toolsChangeDateStyle(toMMMonthDDDay: json["nextMonthDay"].stringValue)
+            }
             
             self.mineTopView.repayHoldViewContraint.update(offset: repayViewHeight)
-            monthHeight =  repayViewHeight
-            topHeight = topImageHeight + mineHeight + monthHeight
+            
+            topHeight = topHeight + repayViewHeight
         }else {
             self.mineTopView.repayHoldViewContraint.update(offset: 0)
-            monthHeight = 0
-            topHeight = topImageHeight + mineHeight + monthHeight
+            topHeight = topHeight + 0
         }
         self.mineTopConstrain.update(offset: topHeight)
         

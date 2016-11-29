@@ -36,6 +36,8 @@ class AppDelegate: UIResponder, UIApplicationDelegate,UITabBarControllerDelegate
         //监听网络
         self.listeningNetStatus()
         
+        self.doWithTalkingData()
+        
         return true
     }
 
@@ -98,7 +100,13 @@ class AppDelegate: UIResponder, UIApplicationDelegate,UITabBarControllerDelegate
         }
         self.manager?.startListening()
     }
-
+    
+    //MARK: - talkingdata 集成
+    func doWithTalkingData(){
+        // App ID: 在 App Analytics 创建应用后，进入数据报表页中，在“系统设置”-“编辑应用”页面里查看App ID。
+        // 渠道 ID: 是渠道标识符，可通过不同渠道单独追踪数据。
+        TalkingData.sessionStarted("05F6B9AFBFF24A2AA825986F102A9B6D", withChannelId: "appStore")
+    }
     
 }
 

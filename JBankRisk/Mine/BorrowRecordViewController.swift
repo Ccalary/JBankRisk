@@ -342,6 +342,7 @@ class BorrowRecordViewController: UIViewController,UITableViewDelegate, UITableV
         
         var params = NetConnect.getBaseRequestParams()
         params["userId"] = UserHelper.getUserId()!
+        params["pFlag"] = "1"//固定值，用来区分返回的金额数值
         
         NetConnect.pc_borrow_record(parameters: params, success: { response in
             //隐藏HUD

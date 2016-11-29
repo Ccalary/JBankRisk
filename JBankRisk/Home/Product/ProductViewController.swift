@@ -24,7 +24,7 @@ class ProductViewController: UIViewController,UITableViewDelegate, UITableViewDa
     var uploadSucDelegate: UploadSuccessDelegate?
     
     //商户名称
-    var saleName = "3333"
+    var saleName = ""
     //产品名称
     var proName = ""
     //选择的期限
@@ -377,14 +377,14 @@ class ProductViewController: UIViewController,UITableViewDelegate, UITableViewDa
             self.showHint(in: self.view, hint: "订单已生成，信息不可更改哦！")
             return
         }
-        //判断是否可以上传   //self.saleName.characters.count > 0//商户名称
+        //判断是否可以上传
         guard self.proName.characters.count > 0,
+             self.saleName.characters.count > 0,
              self.borrowMoney.characters.count > 0,
              self.selectPeriodInfo.text.characters.count > 0,
              self.workerName.characters.count > 0
              else {
                 self.showHint(in: self.view, hint: "请完善信息再上传!")
-                
                 return
         }
     
@@ -459,9 +459,7 @@ class ProductViewController: UIViewController,UITableViewDelegate, UITableViewDa
             guard json["RET_CODE"] == "000000" else{
                 return self.showHint(in: self.view, hint: json["RET_DESC"].stringValue)
             }
-            
             self.refreshUI(json: json["orderInfo"])
-            
             
         }, failure:{ error in
             //隐藏HUD

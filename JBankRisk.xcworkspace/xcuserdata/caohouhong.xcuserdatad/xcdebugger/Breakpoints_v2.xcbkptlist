@@ -9,13 +9,235 @@
             shouldBeEnabled = "Yes"
             ignoreCount = "0"
             continueAfterRunningActions = "No"
-            filePath = "JBankRisk/Mine/RepayDetailViewController.swift"
-            timestampString = "501750435.802507"
+            filePath = "JBankRisk/Mine/SystemMessage/SysMessageViewController.swift"
+            timestampString = "502126334.4293"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "303"
-            endingLineNumber = "303"
-            landmarkName = "tableView(_:didSelectRowAt:)"
+            startingLineNumber = "249"
+            endingLineNumber = "249"
+            landmarkName = "requestData()"
+            landmarkType = "7">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            shouldBeEnabled = "Yes"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "JBankRisk/Mine/SystemMessage/SysMessageViewController.swift"
+            timestampString = "502126396.261068"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "37"
+            endingLineNumber = "37"
+            landmarkName = "viewDidAppear(_:)"
+            landmarkType = "7">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            shouldBeEnabled = "Yes"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "JBankRisk/Mine/SystemMessage/SysMessageViewController.swift"
+            timestampString = "502126399.482295"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "44"
+            endingLineNumber = "44"
+            landmarkName = "setNavUI()"
+            landmarkType = "7">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            shouldBeEnabled = "Yes"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "JBankRisk/Mine/SystemMessage/SysMessageViewController.swift"
+            timestampString = "502126411.181206"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "107"
+            endingLineNumber = "107"
+            landmarkName = "setupUI()"
+            landmarkType = "7">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            shouldBeEnabled = "Yes"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "JBankRisk/Mine/SystemMessage/SysMessageViewController.swift"
+            timestampString = "502126500.033729"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "15"
+            endingLineNumber = "15"
+            landmarkName = "SysMessageViewController"
+            landmarkType = "3">
+            <Locations>
+               <Location
+                  shouldBeEnabled = "Yes"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "JBankRisk.SysMessageViewController.page.getter : Swift.Int"
+                  moduleName = "JBankRisk"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/caohouhong/Desktop/%E6%88%91%E7%9A%84/JBankRisk/JBankRisk/Mine/SystemMessage/SysMessageViewController.swift"
+                  timestampString = "502126749.008516"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "16"
+                  endingLineNumber = "16"
+                  offsetFromSymbolStart = "28">
+               </Location>
+               <Location
+                  shouldBeEnabled = "Yes"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "JBankRisk.SysMessageViewController.page.setter : Swift.Int"
+                  moduleName = "JBankRisk"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/caohouhong/Desktop/%E6%88%91%E7%9A%84/JBankRisk/JBankRisk/Mine/SystemMessage/SysMessageViewController.swift"
+                  timestampString = "502126749.010319"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "16"
+                  endingLineNumber = "16"
+                  offsetFromSymbolStart = "32">
+               </Location>
+               <Location
+                  shouldBeEnabled = "Yes"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "JBankRisk.SysMessageViewController.init (nibName : Swift.Optional&lt;Swift.String&gt;, bundle : Swift.Optional&lt;__ObjC.Bundle&gt;) -&gt; JBankRisk.SysMessageViewController"
+                  moduleName = "JBankRisk"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/caohouhong/Desktop/%E6%88%91%E7%9A%84/JBankRisk/JBankRisk/Mine/SystemMessage/SysMessageViewController.swift"
+                  timestampString = "502126749.012235"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "16"
+                  endingLineNumber = "16"
+                  offsetFromSymbolStart = "100">
+               </Location>
+               <Location
+                  shouldBeEnabled = "Yes"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "JBankRisk.SysMessageViewController.init (coder : __ObjC.NSCoder) -&gt; Swift.Optional&lt;JBankRisk.SysMessageViewController&gt;"
+                  moduleName = "JBankRisk"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/caohouhong/Desktop/%E6%88%91%E7%9A%84/JBankRisk/JBankRisk/Mine/SystemMessage/SysMessageViewController.swift"
+                  timestampString = "502126749.014011"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "16"
+                  endingLineNumber = "16"
+                  offsetFromSymbolStart = "56">
+               </Location>
+            </Locations>
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            shouldBeEnabled = "Yes"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "JBankRisk/Mine/SystemMessage/SysMessageViewController.swift"
+            timestampString = "502126539.746017"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "71"
+            endingLineNumber = "71"
+            landmarkName = "setNavUI()"
+            landmarkType = "7">
+            <Locations>
+               <Location
+                  shouldBeEnabled = "Yes"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "JBankRisk.SysMessageViewController.setNavUI () -&gt; ()"
+                  moduleName = "JBankRisk"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/caohouhong/Desktop/%E6%88%91%E7%9A%84/JBankRisk/JBankRisk/Mine/SystemMessage/SysMessageViewController.swift"
+                  timestampString = "502126749.018931"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "71"
+                  endingLineNumber = "71"
+                  offsetFromSymbolStart = "1092">
+               </Location>
+               <Location
+                  shouldBeEnabled = "Yes"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "JBankRisk.SysMessageViewController.(setNavUI () -&gt; ()).(closure #4)"
+                  moduleName = "JBankRisk"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/caohouhong/Desktop/%E6%88%91%E7%9A%84/JBankRisk/JBankRisk/Mine/SystemMessage/SysMessageViewController.swift"
+                  timestampString = "502126749.020987"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "72"
+                  endingLineNumber = "72"
+                  offsetFromSymbolStart = "24">
+               </Location>
+            </Locations>
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            shouldBeEnabled = "Yes"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "JBankRisk/Mine/SystemMessage/SysMessageViewController.swift"
+            timestampString = "502126569.712702"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "238"
+            endingLineNumber = "238"
+            landmarkName = "requestData()"
+            landmarkType = "7">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            shouldBeEnabled = "Yes"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "JBankRisk/Mine/SystemMessage/SysMessageViewController.swift"
+            timestampString = "502126580.49535"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "245"
+            endingLineNumber = "245"
+            landmarkName = "requestData()"
+            landmarkType = "7">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            shouldBeEnabled = "Yes"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "JBankRisk/Mine/SystemMessage/SysMessageViewController.swift"
+            timestampString = "502126607.561474"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "184"
+            endingLineNumber = "184"
+            landmarkName = "tableView(_:numberOfRowsInSection:)"
             landmarkType = "7">
          </BreakpointContent>
       </BreakpointProxy>

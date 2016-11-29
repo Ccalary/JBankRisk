@@ -15,7 +15,6 @@ class NeedRepayViewController: UIViewController,UITableViewDelegate, UITableView
     //是否打开了下拉框
     var isTransformed: Bool = false
     var selectViewConstraint: Constraint?
-    var titleButton: UIButton!
     
     //数据
     var dataArray: [JSON] = [] {
@@ -44,17 +43,24 @@ class NeedRepayViewController: UIViewController,UITableViewDelegate, UITableView
     func setTitle(){
         let titleView = UIView(frame: CGRect(x: 0, y: 0, width: 100*UIRate, height: 40))
         
-        titleButton = UIButton(frame: CGRect(x: 10*UIRate, y: 0, width: 80*UIRate, height: 40))
-        titleButton.setTitle("全部应还", for: .normal)
-        titleButton.setTitleColor(UIColorHex("000000"), for: .normal)
-        titleButton.addTarget(self, action: #selector(titleButtonAction), for: .touchUpInside)
+        titleView.addSubview(titleTextLabel)
         titleView.addSubview(titleButton)
         titleView.addSubview(titleArrowImgView)
         
+        titleTextLabel.snp.makeConstraints { (make) in
+            make.centerX.equalTo(titleView)
+            make.centerY.equalTo(titleView)
+        }
+        
+        titleButton.snp.makeConstraints { (make) in
+            make.size.equalTo(titleView)
+            make.center.equalTo(titleView)
+        }
+        
         titleArrowImgView.snp.makeConstraints { (make) in
             make.width.height.equalTo(6*UIRate)
-            make.left.equalTo(titleButton.snp.right)
-            make.centerY.equalTo(titleButton)
+            make.left.equalTo(titleTextLabel.snp.right).offset(2*UIRate)
+            make.centerY.equalTo(titleTextLabel)
         }
         
         self.navigationItem.titleView = titleView
@@ -80,10 +86,9 @@ class NeedRepayViewController: UIViewController,UITableViewDelegate, UITableView
         })
         
         self.view.addSubview(defaultView)
-        self.aTableView.tableHeaderView = bannerImageView
-        
-        self.bannerImageView.addSubview(totalTextLabel)
-        self.bannerImageView.addSubview(moneyLabel)
+//        self.aTableView.tableHeaderView = bannerImageView
+//        self.bannerImageView.addSubview(totalTextLabel)
+//        self.bannerImageView.addSubview(moneyLabel)
         
         self.view.addSubview(selectBgView)
         self.view.addSubview(selectView)
@@ -92,7 +97,7 @@ class NeedRepayViewController: UIViewController,UITableViewDelegate, UITableView
             make.width.equalTo(self.view)
             make.height.equalTo(SCREEN_HEIGHT - 64)
             make.centerX.equalTo(self.view)
-            make.top.equalTo(156*UIRate + 64)
+            make.top.equalTo(64)
         }
 
         
@@ -103,15 +108,15 @@ class NeedRepayViewController: UIViewController,UITableViewDelegate, UITableView
             make.top.equalTo(64)
         }
         
-        totalTextLabel.snp.makeConstraints { (make) in
-            make.centerX.equalTo(self.view)
-            make.top.equalTo(40*UIRate)
-        }
-        
-        moneyLabel.snp.makeConstraints { (make) in
-            make.centerX.equalTo(self.view)
-            make.top.equalTo(totalTextLabel.snp.bottom).offset(23*UIRate)
-        }
+//        totalTextLabel.snp.makeConstraints { (make) in
+//            make.centerX.equalTo(self.view)
+//            make.top.equalTo(40*UIRate)
+//        }
+//        
+//        moneyLabel.snp.makeConstraints { (make) in
+//            make.centerX.equalTo(self.view)
+//            make.top.equalTo(totalTextLabel.snp.bottom).offset(23*UIRate)
+//        }
 
         selectBgView.snp.makeConstraints { (make) in
             make.size.equalTo(self.view)
@@ -124,7 +129,6 @@ class NeedRepayViewController: UIViewController,UITableViewDelegate, UITableView
             make.centerX.equalTo(self.view)
             self.selectViewConstraint = make.top.equalTo(-180*UIRate).constraint
         }
-        
     }
     
     //缺省页
@@ -141,6 +145,23 @@ class NeedRepayViewController: UIViewController,UITableViewDelegate, UITableView
         return imageView
     }()
     
+    private lazy var titleTextLabel: UILabel = {
+        let label = UILabel()
+        label.font = UIFontSize(size: 15*UIRate)
+        label.textAlignment = .center
+        label.textColor = UIColorHex("666666")
+        label.text = "全部应还"
+        return label
+    }()
+    
+    //／title按钮
+    private lazy var titleButton: UIButton = {
+        let button = UIButton()
+        button.addTarget(self, action: #selector(titleButtonAction), for: .touchUpInside)
+        return button
+    }()
+
+    /* 界面更改，去掉头部
     //top图片
     private lazy var bannerImageView: UIImageView = {
         let imageView = UIImageView(frame: CGRect(x: 0, y: 0, width: SCREEN_WIDTH, height: 156*UIRate))
@@ -166,6 +187,7 @@ class NeedRepayViewController: UIViewController,UITableViewDelegate, UITableView
         return label
     }()
     
+ */
     private lazy var aTableView: UITableView = {
         
         let tableView = UITableView()
@@ -279,7 +301,7 @@ class NeedRepayViewController: UIViewController,UITableViewDelegate, UITableView
     //点击了下拉框的回调
     func selectViewClick(){
         selectView.onClickCell = { (title,index) in
-            self.titleButton.setTitle(title, for: .normal)
+            self.titleTextLabel.text = title
             self.selectIndex = index
             self.closeSelectView()
             self.requestData()
@@ -357,7 +379,7 @@ class NeedRepayViewController: UIViewController,UITableViewDelegate, UITableView
             }
             
             self.refreshUI(json: json["needRepay"])
-            self.moneyLabel.text =  toolsChangeMoneyStyle(amount: json["back"]["needPayTotal"].doubleValue)
+//            self.moneyLabel.text =  toolsChangeMoneyStyle(amount: json["back"]["needPayTotal"].doubleValue)
             
         }, failure:{ error in
             //隐藏HUD

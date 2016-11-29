@@ -57,8 +57,9 @@ class CyclePictureView: UIView, UIScrollViewDelegate{
         pageControl.numberOfPages = imageArray.count
         pageControl.currentPage = 0
         pageControl.isUserInteractionEnabled = false
-        pageControl.currentPageIndicatorTintColor = UIColor(red: 1, green: 0.6, blue: 0.9, alpha: 1)
-        pageControl.pageIndicatorTintColor = UIColor.brown
+        //颜色设置
+//        pageControl.currentPageIndicatorTintColor = UIColor(red: 1, green: 0.6, blue: 0.9, alpha: 1)
+//        pageControl.pageIndicatorTintColor = UIColor.brown
         self.addSubview(pageControl)
         
         reloadImageData()

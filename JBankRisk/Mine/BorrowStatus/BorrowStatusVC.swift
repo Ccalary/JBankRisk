@@ -101,6 +101,8 @@ class BorrowStatusVC: UIViewController {
     
     //Nav
     func setNavUI(){
+        
+        self.navTextLabel.text = self.title
         self.view.addSubview(navHoldView)
         self.navHoldView.addSubview(navImageView)
         self.navHoldView.addSubview(navTextLabel)
@@ -214,7 +216,6 @@ class BorrowStatusVC: UIViewController {
             make.centerX.equalTo(self.view)
             make.top.equalTo(defaultProView.snp.bottom)
         }
-        
     }
     
     private lazy var mScrollView: UIScrollView = {

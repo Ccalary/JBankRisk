@@ -7,10 +7,11 @@
 //
 
 import UIKit
-import ContactsUI
 import SwiftyJSON
+import AddressBookUI
+import ContactsUI //iOS 9.0以上可用
 
-class ContactViewController: UIViewController, UITableViewDelegate, UITableViewDataSource,CNContactPickerDelegate {
+class ContactViewController: UIViewController, UITableViewDelegate, UITableViewDataSource,ABPeoplePickerNavigationControllerDelegate,CNContactPickerDelegate {
     
     var ContactCellData:[CellDataInfo] = [CellDataInfo(leftText: "常住地址", holdText: "请选择所属地区", content: "", cellType: .arrowType),
         CellDataInfo(leftText: "", holdText: "详细街道地址", content: "", cellType: .clearType),
@@ -25,8 +26,12 @@ class ContactViewController: UIViewController, UITableViewDelegate, UITableViewD
         CellDataInfo(leftText: "", holdText: "填写手机号码", content: "", cellType: .clearType)]
     
     var uploadSucDelegate:UploadSuccessDelegate?
-    
-    var pickerVC:CNContactPickerViewController!
+
+//    if #available(iOS 9.0, *) {
+//       var pickerVC:ABPeoplePickerNavigationController!
+//    }else {
+//       var pickerVC2:CNContactPickerViewController!
+//    }
     
     //地区信息
     var areaInfo:(pro:String, city:String, county:String) = ("","","")
@@ -50,20 +55,19 @@ class ContactViewController: UIViewController, UITableViewDelegate, UITableViewD
     
     override func viewDidLoad() {
         super.viewDidLoad()
+    
         self.setupUI()
         //访问通讯录
-        pickerVC = CNContactPickerViewController()
-        pickerVC.delegate = self
-        
+//        pickerVC = ABPeoplePickerNavigationController()
+//        pickerVC.peoplePickerDelegate = self
+//        
         if UserHelper.getContactIsUpload() {
             self.requestContactInfo()
         }
-        
     }
     
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
-        
     }
     
     func setupUI(){
@@ -75,7 +79,6 @@ class ContactViewController: UIViewController, UITableViewDelegate, UITableViewD
         self.navigationItem.leftBarButtonItem = UIBarButtonItem(image: UIImage(named:"navigation_left_back_13x21"), style: .plain, target: self, action: #selector(leftNavigationBarBtnAction))
         
         self.view.frame = CGRect(x: 0, y: 64, width: SCREEN_WIDTH, height: SCREEN_HEIGHT - 64 - 64*UIRate)
-        
         
         self.view.addSubview(aScrollView)
         self.aScrollView.addSubview(aTableView)
@@ -156,7 +159,6 @@ class ContactViewController: UIViewController, UITableViewDelegate, UITableViewD
         lineView.backgroundColor = defaultDivideLineColor
         return lineView
     }()
-    
     
     //／按钮
     private lazy var nextStepBtn: UIButton = {
@@ -264,7 +266,6 @@ class ContactViewController: UIViewController, UITableViewDelegate, UITableViewD
         }else {
             return 50*UIRate
         }
-        
     }
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
@@ -331,10 +332,28 @@ class ContactViewController: UIViewController, UITableViewDelegate, UITableViewD
             }
         }else if indexPath.row == self.ContactCellData.count - 6 { //亲属联系人姓名
             contactType = 0
-            self.present(pickerVC, animated: true, completion: nil)
+            
+            if #available(iOS 9.0, *) {
+                let pickerVC = CNContactPickerViewController()
+                pickerVC.delegate = self
+                self.present(pickerVC, animated: true, completion: nil)
+            }else {
+                let pickerVC = ABPeoplePickerNavigationController()
+                pickerVC.peoplePickerDelegate = self
+                self.present(pickerVC, animated: true, completion: nil)
+            }
         }else if indexPath.row == self.ContactCellData.count - 3 { //紧急联系人姓名
             contactType = 1
-            self.present(pickerVC, animated: true, completion: nil)
+            
+            if #available(iOS 9.0, *) {
+                let pickerVC = CNContactPickerViewController()
+                pickerVC.delegate = self
+                self.present(pickerVC, animated: true, completion: nil)
+            }else {
+                let pickerVC = ABPeoplePickerNavigationController()
+                pickerVC.peoplePickerDelegate = self
+                self.present(pickerVC, animated: true, completion: nil)
+            }
         }
     }
     
@@ -365,6 +384,8 @@ class ContactViewController: UIViewController, UITableViewDelegate, UITableViewD
     
     //MARK: - 访问通讯录
     //代理方法--可获得姓名，电话，邮箱等信息
+  
+    @available(iOS 9.0, *)
     func contactPicker(_ picker: CNContactPickerViewController, didSelect contact: CNContact) {
         var phoneNum = ""
         for i in contact.phoneNumbers {
@@ -379,6 +400,35 @@ class ContactViewController: UIViewController, UITableViewDelegate, UITableViewD
         }
         //刷新
         self.aTableView.reloadData()
+    }
+
+    @available(iOS 8.0, *)
+    func peoplePickerNavigationController(_ peoplePicker: ABPeoplePickerNavigationController, didSelectPerson person: ABRecord) {
+        //获取姓
+        let lastName = ABRecordCopyValue(person, kABPersonLastNameProperty).takeRetainedValue()
+            as! String
+        PrintLog("选中人的姓：\(lastName)")
+        
+        //获取名
+        let firstName = ABRecordCopyValue(person, kABPersonFirstNameProperty).takeRetainedValue()
+            as! String
+        PrintLog("选中人的名：\(firstName)")
+        
+        //获取电话
+        var phoneValues:ABMutableMultiValue? =
+            ABRecordCopyValue(person, kABPersonPhoneProperty).takeRetainedValue()
+        if phoneValues == nil {
+           phoneValues = "" as ABMutableMultiValue?
+        }
+        
+        if contactType == 0{
+            self.relativeContactInfo = ((lastName + firstName),phoneValues as! String)
+        }else if contactType == 1{
+            self.urgentContactInfo = ((lastName + firstName),phoneValues as! String)
+        }
+        //刷新
+        self.aTableView.reloadData()
+        
     }
     
     //MARK: - Method
@@ -469,7 +519,7 @@ class ContactViewController: UIViewController, UITableViewDelegate, UITableViewD
         params["residenceTime"] = self.liveTimeInfo.text //居住时间
         params["contactsType1"] = "1"//固定
         params["contactsType2"] = "2"
-        params["relation1"] = self.relativeInfo.row + 1//亲属关系
+        params["relation1"] = self.relativeInfo.row//亲属关系  /*神奇的从0开始*/
         params["name1"] = self.relativeContactInfo.name //直系姓名
         params["mobile1"] = self.relativeContactInfo.number //直系电话
         params["relation2"] = "4"//紧急联系人关系
@@ -540,7 +590,7 @@ class ContactViewController: UIViewController, UITableViewDelegate, UITableViewD
         self.monthRent = json["forTheMonth"].stringValue
         self.liveTimeInfo.text = json["residenceTime"].stringValue
         
-        self.relativeInfo.row = contact[0]["relation"].intValue - 1
+        self.relativeInfo.row = contact[0]["relation"].intValue
         self.relativeInfo.text = relativeData[self.relativeInfo.row]
         self.relativeContactInfo.name = contact[0]["NAME"].stringValue
         self.relativeContactInfo.number = contact[0]["mobile"].stringValue

@@ -17,3 +17,6 @@
 
 //身份证识别
 #import "IDCardViewController.h"
+
+//talkingData
+#import "TalkingData.h"

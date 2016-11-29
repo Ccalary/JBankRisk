@@ -87,7 +87,16 @@
 		0D61C42E1DB0CE0000C2BC23 /* BorrowMoneyView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0D61C42D1DB0CE0000C2BC23 /* BorrowMoneyView.swift */; };
 		0D61C4321DB128F600C2BC23 /* BorrowMoneyDoneView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0D61C4311DB128F600C2BC23 /* BorrowMoneyDoneView.swift */; };
 		0D64C8B01DE6E9200071EEE8 /* DataReuploadVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0D64C8AF1DE6E9200071EEE8 /* DataReuploadVC.swift */; };
+		0D737C101DEC0D3E00700F15 /* libTalkingData.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 0D737C0E1DEC0D3E00700F15 /* libTalkingData.a */; };
+		0D737C121DEC0E3900700F15 /* AdSupport.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 0D737C111DEC0E3900700F15 /* AdSupport.framework */; };
+		0D737C141DEC0E4800700F15 /* CoreTelephony.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 0D737C131DEC0E4800700F15 /* CoreTelephony.framework */; };
+		0D737C161DEC0E5100700F15 /* CoreMotion.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 0D737C151DEC0E5100700F15 /* CoreMotion.framework */; };
+		0D737C181DEC0E5800700F15 /* Security.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 0D737C171DEC0E5800700F15 /* Security.framework */; };
+		0D737C1A1DEC0E6400700F15 /* SystemConfiguration.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 0D737C191DEC0E6400700F15 /* SystemConfiguration.framework */; };
+		0D737C1C1DEC0E7A00700F15 /* libz.tbd in Frameworks */ = {isa = PBXBuildFile; fileRef = 0D737C1B1DEC0E7A00700F15 /* libz.tbd */; };
 		0D7BBB881DE316480071B84E /* RepayedNameView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0D7BBB871DE316480071B84E /* RepayedNameView.swift */; };
+		0D7EEF861DE8988400DBF0D4 /* AddressBookUI.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 0D7EEF851DE8988400DBF0D4 /* AddressBookUI.framework */; };
+		0D7EEF881DE8988A00DBF0D4 /* AddressBook.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 0D7EEF871DE8988A00DBF0D4 /* AddressBook.framework */; };
 		0D84AACE1DE1919D00957B0A /* CNPPopupController.m in Sources */ = {isa = PBXBuildFile; fileRef = 0D84AAB81DE1919D00957B0A /* CNPPopupController.m */; };
 		0D84AACF1DE1919D00957B0A /* iCarousel.m in Sources */ = {isa = PBXBuildFile; fileRef = 0D84AABB1DE1919D00957B0A /* iCarousel.m */; };
 		0D84AAD01DE1919D00957B0A /* Capture.m in Sources */ = {isa = PBXBuildFile; fileRef = 0D84AABE1DE1919D00957B0A /* Capture.m */; };
@@ -240,7 +249,17 @@
 		0D61C42D1DB0CE0000C2BC23 /* BorrowMoneyView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BorrowMoneyView.swift; sourceTree = "<group>"; };
 		0D61C4311DB128F600C2BC23 /* BorrowMoneyDoneView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BorrowMoneyDoneView.swift; sourceTree = "<group>"; };
 		0D64C8AF1DE6E9200071EEE8 /* DataReuploadVC.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DataReuploadVC.swift; sourceTree = "<group>"; };
+		0D737C0E1DEC0D3E00700F15 /* libTalkingData.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; path = libTalkingData.a; sourceTree = "<group>"; };
+		0D737C0F1DEC0D3E00700F15 /* TalkingData.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TalkingData.h; sourceTree = "<group>"; };
+		0D737C111DEC0E3900700F15 /* AdSupport.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AdSupport.framework; path = System/Library/Frameworks/AdSupport.framework; sourceTree = SDKROOT; };
+		0D737C131DEC0E4800700F15 /* CoreTelephony.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreTelephony.framework; path = System/Library/Frameworks/CoreTelephony.framework; sourceTree = SDKROOT; };
+		0D737C151DEC0E5100700F15 /* CoreMotion.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreMotion.framework; path = System/Library/Frameworks/CoreMotion.framework; sourceTree = SDKROOT; };
+		0D737C171DEC0E5800700F15 /* Security.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Security.framework; path = System/Library/Frameworks/Security.framework; sourceTree = SDKROOT; };
+		0D737C191DEC0E6400700F15 /* SystemConfiguration.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SystemConfiguration.framework; path = System/Library/Frameworks/SystemConfiguration.framework; sourceTree = SDKROOT; };
+		0D737C1B1DEC0E7A00700F15 /* libz.tbd */ = {isa = PBXFileReference; lastKnownFileType = "sourcecode.text-based-dylib-definition"; name = libz.tbd; path = usr/lib/libz.tbd; sourceTree = SDKROOT; };
 		0D7BBB871DE316480071B84E /* RepayedNameView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RepayedNameView.swift; sourceTree = "<group>"; };
+		0D7EEF851DE8988400DBF0D4 /* AddressBookUI.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AddressBookUI.framework; path = System/Library/Frameworks/AddressBookUI.framework; sourceTree = SDKROOT; };
+		0D7EEF871DE8988A00DBF0D4 /* AddressBook.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AddressBook.framework; path = System/Library/Frameworks/AddressBook.framework; sourceTree = SDKROOT; };
 		0D84AAB71DE1919D00957B0A /* CNPPopupController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CNPPopupController.h; sourceTree = "<group>"; };
 		0D84AAB81DE1919D00957B0A /* CNPPopupController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CNPPopupController.m; sourceTree = "<group>"; };
 		0D84AABA1DE1919D00957B0A /* iCarousel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = iCarousel.h; sourceTree = "<group>"; };
@@ -312,6 +331,15 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				0D737C1C1DEC0E7A00700F15 /* libz.tbd in Frameworks */,
+				0D737C1A1DEC0E6400700F15 /* SystemConfiguration.framework in Frameworks */,
+				0D737C181DEC0E5800700F15 /* Security.framework in Frameworks */,
+				0D737C161DEC0E5100700F15 /* CoreMotion.framework in Frameworks */,
+				0D737C141DEC0E4800700F15 /* CoreTelephony.framework in Frameworks */,
+				0D737C121DEC0E3900700F15 /* AdSupport.framework in Frameworks */,
+				0D7EEF881DE8988A00DBF0D4 /* AddressBook.framework in Frameworks */,
+				0D7EEF861DE8988400DBF0D4 /* AddressBookUI.framework in Frameworks */,
+				0D737C101DEC0D3E00700F15 /* libTalkingData.a in Frameworks */,
 				0D84AAD41DE1919D00957B0A /* libexidcardios.a in Frameworks */,
 				0DC4C5B11DD6CF79007FDBDD /* Foundation.framework in Frameworks */,
 				0DC4C5AF1DD6CF70007FDBDD /* UIKit.framework in Frameworks */,
@@ -619,9 +647,19 @@
 			path = Area;
 			sourceTree = "<group>";
 		};
+		0D737C0D1DEC0CA700700F15 /* TalkingData */ = {
+			isa = PBXGroup;
+			children = (
+				0D737C0E1DEC0D3E00700F15 /* libTalkingData.a */,
+				0D737C0F1DEC0D3E00700F15 /* TalkingData.h */,
+			);
+			path = TalkingData;
+			sourceTree = "<group>";
+		};
 		0D84AAB51DE1919D00957B0A /* 3rd */ = {
 			isa = PBXGroup;
 			children = (
+				0D737C0D1DEC0CA700700F15 /* TalkingData */,
 				0D1E823D1DE192690040B39E /* PhotoPicker */,
 				0D84AAB61DE1919D00957B0A /* CNPPopupController */,
 				0D84AAB91DE1919D00957B0A /* iCarousel */,
@@ -833,6 +871,14 @@
 		466C00E10A39615B530B0FDE /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				0D737C1B1DEC0E7A00700F15 /* libz.tbd */,
+				0D737C191DEC0E6400700F15 /* SystemConfiguration.framework */,
+				0D737C171DEC0E5800700F15 /* Security.framework */,
+				0D737C151DEC0E5100700F15 /* CoreMotion.framework */,
+				0D737C131DEC0E4800700F15 /* CoreTelephony.framework */,
+				0D737C111DEC0E3900700F15 /* AdSupport.framework */,
+				0D7EEF871DE8988A00DBF0D4 /* AddressBook.framework */,
+				0D7EEF851DE8988400DBF0D4 /* AddressBookUI.framework */,
 				0DC4C5B01DD6CF79007FDBDD /* Foundation.framework */,
 				0DC4C5AE1DD6CF70007FDBDD /* UIKit.framework */,
 				0DC4C5AC1DD6CF5F007FDBDD /* CoreGraphics.framework */,
@@ -1260,7 +1306,7 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				IPHONEOS_DEPLOYMENT_TARGET = 9.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
 				MTL_ENABLE_DEBUG_INFO = YES;
 				ONLY_ACTIVE_ARCH = YES;
 				PROVISIONING_PROFILE = "";
@@ -1309,7 +1355,7 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				IPHONEOS_DEPLOYMENT_TARGET = 9.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
 				MTL_ENABLE_DEBUG_INFO = NO;
 				ONLY_ACTIVE_ARCH = YES;
 				PROVISIONING_PROFILE = "";
@@ -1337,6 +1383,7 @@
 					"$(inherited)",
 					"$(PROJECT_DIR)/JBankRisk/Public/3rd/IDCardScan/libexidcard",
 					"$(PROJECT_DIR)/JBankRisk/Public/3rd/IDCardScan/libexidcard/dicts",
+					"$(PROJECT_DIR)/JBankRisk/Public/3rd/TalkingData",
 				);
 				PRODUCT_BUNDLE_IDENTIFIER = com.jingjinsuo.risk;
 				PRODUCT_NAME = "$(TARGET_NAME)";
@@ -1365,6 +1412,7 @@
 					"$(inherited)",
 					"$(PROJECT_DIR)/JBankRisk/Public/3rd/IDCardScan/libexidcard",
 					"$(PROJECT_DIR)/JBankRisk/Public/3rd/IDCardScan/libexidcard/dicts",
+					"$(PROJECT_DIR)/JBankRisk/Public/3rd/TalkingData",
 				);
 				PRODUCT_BUNDLE_IDENTIFIER = com.jingjinsuo.risk;
 				PRODUCT_NAME = "$(TARGET_NAME)";

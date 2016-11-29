@@ -33,13 +33,14 @@ class HomeViewController: UIViewController, UIGestureRecognizerDelegate{
         self.automaticallyAdjustsScrollViewInsets = false;
         //启动滑动返回（swipe back）
         self.navigationController?.interactivePopGestureRecognizer?.delegate = self
+        
+        //请求版本更新
+        self.requestUpdataVersion()
+        
         //读取缓存
         self.getDataFromCache()
         setup()
         initBannerImage()
-        
-        requestUpdataVersion()
-        
     }
     override func viewWillAppear(_ animated: Bool) {
          self.navigationController?.isNavigationBarHidden = true
@@ -103,10 +104,9 @@ class HomeViewController: UIViewController, UIGestureRecognizerDelegate{
         
         //图片轮播
         bannerView = CyclePictureView(frame: CGRect(x: 0, y: 0, width: SCREEN_WIDTH, height: 220*UIRate), imageArray:imageArray!)
-//        bannerView.delegate = self
+        //bannerView.delegate = self
         self.aTableView.tableHeaderView = bannerView
     }
-    
     
     func requestHomeData(){
         //添加HUD

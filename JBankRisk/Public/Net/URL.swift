@@ -8,9 +8,8 @@
 
 import UIKit
 let LOCAL = "http://192.168.1.121:8080" //本地
-let ONLINE = "http://106.38.109.11:8081" //线上
 
-let BASR_DEV_URL = ONLINE
+let BASR_DEV_URL = LOCAL
 
 /*************注册登录模块(RL)*************/
 

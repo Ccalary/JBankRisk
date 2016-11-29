@@ -7,6 +7,7 @@
 //
 
 import UIKit
+import SwiftyJSON
 
 class AboutOursViewController: UIViewController, UITableViewDelegate, UITableViewDataSource {
 
@@ -225,7 +226,8 @@ class AboutOursViewController: UIViewController, UITableViewDelegate, UITableVie
             phoneCallView.onClickCall = {_ in
                 popupController.dismiss(animated: true)
             }
-            
+        case 5://版本更新
+            self.requestUpdataVersion()
         default:
             break
         }
@@ -241,6 +243,48 @@ class AboutOursViewController: UIViewController, UITableViewDelegate, UITableVie
         if cell.responds(to: #selector(setter: UITableViewCell.layoutMargins)) {
             cell.layoutMargins = .zero
         }
+    }
+    
+    //请求版本更新
+    func requestUpdataVersion(){
+        
+        var params = NetConnect.getBaseRequestParams()
+        params["channel"] = "3"
+        params["versionCode"] = APP_VERSION_CODE
+        
+        NetConnect.other_updata_version(parameters: params, success:
+            { response in
+                let json = JSON(response)
+                guard json["RET_CODE"] == "000000" else{
+                    return self.showHint(in: self.view, hint: json["RET_DESC"].stringValue)
+                }
+                //0-无更新 1-有更新 2-强制更新
+                if json["vjstatus"].stringValue == "1" || json["vjstatus"].stringValue == "2" {
+                    let popupView =  PopupNewVersionView(disText: json["updateDesc"].stringValue)
+                    let popupController = CNPPopupController(contents: [popupView])!
+                    popupController.present(animated: true)
+                    popupView.onClickCancle = { _ in
+                        
+                        if json["vjstatus"].stringValue == "2" {
+                            //强制更新，弹窗消不去
+                        }else {
+                            popupController.dismiss(animated: true)
+                        }
+                    }
+                    //升级
+                    popupView.onClickSure = { _ in
+                        let appstoreUrl = json["updateUrl"].stringValue
+                        let url = URL(string: appstoreUrl)
+                        if let url = url {
+                            UIApplication.shared.openURL(url)
+                        }
+                    }
+                }else if json["vjstatus"].stringValue == "0"{
+                    self.showHint(in: self.view, hint: "已是最新版本")
+                }
+        }, failure: {error in
+            
+        })
     }
 
 }

@@ -125,20 +125,21 @@ class RepayBillViewController: UIViewController, UITableViewDataSource, UITableV
         self.topImageView.addSubview(arrowImageView)
         
         /*******/
+        /*
         self.headerHoldView.addSubview(repayHoldView)
         self.repayHoldView.addSubview(reBottomHoldView)
         self.repayHoldView.addSubview(repayDivideLine)
         self.repayHoldView.addSubview(repayDivideLine2)
         self.repayHoldView.addSubview(repayVerDivideLine)
-        
-        self.repayHoldView.addSubview(moneyTextLabel)
-        self.repayHoldView.addSubview(moneyLabel)
-        self.repayHoldView.addSubview(moneyArrowImageView)
-        self.repayHoldView.addSubview(amountTextLabel)
-        self.repayHoldView.addSubview(amountLabel)
-        self.repayHoldView.addSubview(amountArrowImageView)
-        self.repayHoldView.addSubview(monthBtn)
-        self.repayHoldView.addSubview(amountBtn)
+        */
+//        self.repayHoldView.addSubview(moneyTextLabel)
+//        self.repayHoldView.addSubview(moneyLabel)
+//        self.repayHoldView.addSubview(moneyArrowImageView)
+//        self.repayHoldView.addSubview(amountTextLabel)
+//        self.repayHoldView.addSubview(amountLabel)
+//        self.repayHoldView.addSubview(amountArrowImageView)
+//        self.repayHoldView.addSubview(monthBtn)
+//        self.repayHoldView.addSubview(amountBtn)
         
         aTableView.snp.makeConstraints { (make) in
             make.width.equalTo(self.view)
@@ -177,6 +178,7 @@ class RepayBillViewController: UIViewController, UITableViewDataSource, UITableV
         }
         
         /*****************/
+        /*
         repayHoldView.snp.makeConstraints { (make) in
             make.width.equalTo(self.view)
             make.height.equalTo(70*UIRate)
@@ -258,7 +260,7 @@ class RepayBillViewController: UIViewController, UITableViewDataSource, UITableV
             make.bottom.equalTo(repayHoldView)
         }
 
-        
+        */
         //刷新
         self.aTableView.addPullRefreshHandler({ _ in
             self.requestData()
@@ -393,7 +395,7 @@ class RepayBillViewController: UIViewController, UITableViewDataSource, UITableV
     }()
     
     private lazy var headerHoldView: UIView = {
-        let holdView = UIView(frame: CGRect(x: 0, y: 0, width: SCREEN_WIDTH, height: 226*UIRate))
+        let holdView = UIView(frame: CGRect(x: 0, y: 0, width: SCREEN_WIDTH, height: 156*UIRate))
         holdView.backgroundColor = UIColor.black
         return holdView
     }()
@@ -417,7 +419,7 @@ class RepayBillViewController: UIViewController, UITableViewDataSource, UITableV
         label.font = UIFontSize(size: 15*UIRate)
         label.textAlignment = .center
         label.textColor = UIColor.white
-        label.text = "应还总额(元)"
+        label.text = "本月待还(元)"
         return label
     }()
     
@@ -438,6 +440,7 @@ class RepayBillViewController: UIViewController, UITableViewDataSource, UITableV
     }()
     
     /*************/
+    /*去除，界面更改
     private lazy var repayHoldView: UIView = {
         let holdView = UIView()
         holdView.backgroundColor = UIColor.white
@@ -533,7 +536,7 @@ class RepayBillViewController: UIViewController, UITableViewDataSource, UITableV
         button.addTarget(self, action: #selector(amountBtnAction), for: .touchUpInside)
         return button
     }()
-    
+    */
     /************/
     
     //图片
@@ -762,11 +765,11 @@ class RepayBillViewController: UIViewController, UITableViewDataSource, UITableV
 
     func refreshUI(monthJson: JSON, allJson: JSON){
         //应还总额
-        totalMoneyLabel.text = toolsChangeMoneyStyle(amount: monthJson["totalRefund"].doubleValue)
-        //本月应还
-        moneyLabel.text = toolsChangeMoneyStyle(amount: monthJson["MonthRefund"].doubleValue)
-        //累计已还
-        amountLabel.text = toolsChangeMoneyStyle(amount: monthJson["accountRefund"].doubleValue)
+        totalMoneyLabel.text = toolsChangeMoneyStyle(amount: monthJson["MonthRefund"].doubleValue)
+//        //本月应还
+//        moneyLabel.text = toolsChangeMoneyStyle(amount: monthJson["MonthRefund"].doubleValue)
+//        //累计已还
+//        amountLabel.text = toolsChangeMoneyStyle(amount: monthJson["accountRefund"].doubleValue)
         self.refreshMonthList(json: monthJson)
         
         self.refreshAllList(json: allJson)
@@ -842,15 +845,15 @@ extension RepayBillViewController {
         self.navigationController?.pushViewController(needRepayVC, animated: true)
     }
     
-    //本月待还
-    func monthBtnAction(){
-        let needRepayVC = NeedRepayViewController()
-        self.navigationController?.pushViewController(needRepayVC, animated: true)
-    }
-    
-    //累计还款
-    func amountBtnAction(){
-        let repayListVC = RepayListViewController()
-        self.navigationController?.pushViewController(repayListVC, animated: true)
-    }
+//    //本月待还
+//    func monthBtnAction(){
+//        let needRepayVC = NeedRepayViewController()
+//        self.navigationController?.pushViewController(needRepayVC, animated: true)
+//    }
+//    
+//    //累计还款
+//    func amountBtnAction(){
+//        let repayListVC = RepayListViewController()
+//        self.navigationController?.pushViewController(repayListVC, animated: true)
+//    }
 }

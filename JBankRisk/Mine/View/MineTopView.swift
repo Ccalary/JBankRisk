@@ -54,6 +54,7 @@ class MineTopView: UIView {
         /*****************/
         self.addSubview(tipsHoldView)
         self.tipsHoldView.addSubview(tipsTextLabel)
+        self.addSubview(overdueBtn)
         
         /*************/
         self.addSubview(repayHoldView)
@@ -120,7 +121,13 @@ class MineTopView: UIView {
         make.centerX.equalTo(self)
         make.centerY.equalTo(tipsHoldView)
         }
-        
+    
+       overdueBtn.snp.makeConstraints { (make) in
+        make.size.equalTo(tipsHoldView)
+        make.center.equalTo(tipsHoldView)
+    }
+
+    
         /*********/
         repayHoldView.snp.makeConstraints { (make) in
         make.width.equalTo(self)
@@ -251,6 +258,14 @@ class MineTopView: UIView {
         label.textColor = UIColorHex("e9342d")
         label.text = ""
         return label
+    }()
+    
+    //／逾期
+    lazy var overdueBtn: UIButton = {
+        let button = UIButton()
+        button.tag = 40000
+        button.addTarget(self, action: #selector(buttonAction(_:)), for: .touchUpInside)
+        return button
     }()
     
     /*************/

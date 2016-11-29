@@ -173,8 +173,8 @@ class RepayPeriodDetailVC: UIViewController {
         
         //应还本息
         let shouldRepay = "应还本息:    " + toolsChangeMoneyStyle(amount: json["amt_total"].doubleValue) + "元"
-        //剩余未还
-        let restRepay = "剩余未还:    " + toolsChangeMoneyStyle(amount: json["amt_total"].doubleValue - json["pay_amt_total"].doubleValue) + "元"
+        //剩余未还 = 应还本息 ＋ 逾期罚金 ＋ 滞纳金 － 已还
+        let restRepay = "剩余未还:    " + toolsChangeMoneyStyle(amount: json["amt_total"].doubleValue + json["penalty_amt"].doubleValue + json["demurrage"].doubleValue - json["pay_amt_total"].doubleValue) + "元"
         //到期时间
         let repayTime = "到期时间:    " + toolsChangeDateStyle(toYYYYMMDD: json["realpay_date"].stringValue)
         //逾期天数
