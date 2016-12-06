@@ -374,15 +374,12 @@ class LoginViewController: UIViewController {
                     self.sendRandomCodeTo(number: phoneNum)
                 }
         }, failure: {error in
-            
         })
-        
     }
     //短信验证码登录
     func codeLoginBtnAction(){
-        
+    
         self.view.endEditing(true)
-        
         let loginCodeVC = LoginCodeViewController()
         loginCodeVC.isPush = self.isPush
         self.navigationController?.pushViewController(loginCodeVC, animated: true)
@@ -415,6 +412,7 @@ class LoginViewController: UIViewController {
         if self.errorTextLabel.alpha == 1 {
             self.hideErrorTips()
         }
+ 
     }
     
     ///发送验证码

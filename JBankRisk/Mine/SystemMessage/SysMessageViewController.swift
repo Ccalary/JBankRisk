@@ -192,7 +192,7 @@ class SysMessageViewController: UIViewController,UITableViewDelegate, UITableVie
         //标题
         cell.topTextLabel.text = "借款进度提醒"
         cell.bottomTextLabel.text = dataArray[indexPath.row].dictionary?["result"]?.stringValue
-        cell.timeTextLabel.text = toolsChangeDateStyle(toYYYYMMDD: (dataArray[indexPath.row].dictionary?["time_stamp"]!.stringValue)!)
+        cell.timeTextLabel.text = toolsChangeDateStyle(toYYYYMMDD: ((dataArray[indexPath.row].dictionary?["time_stamp"]?.stringValue) ?? ""))//预防后台吃掉返回字段
         //0-未读  1-已读
         if dataArray[indexPath.row].dictionary?["flag"]?.stringValue == "0"{
            cell.redImageView.isHidden = false
@@ -213,7 +213,7 @@ class SysMessageViewController: UIViewController,UITableViewDelegate, UITableVie
         viewController.contentText = (dataArray[indexPath.row].dictionary?["result"]?.stringValue)!
         self.navigationController?.pushViewController(viewController, animated: true)
         
-        self.messageId = (dataArray[indexPath.row].dictionary?["auditId"]?.stringValue)!
+        self.messageId = (dataArray[indexPath.row].dictionary?["auditId"]?.stringValue) ?? ""
         
         self.requestReadData()
     }
