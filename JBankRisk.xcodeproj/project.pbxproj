@@ -141,6 +141,7 @@
 		0DD43CBB1DAFD74400091272 /* PopupRoleView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0DD43CBA1DAFD74400091272 /* PopupRoleView.swift */; };
 		0DD99BFF1DB1E47F00342E29 /* NetworkRequest.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0DD99BFE1DB1E47F00342E29 /* NetworkRequest.swift */; };
 		0DDF09CA1DD4DDB900E8946E /* ContactViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0D1EAA831DC8CC4900789E37 /* ContactViewController.swift */; };
+		0DE7871B1DF9905600F175DB /* MJCustomRefreshHeader.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0DE7871A1DF9905600F175DB /* MJCustomRefreshHeader.swift */; };
 		0DECC8711DCAEB130022D3F6 /* AreaTableView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0DECC8701DCAEB130022D3F6 /* AreaTableView.swift */; };
 		0DECC8751DCB07D30022D3F6 /* DataCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0DECC8741DCB07D30022D3F6 /* DataCollectionViewCell.swift */; };
 		0DFFAECF1DAF218C00819CF7 /* LoginCodeViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0DFFAECE1DAF218C00819CF7 /* LoginCodeViewController.swift */; };
@@ -316,6 +317,7 @@
 		0DCACBE31DADC9D300AFD3E9 /* RegisterOrResetPsdVC.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RegisterOrResetPsdVC.swift; sourceTree = "<group>"; };
 		0DD43CBA1DAFD74400091272 /* PopupRoleView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PopupRoleView.swift; sourceTree = "<group>"; };
 		0DD99BFE1DB1E47F00342E29 /* NetworkRequest.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NetworkRequest.swift; sourceTree = "<group>"; };
+		0DE7871A1DF9905600F175DB /* MJCustomRefreshHeader.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MJCustomRefreshHeader.swift; sourceTree = "<group>"; };
 		0DECC8701DCAEB130022D3F6 /* AreaTableView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AreaTableView.swift; sourceTree = "<group>"; };
 		0DECC8741DCB07D30022D3F6 /* DataCollectionViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DataCollectionViewCell.swift; sourceTree = "<group>"; };
 		0DFFAECE1DAF218C00819CF7 /* LoginCodeViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LoginCodeViewController.swift; sourceTree = "<group>"; };
@@ -659,6 +661,7 @@
 		0D84AAB51DE1919D00957B0A /* 3rd */ = {
 			isa = PBXGroup;
 			children = (
+				0DE787161DF98FE900F175DB /* MJRefresh */,
 				0D737C0D1DEC0CA700700F15 /* TalkingData */,
 				0D1E823D1DE192690040B39E /* PhotoPicker */,
 				0D84AAB61DE1919D00957B0A /* CNPPopupController */,
@@ -843,6 +846,14 @@
 				0D536EDF1DE4347A008B3BC3 /* BorrowProgressView.swift */,
 			);
 			path = View;
+			sourceTree = "<group>";
+		};
+		0DE787161DF98FE900F175DB /* MJRefresh */ = {
+			isa = PBXGroup;
+			children = (
+				0DE7871A1DF9905600F175DB /* MJCustomRefreshHeader.swift */,
+			);
+			path = MJRefresh;
 			sourceTree = "<group>";
 		};
 		0DFFAED81DAF6F9D00819CF7 /* PopupView */ = {
@@ -1098,6 +1109,7 @@
 				0D3ADCA81DCCC23B00838043 /* RepayWayViewController.swift in Sources */,
 				0D1E825B1DE1927A0040B39E /* PhotoImageManager.swift in Sources */,
 				0DB36C851DDF61D50083825D /* BorrowStatusView.swift in Sources */,
+				0DE7871B1DF9905600F175DB /* MJCustomRefreshHeader.swift in Sources */,
 				0DB36C611DDE138E0083825D /* MineTopView.swift in Sources */,
 				0DB36C671DDE99290083825D /* BorrowDefaultView.swift in Sources */,
 				0D1EAA861DC8D4FF00789E37 /* DataViewController.swift in Sources */,

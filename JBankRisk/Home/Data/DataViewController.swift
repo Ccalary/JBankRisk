@@ -12,7 +12,6 @@ import SwiftyJSON
 import Photos
 import Kingfisher
 
-
 class DataViewController: UIViewController,UITableViewDelegate, UITableViewDataSource,UICollectionViewDelegate,UICollectionViewDataSource, UICollectionViewDelegateFlowLayout,UIImagePickerControllerDelegate,UINavigationControllerDelegate,PhotoPickerControllerDelegate{
     
     var WorkerCellData:[CellDataInfo] = [ CellDataInfo(leftText: "身份证", holdText: "上传身份证正反面", content: "", cellType: .cameraType),
@@ -543,6 +542,7 @@ class DataViewController: UIViewController,UITableViewDelegate, UITableViewDataS
         cameraPicker = UIImagePickerController()
         cameraPicker.delegate = self
         cameraPicker.sourceType = .camera
+
     }
     
     func imagePickerController(_ picker: UIImagePickerController, didFinishPickingMediaWithInfo info: [String : Any]) {
@@ -640,7 +640,7 @@ extension DataViewController {
         var imageNameArray:[String] = []
         
         for i in 0..<photoArray.count {
-            imageDataArray.append(UIImageJPEGRepresentation(photoArray[i].image, 0.1)!)
+            imageDataArray.append(UIImageJPEGRepresentation(photoArray[i].image, 0.2)!)
             let imageName = String(describing: NSDate()) + "\(i).png"
             imageNameArray.append(imageName)
         }
@@ -756,7 +756,8 @@ extension DataViewController {
     }
     
     private func renderSelectImages(images: [PHAsset]){
-        let pixSize = 200*UIRate
+        let pixWidthSize = 375*UIRate/1.5
+        let pixHeightSize = 667*UIRate/1.5
         for item in images {
             self.selectModel.insert(PhotoImageModel(type: ModelType.Image, data: item), at: 0)
             
@@ -767,9 +768,8 @@ extension DataViewController {
                 let imageOptions = PHImageRequestOptions()
                 imageOptions.isSynchronous = true
                 
-                PHImageManager.default().requestImage(for: asset, targetSize: CGSize(width: pixSize, height: pixSize), contentMode: PHImageContentMode.aspectFill, options: imageOptions, resultHandler: { (image, info) -> Void in
+                PHImageManager.default().requestImage(for: asset, targetSize: CGSize(width: pixWidthSize, height: pixHeightSize), contentMode: PHImageContentMode.aspectFill, options: imageOptions, resultHandler: { (image, info) -> Void in
                     
-                    PrintLog(image)
                     if image != nil {
                     //主线程刷新
                     DispatchQueue.main.async {

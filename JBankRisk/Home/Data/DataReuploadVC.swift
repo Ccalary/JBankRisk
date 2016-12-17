@@ -349,7 +349,6 @@ class DataReuploadVC:  UIViewController,UITableViewDelegate, UITableViewDataSour
         popupView.onClickClose = { _ in //关闭
             popupController.dismiss(animated: true)
         }
-        
     }
     
     //设置分割线

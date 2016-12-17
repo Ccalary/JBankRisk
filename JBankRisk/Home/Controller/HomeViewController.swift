@@ -10,6 +10,7 @@ import UIKit
 import SnapKit
 import SwiftyJSON
 import Alamofire
+import MJRefresh
 
 let homeCellID = "HomeTableViewCell"
 
@@ -41,6 +42,9 @@ class HomeViewController: UIViewController, UIGestureRecognizerDelegate{
         self.getDataFromCache()
         setup()
         initBannerImage()
+        
+        //添加HUD
+        self.showHud(in: self.view)
     }
     override func viewWillAppear(_ animated: Bool) {
          self.navigationController?.isNavigationBarHidden = true
@@ -75,11 +79,14 @@ class HomeViewController: UIViewController, UIGestureRecognizerDelegate{
             mark.height.equalTo(SCREEN_HEIGHT - 49)
             mark.top.equalTo(0)
         }
-        
-        self.aTableView.addPullRefreshHandler({ [weak self] in
+    
+        self.aTableView.mj_header = MJRefreshNormalHeader(refreshingBlock: { [weak self] in
             self?.requestHomeData()
-             self?.aTableView.stopPullRefreshEver()
         })
+//        self.aTableView.addPullRefreshHandler({ [weak self] in
+//            
+//             self?.aTableView.stopPullRefreshEver()
+//        })
     }
     
    private lazy var aTableView: UITableView = {
@@ -109,14 +116,14 @@ class HomeViewController: UIViewController, UIGestureRecognizerDelegate{
     }
     
     func requestHomeData(){
-        //添加HUD
-        self.showHud(in: self.view)
+       
         var params = NetConnect.getBaseRequestParams()
         params["userId"] = UserHelper.getUserId() ?? ""
         NetConnect.bm_home_url(parameters: params, success:
             { response in
                 //隐藏HUD
                 self.hideHud()
+                self.aTableView.mj_header.endRefreshing()
                 let json = JSON(response)
                 guard json["RET_CODE"] == "000000" else{
                     return self.showHint(in: self.view, hint: json["RET_DESC"].stringValue)
@@ -142,6 +149,7 @@ class HomeViewController: UIViewController, UIGestureRecognizerDelegate{
         }, failure: {error in
             //隐藏HUD
             self.hideHud()
+            self.aTableView.mj_header.endRefreshing()
         })
     }
     
@@ -304,7 +312,7 @@ extension HomeViewController: UITableViewDelegate, UITableViewDataSource,CyclePi
                 return
         }
             let borrowMoneyVC = BorrowMoneyViewController()
-            borrowMoneyVC.currentIndex = self.flagIndex - 1
+            borrowMoneyVC.currentIndex = self.flagIndex - 1 
             self.navigationController?.pushViewController(borrowMoneyVC, animated: false)
             
         case 1:
@@ -335,7 +343,6 @@ extension HomeViewController: UITableViewDelegate, UITableViewDataSource,CyclePi
                 }else {
                     repayDetailVC.isHaveData = false
                 }
-
                 self.navigationController?.pushViewController(repayDetailVC, animated: true)
         default:
             break
@@ -355,9 +362,7 @@ extension HomeViewController: UITableViewDelegate, UITableViewDataSource,CyclePi
     
     //请求版本更新
     func requestUpdataVersion(){
-        
         var params = NetConnect.getBaseRequestParams()
-        params["channel"] = "3"
         params["versionCode"] = APP_VERSION_CODE
         
         NetConnect.other_updata_version(parameters: params, success:
@@ -393,7 +398,6 @@ extension HomeViewController: UITableViewDelegate, UITableViewDataSource,CyclePi
             
         })
     }
-    
     
     //MARK: - CyclePictureViewDelegate的方法(点击跳转)
     func cyclePictureSkip(To index: Int) {

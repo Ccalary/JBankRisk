@@ -365,7 +365,6 @@ class SettingViewController: UIViewController,UITableViewDelegate, UITableViewDa
             self.aTableView.reloadRows(at: [position], with: UITableViewRowAnimation.none)
             self.showHint(in: self.view, hint: "头像上传成功",yOffset: SCREEN_HEIGHT/2 - 150*UIRate)
             
-            
         }, failure: { error in
             //隐藏HUD
             self.hideHud()

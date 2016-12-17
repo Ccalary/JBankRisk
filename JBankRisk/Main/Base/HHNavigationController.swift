@@ -35,7 +35,7 @@ class HHNavigationController: UINavigationController {
         if viewControllers.count > 0{
             //push时隐藏tabbar
             viewController.hidesBottomBarWhenPushed = true
-            
+            //backBarButtonItem 是带有字和返回箭头的样式
             //左侧返回按钮
             viewController.navigationItem.leftBarButtonItem = UIBarButtonItem(image: UIImage(named:"navigation_left_back_13x21"), style: .plain, target: self, action: #selector(navigationBack))
         }

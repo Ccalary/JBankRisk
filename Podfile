@@ -11,6 +11,7 @@ target ‘JBankRisk’ do
    pod 'NJKWebViewProgress'
    pod 'AMapLocation'
    pod 'IQKeyboardManagerSwift'
+   pod 'MJRefresh'
 
 post_install do |installer|
   installer.pods_project.targets.each do |target|

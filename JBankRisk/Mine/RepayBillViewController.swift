@@ -36,8 +36,8 @@ class RepayBillViewController: UIViewController, UITableViewDataSource, UITableV
     
     ///MARK: - 基本UI
     func setupUI(){
-        self.navigationController!.navigationBar.isTranslucent = true;
-        self.automaticallyAdjustsScrollViewInsets = false;
+        self.navigationController!.navigationBar.isTranslucent = true
+        self.automaticallyAdjustsScrollViewInsets = false
         self.title = "还款账单"
         self.view.backgroundColor = defaultBackgroundColor
         

@@ -6,6 +6,7 @@ PODS:
   - IQKeyboardManagerSwift (4.0.7)
   - Kingfisher (3.0.1)
   - MBProgressHUD (1.0.0)
+  - MJRefresh (3.1.12)
   - NJKWebViewProgress (0.2.3):
     - NJKWebViewProgress/Core (= 0.2.3)
     - NJKWebViewProgress/ProgressView (= 0.2.3)
@@ -20,6 +21,7 @@ DEPENDENCIES:
   - IQKeyboardManagerSwift
   - Kingfisher (~> 3.0.0)
   - MBProgressHUD (~> 1.0.0)
+  - MJRefresh
   - NJKWebViewProgress
   - SnapKit (~> 3.0.0)
   - SwiftyJSON
@@ -31,10 +33,11 @@ SPEC CHECKSUMS:
   IQKeyboardManagerSwift: 58bbcf46b5cf9fd4ed625d28a60cb2fbae4ab0f4
   Kingfisher: d5a491b45ea453d90a31bd2c0831d5243e73a73f
   MBProgressHUD: 4890f671c94e8a0f3cf959aa731e9de2f036d71a
+  MJRefresh: b96cdb21c4aa75a7b07654311ab2f315c497e806
   NJKWebViewProgress: f481fd424cb5ecc27eacae11b5397db92fba9a4d
   SnapKit: f818b8326d45b4e1c777d0ab27b5c0a3624bfdeb
   SwiftyJSON: 29b9f2a64f118c07e691667c2ba1efe536acfe0b
 
-PODFILE CHECKSUM: 527879aeb7db5ee359b47fc32a39f1c5f730bd01
+PODFILE CHECKSUM: 9cce469eb2f8e73b854546173a5ab2761160c17c
 
 COCOAPODS: 1.1.1

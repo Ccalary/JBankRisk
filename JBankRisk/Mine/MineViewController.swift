@@ -9,6 +9,7 @@
 import UIKit
 import SwiftyJSON
 import SnapKit
+import MJRefresh
 
 class MineViewController: UIViewController, UIGestureRecognizerDelegate,UICollectionViewDelegate,UICollectionViewDataSource, UICollectionViewDelegateFlowLayout, StatusButtonClickDelegate,MineTioViewClickDelegate{
 
@@ -61,6 +62,9 @@ class MineViewController: UIViewController, UIGestureRecognizerDelegate,UICollec
         self.navigationController?.interactivePopGestureRecognizer?.delegate = self
         //加载UI
         self.setupUI()
+        
+        //添加HUD
+        self.showHud(in: self.view, hint: "加载中...")
     }
 
     override func viewWillAppear(_ animated: Bool) {
@@ -106,10 +110,15 @@ class MineViewController: UIViewController, UIGestureRecognizerDelegate,UICollec
         
         aScrollView.contentSize = CGSize(width: SCREEN_WIDTH, height: 667*UIRate - 49 + 1)
         
-        self.aScrollView.addPullRefreshHandler({ [weak self] in
+        
+        self.aScrollView.mj_header = MJRefreshNormalHeader(refreshingBlock: { [weak self] in
             self?.requestHomeData()
-            self?.aScrollView.stopPullRefreshEver()
         })
+        
+//        self.aScrollView.addPullRefreshHandler({ [weak self] in
+//            self?.requestHomeData()
+//            self?.aScrollView.stopPullRefreshEver()
+//        })
         
         mineTopView.snp.makeConstraints { (make) in
             make.width.equalTo(self.view)
@@ -309,8 +318,6 @@ class MineViewController: UIViewController, UIGestureRecognizerDelegate,UICollec
     
     //MARK: - 个人中心数据请求
     func requestHomeData(){
-        //添加HUD
-        self.showHud(in: self.view, hint: "加载中...")
         
         var params = NetConnect.getBaseRequestParams()
         params["userId"] = UserHelper.getUserId()!
@@ -318,6 +325,9 @@ class MineViewController: UIViewController, UIGestureRecognizerDelegate,UICollec
         NetConnect.pc_home_info(parameters: params, success: { response in
             //隐藏HUD
             self.hideHud()
+            
+            self.aScrollView.mj_header.endRefreshing()
+            
             let json = JSON(response)
             guard json["RET_CODE"] == "000000" else{
                 return self.showHint(in: self.view, hint: json["RET_DESC"].stringValue)
@@ -329,6 +339,7 @@ class MineViewController: UIViewController, UIGestureRecognizerDelegate,UICollec
         }, failure:{ error in
             //隐藏HUD
             self.hideHud()
+            self.aScrollView.mj_header.endRefreshing()
         })
     }
     

@@ -9,8 +9,8 @@
 import Foundation
 
 //版本
-let APP_VERSION = "1.0.0" //版本号
-let APP_VERSION_CODE = "100"
+let APP_VERSION = "1.0.1" //版本号
+let APP_VERSION_CODE = "101"
 
 //通知
 let NotificationLoginSuccess = "NoticeLoginSuccess"

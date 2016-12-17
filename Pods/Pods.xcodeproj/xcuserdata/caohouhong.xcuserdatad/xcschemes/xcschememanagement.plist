@@ -24,6 +24,11 @@
 			<key>isShown</key>
 			<false/>
 		</dict>
+		<key>MJRefresh.xcscheme</key>
+		<dict>
+			<key>isShown</key>
+			<false/>
+		</dict>
 		<key>NJKWebViewProgress.xcscheme</key>
 		<dict>
 			<key>isShown</key>
@@ -47,11 +52,6 @@
 	</dict>
 	<key>SuppressBuildableAutocreation</key>
 	<dict>
-		<key>2777E0E12E812F724C66F868EF3193D5</key>
-		<dict>
-			<key>primary</key>
-			<true/>
-		</dict>
 		<key>41FA54D12162DAD51D02FC58A2CD5034</key>
 		<dict>
 			<key>primary</key>
@@ -72,7 +72,12 @@
 			<key>primary</key>
 			<true/>
 		</dict>
-		<key>BB39E62CE8326D04E38C0E593DB95A7A</key>
+		<key>A4AAA9395BD666B4E0433A2DDA77919B</key>
+		<dict>
+			<key>primary</key>
+			<true/>
+		</dict>
+		<key>A5F6D267C7C4FCC5F5032E37B06C1279</key>
 		<dict>
 			<key>primary</key>
 			<true/>
@@ -82,7 +87,12 @@
 			<key>primary</key>
 			<true/>
 		</dict>
-		<key>C3CDA236AEF1E090E2F0A994DAB6531B</key>
+		<key>E14A62900910444707A5504D25EC98DC</key>
+		<dict>
+			<key>primary</key>
+			<true/>
+		</dict>
+		<key>F09FEA683139028D7D276583003B8453</key>
 		<dict>
 			<key>primary</key>
 			<true/>

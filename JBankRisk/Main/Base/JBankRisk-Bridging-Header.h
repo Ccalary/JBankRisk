@@ -4,6 +4,8 @@
 
 //HUD
 #import <MBProgressHUD/MBProgressHUD.h>
+//MJRefresh
+#import <MJRefresh/MJRefresh.h>
 //网页加载进度条
 #import <NJKWebViewProgress/NJKWebViewProgress.h>
 #import <NJKWebViewProgress/NJKWebViewProgressView.h>
