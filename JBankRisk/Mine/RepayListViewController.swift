@@ -359,7 +359,7 @@ class RepayListViewController: UIViewController,UIGestureRecognizerDelegate,UITa
         let cell = tableView.dequeueReusableCell(withIdentifier: "CellID") as! RepayListTableViewCell
         //去除选择效果
         cell.selectionStyle = .none
-        cell.cellWithData(dic: dataArray[indexPath.row].dictionary!)
+        cell.cellWithData(dic: dataArray[indexPath.row])
         return cell
     }
     
@@ -409,7 +409,6 @@ class RepayListViewController: UIViewController,UIGestureRecognizerDelegate,UITa
         
         if !isTransformed {
             //打开
-            
             UIView.animate(withDuration: 0.6, animations: {
                 self.titleArrowImgView.transform = CGAffineTransform(rotationAngle: CGFloat(M_PI))
                 self.selectViewConstraint?.update(offset: 64)
@@ -451,23 +450,13 @@ class RepayListViewController: UIViewController,UIGestureRecognizerDelegate,UITa
             guard json["RET_CODE"] == "000000" else{
                 return self.showHint(in: self.view, hint: json["RET_DESC"].stringValue)
             }
-            
-            self.refreshUI(json: json["areadyList"])
-            self.refreshNameUI(json: json["OrderInfo"])
+            self.dataArray = json["areadyList"].arrayValue
+            self.nameArray = json["orders"].arrayValue
             
         }, failure:{ error in
             //隐藏HUD
             self.hideHud()
         })
-    }
-
-    
-    func refreshUI(json: JSON){
-        dataArray = json.arrayValue
-    }
-    
-    func refreshNameUI(json: JSON){
-        nameArray = json.arrayValue
     }
     
 }

@@ -80,6 +80,11 @@
 		0D3ADCA81DCCC23B00838043 /* RepayWayViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0D3ADCA61DCCC23B00838043 /* RepayWayViewController.swift */; };
 		0D3ADCAE1DCCF1A200838043 /* RepayDetailViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0D3ADCAD1DCCF1A200838043 /* RepayDetailViewController.swift */; };
 		0D3ADCB01DCCF5BD00838043 /* RepayDetailTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0D3ADCAF1DCCF5BD00838043 /* RepayDetailTableViewCell.swift */; };
+		0D3E96F91E0CF9210087182E /* IncomeViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0D3E96F81E0CF9210087182E /* IncomeViewController.swift */; };
+		0D3E96FC1E0D26CA0087182E /* RepayBillSelectVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0D3E96FB1E0D26CA0087182E /* RepayBillSelectVC.swift */; };
+		0D3E96FF1E0D28440087182E /* BillSelectTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0D3E96FE1E0D28440087182E /* BillSelectTableViewCell.swift */; };
+		0D3E97011E0D34BD0087182E /* RepayViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0D3E97001E0D34BD0087182E /* RepayViewController.swift */; };
+		0D3E97031E0D37C60087182E /* RepayTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0D3E97021E0D37C60087182E /* RepayTableViewCell.swift */; };
 		0D536EE01DE4347A008B3BC3 /* BorrowProgressView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0D536EDF1DE4347A008B3BC3 /* BorrowProgressView.swift */; };
 		0D536EE41DE47D95008B3BC3 /* JulixinWebViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0D536EE31DE47D95008B3BC3 /* JulixinWebViewController.swift */; };
 		0D61C4281DB08ECE00C2BC23 /* PopupSelectRoleView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0D61C4271DB08ECE00C2BC23 /* PopupSelectRoleView.swift */; };
@@ -243,6 +248,11 @@
 		0D3ADCA61DCCC23B00838043 /* RepayWayViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RepayWayViewController.swift; sourceTree = "<group>"; };
 		0D3ADCAD1DCCF1A200838043 /* RepayDetailViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RepayDetailViewController.swift; sourceTree = "<group>"; };
 		0D3ADCAF1DCCF5BD00838043 /* RepayDetailTableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RepayDetailTableViewCell.swift; sourceTree = "<group>"; };
+		0D3E96F81E0CF9210087182E /* IncomeViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = IncomeViewController.swift; sourceTree = "<group>"; };
+		0D3E96FB1E0D26CA0087182E /* RepayBillSelectVC.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RepayBillSelectVC.swift; sourceTree = "<group>"; };
+		0D3E96FE1E0D28440087182E /* BillSelectTableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BillSelectTableViewCell.swift; sourceTree = "<group>"; };
+		0D3E97001E0D34BD0087182E /* RepayViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RepayViewController.swift; sourceTree = "<group>"; };
+		0D3E97021E0D37C60087182E /* RepayTableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RepayTableViewCell.swift; sourceTree = "<group>"; };
 		0D536EDF1DE4347A008B3BC3 /* BorrowProgressView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BorrowProgressView.swift; sourceTree = "<group>"; };
 		0D536EE31DE47D95008B3BC3 /* JulixinWebViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = JulixinWebViewController.swift; sourceTree = "<group>"; };
 		0D61C4271DB08ECE00C2BC23 /* PopupSelectRoleView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PopupSelectRoleView.swift; sourceTree = "<group>"; };
@@ -573,6 +583,7 @@
 		0D29681C1DA9F772002FBB4C /* Mine */ = {
 			isa = PBXGroup;
 			children = (
+				0D3E96FA1E0D25850087182E /* Prerepay */,
 				0DB36C681DDEABAA0083825D /* BorrowStatus */,
 				0D3ADC971DCC838000838043 /* SystemMessage */,
 				0D3ADC7D1DCC1D0500838043 /* Setting */,
@@ -629,6 +640,33 @@
 				0D3ADCA11DCCA35600838043 /* NothingDefaultView.swift */,
 			);
 			path = DefaultView;
+			sourceTree = "<group>";
+		};
+		0D3E96F71E0CF8EF0087182E /* Income */ = {
+			isa = PBXGroup;
+			children = (
+				0D3E96F81E0CF9210087182E /* IncomeViewController.swift */,
+			);
+			path = Income;
+			sourceTree = "<group>";
+		};
+		0D3E96FA1E0D25850087182E /* Prerepay */ = {
+			isa = PBXGroup;
+			children = (
+				0D3E96FD1E0D28270087182E /* View */,
+				0D3E96FB1E0D26CA0087182E /* RepayBillSelectVC.swift */,
+				0D3E97001E0D34BD0087182E /* RepayViewController.swift */,
+			);
+			path = Prerepay;
+			sourceTree = "<group>";
+		};
+		0D3E96FD1E0D28270087182E /* View */ = {
+			isa = PBXGroup;
+			children = (
+				0D3E96FE1E0D28440087182E /* BillSelectTableViewCell.swift */,
+				0D3E97021E0D37C60087182E /* RepayTableViewCell.swift */,
+			);
+			path = View;
 			sourceTree = "<group>";
 		};
 		0D68E9701DCA25E7000DA5E6 /* Others */ = {
@@ -804,8 +842,9 @@
 			isa = PBXGroup;
 			children = (
 				0D006DD81DC77DDD0091CF33 /* Data */,
-				0D006DD71DC77DCE0091CF33 /* School */,
 				0D006DD91DC77EC70091CF33 /* Contact */,
+				0D3E96F71E0CF8EF0087182E /* Income */,
+				0D006DD71DC77DCE0091CF33 /* School */,
 				0D006DDA1DC77EE40091CF33 /* Work */,
 				0D006DD61DC77DB60091CF33 /* Product */,
 				0D006DD51DC77DA00091CF33 /* Identity */,
@@ -973,7 +1012,7 @@
 			isa = PBXProject;
 			attributes = {
 				LastSwiftUpdateCheck = 0800;
-				LastUpgradeCheck = 0800;
+				LastUpgradeCheck = 0810;
 				ORGANIZATIONNAME = jingjinsuo;
 				TargetAttributes = {
 					0DAF602D1DA8DFAD0009054F = {
@@ -1105,6 +1144,7 @@
 				0D84AAD61DE1919D00957B0A /* PullToRefreshOption.swift in Sources */,
 				0D24F2FF1DCB72F300BBAC8F /* MineFooterView.swift in Sources */,
 				0D24F3041DCB76E700BBAC8F /* BorrowRecordTableViewCell.swift in Sources */,
+				0D3E96FC1E0D26CA0087182E /* RepayBillSelectVC.swift in Sources */,
 				0D84AAD21DE1919D00957B0A /* IdInfo.m in Sources */,
 				0D3ADCA81DCCC23B00838043 /* RepayWayViewController.swift in Sources */,
 				0D1E825B1DE1927A0040B39E /* PhotoImageManager.swift in Sources */,
@@ -1123,6 +1163,7 @@
 				0D1EAA8A1DC97E8000789E37 /* PopupStaticTableViewCell.swift in Sources */,
 				0D84AAD71DE1919D00957B0A /* PullToRefreshView.swift in Sources */,
 				0D1E82531DE1927A0040B39E /* PhotoAlbumsTableViewController.swift in Sources */,
+				0D3E96FF1E0D28440087182E /* BillSelectTableViewCell.swift in Sources */,
 				0D61C42E1DB0CE0000C2BC23 /* BorrowMoneyView.swift in Sources */,
 				0D0E2A321DAB377E00A64F76 /* HHTabBarController.swift in Sources */,
 				0D1E825F1DE1927A0040B39E /* PhotoPreviewCell.swift in Sources */,
@@ -1183,6 +1224,7 @@
 				0DB36C651DDE98850083825D /* BorrowProgressVC.swift in Sources */,
 				0D61C4321DB128F600C2BC23 /* BorrowMoneyDoneView.swift in Sources */,
 				0D1E82601DE1927A0040B39E /* PhotoPreviewToolbarView.swift in Sources */,
+				0D3E96F91E0CF9210087182E /* IncomeViewController.swift in Sources */,
 				0D1E825C1DE1927A0040B39E /* PhotoPickerConfig.swift in Sources */,
 				0D8EB7571DE5B0190002BF08 /* PopupProgressView.swift in Sources */,
 				0D0A6ED81DD76DF7006B54DD /* NeedRepayViewController.swift in Sources */,
@@ -1196,6 +1238,7 @@
 				0D006DCF1DC75A280091CF33 /* NetConnect.swift in Sources */,
 				0D3ADC961DCC76B900838043 /* SuggestCollectionViewCell.swift in Sources */,
 				0DDF09CA1DD4DDB900E8946E /* ContactViewController.swift in Sources */,
+				0D3E97031E0D37C60087182E /* RepayTableViewCell.swift in Sources */,
 				0DB36C6E1DDEADC40083825D /* RepayingStatusVC.swift in Sources */,
 				0D1E825E1DE1927A0040B39E /* PhotoPreviewBottomBarView.swift in Sources */,
 				0D006DE71DC8AB5B0091CF33 /* BMTableViewCell.swift in Sources */,
@@ -1205,6 +1248,7 @@
 				0D3ADC941DCC54BB00838043 /* SuggestViewController.swift in Sources */,
 				0D1E82511DE1927A0040B39E /* AlbumToolbarView.swift in Sources */,
 				0DFFAECF1DAF218C00819CF7 /* LoginCodeViewController.swift in Sources */,
+				0D3E97011E0D34BD0087182E /* RepayViewController.swift in Sources */,
 				0DC8B15B1DD8B0ED001323D3 /* RepayPeriodDetailView.swift in Sources */,
 				0DECC8751DCB07D30022D3F6 /* DataCollectionViewCell.swift in Sources */,
 				0D0E2A3B1DAB40DB00A64F76 /* HomeViewController.swift in Sources */,

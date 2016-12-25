@@ -11,10 +11,7 @@ import SwiftyJSON
 
 class BorrowRecordViewController: UIViewController,UITableViewDelegate, UITableViewDataSource {
 
-    var dataArray = [(String,String)]()
-    
-    //借款状态信息
-    var mJstatus = ""
+    var dataArray = [JSON]()
     
     //是否有数据
     var isHaveData = false
@@ -301,8 +298,8 @@ class BorrowRecordViewController: UIViewController,UITableViewDelegate, UITableV
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: "borrowCellID") as! BorrowRecordTableViewCell
         
-        cell.leftTextLabel.text = dataArray[indexPath.row].0
-        cell.rightTextLabel.text = dataArray[indexPath.row].1
+        cell.leftTextLabel.text = dataArray[indexPath.row]["orderName"].stringValue
+        cell.rightTextLabel.text = dataArray[indexPath.row]["status"].stringValue
         
         return cell
     }
@@ -313,13 +310,13 @@ class BorrowRecordViewController: UIViewController,UITableViewDelegate, UITableV
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         tableView.deselectRow(at: indexPath, animated: true)
-        
         //录入中 进入借款流程
-        if mJstatus == "99" {
+        if dataArray[indexPath.row]["status"].stringValue == "录入中" {
             let borrowMoneyVC = BorrowMoneyViewController()
             self.navigationController?.pushViewController(borrowMoneyVC, animated: false)
         }else {
             let borrowStatusVC = BorrowStatusVC()
+            borrowStatusVC.orderId = dataArray[indexPath.row]["orderId"].stringValue
             self.navigationController?.pushViewController(borrowStatusVC, animated: true)
         }
     }
@@ -352,7 +349,7 @@ class BorrowRecordViewController: UIViewController,UITableViewDelegate, UITableV
                 return self.showHint(in: self.view, hint: json["RET_DESC"].stringValue)
             }
             
-            self.refreshUI(json: json["orderInfo"])
+            self.refreshUI(json: json)
             
         }, failure:{ error in
             //隐藏HUD
@@ -365,8 +362,7 @@ class BorrowRecordViewController: UIViewController,UITableViewDelegate, UITableV
         let money = json["amt"].doubleValue
         self.moneyLabel.text = toolsChangeMoneyStyle(amount: money)
         self.dataArray.removeAll()
-        self.dataArray.append((json["orderName"].stringValue,json["status"].stringValue))
-        self.mJstatus = json["jstatus"].stringValue
+        self.dataArray = json["orderList"].arrayValue
         self.aTableView.reloadData()
     }
 

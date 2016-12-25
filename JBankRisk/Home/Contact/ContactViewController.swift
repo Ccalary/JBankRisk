@@ -42,11 +42,11 @@ class ContactViewController: UIViewController, UITableViewDelegate, UITableViewD
     //月供
     var monthRent = ""
     ///住房情况
-    var houseInfo:(row: Int, text: String) = (0,"")
+    var houseInfo: (row: Int, text: String) = (0,"")
     ///居住时间
-    var liveTimeInfo:(row: Int, text: String) = (0,"")
+    var liveTimeInfo: (row: Int, text: String) = (0,"")
     ///亲属关系
-    var relativeInfo:(row: Int, text: String) = (0,"")
+    var relativeInfo: (row: Int, text: String) = (0,"")
     ///直系亲属联系信息
     var relativeContactInfo: (name: String, number:String) = ("","")
     ///紧急联系人信息
@@ -439,7 +439,6 @@ class ContactViewController: UIViewController, UITableViewDelegate, UITableViewD
     }
     
     //MARK: - Action
-
     func textFieldAction(_ textField: UITextField){
         // 10000-详细地址 10001-月供 10002-亲属名 10003-电话 10004-紧急名 10005-电话
         if textField.tag == 10000{

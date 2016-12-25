@@ -14,7 +14,7 @@ class MJCustomRefreshHeader: MJRefreshGifHeader {
     //重写方法
     override func prepare() {
         super.prepare()
-        
+        /*
         //隐藏时间
         self.lastUpdatedTimeLabel.isHidden = true
         
@@ -41,5 +41,6 @@ class MJCustomRefreshHeader: MJRefreshGifHeader {
         }
         self.setImages(refreshingImages, for: MJRefreshState.pulling)
         self.setImages(refreshingImages, for: MJRefreshState.refreshing)
-    }
+ */
+ }
 }

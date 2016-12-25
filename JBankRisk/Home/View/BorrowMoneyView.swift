@@ -15,8 +15,9 @@ class BorrowMoneyView: UIView {
         case identity = "身份信息"
         case product = "产品信息"
         case work = "工作信息"
-        case contact = "联系人信息"
         case school = "学校信息"
+        case income = "收入信息"
+        case contact = "联系人信息"
         case data = "资料上传"
     }
 
@@ -47,37 +48,36 @@ class BorrowMoneyView: UIView {
             titleLabel.textColor = UIColorHex("4bc4fa")
             describeLabel.text = "请留下最真实的自己"
             writeBtn.setTitle("表明身份", for: .normal)
-            break
         case .product:
             holdImageView.image = UIImage(named: "info_product_image_250x350")
             titleLabel.textColor = UIColorHex("f5db65")
             describeLabel.text = "消费项目/借款金额/期限等信息"
             writeBtn.setTitle("填写产品", for: .normal)
-            break
         case .work:
             holdImageView.image = UIImage(named: "info_work_image_250x350")
             titleLabel.textColor = UIColorHex("64d0b1")
             describeLabel.text = "您目前在哪就职"
             writeBtn.setTitle("登记职位", for: .normal)
-            break
-        case .contact:
-            holdImageView.image = UIImage(named: "info_contact_image_250x350")
-            titleLabel.textColor = UIColorHex("73dd58")
-            describeLabel.text = "让身边的人支持你"
-            writeBtn.setTitle("捧个人场", for: .normal)
-            break
         case .school:
             holdImageView.image = UIImage(named: "info_school_image_250x350")
             titleLabel.textColor = UIColorHex("85b7ee")
             describeLabel.text = "您目前在哪里上学"
             writeBtn.setTitle("登记学校", for: .normal)
-            break
+        case .income:
+            holdImageView.image = UIImage(named: "info_income_image_250x350")
+            titleLabel.textColor = UIColorHex("dfe852")
+            describeLabel.text = "您的资金收入情况"
+            writeBtn.setTitle("收入来源", for: .normal)
+        case .contact:
+            holdImageView.image = UIImage(named: "info_contact_image_250x350")
+            titleLabel.textColor = UIColorHex("73dd58")
+            describeLabel.text = "让身边的人支持你"
+            writeBtn.setTitle("捧个人场", for: .normal)
         case .data:
             holdImageView.image = UIImage(named: "info_data_image_250x350")
             titleLabel.textColor = UIColorHex("fb9864")
             describeLabel.text = "身份证/工资流水/现场照等"
             writeBtn.setTitle("附件上传", for: .normal)
-            break
     }
 }
     

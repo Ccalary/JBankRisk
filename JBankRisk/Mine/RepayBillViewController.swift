@@ -13,16 +13,12 @@ class RepayBillViewController: UIViewController, UITableViewDataSource, UITableV
 
     //是否有数据
     var isHaveData = false
-    //月还款id
-    var repaymentId = ""
-    //总还款id
-    var allRepayId = ""
+ 
     //月还款状态
     var monthRepayStatus: RepayStatusType = .finish
     
-    var monthDataArray:[(name:String, period:String, status:String)] = [("暂无待还借款","","")]
-    var allDataArray = [(name:String, period:String, status:String)]()
-    
+    var monthDataArray = [JSON]()
+    var allDataArray = [JSON]()
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -124,23 +120,6 @@ class RepayBillViewController: UIViewController, UITableViewDataSource, UITableV
         self.topImageView.addSubview(totalMoneyLabel)
         self.topImageView.addSubview(arrowImageView)
         
-        /*******/
-        /*
-        self.headerHoldView.addSubview(repayHoldView)
-        self.repayHoldView.addSubview(reBottomHoldView)
-        self.repayHoldView.addSubview(repayDivideLine)
-        self.repayHoldView.addSubview(repayDivideLine2)
-        self.repayHoldView.addSubview(repayVerDivideLine)
-        */
-//        self.repayHoldView.addSubview(moneyTextLabel)
-//        self.repayHoldView.addSubview(moneyLabel)
-//        self.repayHoldView.addSubview(moneyArrowImageView)
-//        self.repayHoldView.addSubview(amountTextLabel)
-//        self.repayHoldView.addSubview(amountLabel)
-//        self.repayHoldView.addSubview(amountArrowImageView)
-//        self.repayHoldView.addSubview(monthBtn)
-//        self.repayHoldView.addSubview(amountBtn)
-        
         aTableView.snp.makeConstraints { (make) in
             make.width.equalTo(self.view)
             make.height.equalTo(SCREEN_HEIGHT - 64)
@@ -177,97 +156,11 @@ class RepayBillViewController: UIViewController, UITableViewDataSource, UITableV
             make.center.equalTo(topImageView)
         }
         
-        /*****************/
-        /*
-        repayHoldView.snp.makeConstraints { (make) in
-            make.width.equalTo(self.view)
-            make.height.equalTo(70*UIRate)
-            make.centerX.equalTo(self.view)
-            make.top.equalTo(topImageView.snp.bottom)
-        }
-        
-        repayDivideLine.snp.makeConstraints { (make) in
-            make.width.equalTo(self.view)
-            make.height.equalTo(0.5*UIRate)
-            make.centerX.equalTo(self.view)
-            make.top.equalTo(60*UIRate)
-        }
-        repayDivideLine2.snp.makeConstraints { (make) in
-            make.width.equalTo(self.view)
-            make.height.equalTo(0.5*UIRate)
-            make.centerX.equalTo(self.view)
-            make.bottom.equalTo(repayHoldView)
-        }
-
-        repayVerDivideLine.snp.makeConstraints { (make) in
-            make.width.equalTo(0.5*UIRate)
-            make.height.equalTo(60*UIRate)
-            make.centerX.equalTo(repayHoldView)
-            make.top.equalTo(repayHoldView)
-        }
-
-        moneyTextLabel.snp.makeConstraints { (make) in
-            make.centerX.equalTo(-SCREEN_WIDTH/4)
-            make.top.equalTo(35*UIRate)
-        }
-        
-        moneyLabel.snp.makeConstraints { (make) in
-            make.centerX.equalTo(moneyTextLabel)
-            make.top.equalTo(12*UIRate)
-        }
-
-        moneyArrowImageView.snp.makeConstraints { (make) in
-            make.width.equalTo(7*UIRate)
-            make.height.equalTo(12*UIRate)
-            make.right.equalTo(repayHoldView.snp.centerX).offset(-15*UIRate)
-            make.centerY.equalTo(repayHoldView.snp.top).offset(30*UIRate)
-        }
-
-        amountTextLabel.snp.makeConstraints { (make) in
-            make.centerX.equalTo(SCREEN_WIDTH/4)
-            make.centerY.equalTo(moneyTextLabel)
-        }
-
-        amountLabel.snp.makeConstraints { (make) in
-            make.centerX.equalTo(amountTextLabel)
-            make.centerY.equalTo(moneyLabel)
-        }
-
-        amountArrowImageView.snp.makeConstraints { (make) in
-            make.width.equalTo(7*UIRate)
-            make.height.equalTo(12*UIRate)
-            make.right.equalTo(-15*UIRate)
-            make.centerY.equalTo(moneyArrowImageView)
-        }
-        
-        monthBtn.snp.makeConstraints { (make) in
-            make.width.equalTo(SCREEN_WIDTH/2)
-            make.height.equalTo(60*UIRate)
-            make.left.equalTo(repayHoldView)
-            make.top.equalTo(0)
-        }
-        
-        amountBtn.snp.makeConstraints { (make) in
-            make.size.equalTo(monthBtn)
-            make.centerY.equalTo(monthBtn)
-            make.right.equalTo(repayHoldView)
-        }
-
-        reBottomHoldView.snp.makeConstraints { (make) in
-            make.width.equalTo(self.view)
-            make.height.equalTo(10*UIRate)
-            make.centerX.equalTo(self.view)
-            make.bottom.equalTo(repayHoldView)
-        }
-
-        */
         //刷新
         self.aTableView.addPullRefreshHandler({ _ in
             self.requestData()
             self.aTableView.stopPullRefreshEver()
         })
-
-        
     }
     //月头部
     func monthTableViewHeader() -> UIView {
@@ -439,106 +332,7 @@ class RepayBillViewController: UIViewController, UITableViewDataSource, UITableV
         return imageView
     }()
     
-    /*************/
-    /*去除，界面更改
-    private lazy var repayHoldView: UIView = {
-        let holdView = UIView()
-        holdView.backgroundColor = UIColor.white
-        return holdView
-    }()
-    
-    //分割线
-    private lazy var repayDivideLine: UIView = {
-        let lineView = UIView()
-        lineView.backgroundColor = defaultDivideLineColor
-        return lineView
-    }()
-    
-    private lazy var repayDivideLine2: UIView = {
-        let lineView = UIView()
-        lineView.backgroundColor = defaultDivideLineColor
-        return lineView
-    }()
-    
-    //分割线
-    private lazy var repayVerDivideLine: UIView = {
-        let lineView = UIView()
-        lineView.backgroundColor = defaultDivideLineColor
-        return lineView
-    }()
-    
-    private lazy var moneyTextLabel: UILabel = {
-        let label = UILabel()
-        label.font = UIFontSize(size: 15*UIRate)
-        label.textAlignment = .center
-        label.textColor = UIColorHex("848484")
-        label.text = "本月待还(元)"
-        return label
-    }()
-    
-    private lazy var moneyLabel: UILabel = {
-        let label = UILabel()
-        label.font = UIFontSize(size: 20*UIRate)
-        label.textAlignment = .center
-        label.textColor = UIColorHex("f42e2f")
-        label.text = "0.00"
-        return label
-    }()
-    
-    private lazy var amountTextLabel: UILabel = {
-        let label = UILabel()
-        label.font = UIFontSize(size: 15*UIRate)
-        label.textAlignment = .center
-        label.textColor = UIColorHex("848484")
-        label.text = "累计已还(元)"
-        return label
-    }()
-    
-    private lazy var amountLabel: UILabel = {
-        let label = UILabel()
-        label.font = UIFontSize(size: 20*UIRate)
-        label.textAlignment = .center
-        label.textColor = UIColorHex("f42e2f")
-        label.text = "0.00"
-        return label
-    }()
-    
-    private lazy var reBottomHoldView: UIView = {
-        let holdView = UIView()
-        holdView.backgroundColor = defaultBackgroundColor
-        return holdView
-    }()
-    
-    //箭头
-    private lazy var moneyArrowImageView: UIImageView = {
-        let imageView = UIImageView()
-        imageView.image = UIImage(named: "home_right_arrow_7x12")
-        return imageView
-    }()
-    
-    //箭头
-    private lazy var amountArrowImageView: UIImageView = {
-        let imageView = UIImageView()
-        imageView.image = UIImage(named: "home_right_arrow_7x12")
-        return imageView
-    }()
-
-    //／按钮
-    private lazy var monthBtn: UIButton = {
-        let button = UIButton()
-        button.addTarget(self, action: #selector(monthBtnAction), for: .touchUpInside)
-        return button
-    }()
-    
-    //／按钮
-    private lazy var amountBtn: UIButton = {
-        let button = UIButton()
-        button.addTarget(self, action: #selector(amountBtnAction), for: .touchUpInside)
-        return button
-    }()
-    */
     /************/
-    
     //图片
     private lazy var monthIconView: UIImageView = {
         let imageView = UIImageView()
@@ -587,11 +381,9 @@ class RepayBillViewController: UIViewController, UITableViewDataSource, UITableV
             tableView.layoutMargins = .zero
         }
         return tableView
-        
     }()
     
     /******************/
-    
     private lazy var totalTopHoldView: UIView = {
         let holdView = UIView()
         holdView.backgroundColor = defaultBackgroundColor
@@ -642,7 +434,13 @@ class RepayBillViewController: UIViewController, UITableViewDataSource, UITableV
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         if section == 0{
-            return monthDataArray.count
+            //如果无数据则加载缺省页
+            if monthDataArray.count == 0 {
+                return 1
+            }else {
+                return monthDataArray.count
+            }
+            
         }else {
             return allDataArray.count
         }
@@ -652,29 +450,21 @@ class RepayBillViewController: UIViewController, UITableViewDataSource, UITableV
         let cell = tableView.dequeueReusableCell(withIdentifier: "borrowCellID") as! BorrowRecordTableViewCell
         
          if indexPath.section == 0 {
-            cell.leftTextLabel.text = monthDataArray[indexPath.row].name
-            cell.rightSecondTextLabel.text = monthDataArray[indexPath.row].period
-            cell.rightTextLabel.text = monthDataArray[indexPath.row].status
             
-            //如果无还款，改变左边label字体颜色
-            if monthDataArray[indexPath.row].period == "" {
+            if monthDataArray.count == 0 {
                 cell.leftTextLabel.textColor = UIColorHex("999999")
+                cell.leftTextLabel.text = "暂无待还借款"
                 cell.arrowImageView.isHidden = true
             }else {
                 cell.leftTextLabel.textColor = UIColorHex("666666")
                 cell.arrowImageView.isHidden = false
-            }
-            //如果有逾期，改变右边label字体颜色
-            if monthDataArray[indexPath.row].status.contains("逾期"){
-                cell.rightTextLabel.textColor = UIColorHex("f42e2f")
-            }else {
-                cell.rightTextLabel.textColor = UIColorHex("00b2ff")
+                cell.cellWithMonthData(dic: monthDataArray[indexPath.row])
             }
            
         }else {
-            cell.leftTextLabel.text = allDataArray[indexPath.row].name
-            cell.rightSecondTextLabel.text = allDataArray[indexPath.row].period
-            cell.rightTextLabel.text = allDataArray[indexPath.row].status
+            cell.leftTextLabel.text = allDataArray[indexPath.row]["orderName"].stringValue
+            cell.rightSecondTextLabel.text = "\(allDataArray[indexPath.row]["term"].stringValue)/\(allDataArray[indexPath.row]["total"].stringValue)期"
+            cell.rightTextLabel.text = allDataArray[indexPath.row]["is_pay"].stringValue
            
         }
          return cell
@@ -689,33 +479,40 @@ class RepayBillViewController: UIViewController, UITableViewDataSource, UITableV
         tableView.deselectRow(at: indexPath, animated: true)
         
         if indexPath.section == 0 { //月详情
-            //无还款
-           if monthDataArray[indexPath.row].period == "" {
-             //什么都不做
-            return
-           }
+            //必须有还款
+            guard monthDataArray.count > 0 else {
+                return
+            }
+            //0-已支付 1-未支付 2-提前支付 3-逾期未支付 4-逾期已支付
+            let repayStatus = monthDataArray[indexPath.row]["is_pay"].stringValue
+            if repayStatus == "0" ||  repayStatus == "2" || repayStatus == "4"{
+                monthRepayStatus = .finish
+            }else {
+                //有逾期
+                if monthDataArray[indexPath.row]["penalty_day"].intValue > 0 {
+                    monthRepayStatus = .overdue
+                }else {
+                    monthRepayStatus = .not
+                }
+            }
+             let repayDetailVC = RepayPeriodDetailVC()
+             repayDetailVC.repaymentId = monthDataArray[indexPath.row]["repayment_id"].stringValue
+            repayDetailVC.repayStatusType = monthRepayStatus //还款状态
+             self.navigationController?.pushViewController(repayDetailVC, animated: true)
             
-            let repayDetailVC = RepayPeriodDetailVC()
-            repayDetailVC.repaymentId = self.repaymentId
-            
-           repayDetailVC.repayStatusType = monthRepayStatus //还款状态
-            self.navigationController?.pushViewController(repayDetailVC, animated: true)
         }else {
+            
             let repayDetailVC = RepayDetailViewController()
-            repayDetailVC.orderId = self.allRepayId//产品id
+            repayDetailVC.orderId = allDataArray[indexPath.row]["orderId"].stringValue//产品id
             self.navigationController?.pushViewController(repayDetailVC, animated: true)
         }
     }
     
     //Header
     func tableView(_ tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
-        
         if section == 0 {
-           
             return monthTableViewHeader()
-         
         }else {
-            
             return allTableViewHeader()
         }
     }
@@ -755,7 +552,7 @@ class RepayBillViewController: UIViewController, UITableViewDataSource, UITableV
                 return self.showHint(in: self.view, hint: json["RET_DESC"].stringValue)
             }
             
-            self.refreshUI(monthJson: json["backMap"]["menu"],allJson: json["allMenu"])
+            self.refreshUI(json: json["backMap"])
             
         }, failure:{ error in
             //隐藏HUD
@@ -763,77 +560,19 @@ class RepayBillViewController: UIViewController, UITableViewDataSource, UITableV
         })
     }
 
-    func refreshUI(monthJson: JSON, allJson: JSON){
+    func refreshUI(json: JSON){
         //应还总额
-        totalMoneyLabel.text = toolsChangeMoneyStyle(amount: monthJson["MonthRefund"].doubleValue)
-//        //本月应还
-//        moneyLabel.text = toolsChangeMoneyStyle(amount: monthJson["MonthRefund"].doubleValue)
-//        //累计已还
-//        amountLabel.text = toolsChangeMoneyStyle(amount: monthJson["accountRefund"].doubleValue)
-        self.refreshMonthList(json: monthJson)
+        totalMoneyLabel.text = toolsChangeMoneyStyle(amount: json["currentPayMoney"].doubleValue)
+        if json["currentPayMoney"].doubleValue > 0{
+            self.recentTimeLabel.text = "最近还款日" + toolsChangeDateStyle(toMMDD: json["RecentPayDate"].stringValue)
+        }
         
-        self.refreshAllList(json: allJson)
+        self.monthDataArray.removeAll()
+        self.allDataArray.removeAll()
         
+        self.monthDataArray = json["monthAccountList"].arrayValue
+        self.allDataArray = json["menuAccountList"].arrayValue
         self.aTableView.reloadData()
-    }
-    
-    //本月账单
-    func refreshMonthList(json: JSON){
-        //本月有还款
-        if json["MonthRefund"].doubleValue > 0 {
-            
-            self.repaymentId = json["repayment_id"].stringValue
-            self.recentTimeLabel.text = "最近还款日" + toolsChangeDateStyle(toMMDD: json["realpayDate"].stringValue)
-            monthDataArray.removeAll()
-            
-            let name = json["orderName"].stringValue
-            let period = "第" + json["term"].stringValue + "期"
-            var status = ""
-            
-            //0-已支付 1-未支付 2-提前支付 3-逾期未支付 4-逾期已支付
-            let repayStatus = json["is_pay"].stringValue
-            if repayStatus == "0" ||  repayStatus == "2" || repayStatus == "4"{
-                status = "完成"
-                monthRepayStatus = .finish
-            }else {
-                //有逾期
-                if json["penalty_day"].intValue > 0 {
-                    status = "逾期\(json["penalty_day"].stringValue)天"
-                    monthRepayStatus = .overdue
-                }else {
-                    status = "未还清"
-                    monthRepayStatus = .not
-                }
-            }
-            monthDataArray.append((name,period,status))
-        }else {
-            monthDataArray = [("暂无待还借款","","")]
-        }
-    }
-    
-    func refreshAllList(json: JSON){
-        
-        allDataArray.removeAll()
-        
-        //现在有问题，后台已一单来做的，没有包成list
-        allRepayId = json["orderId"].stringValue
-        
-        let name = json["orderName"].stringValue
-        var period = ""
-        var status = ""
-        
-        let term = json["term"].stringValue
-        let total = json["total"].stringValue
-        //5-还款中   0-已完结
-        if json["jstatus"].stringValue == "5" {
-            period = "第" + term + "/" + total + "期"
-            status = "还款中"
-        }else if json["jstatus"].stringValue == "0"{
-            period = total + "期"
-            status = "已结束"
-        }
-        
-        allDataArray.append((name,period,status))
     }
 }
 
@@ -844,16 +583,4 @@ extension RepayBillViewController {
         let needRepayVC = NeedRepayViewController()
         self.navigationController?.pushViewController(needRepayVC, animated: true)
     }
-    
-//    //本月待还
-//    func monthBtnAction(){
-//        let needRepayVC = NeedRepayViewController()
-//        self.navigationController?.pushViewController(needRepayVC, animated: true)
-//    }
-//    
-//    //累计还款
-//    func amountBtnAction(){
-//        let repayListVC = RepayListViewController()
-//        self.navigationController?.pushViewController(repayListVC, animated: true)
-//    }
 }

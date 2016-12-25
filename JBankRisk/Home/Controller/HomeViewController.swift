@@ -175,43 +175,18 @@ class HomeViewController: UIViewController, UIGestureRecognizerDelegate{
         }else if flag == "4"{
             UserHelper.setIdentity(isUpload: true)
             UserHelper.setProduct(isUpload: true)
-            switch userType {// 1-学生 2- 白领 3－ 自由族 4-未选择
-            case "1":
-                UserHelper.setSchool(isUpload: true)
-            case "2":
-                UserHelper.setWork(isUpload: true)
-            case "3":
-                UserHelper.setContact(isUpload: true)
-            default:
-                break
-            }
+            self.setUpload(with: userType)
             
         }else if flag == "5"{
             UserHelper.setIdentity(isUpload: true)
             UserHelper.setProduct(isUpload: true)
             UserHelper.setContact(isUpload: true)
+            self.setUpload(with: userType)
             
-            switch userType {// 1-学生 2- 白领 3－ 自由族 4-未选择
-            case "1":
-                UserHelper.setSchool(isUpload: true)
-            case "2":
-                UserHelper.setWork(isUpload: true)
-            default:
-                break
-            }
-
         }else if flag == "9" {
-            
-            switch userType {// 1-学生 2- 白领 3－ 自由族 4-未选择
-            case "1":
-                UserHelper.setSchool(isUpload: true)
-            case "2":
-                UserHelper.setWork(isUpload: true)
-            default:
-                break
-            }
             UserHelper.setIdentity(isUpload: true)
             UserHelper.setProduct(isUpload: true)
+            self.setUpload(with: userType)
             UserHelper.setContact(isUpload: true)
             UserHelper.setData(isUpload: true)
             UserHelper.setAllFinishIsUpload(isUpload: true)
@@ -239,6 +214,20 @@ class HomeViewController: UIViewController, UIGestureRecognizerDelegate{
                 popupController.dismiss(animated:true)
             }
 
+        default:
+            break
+        }
+    }
+    
+    //根据角色设置
+    func setUpload(with userType: String){
+        switch userType {// 1-学生 2- 白领 3－ 自由族 4-未选择
+        case "1":
+            UserHelper.setSchool(isUpload: true)
+        case "2":
+            UserHelper.setWork(isUpload: true)
+        case "3":
+            UserHelper.setIncome(isUpload: true)
         default:
             break
         }

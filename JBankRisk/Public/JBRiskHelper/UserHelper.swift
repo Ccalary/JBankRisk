@@ -204,6 +204,19 @@ class UserHelper {
         defaults.synchronize()
     }
     
+    //收入信息是否上传
+    static func getIncomeIsUpload() -> Bool {
+        let defaults = UserDefaults()
+        return (defaults.object(forKey: "\(self.getUserId())incomeUpload") as? Bool) ?? false
+    }
+    
+    static func setIncome(isUpload: Bool){
+        let defaults = UserDefaults()
+        defaults.set(isUpload, forKey: "\(self.getUserId())incomeUpload")
+        defaults.synchronize()
+    }
+
+    
     //联系人信息是否上传
     static func getContactIsUpload() -> Bool {
         let defaults = UserDefaults()

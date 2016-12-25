@@ -7,9 +7,10 @@
 //
 
 import UIKit
+import SwiftyJSON
 
 class BorrowRecordTableViewCell: UITableViewCell {
-
+    
     override init(style: UITableViewCellStyle, reuseIdentifier: String?) {
         super.init(style: style, reuseIdentifier: reuseIdentifier)
         
@@ -80,4 +81,33 @@ class BorrowRecordTableViewCell: UITableViewCell {
         return imageView
     }()
 
+    
+    ///还款账单月数据
+    func cellWithMonthData(dic: JSON){
+        leftTextLabel.text = dic["orderName"].stringValue
+        rightSecondTextLabel.text = dic["term"].stringValue
+    
+        //0-已支付 1-未支付 2-提前支付 3-逾期未支付 4-逾期已支付
+        let repayStatus = dic["is_pay"].stringValue
+        var status = ""
+        if repayStatus == "0" ||  repayStatus == "2" || repayStatus == "4"{
+            status = "完成"
+        }else {
+            //有逾期
+            if dic["penalty_day"].intValue > 0 {
+                status = "逾期\(dic["penalty_day"].stringValue)天"
+            }else {
+                status = "未还清"
+            }
+        }
+        rightTextLabel.text = status
+        
+        //如果有逾期，改变右边label字体颜色
+        if status.contains("逾期"){
+            rightTextLabel.textColor = UIColorHex("f42e2f")
+        }else {
+            rightTextLabel.textColor = UIColorHex("00b2ff")
+        }
+
+    }
 }

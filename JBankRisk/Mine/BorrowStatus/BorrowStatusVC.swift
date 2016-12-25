@@ -286,6 +286,7 @@ class BorrowStatusVC: UIViewController {
         
         var params = NetConnect.getBaseRequestParams()
         params["userId"] = UserHelper.getUserId()!
+        params["orderId"] = self.orderId
         
         NetConnect.pc_borrow_status(parameters: params, success: { response in
             //隐藏HUD
@@ -312,7 +313,6 @@ class BorrowStatusVC: UIViewController {
          self.title = json["orderName"].stringValue
          navTextLabel.text = self.title
          self.infoView.json = json
-         self.orderId = json["orderId"].stringValue
     }
     
     //点击按钮

@@ -87,7 +87,7 @@ class RepayedNameView: UIView , UITableViewDataSource, UITableViewDelegate{
             if indexPath.row == 0 {
                 cell.textLabel?.text = "全部纪录"
             }else {
-                cell.textLabel?.text = dataArray[indexPath.row - 1].dictionary?["orderName"]?.stringValue
+                cell.textLabel?.text = dataArray[indexPath.row - 1]["orderName"].stringValue
             }
             
             if indexPath.row == selectCell {
@@ -108,9 +108,8 @@ class RepayedNameView: UIView , UITableViewDataSource, UITableViewDelegate{
                 if indexPath.row == 0 {
                     onClickCell("全部纪录", "")
                 }else {
-                    onClickCell((dataArray[indexPath.row - 1].dictionary?["orderName"]?.stringValue)!, (dataArray[indexPath.row - 1].dictionary?["orderId"]?.stringValue)!)
+                    onClickCell(dataArray[indexPath.row - 1]["orderName"].stringValue, dataArray[indexPath.row - 1]["orderId"].stringValue)
                 }
-                
             }
         }
         

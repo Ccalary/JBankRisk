@@ -53,9 +53,9 @@ class MineFooterView: UICollectionReusableView {
         }
         
         divideLine.snp.makeConstraints { (make) in
-            make.width.equalTo(self)
+            make.width.equalTo(SCREEN_WIDTH/3.0*2)
             make.height.equalTo(0.5*UIRate)
-            make.centerX.equalTo(self)
+            make.left.equalTo(0)
             make.top.equalTo(0)
         }
         

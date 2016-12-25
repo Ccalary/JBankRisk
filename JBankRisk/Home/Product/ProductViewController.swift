@@ -438,7 +438,7 @@ class ProductViewController: UIViewController,UITableViewDelegate, UITableViewDa
             let idVC = WorkViewController()
             self.navigationController?.pushViewController(idVC, animated: true)
         case .freedom:
-            let idVC = ContactViewController()
+            let idVC = IncomeViewController()
             self.navigationController?.pushViewController(idVC, animated: true)
         }
         

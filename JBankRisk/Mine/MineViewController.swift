@@ -4,7 +4,7 @@
 //
 //  Created by 曹后红 on 16/10/9.
 //  Copyright © 2016年 jingjinsuo. All rights reserved.
-//
+//  个人中心
 
 import UIKit
 import SwiftyJSON
@@ -19,6 +19,7 @@ class MineViewController: UIViewController, UIGestureRecognizerDelegate,UICollec
     var tipViewHeight = 25*UIRate//提示条
     var repayViewHeight = 70*UIRate//还款栏
     
+    var listArray = [JSON]()
     //产品id
     var orderId = ""
     
@@ -109,16 +110,9 @@ class MineViewController: UIViewController, UIGestureRecognizerDelegate,UICollec
         }
         
         aScrollView.contentSize = CGSize(width: SCREEN_WIDTH, height: 667*UIRate - 49 + 1)
-        
-        
         self.aScrollView.mj_header = MJRefreshNormalHeader(refreshingBlock: { [weak self] in
             self?.requestHomeData()
         })
-        
-//        self.aScrollView.addPullRefreshHandler({ [weak self] in
-//            self?.requestHomeData()
-//            self?.aScrollView.stopPullRefreshEver()
-//        })
         
         mineTopView.snp.makeConstraints { (make) in
             make.width.equalTo(self.view)
@@ -129,7 +123,7 @@ class MineViewController: UIViewController, UIGestureRecognizerDelegate,UICollec
         
         aCollectionView.snp.makeConstraints { (make) in
             make.width.equalTo(self.view)
-            make.height.equalTo(205*UIRate)
+            make.height.equalTo(280*UIRate)
             make.centerX.equalTo(self.view)
             make.top.equalTo(mineTopView.snp.bottom)
         }
@@ -150,12 +144,13 @@ class MineViewController: UIViewController, UIGestureRecognizerDelegate,UICollec
         let layout = UICollectionViewFlowLayout()
         layout.itemSize = CGSize(width: (SCREEN_WIDTH - 1.8*UIRate)/3, height: 75*UIRate)
         layout.minimumInteritemSpacing = 0.7*UIRate
+        layout.minimumLineSpacing = 0.5
         
         let collectionView = UICollectionView(frame: CGRect(), collectionViewLayout: layout)
         collectionView.register(MineCollectionViewCell.self, forCellWithReuseIdentifier: "mineCell")
         collectionView.register(MineHeaderView.classForCoder(), forSupplementaryViewOfKind: UICollectionElementKindSectionHeader, withReuseIdentifier: "header")
         collectionView.register(MineFooterView.classForCoder(), forSupplementaryViewOfKind: UICollectionElementKindSectionFooter, withReuseIdentifier: "footer")
-        
+
         collectionView.delegate = self
         collectionView.dataSource = self
         collectionView.backgroundColor = defaultBackgroundColor
@@ -169,7 +164,7 @@ class MineViewController: UIViewController, UIGestureRecognizerDelegate,UICollec
     }
     
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        return 3
+        return 5
     }
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
@@ -185,6 +180,12 @@ class MineViewController: UIViewController, UIGestureRecognizerDelegate,UICollec
         case 2:
             cell.imageView.image = UIImage(named: "m_repay_detail_28x28")
             cell.textLabel.text = "已还明细"
+        case 3:
+            cell.imageView.image = UIImage(named: "m_pr_repay_28x28")
+            cell.textLabel.text = "提前还款"
+        case 4:
+            cell.imageView.image = UIImage(named: "m_waiting_28x28")
+            cell.textLabel.text = "敬请期待"
         default:
             break
         }
@@ -193,7 +194,8 @@ class MineViewController: UIViewController, UIGestureRecognizerDelegate,UICollec
     
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
         
-        if indexPath.row == 0 { //借款记录
+        switch indexPath.row {
+        case 0://借款记录
             let borrowRecordVC = BorrowRecordViewController()
             if moneyStatus == "" {//如果状态码没有，则加载缺省界面
                 borrowRecordVC.isHaveData = false
@@ -201,7 +203,7 @@ class MineViewController: UIViewController, UIGestureRecognizerDelegate,UICollec
                 borrowRecordVC.isHaveData = true
             }
             self.navigationController?.pushViewController(borrowRecordVC, animated: true)
-        }else if indexPath.row == 1 { //还款账单
+        case 1://还款账单
             let repayVC = RepayBillViewController()
             //5-还款中 0-已完结
             if moneyStatus == "5" || moneyStatus == "0" {
@@ -210,7 +212,7 @@ class MineViewController: UIViewController, UIGestureRecognizerDelegate,UICollec
                 repayVC.isHaveData = false
             }
             self.navigationController?.pushViewController(repayVC, animated: true)
-        }else if indexPath.row == 2 { //还款明细
+        case 2://还款明细
             let repayDetailVC = RepayListViewController()
             if moneyStatus == "5" || moneyStatus == "0" {
                 repayDetailVC.isHaveData = true
@@ -218,6 +220,11 @@ class MineViewController: UIViewController, UIGestureRecognizerDelegate,UICollec
                 repayDetailVC.isHaveData = false
             }
             self.navigationController?.pushViewController(repayDetailVC, animated: true)
+        case 3://提前还款
+            let repayBillVC = RepayBillSelectVC()
+            self.navigationController?.pushViewController(repayBillVC, animated: true)
+        default:
+            break
         }
     }
     
@@ -333,8 +340,8 @@ class MineViewController: UIViewController, UIGestureRecognizerDelegate,UICollec
                 return self.showHint(in: self.view, hint: json["RET_DESC"].stringValue)
             }
          
-            self.refreshUI(json: json["detail"])
-            self.refreshNameUI(json: json["memberByInfo"])
+            self.refreshUI(json: json["backMap"])
+            self.refreshNameUI(json: json["backMap"])
             
         }, failure:{ error in
             //隐藏HUD
@@ -362,9 +369,7 @@ class MineViewController: UIViewController, UIGestureRecognizerDelegate,UICollec
             }
             //用户名
             self.mineTopView.sayHelloTextLabel.text = "您好： \(firstName + sexName)"
-            
         }else {
-            
             //用户名
             self.mineTopView.sayHelloTextLabel.text = "您好： \(toolsChangePhoneNumStyle(mobile: UserHelper.getUserMobile()!))"
         }
@@ -380,8 +385,9 @@ class MineViewController: UIViewController, UIGestureRecognizerDelegate,UICollec
         mineTopView.headerImageView.kf_setImage(with: URL(string: UserHelper.getUserHeaderUrl() ?? ""), placeholder: UIImage(named: "m_heder_icon_90x90"), options: nil, progressBlock: nil, completionHandler: nil)
         
         //未读消息
-        self.messageCount = json["size"].intValue
+        self.messageCount = json["num"].intValue
         
+        //H 未完成
         //有逾期话术
         let message = json["message"].stringValue
         if  message.characters.count > 0 {
@@ -397,65 +403,64 @@ class MineViewController: UIViewController, UIGestureRecognizerDelegate,UICollec
             topHeight = topHeight + 0
         }
         
-        if json["jstatus"].stringValue == "5" {//有还款明细
-            
-            self.mineTopView.moneyLabel.text = toolsChangeMoneyStyle(amount: json["MonthRefund"].doubleValue)
-            
-            //show1: 1-下期还款日   2-今日应还  3-最近还款日  4-逾期
-            repayStatus = json["show1"].stringValue
-            
-            switch repayStatus {
-            case "1":
-                self.mineTopView.dateTextLabel.text = "下期还款日"
-                self.mineTopView.dateLabel.text = toolsChangeDateStyle(toMMMonthDDDay: json["show2"].stringValue)
-            case "2":
-                self.mineTopView.dateTextLabel.text = "今日应还(元)"
-                self.mineTopView.dateLabel.text = toolsChangeMoneyStyle(amount: json["show2"].doubleValue)
-            case "3":
-                self.mineTopView.dateTextLabel.text = "最近还款日"
-                self.mineTopView.dateLabel.text = toolsChangeDateStyle(toMMMonthDDDay: json["show2"].stringValue)
-            case "4":
-                self.mineTopView.dateTextLabel.text = "逾期金额(元)"
-                self.mineTopView.dateLabel.text = toolsChangeMoneyStyle(amount: json["show2"].doubleValue)
-            default:
-                self.mineTopView.dateTextLabel.text = "下期还款日"
-               self.mineTopView.dateLabel.text = toolsChangeDateStyle(toMMMonthDDDay: json["nextMonthDay"].stringValue)
-            }
-            
-            self.mineTopView.repayHoldViewContraint.update(offset: repayViewHeight)
-            
-            topHeight = topHeight + repayViewHeight
-        }else {
+        //show1: 1-下期还款日   2-今日应还  3-最近还款日  4-逾期  0-不显示
+        repayStatus = json["show1"].stringValue
+    
+        self.mineTopView.moneyLabel.text = toolsChangeMoneyStyle(amount: json["currentPayMoney"].doubleValue)
+        //高度改变
+        self.mineTopView.repayHoldViewContraint.update(offset: repayViewHeight)
+        topHeight = topHeight + repayViewHeight
+    
+        switch repayStatus {
+        case "1":
+            self.mineTopView.dateTextLabel.text = "下期还款日"
+            self.mineTopView.dateLabel.text = toolsChangeDateStyle(toMMMonthDDDay: json["show2"].stringValue)
+        case "2":
+            self.mineTopView.dateTextLabel.text = "今日应还(元)"
+            self.mineTopView.dateLabel.text = toolsChangeMoneyStyle(amount: json["show2"].doubleValue)
+        case "3":
+            self.mineTopView.dateTextLabel.text = "最近还款日"
+            self.mineTopView.dateLabel.text = toolsChangeDateStyle(toMMMonthDDDay: json["show2"].stringValue)
+        case "4":
+            self.mineTopView.dateTextLabel.text = "逾期金额(元)"
+            self.mineTopView.dateLabel.text = toolsChangeMoneyStyle(amount: json["show2"].doubleValue)
+        default:
             self.mineTopView.repayHoldViewContraint.update(offset: 0)
             topHeight = topHeight + 0
         }
         self.mineTopConstrain.update(offset: topHeight)
-        
-       moneyStatus = json["jstatus"].stringValue//个人中心借款状态
-        if moneyStatus == "" || moneyStatus == "99"{//只要jstatus为空或为99-录入中，就没有单子产生
-            messageIsHaveData = false
-        }else {
-            messageIsHaveData = true
-        }
-            headerView.tipImage1.isHidden = true
-            headerView.tipImage2.isHidden = true
-            headerView.tipImage3.isHidden = true
-            headerView.tipImage4.isHidden = true
-        //0- 订单完结 2－ 审核中 3-满额通过 4-等待放款，校验中 5-还款中 7－审核悲剧 8-重新上传服务单 9-补交材料 99-录入中
-        switch moneyStatus {
-         case "2": //审核中
-            headerView.tipImage1.isHidden = false
-        case "3","4","8": //待使用
-           headerView.tipImage2.isHidden = false
-        case "5"://还款中
-           headerView.tipImage3.isHidden = false
-        case "7","9"://审核悲剧
-           headerView.tipImage4.isHidden = false
-        default:
-            break
+    
+        //H 未完成
+        listArray = json["jstatusList"].arrayValue
+        for i in 0..<listArray.count {
+            moneyStatus = listArray[i]["jstatus"].stringValue//个人中心借款状态
+            if moneyStatus == "" || moneyStatus == "99"{//只要jstatus为空或为99-录入中，就没有单子产生
+                messageIsHaveData = false
+            }else {
+                messageIsHaveData = true
+                headerView.tipImage1.isHidden = true
+                headerView.tipImage2.isHidden = true
+                headerView.tipImage3.isHidden = true
+                headerView.tipImage4.isHidden = true
+                //0- 订单完结 2－ 审核中 3-满额通过 4-等待放款，校验中 5-还款中 7－审核悲剧 8-重新上传服务单 9-补交材料 99-录入中
+                switch moneyStatus {
+                case "2": //审核中
+                    headerView.tipImage1.isHidden = false
+                case "3","4","8": //待使用
+                    headerView.tipImage2.isHidden = false
+                case "5"://还款中
+                    headerView.tipImage3.isHidden = false
+                case "7","9"://审核悲剧
+                    headerView.tipImage4.isHidden = false
+                default:
+                    break
+                }
+            }
+
         }
     }
-}
+        
+    }
 
 extension MineViewController {
     

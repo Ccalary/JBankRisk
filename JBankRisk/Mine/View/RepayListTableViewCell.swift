@@ -108,10 +108,10 @@ class RepayListTableViewCell: UITableViewCell {
     }()
 
     //数据
-    func cellWithData(dic: Dictionary<String, JSON>){
+    func cellWithData(dic: JSON){
      
-        leftTextLabel.text = toolsChangeDateStyle(toYYYYMMDD: (dic["realpay_date"]?.stringValue)!)
-        centerTextLabel.text = dic["orderName"]?.stringValue
-        rightTextLabel.text = toolsChangeMoneyStyle(amount: (dic["pay_amt_total"]?.doubleValue)!)
+        leftTextLabel.text = toolsChangeDateStyle(toYYYYMMDD: dic["realpayDate"].stringValue)
+        centerTextLabel.text = dic["orderName"].stringValue
+        rightTextLabel.text = toolsChangeMoneyStyle(amount: (dic["pay_amt_total"].doubleValue))
     }
 }
