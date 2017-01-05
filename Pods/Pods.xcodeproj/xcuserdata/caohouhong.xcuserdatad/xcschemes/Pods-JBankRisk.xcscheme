@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <Scheme
-   LastUpgradeVersion = "0810"
+   LastUpgradeVersion = "0700"
    version = "1.3">
    <BuildAction
       parallelizeBuildables = "YES"
@@ -14,7 +14,7 @@
             buildForAnalyzing = "YES">
             <BuildableReference
                BuildableIdentifier = "primary"
-               BlueprintIdentifier = "A4AAA9395BD666B4E0433A2DDA77919B"
+               BlueprintIdentifier = "5922DF08BFE9177F8F4996C1BC9F9A6B"
                BuildableName = "Pods_JBankRisk.framework"
                BlueprintName = "Pods-JBankRisk"
                ReferencedContainer = "container:Pods.xcodeproj">
@@ -45,7 +45,7 @@
       <MacroExpansion>
          <BuildableReference
             BuildableIdentifier = "primary"
-            BlueprintIdentifier = "A4AAA9395BD666B4E0433A2DDA77919B"
+            BlueprintIdentifier = "5922DF08BFE9177F8F4996C1BC9F9A6B"
             BuildableName = "Pods_JBankRisk.framework"
             BlueprintName = "Pods-JBankRisk"
             ReferencedContainer = "container:Pods.xcodeproj">

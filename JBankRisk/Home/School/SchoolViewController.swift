@@ -11,14 +11,7 @@ import SwiftyJSON
 
 class SchoolViewController:  UIViewController,UITableViewDelegate, UITableViewDataSource {
     
-    var SchoolCellData:[CellDataInfo] = [
-        CellDataInfo(leftText: "学校地址", holdText: "请选择所属地区", content: "", cellType: .arrowType),
-        CellDataInfo(leftText: "", holdText: "详细街道地址", content: "", cellType: .clearType),
-        CellDataInfo(leftText: "学校名称", holdText: "请选择学校名称", content: "", cellType: .arrowType),
-        CellDataInfo(leftText: "学历", holdText: "请选择学历", content: "", cellType: .arrowType),
-        CellDataInfo(leftText: "年级", holdText: "请选择年级", content: "", cellType: .arrowType),
-        CellDataInfo(leftText: "专业", holdText: "请填写专业", content: "", cellType: .clearType),
-        CellDataInfo(leftText: "学制", holdText: "请选择学制", content: "", cellType: .arrowType)]
+    var schoolCellData: UserInfoCellModel = UserInfoCellModel(dataType: UserInfoCellModel.CellModelType.school)
     
     var uploadSucDelegate:UploadSuccessDelegate?
     
@@ -63,33 +56,28 @@ class SchoolViewController:  UIViewController,UITableViewDelegate, UITableViewDa
         
         self.navigationItem.leftBarButtonItem = UIBarButtonItem(image: UIImage(named:"navigation_left_back_13x21"), style: .plain, target: self, action: #selector(leftNavigationBarBtnAction))
         
-        self.view.addSubview(aScrollView)
-        self.aScrollView.addSubview(aTableView)
-        self.aScrollView.addSubview(divideLine1)
+        let headerView = UIView(frame: CGRect(x: 0, y: 0, width: SCREEN_WIDTH, height: 10*UIRate))
+        headerView.backgroundColor = defaultBackgroundColor
+        
+        self.view.addSubview(aTableView)
+        self.aTableView.tableHeaderView = headerView
+        
+        headerView.addSubview(divideLine1)
         self.view.addSubview(lastStepBtn)
         self.view.addSubview(nextStepBtn)
         
-        aScrollView.snp.makeConstraints { (make) in
-            make.width.equalTo(self.view)
+        aTableView.snp.makeConstraints { (make) in
+            make.width.equalTo(SCREEN_WIDTH)
             make.height.equalTo(SCREEN_HEIGHT - 64 - 64*UIRate)
             make.centerX.equalTo(self.view)
             make.top.equalTo(64)
         }
         
-        aScrollView.contentSize = CGSize(width: SCREEN_WIDTH, height: SCREEN_HEIGHT - 64 - 64*UIRate + 1)
-        
-        aTableView.snp.makeConstraints { (make) in
-            make.width.equalTo(aScrollView)
-            make.height.equalTo(340*UIRate)
-            make.centerX.equalTo(aScrollView)
-            make.top.equalTo(10*UIRate)
-        }
-        
         divideLine1.snp.makeConstraints { (make) in
             make.width.equalTo(self.view)
             make.height.equalTo(0.5*UIRate)
-            make.centerX.equalTo(self.aScrollView)
-            make.top.equalTo(aTableView)
+            make.centerX.equalTo(self.view)
+            make.bottom.equalTo(headerView)
         }
         
         lastStepBtn.snp.makeConstraints { (make) in
@@ -107,12 +95,7 @@ class SchoolViewController:  UIViewController,UITableViewDelegate, UITableViewDa
         }
         
     }
-    
-    private lazy var aScrollView: UIScrollView = {
-        let scrollView = UIScrollView()
-        return scrollView
-    }()
-    
+
     lazy var aTableView: UITableView = {
         
         let tableView = UITableView()
@@ -120,6 +103,8 @@ class SchoolViewController:  UIViewController,UITableViewDelegate, UITableViewDa
         tableView.dataSource = self
         tableView.isScrollEnabled = false
         tableView.tableFooterView = UIView()
+        tableView.showsVerticalScrollIndicator = false
+        tableView.backgroundColor = defaultBackgroundColor
         tableView.register(BMTableViewCell.self, forCellReuseIdentifier: "SchoolCellID")
         
         //tableView 单元格分割线的显示
@@ -168,14 +153,14 @@ class SchoolViewController:  UIViewController,UITableViewDelegate, UITableViewDa
     }
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return SchoolCellData.count
+        return schoolCellData.cellData.count
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: "SchoolCellID") as! BMTableViewCell
         //去除选择效果
         cell.selectionStyle = .none
-        cell.cellDataInfo = SchoolCellData[indexPath.row]
+        cell.cellDataInfo = schoolCellData.cellData[indexPath.row]
         
         switch indexPath.row {
         case 0://地区
@@ -211,7 +196,7 @@ class SchoolViewController:  UIViewController,UITableViewDelegate, UITableViewDa
             let popupController = CNPPopupController(contents: [popupView])!
             popupController.present(animated: true)
             
-            popupView.onClickSelect = { (pro,city,county) in
+            popupView.onClickSelect = {[unowned self] (pro,city,county) in
                 self.areaInfo = (pro.pro + " ",city.city + " ",county.county)
                 self.areaRow = (pro.proRow, city.cityRow, county.countyRow)
                 self.province = pro.pro
@@ -236,7 +221,7 @@ class SchoolViewController:  UIViewController,UITableViewDelegate, UITableViewDa
             let popupController = CNPPopupController(contents: [popupView])!
             popupController.present(animated: true)
             
-            popupView.onClickSelect = { (row, text) in
+            popupView.onClickSelect = {[unowned self] (row, text) in
                 self.eduDegreeInfo = (row,text)
                 let position = IndexPath(row: indexPath.row, section: 0)
                 self.aTableView.reloadRows(at: [position], with: UITableViewRowAnimation.none)
@@ -248,7 +233,7 @@ class SchoolViewController:  UIViewController,UITableViewDelegate, UITableViewDa
             let popupController = CNPPopupController(contents: [popupView])!
             popupController.present(animated: true)
             
-            popupView.onClickSelect = { (row, text) in
+            popupView.onClickSelect = {[unowned self] (row, text) in
                 self.eduGradeInfo = (row,text)
                 let position = IndexPath(row: indexPath.row, section: 0)
                 self.aTableView.reloadRows(at: [position], with: UITableViewRowAnimation.none)
@@ -260,7 +245,7 @@ class SchoolViewController:  UIViewController,UITableViewDelegate, UITableViewDa
             let popupController = CNPPopupController(contents: [popupView])!
             popupController.present(animated: true)
             
-            popupView.onClickSelect = { (row, text) in
+            popupView.onClickSelect = {[unowned self] (row, text) in
                 self.eduSystemInfo = (row,text)
                 let position = IndexPath(row: indexPath.row, section: 0)
                 self.aTableView.reloadRows(at: [position], with: UITableViewRowAnimation.none)
@@ -422,9 +407,11 @@ class SchoolViewController:  UIViewController,UITableViewDelegate, UITableViewDa
         self.schoolInfo.text = json["school"].stringValue
         self.eduDegreeInfo.row = json["education"].intValue - 5 //客户端与数据库数据不统一删除了4个低点的学历
         self.eduDegreeInfo.text = eduDegreeData[self.eduDegreeInfo.row]
-        self.eduGradeInfo.row = json["grade"].intValue - 1
+        let grade = json["grade"].intValue - 1
+        self.eduGradeInfo.row = grade < 0 ? 0 : grade
         self.eduGradeInfo.text = eduGradeData[self.eduGradeInfo.row]
-        self.eduSystemInfo.row = json["school_len"].intValue - 1
+        let schoolLen = json["school_len"].intValue - 1
+        self.eduSystemInfo.row = schoolLen < 0 ? 0 : schoolLen
         self.eduSystemInfo.text = eduSystemData[self.eduSystemInfo.row]
         self.majoyText = json["majoy"].stringValue
         self.aTableView.reloadData()
@@ -466,7 +453,7 @@ extension SchoolViewController {
                 let popupController = CNPPopupController(contents: [popupView])!
                 popupController.present(animated: true)
                 
-                popupView.onClickSelect = { (row, text) in
+                popupView.onClickSelect = {[unowned self] (row, text) in
                     self.schoolInfo = (row,text,codeArray[row])
                     let position = IndexPath(row: 2, section: 0)
                     self.aTableView.reloadRows(at: [position], with: UITableViewRowAnimation.none)

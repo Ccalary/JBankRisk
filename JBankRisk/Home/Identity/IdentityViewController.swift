@@ -9,7 +9,7 @@
 import UIKit
 import SwiftyJSON
 
-protocol ReselectRoleDelegate {
+protocol ReselectRoleDelegate: class {
     func changeRoleType(role: RoleType)
 }
 
@@ -19,8 +19,8 @@ class IdentityViewController: UIViewController {
     var seconds: Int = 60
     var currentIndex: Int = 0
     
-    var delegate: ReselectRoleDelegate?
-    var uploadSucDelegate: UploadSuccessDelegate?
+    weak var delegate: ReselectRoleDelegate?
+    weak var uploadSucDelegate: UploadSuccessDelegate?
     
     var roleType:RoleType = RoleType(rawValue: UserHelper.getUserRole() ?? "白领")!
     
@@ -67,7 +67,6 @@ class IdentityViewController: UIViewController {
         let aTap = UITapGestureRecognizer(target: self, action: #selector(tapViewAction))
         aTap.numberOfTapsRequired = 1
         self.view.addGestureRecognizer(aTap)
-        
         
         self.view.addSubview(topHoldView)
         self.topHoldView.addSubview(divideLine11)
@@ -672,7 +671,7 @@ class IdentityViewController: UIViewController {
         popupView.onClickCloseBtn = { _ in
             popupController.dismiss(animated: true)
         }
-        popupView.onClickSelect = { role in
+        popupView.onClickSelect = {[unowned self] role in
             popupController.dismiss(animated: true)
             self.roleType = role
             self.getCurrentIndex()
@@ -704,7 +703,8 @@ class IdentityViewController: UIViewController {
     func idCardBtnAction(){
         self.view.endEditing(true)
         let idCardVC =  IDCardViewController(nibName: nil, bundle: nil)
-        idCardVC.block = { (name,code) in
+        idCardVC.block = {[unowned self] (name,code,address) in
+            UserHelper.setUserHome(address: address)
             self.nameTextLabel.text = name;
             self.idNumLabel.text = code;
             self.bottomHoldView.isHidden = false
@@ -785,7 +785,7 @@ class IdentityViewController: UIViewController {
         let popupController = CNPPopupController(contents: [phoneCallView])!
         popupController.present(animated: true)
         
-        phoneCallView.onClickSure = {_ in
+        phoneCallView.onClickSure = {[unowned self] _ in
             popupController.dismiss(animated: true)
             //进入下一步
             let idVC = ProductViewController()

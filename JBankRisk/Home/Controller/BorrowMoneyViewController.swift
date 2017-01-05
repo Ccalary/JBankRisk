@@ -9,7 +9,7 @@
 import UIKit
 import SnapKit
 //上传成功协议
-protocol UploadSuccessDelegate {
+protocol UploadSuccessDelegate: class {
     func upLoadInfoSuccess()
 }
 
@@ -57,43 +57,16 @@ class BorrowMoneyViewController: UIViewController,iCarouselDelegate, iCarouselDa
         self.carouselCurrentItemIndexDidChange(carousel)
     }
     
-    override func viewWillDisappear(_ animated: Bool) {
-
-    }
-    
-    ///Nav
+    //nav
     func setNavUI(){
         self.view.addSubview(navHoldView)
-        self.navHoldView.addSubview(navImageView)
-        self.navHoldView.addSubview(navTextLabel)
-        self.navHoldView.addSubview(navDivideLine)
-        
-        navTextLabel.text = self.title
+        navHoldView.navTextLabel.text = self.title
         
         navHoldView.snp.makeConstraints { (make) in
             make.width.equalTo(self.view)
             make.height.equalTo(64)
             make.centerX.equalTo(self.view)
             make.top.equalTo(0)
-        }
-        
-        navImageView.snp.makeConstraints { (make) in
-            make.width.equalTo(13)
-            make.height.equalTo(21)
-            make.left.equalTo(19)
-            make.centerY.equalTo(10)
-        }
-
-        navTextLabel.snp.makeConstraints { (make) in
-            make.centerX.equalTo(self.view)
-            make.centerY.equalTo(navImageView)
-        }
-        
-        navDivideLine.snp.makeConstraints { (make) in
-            make.width.equalTo(self.view)
-            make.height.equalTo(0.5*UIRate)
-            make.centerX.equalTo(self.view)
-            make.bottom.equalTo(navHoldView)
         }
     }
     
@@ -105,10 +78,7 @@ class BorrowMoneyViewController: UIViewController,iCarouselDelegate, iCarouselDa
         self.setNavUI()
         
         self.view.addSubview(topView)
-        self.view.addSubview(topTextLabel)
-        self.view.addSubview(starImageView)
-        self.view.addSubview(divideLine1)
-        
+         
         self.view.addSubview(holdView)
         self.view.addSubview(divideLine2)
         
@@ -128,23 +98,6 @@ class BorrowMoneyViewController: UIViewController,iCarouselDelegate, iCarouselDa
             make.width.equalTo(self.view)
             make.height.equalTo(30*UIRate)
             make.top.equalTo(64)
-        }
-        
-        topTextLabel.snp.makeConstraints { (make) in
-            make.centerY.equalTo(topView)
-            make.centerX.equalTo(topView).offset(9*UIRate)
-        }
-        
-        starImageView.snp.makeConstraints { (make) in
-            make.width.height.equalTo(15*UIRate)
-            make.right.equalTo(topTextLabel.snp.left).offset(-3*UIRate)
-            make.centerY.equalTo(topTextLabel)
-        }
-        
-        divideLine1.snp.makeConstraints { (make) in
-            make.width.equalTo(self.view)
-            make.height.equalTo(0.5*UIRate)
-            make.bottom.equalTo(topView)
         }
         
         holdView.snp.makeConstraints { (make) in
@@ -243,61 +196,16 @@ class BorrowMoneyViewController: UIViewController,iCarouselDelegate, iCarouselDa
     }
     
     /***Nav隐藏时使用***/
-    private lazy var navHoldView: UIView = {
-        let holdView = UIView()
-        holdView.backgroundColor = UIColor.white
+    
+    private lazy var navHoldView: NavigationView = {
+        let holdView = NavigationView()
         return holdView
-    }()
-    
-    //图片
-    private lazy var navImageView: UIImageView = {
-        let imageView = UIImageView()
-        imageView.image = UIImage(named: "navigation_left_back_13x21")
-        return imageView
-    }()
-    
-    private lazy var navTextLabel: UILabel = {
-        let label = UILabel()
-        label.font = UIFontSize(size: 18)
-        label.textAlignment = .center
-        label.textColor = UIColorHex("666666")
-        return label
-    }()
-    
-    //分割线
-    private lazy var navDivideLine: UIView = {
-        let lineView = UIView()
-        lineView.backgroundColor = defaultDivideLineColor
-        return lineView
     }()
 
     /******/
-    private lazy var topView: UIView = {
-        let holdView = UIView()
-        holdView.backgroundColor = UIColorHex("fbfbfb")
+    private lazy var topView: BorrowMoneyTopTipsView = {
+        let holdView = BorrowMoneyTopTipsView(viewType: BorrowMoneyTopTipsView.TipsType.tips1)
         return holdView
-    }()
-    
-    ///顶部文字
-    private lazy var topTextLabel: UILabel = {
-        let label = UILabel()
-        label.font = UIFontSize(size: 15*UIRate)
-        label.textColor = UIColorHex("666666")
-        label.text = "填写真实资料有助于提高您的贷款额度哦！"
-        return label
-    }()
-    
-    private lazy var starImageView: UIImageView = {
-        let imageView = UIImageView()
-        imageView.image = UIImage(named: "icon_star_15x15")
-        return imageView
-    }()
-    
-    //分割线
-    private lazy var divideLine1: UIView = {
-        let lineView = UIView()
-        lineView.backgroundColor = defaultDivideLineColor
-        return lineView
     }()
     
     private lazy var divideLine2: UIView = {
@@ -436,7 +344,7 @@ class BorrowMoneyViewController: UIViewController,iCarouselDelegate, iCarouselDa
         switch index {
         case 0:
             itemView = identityView
-            identityView.onClickBtn = { viewType in
+            identityView.onClickBtn = {[unowned self] viewType in
                 let idVC = IdentityViewController()
                 idVC.delegate = self
                 idVC.uploadSucDelegate = self
@@ -445,7 +353,7 @@ class BorrowMoneyViewController: UIViewController,iCarouselDelegate, iCarouselDa
 
         case 1:
             itemView = productView
-            productView.onClickBtn = { viewType in
+            productView.onClickBtn = {[unowned self] viewType in
                 let idVC = ProductViewController()
                 idVC.uploadSucDelegate = self
                 self.navigationController?.pushViewController(idVC, animated: true)
@@ -454,21 +362,21 @@ class BorrowMoneyViewController: UIViewController,iCarouselDelegate, iCarouselDa
             switch self.roleType {
             case .worker:
                 itemView = workView
-                workView.onClickBtn = { viewType in
+                workView.onClickBtn = {[unowned self] viewType in
                     let idVC = WorkViewController()
                     idVC.uploadSucDelegate = self
                     self.navigationController?.pushViewController(idVC, animated: true)
                 }
             case .student:
                 itemView = schoolView
-                schoolView.onClickBtn = { viewType in
+                schoolView.onClickBtn = {[unowned self] viewType in
                     let idVC = SchoolViewController()
                     idVC.uploadSucDelegate = self
                     self.navigationController?.pushViewController(idVC, animated: true)
                 }
             case .freedom:
                 itemView = incomeView
-                incomeView.onClickBtn = { viewType in
+                incomeView.onClickBtn = {[unowned self] viewType in
                     let incomeVC = IncomeViewController()
                     incomeVC.uploadSucDelegate = self
                     self.navigationController?.pushViewController(incomeVC, animated: true)
@@ -476,14 +384,14 @@ class BorrowMoneyViewController: UIViewController,iCarouselDelegate, iCarouselDa
             }
         case 3:
             itemView = contactView
-            contactView.onClickBtn = { viewType in
+            contactView.onClickBtn = {[unowned self] viewType in
                 let idVC = ContactViewController()
                 idVC.uploadSucDelegate = self
                 self.navigationController?.pushViewController(idVC, animated: true)
             }
         case 4:
             itemView = dataView
-            itemView.onClickBtn = { viewType in
+            itemView.onClickBtn = {[unowned self] viewType in
                 let idVC = DataViewController(roleType: self.roleType)
                 idVC.uploadSucDelegate = self
                 self.navigationController?.pushViewController(idVC, animated: true)

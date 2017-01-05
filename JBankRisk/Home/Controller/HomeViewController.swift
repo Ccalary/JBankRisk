@@ -11,6 +11,7 @@ import SnapKit
 import SwiftyJSON
 import Alamofire
 import MJRefresh
+import KMCGeigerCounter
 
 let homeCellID = "HomeTableViewCell"
 
@@ -45,6 +46,10 @@ class HomeViewController: UIViewController, UIGestureRecognizerDelegate{
         
         //添加HUD
         self.showHud(in: self.view)
+        
+        //H 测试  监测卡顿问题
+//        KMCGeigerCounter.shared().isEnabled = true
+
     }
     override func viewWillAppear(_ animated: Bool) {
          self.navigationController?.isNavigationBarHidden = true
@@ -83,10 +88,6 @@ class HomeViewController: UIViewController, UIGestureRecognizerDelegate{
         self.aTableView.mj_header = MJRefreshNormalHeader(refreshingBlock: { [weak self] in
             self?.requestHomeData()
         })
-//        self.aTableView.addPullRefreshHandler({ [weak self] in
-//            
-//             self?.aTableView.stopPullRefreshEver()
-//        })
     }
     
    private lazy var aTableView: UITableView = {
@@ -292,7 +293,7 @@ extension HomeViewController: UITableViewDelegate, UITableViewDataSource,CyclePi
                 popupView.onClickCloseBtn = { _ in
                     popupController.dismiss(animated: true)
                 }
-                popupView.onClickSelect = { role in
+                popupView.onClickSelect = {[unowned self] role in
                     popupController.dismiss(animated: true)
                     UserHelper.setUserRole(role: role.rawValue)
                     let borrowMoneyVC = BorrowMoneyViewController()
@@ -319,20 +320,36 @@ extension HomeViewController: UITableViewDelegate, UITableViewDataSource,CyclePi
             }
             self.navigationController?.pushViewController(repayDetailVC, animated: true)
         case 2:
-            guard UserHelper.isLogin() else {
-                let loginVC = LoginViewController()
-                self.navigationController?.pushViewController(loginVC, animated: true)
-                return
-            }
             
-               let repayDetailVC = RepayBillViewController()
-               // 5-还款中 0-已完结
-                if mJstatus == "5" || mJstatus == "0"{
-                    repayDetailVC.isHaveData = true
-                }else {
-                    repayDetailVC.isHaveData = false
-                }
-                self.navigationController?.pushViewController(repayDetailVC, animated: true)
+          let popupView = PopupLogoutView()
+          popupView.content = ("温馨提示","为了保障您的权益与服务，请\n签署电子合同","缓一缓","去签署")
+          let popupController = CNPPopupController(contents: [popupView])!
+          popupController.present(animated: true)
+
+          popupView.onClickCancle = {
+             popupController.dismiss(animated: true)
+          }
+            
+          popupView.onClickSure = {[unowned self] in
+             popupController.dismiss(animated: true)
+             self.requestContractSign()
+          }
+            
+          
+//            guard UserHelper.isLogin() else {
+//                let loginVC = LoginViewController()
+//                self.navigationController?.pushViewController(loginVC, animated: true)
+//                return
+//            }
+//            
+//               let repayDetailVC = RepayBillViewController()
+//               // 5-还款中 0-已完结
+//                if mJstatus == "5" || mJstatus == "0"{
+//                    repayDetailVC.isHaveData = true
+//                }else {
+//                    repayDetailVC.isHaveData = false
+//                }
+//                self.navigationController?.pushViewController(repayDetailVC, animated: true)
         default:
             break
         }
@@ -396,4 +413,24 @@ extension HomeViewController: UITableViewDelegate, UITableViewDataSource,CyclePi
         //        )
     }
     
+    //H 测试
+    func requestContractSign(){
+        
+        var params = NetConnect.getBaseRequestParams()
+        params["orderId"] = "8112121620797"
+        
+        NetConnect.other_contract_sign(parameters: params, success:
+            { response in
+                let json = JSON(response)
+                guard json["RET_CODE"] == "000000" else{
+                    return self.showHint(in: self.view, hint: json["RET_DESC"].stringValue)
+                }
+                YHTSdk.setToken(json["backInfo"]["TOKEN"].stringValue)
+                let YHTVC = YHTContractContentViewController.instance(withContractID: json["backInfo"]["contractId"].numberValue)
+                self.navigationController?.pushViewController(YHTVC!, animated: true)
+                
+        }, failure: {error in
+            
+        })
+    }
 }

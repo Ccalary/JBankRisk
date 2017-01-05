@@ -242,12 +242,11 @@ class MineHeaderView: UICollectionReusableView {
         return imageView
     }()
     
-    private lazy var tipTextLabel1: UILabel = {
+    lazy var tipTextLabel1: UILabel = {
         let label = UILabel()
         label.font = UIFontSize(size: 12*UIRate)
         label.textAlignment = .center
         label.textColor = UIColorHex("f42e2f")
-        label.text = "1"
         return label
     }()
 
@@ -291,12 +290,11 @@ class MineHeaderView: UICollectionReusableView {
         return imageView
     }()
     
-    private lazy var tipTextLabel2: UILabel = {
+    lazy var tipTextLabel2: UILabel = {
         let label = UILabel()
         label.font = UIFontSize(size: 12*UIRate)
         label.textAlignment = .center
         label.textColor = UIColorHex("f42e2f")
-        label.text = "1"
         return label
     }()
 
@@ -339,12 +337,11 @@ class MineHeaderView: UICollectionReusableView {
         return imageView
     }()
     
-    private lazy var tipTextLabel3: UILabel = {
+    lazy var tipTextLabel3: UILabel = {
         let label = UILabel()
         label.font = UIFontSize(size: 12*UIRate)
         label.textAlignment = .center
         label.textColor = UIColorHex("f42e2f")
-        label.text = "1"
         return label
     }()
 
@@ -387,12 +384,11 @@ class MineHeaderView: UICollectionReusableView {
         return imageView
     }()
     
-    private lazy var tipTextLabel4: UILabel = {
+    lazy var tipTextLabel4: UILabel = {
         let label = UILabel()
         label.font = UIFontSize(size: 12*UIRate)
         label.textAlignment = .center
         label.textColor = UIColorHex("f42e2f")
-        label.text = "1"
         return label
     }()
 

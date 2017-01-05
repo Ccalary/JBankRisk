@@ -17,7 +17,8 @@ import UIKit
     let companyTypeData = ["外资（欧美）","外资（非欧美）","合资","国企","民营企业","外企代表处","政府机关","事业单位","非营利机构","上市公司","创业公司"]
     let workExpData = ["无经验","一年以内","1-3年","3-5年","5-10年","10年以上"]
     let liveTimeData = ["3个月内","6个月内","1年","3年","3年以上"]
-let incomePayWayData = ["打卡","现金"]
+    let incomePayWayData = ["打卡","现金"]
+    let marryData = ["未婚","已婚"]
 
 class PopupStaticSelectView: UIView, UITableViewDelegate, UITableViewDataSource {
 
@@ -32,6 +33,7 @@ class PopupStaticSelectView: UIView, UITableViewDelegate, UITableViewDataSource 
         case workExp = "工作经验"
         case liveTime = "居住时间"
         case incomePayWay = "结算方式"
+        case marry = "婚姻状况"
     }
     
     var dataArray = [""]
@@ -73,6 +75,8 @@ class PopupStaticSelectView: UIView, UITableViewDelegate, UITableViewDataSource 
             dataArray = liveTimeData
         case .incomePayWay:
             dataArray = incomePayWayData
+        case .marry:
+            dataArray = marryData
         }
         self.frame = CGRect(x: 0, y: 0, width: SCREEN_WIDTH - 40*UIRate, height: 50*UIRate + 5*45*UIRate)
         

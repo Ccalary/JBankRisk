@@ -99,7 +99,7 @@ class BMTableViewCell: UITableViewCell {
         }
 
         centerTextField.snp.makeConstraints { (make) in
-            make.width.equalTo(225*UIRate)
+            make.width.equalTo(235*UIRate)
             make.height.equalTo(self)
             make.left.equalTo(100*UIRate)
             make.centerY.equalTo(self)

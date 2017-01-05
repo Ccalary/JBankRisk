@@ -9,7 +9,17 @@
 			<key>isShown</key>
 			<false/>
 		</dict>
+		<key>FBRetainCycleDetector.xcscheme</key>
+		<dict>
+			<key>isShown</key>
+			<false/>
+		</dict>
 		<key>IQKeyboardManagerSwift.xcscheme</key>
+		<dict>
+			<key>isShown</key>
+			<false/>
+		</dict>
+		<key>KMCGeigerCounter.xcscheme</key>
 		<dict>
 			<key>isShown</key>
 			<false/>
@@ -25,6 +35,11 @@
 			<false/>
 		</dict>
 		<key>MJRefresh.xcscheme</key>
+		<dict>
+			<key>isShown</key>
+			<false/>
+		</dict>
+		<key>MLeaksFinder.xcscheme</key>
 		<dict>
 			<key>isShown</key>
 			<false/>
@@ -52,12 +67,27 @@
 	</dict>
 	<key>SuppressBuildableAutocreation</key>
 	<dict>
+		<key>2C599305421E66F4BEB2D511DDA2DCD5</key>
+		<dict>
+			<key>primary</key>
+			<true/>
+		</dict>
+		<key>2F1B23A12590F7E155DAE03429566F60</key>
+		<dict>
+			<key>primary</key>
+			<true/>
+		</dict>
 		<key>41FA54D12162DAD51D02FC58A2CD5034</key>
 		<dict>
 			<key>primary</key>
 			<true/>
 		</dict>
 		<key>4DC059E04CBA98AEDDB5C34E02D551E9</key>
+		<dict>
+			<key>primary</key>
+			<true/>
+		</dict>
+		<key>5922DF08BFE9177F8F4996C1BC9F9A6B</key>
 		<dict>
 			<key>primary</key>
 			<true/>
@@ -72,12 +102,12 @@
 			<key>primary</key>
 			<true/>
 		</dict>
-		<key>A4AAA9395BD666B4E0433A2DDA77919B</key>
+		<key>89113D13464B25442C2F22E73E3536DF</key>
 		<dict>
 			<key>primary</key>
 			<true/>
 		</dict>
-		<key>A5F6D267C7C4FCC5F5032E37B06C1279</key>
+		<key>91F541E5F1DE0B681BB715AA43EE5D86</key>
 		<dict>
 			<key>primary</key>
 			<true/>
@@ -92,7 +122,7 @@
 			<key>primary</key>
 			<true/>
 		</dict>
-		<key>F09FEA683139028D7D276583003B8453</key>
+		<key>E42ECBE3C578EEE24A85EAE26DD68D11</key>
 		<dict>
 			<key>primary</key>
 			<true/>

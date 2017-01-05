@@ -15,16 +15,14 @@
 		0D006DE51DC8AAFA0091CF33 /* ProductViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0D006DE41DC8AAFA0091CF33 /* ProductViewController.swift */; };
 		0D006DE71DC8AB5B0091CF33 /* BMTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0D006DE61DC8AB5B0091CF33 /* BMTableViewCell.swift */; };
 		0D0A6ED61DD6FB51006B54DD /* FilterRepayView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0D0A6ED51DD6FB51006B54DD /* FilterRepayView.swift */; };
-		0D0A6ED81DD76DF7006B54DD /* NeedRepayViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0D0A6ED71DD76DF7006B54DD /* NeedRepayViewController.swift */; };
-		0D0E29FD1DAA220200A64F76 /* MineViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0D0E29FC1DAA220200A64F76 /* MineViewController.swift */; };
 		0D0E2A271DAA927A00A64F76 /* UIViewController+HUD.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0D0E2A261DAA927A00A64F76 /* UIViewController+HUD.swift */; };
 		0D0E2A301DAB377D00A64F76 /* File.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0D0E2A2C1DAB377D00A64F76 /* File.swift */; };
 		0D0E2A311DAB377E00A64F76 /* HHNavigationController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0D0E2A2D1DAB377D00A64F76 /* HHNavigationController.swift */; };
 		0D0E2A321DAB377E00A64F76 /* HHTabBarController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0D0E2A2E1DAB377D00A64F76 /* HHTabBarController.swift */; };
-		0D0E2A361DAB389D00A64F76 /* CyclePictureView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0D0E2A351DAB389D00A64F76 /* CyclePictureView.swift */; };
 		0D0E2A3B1DAB40DB00A64F76 /* HomeViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0D0E2A3A1DAB40DB00A64F76 /* HomeViewController.swift */; };
 		0D0E2A451DABB86E00A64F76 /* BaseWebViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0D0E2A441DABB86E00A64F76 /* BaseWebViewController.swift */; };
 		0D1070C21DAE297E00F9591C /* LoginPsdOrSetPsdVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0D1070C11DAE297E00F9591C /* LoginPsdOrSetPsdVC.swift */; };
+		0D1D62591E123A9D00C64748 /* GuideViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0D1D62581E123A9D00C64748 /* GuideViewController.swift */; };
 		0D1E82511DE1927A0040B39E /* AlbumToolbarView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0D1E823E1DE1927A0040B39E /* AlbumToolbarView.swift */; };
 		0D1E82521DE1927A0040B39E /* ImageModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0D1E823F1DE1927A0040B39E /* ImageModel.swift */; };
 		0D1E82531DE1927A0040B39E /* PhotoAlbumsTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0D1E82401DE1927A0040B39E /* PhotoAlbumsTableViewController.swift */; };
@@ -57,11 +55,56 @@
 		0D24F2FE1DCB72F300BBAC8F /* MineCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0D24F2FB1DCB72F300BBAC8F /* MineCollectionViewCell.swift */; };
 		0D24F2FF1DCB72F300BBAC8F /* MineFooterView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0D24F2FC1DCB72F300BBAC8F /* MineFooterView.swift */; };
 		0D24F3001DCB72F300BBAC8F /* MineHeaderView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0D24F2FD1DCB72F300BBAC8F /* MineHeaderView.swift */; };
-		0D24F3021DCB731800BBAC8F /* BorrowRecordViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0D24F3011DCB731800BBAC8F /* BorrowRecordViewController.swift */; };
 		0D24F3041DCB76E700BBAC8F /* BorrowRecordTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0D24F3031DCB76E700BBAC8F /* BorrowRecordTableViewCell.swift */; };
 		0D24F30A1DCB9F2E00BBAC8F /* AreaSelectHeaderView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0D24F3091DCB9F2E00BBAC8F /* AreaSelectHeaderView.swift */; };
 		0D2747DA1DADE9840060E221 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 0D2747D91DADE9840060E221 /* Assets.xcassets */; };
 		0D2841091DACC1D600059FD2 /* HomeTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0D2841081DACC1D600059FD2 /* HomeTableViewCell.swift */; };
+		0D28B2671E13BDDD00AA8B49 /* BasePopMenu.m in Sources */ = {isa = PBXBuildFile; fileRef = 0D28B2211E13BDDD00AA8B49 /* BasePopMenu.m */; };
+		0D28B2681E13BDDD00AA8B49 /* BasePopTableView.m in Sources */ = {isa = PBXBuildFile; fileRef = 0D28B2231E13BDDD00AA8B49 /* BasePopTableView.m */; };
+		0D28B2691E13BDDD00AA8B49 /* BaseWebView.m in Sources */ = {isa = PBXBuildFile; fileRef = 0D28B2251E13BDDD00AA8B49 /* BaseWebView.m */; };
+		0D28B26A1E13BDDD00AA8B49 /* NSData+Base64.m in Sources */ = {isa = PBXBuildFile; fileRef = 0D28B2281E13BDDD00AA8B49 /* NSData+Base64.m */; };
+		0D28B26B1E13BDDD00AA8B49 /* NSNumber+Wqz.m in Sources */ = {isa = PBXBuildFile; fileRef = 0D28B22A1E13BDDD00AA8B49 /* NSNumber+Wqz.m */; };
+		0D28B26C1E13BDDD00AA8B49 /* NSString+Wqz.m in Sources */ = {isa = PBXBuildFile; fileRef = 0D28B22C1E13BDDD00AA8B49 /* NSString+Wqz.m */; };
+		0D28B26D1E13BDDD00AA8B49 /* UIButton+Wqz.m in Sources */ = {isa = PBXBuildFile; fileRef = 0D28B22E1E13BDDD00AA8B49 /* UIButton+Wqz.m */; };
+		0D28B26E1E13BDDD00AA8B49 /* UIImage+Wqz.m in Sources */ = {isa = PBXBuildFile; fileRef = 0D28B2301E13BDDD00AA8B49 /* UIImage+Wqz.m */; };
+		0D28B26F1E13BDDD00AA8B49 /* YHT_MBProgressHUD+Wqz.m in Sources */ = {isa = PBXBuildFile; fileRef = 0D28B2341E13BDDD00AA8B49 /* YHT_MBProgressHUD+Wqz.m */; };
+		0D28B2701E13BDDD00AA8B49 /* YHT_MBProgressHUD.m in Sources */ = {isa = PBXBuildFile; fileRef = 0D28B2361E13BDDD00AA8B49 /* YHT_MBProgressHUD.m */; };
+		0D28B2711E13BDDD00AA8B49 /* YHT_MBProgressHUDManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 0D28B2381E13BDDD00AA8B49 /* YHT_MBProgressHUDManager.m */; };
+		0D28B2721E13BDDD00AA8B49 /* YHT_NJKWebViewProgress.m in Sources */ = {isa = PBXBuildFile; fileRef = 0D28B23B1E13BDDD00AA8B49 /* YHT_NJKWebViewProgress.m */; };
+		0D28B2731E13BDDD00AA8B49 /* YHT_NJKWebViewProgressView.m in Sources */ = {isa = PBXBuildFile; fileRef = 0D28B23D1E13BDDD00AA8B49 /* YHT_NJKWebViewProgressView.m */; };
+		0D28B2741E13BDDD00AA8B49 /* YHT_PPSSignatureView.m in Sources */ = {isa = PBXBuildFile; fileRef = 0D28B2401E13BDDD00AA8B49 /* YHT_PPSSignatureView.m */; };
+		0D28B2751E13BDDD00AA8B49 /* YHTContract.m in Sources */ = {isa = PBXBuildFile; fileRef = 0D28B2441E13BDDD00AA8B49 /* YHTContract.m */; };
+		0D28B2761E13BDDD00AA8B49 /* YHTContractOperateMenu.m in Sources */ = {isa = PBXBuildFile; fileRef = 0D28B2461E13BDDD00AA8B49 /* YHTContractOperateMenu.m */; };
+		0D28B2771E13BDDD00AA8B49 /* YHTContractPartner.m in Sources */ = {isa = PBXBuildFile; fileRef = 0D28B2481E13BDDD00AA8B49 /* YHTContractPartner.m */; };
+		0D28B2781E13BDDD00AA8B49 /* YHTContractWebView.m in Sources */ = {isa = PBXBuildFile; fileRef = 0D28B24A1E13BDDD00AA8B49 /* YHTContractWebView.m */; };
+		0D28B2791E13BDDD00AA8B49 /* YHTSign.m in Sources */ = {isa = PBXBuildFile; fileRef = 0D28B24D1E13BDDD00AA8B49 /* YHTSign.m */; };
+		0D28B27A1E13BDDD00AA8B49 /* YHTSignView.m in Sources */ = {isa = PBXBuildFile; fileRef = 0D28B24F1E13BDDD00AA8B49 /* YHTSignView.m */; };
+		0D28B27B1E13BDDD00AA8B49 /* YHTConstants.m in Sources */ = {isa = PBXBuildFile; fileRef = 0D28B2511E13BDDD00AA8B49 /* YHTConstants.m */; };
+		0D28B27C1E13BDDD00AA8B49 /* YHTError.m in Sources */ = {isa = PBXBuildFile; fileRef = 0D28B2531E13BDDD00AA8B49 /* YHTError.m */; };
+		0D28B27D1E13BDDD00AA8B49 /* YHTHttpRequest.m in Sources */ = {isa = PBXBuildFile; fileRef = 0D28B2551E13BDDD00AA8B49 /* YHTHttpRequest.m */; };
+		0D28B27E1E13BDDD00AA8B49 /* YHTSdk.bundle in Resources */ = {isa = PBXBuildFile; fileRef = 0D28B2561E13BDDD00AA8B49 /* YHTSdk.bundle */; };
+		0D28B27F1E13BDDD00AA8B49 /* YHTSdk.m in Sources */ = {isa = PBXBuildFile; fileRef = 0D28B2581E13BDDD00AA8B49 /* YHTSdk.m */; };
+		0D28B2801E13BDDD00AA8B49 /* YHTContractContentViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 0D28B25B1E13BDDD00AA8B49 /* YHTContractContentViewController.m */; };
+		0D28B2811E13BDDD00AA8B49 /* YHTSignMadeViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 0D28B25D1E13BDDD00AA8B49 /* YHTSignMadeViewController.m */; };
+		0D28B2821E13BDDD00AA8B49 /* YHTSignViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 0D28B25F1E13BDDD00AA8B49 /* YHTSignViewController.m */; };
+		0D28B2831E13BDDD00AA8B49 /* YHTContractManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 0D28B2621E13BDDD00AA8B49 /* YHTContractManager.m */; };
+		0D28B2841E13BDDD00AA8B49 /* YHTSignManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 0D28B2641E13BDDD00AA8B49 /* YHTSignManager.m */; };
+		0D28B2851E13BDDD00AA8B49 /* YHTTokenManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 0D28B2661E13BDDD00AA8B49 /* YHTTokenManager.m */; };
+		0D28B2951E14FCE700AA8B49 /* BorrowRecordViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0D28B2941E14FCE700AA8B49 /* BorrowRecordViewController.swift */; };
+		0D28B2981E14FD0900AA8B49 /* MineViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0D28B2971E14FD0900AA8B49 /* MineViewController.swift */; };
+		0D28B29B1E14FD3500AA8B49 /* RepayBillViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0D28B29A1E14FD3500AA8B49 /* RepayBillViewController.swift */; };
+		0D28B29E1E14FDF300AA8B49 /* RepayListViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0D28B29D1E14FDF300AA8B49 /* RepayListViewController.swift */; };
+		0D28B2A01E14FF6500AA8B49 /* RepayPeriodDetailVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0D28B29F1E14FF6500AA8B49 /* RepayPeriodDetailVC.swift */; };
+		0D28B2A31E15003400AA8B49 /* NeedRepayViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0D28B2A11E15003400AA8B49 /* NeedRepayViewController.swift */; };
+		0D28B2A41E15003400AA8B49 /* RepayDetailViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0D28B2A21E15003400AA8B49 /* RepayDetailViewController.swift */; };
+		0D28B2A81E15212000AA8B49 /* OCTools.m in Sources */ = {isa = PBXBuildFile; fileRef = 0D28B2A71E15212000AA8B49 /* OCTools.m */; };
+		0D28B3291E16509700AA8B49 /* BorrowMoneyTopTipsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0D28B3281E16509700AA8B49 /* BorrowMoneyTopTipsView.swift */; };
+		0D37121F1E11213C007DA3C2 /* PopupEbankRepayView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0D37121E1E11213C007DA3C2 /* PopupEbankRepayView.swift */; };
+		0D3712261E1140FC007DA3C2 /* RepayBillSelectVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0D3712211E1140FC007DA3C2 /* RepayBillSelectVC.swift */; };
+		0D3712271E1140FC007DA3C2 /* RepayViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0D3712221E1140FC007DA3C2 /* RepayViewController.swift */; };
+		0D3712281E1140FC007DA3C2 /* BillSelectTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0D3712241E1140FC007DA3C2 /* BillSelectTableViewCell.swift */; };
+		0D3712291E1140FC007DA3C2 /* RepayTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0D3712251E1140FC007DA3C2 /* RepayTableViewCell.swift */; };
+		0D37122D1E114154007DA3C2 /* RepayTipsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0D37122C1E114154007DA3C2 /* RepayTipsViewController.swift */; };
 		0D3ADC7F1DCC1DE300838043 /* SettingViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0D3ADC7E1DCC1DE300838043 /* SettingViewController.swift */; };
 		0D3ADC841DCC202A00838043 /* SettingTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0D3ADC831DCC202A00838043 /* SettingTableViewCell.swift */; };
 		0D3ADC881DCC31BB00838043 /* ResetPsdViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0D3ADC871DCC31BB00838043 /* ResetPsdViewController.swift */; };
@@ -76,15 +119,9 @@
 		0D3ADC9D1DCC853300838043 /* SysMessageTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0D3ADC9C1DCC853300838043 /* SysMessageTableViewCell.swift */; };
 		0D3ADC9F1DCC94F400838043 /* MessageDetailViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0D3ADC9E1DCC94F400838043 /* MessageDetailViewController.swift */; };
 		0D3ADCA21DCCA35600838043 /* NothingDefaultView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0D3ADCA11DCCA35600838043 /* NothingDefaultView.swift */; };
-		0D3ADCA71DCCC23B00838043 /* RepayBillViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0D3ADCA51DCCC23B00838043 /* RepayBillViewController.swift */; };
 		0D3ADCA81DCCC23B00838043 /* RepayWayViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0D3ADCA61DCCC23B00838043 /* RepayWayViewController.swift */; };
-		0D3ADCAE1DCCF1A200838043 /* RepayDetailViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0D3ADCAD1DCCF1A200838043 /* RepayDetailViewController.swift */; };
 		0D3ADCB01DCCF5BD00838043 /* RepayDetailTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0D3ADCAF1DCCF5BD00838043 /* RepayDetailTableViewCell.swift */; };
 		0D3E96F91E0CF9210087182E /* IncomeViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0D3E96F81E0CF9210087182E /* IncomeViewController.swift */; };
-		0D3E96FC1E0D26CA0087182E /* RepayBillSelectVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0D3E96FB1E0D26CA0087182E /* RepayBillSelectVC.swift */; };
-		0D3E96FF1E0D28440087182E /* BillSelectTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0D3E96FE1E0D28440087182E /* BillSelectTableViewCell.swift */; };
-		0D3E97011E0D34BD0087182E /* RepayViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0D3E97001E0D34BD0087182E /* RepayViewController.swift */; };
-		0D3E97031E0D37C60087182E /* RepayTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0D3E97021E0D37C60087182E /* RepayTableViewCell.swift */; };
 		0D536EE01DE4347A008B3BC3 /* BorrowProgressView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0D536EDF1DE4347A008B3BC3 /* BorrowProgressView.swift */; };
 		0D536EE41DE47D95008B3BC3 /* JulixinWebViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0D536EE31DE47D95008B3BC3 /* JulixinWebViewController.swift */; };
 		0D61C4281DB08ECE00C2BC23 /* PopupSelectRoleView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0D61C4271DB08ECE00C2BC23 /* PopupSelectRoleView.swift */; };
@@ -118,16 +155,14 @@
 		0D8EB7571DE5B0190002BF08 /* PopupProgressView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0D8EB7561DE5B0190002BF08 /* PopupProgressView.swift */; };
 		0D8EB75B1DE5C0400002BF08 /* BorrowStatusDefaultVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0D8EB75A1DE5C0400002BF08 /* BorrowStatusDefaultVC.swift */; };
 		0D9290C61DDD9FA000DB77FD /* PopupRegisterTipsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0D9290C51DDD9FA000DB77FD /* PopupRegisterTipsView.swift */; };
+		0D93A1611E1CE05F0055E58B /* UserInfoCellModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0D93A1601E1CE05F0055E58B /* UserInfoCellModel.swift */; };
 		0DAF60321DA8DFAD0009054F /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0DAF60311DA8DFAD0009054F /* AppDelegate.swift */; };
 		0DAF60371DA8DFAD0009054F /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 0DAF60351DA8DFAD0009054F /* Main.storyboard */; };
 		0DAF603C1DA8DFAD0009054F /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 0DAF603A1DA8DFAD0009054F /* LaunchScreen.storyboard */; };
 		0DAF60471DA8DFAD0009054F /* JBankRiskTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0DAF60461DA8DFAD0009054F /* JBankRiskTests.swift */; };
 		0DAF60521DA8DFAD0009054F /* JBankRiskUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0DAF60511DA8DFAD0009054F /* JBankRiskUITests.swift */; };
 		0DB36C611DDE138E0083825D /* MineTopView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0DB36C601DDE138E0083825D /* MineTopView.swift */; };
-		0DB36C651DDE98850083825D /* BorrowProgressVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0DB36C641DDE98850083825D /* BorrowProgressVC.swift */; };
 		0DB36C671DDE99290083825D /* BorrowDefaultView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0DB36C661DDE99290083825D /* BorrowDefaultView.swift */; };
-		0DB36C6E1DDEADC40083825D /* RepayingStatusVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0DB36C6D1DDEADC40083825D /* RepayingStatusVC.swift */; };
-		0DB36C741DDEBA7B0083825D /* RepayListViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0DB36C731DDEBA7B0083825D /* RepayListViewController.swift */; };
 		0DB36C761DDECFB30083825D /* RepayListTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0DB36C751DDECFB30083825D /* RepayListTableViewCell.swift */; };
 		0DB36C7C1DDEE5BC0083825D /* BorrowStatusVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0DB36C7B1DDEE5BC0083825D /* BorrowStatusVC.swift */; };
 		0DB36C7E1DDF01520083825D /* Base.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0DB36C7D1DDF01520083825D /* Base.swift */; };
@@ -140,11 +175,14 @@
 		0DC4C5AF1DD6CF70007FDBDD /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 0DC4C5AE1DD6CF70007FDBDD /* UIKit.framework */; };
 		0DC4C5B11DD6CF79007FDBDD /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 0DC4C5B01DD6CF79007FDBDD /* Foundation.framework */; };
 		0DC8B1551DD84F4D001323D3 /* NeedRepayTimeView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0DC8B1541DD84F4D001323D3 /* NeedRepayTimeView.swift */; };
-		0DC8B1591DD8AB16001323D3 /* RepayPeriodDetailVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0DC8B1581DD8AB16001323D3 /* RepayPeriodDetailVC.swift */; };
 		0DC8B15B1DD8B0ED001323D3 /* RepayPeriodDetailView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0DC8B15A1DD8B0ED001323D3 /* RepayPeriodDetailView.swift */; };
 		0DCACBE41DADC9D300AFD3E9 /* RegisterOrResetPsdVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0DCACBE31DADC9D300AFD3E9 /* RegisterOrResetPsdVC.swift */; };
+		0DD2BDA01E1BA10A000363A8 /* YHTSDKTokenListener.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0DD2BD9F1E1BA10A000363A8 /* YHTSDKTokenListener.swift */; };
 		0DD43CBB1DAFD74400091272 /* PopupRoleView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0DD43CBA1DAFD74400091272 /* PopupRoleView.swift */; };
 		0DD99BFF1DB1E47F00342E29 /* NetworkRequest.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0DD99BFE1DB1E47F00342E29 /* NetworkRequest.swift */; };
+		0DDE5FD51E12A2910076CE03 /* CyclePictureView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0DDE5FD41E12A2910076CE03 /* CyclePictureView.swift */; };
+		0DDE5FD71E12A2A70076CE03 /* NavigationView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0DDE5FD61E12A2A70076CE03 /* NavigationView.swift */; };
+		0DDE5FD91E13A4C00076CE03 /* NoNeedRepayVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0DDE5FD81E13A4C00076CE03 /* NoNeedRepayVC.swift */; };
 		0DDF09CA1DD4DDB900E8946E /* ContactViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0D1EAA831DC8CC4900789E37 /* ContactViewController.swift */; };
 		0DE7871B1DF9905600F175DB /* MJCustomRefreshHeader.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0DE7871A1DF9905600F175DB /* MJCustomRefreshHeader.swift */; };
 		0DECC8711DCAEB130022D3F6 /* AreaTableView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0DECC8701DCAEB130022D3F6 /* AreaTableView.swift */; };
@@ -181,17 +219,15 @@
 		0D006DE41DC8AAFA0091CF33 /* ProductViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ProductViewController.swift; sourceTree = "<group>"; };
 		0D006DE61DC8AB5B0091CF33 /* BMTableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = BMTableViewCell.swift; path = ../Product/BMTableViewCell.swift; sourceTree = "<group>"; };
 		0D0A6ED51DD6FB51006B54DD /* FilterRepayView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FilterRepayView.swift; sourceTree = "<group>"; };
-		0D0A6ED71DD76DF7006B54DD /* NeedRepayViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NeedRepayViewController.swift; sourceTree = "<group>"; };
-		0D0E29FC1DAA220200A64F76 /* MineViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MineViewController.swift; sourceTree = "<group>"; };
 		0D0E2A261DAA927A00A64F76 /* UIViewController+HUD.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "UIViewController+HUD.swift"; sourceTree = "<group>"; };
 		0D0E2A2C1DAB377D00A64F76 /* File.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = File.swift; sourceTree = "<group>"; };
 		0D0E2A2D1DAB377D00A64F76 /* HHNavigationController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = HHNavigationController.swift; sourceTree = "<group>"; };
 		0D0E2A2E1DAB377D00A64F76 /* HHTabBarController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = HHTabBarController.swift; sourceTree = "<group>"; };
 		0D0E2A2F1DAB377D00A64F76 /* JBankRisk-Bridging-Header.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "JBankRisk-Bridging-Header.h"; sourceTree = "<group>"; };
-		0D0E2A351DAB389D00A64F76 /* CyclePictureView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CyclePictureView.swift; sourceTree = "<group>"; };
 		0D0E2A3A1DAB40DB00A64F76 /* HomeViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = HomeViewController.swift; sourceTree = "<group>"; };
 		0D0E2A441DABB86E00A64F76 /* BaseWebViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BaseWebViewController.swift; sourceTree = "<group>"; };
 		0D1070C11DAE297E00F9591C /* LoginPsdOrSetPsdVC.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LoginPsdOrSetPsdVC.swift; sourceTree = "<group>"; };
+		0D1D62581E123A9D00C64748 /* GuideViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = GuideViewController.swift; sourceTree = "<group>"; };
 		0D1E823E1DE1927A0040B39E /* AlbumToolbarView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AlbumToolbarView.swift; sourceTree = "<group>"; };
 		0D1E823F1DE1927A0040B39E /* ImageModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ImageModel.swift; sourceTree = "<group>"; };
 		0D1E82401DE1927A0040B39E /* PhotoAlbumsTableViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PhotoAlbumsTableViewController.swift; sourceTree = "<group>"; };
@@ -225,11 +261,88 @@
 		0D24F2FB1DCB72F300BBAC8F /* MineCollectionViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MineCollectionViewCell.swift; sourceTree = "<group>"; };
 		0D24F2FC1DCB72F300BBAC8F /* MineFooterView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MineFooterView.swift; sourceTree = "<group>"; };
 		0D24F2FD1DCB72F300BBAC8F /* MineHeaderView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MineHeaderView.swift; sourceTree = "<group>"; };
-		0D24F3011DCB731800BBAC8F /* BorrowRecordViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BorrowRecordViewController.swift; sourceTree = "<group>"; };
 		0D24F3031DCB76E700BBAC8F /* BorrowRecordTableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BorrowRecordTableViewCell.swift; sourceTree = "<group>"; };
 		0D24F3091DCB9F2E00BBAC8F /* AreaSelectHeaderView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AreaSelectHeaderView.swift; sourceTree = "<group>"; };
 		0D2747D91DADE9840060E221 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; name = Assets.xcassets; path = JBankRisk/Assets.xcassets; sourceTree = "<group>"; };
 		0D2841081DACC1D600059FD2 /* HomeTableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = HomeTableViewCell.swift; sourceTree = "<group>"; };
+		0D28B2201E13BDDD00AA8B49 /* BasePopMenu.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BasePopMenu.h; sourceTree = "<group>"; };
+		0D28B2211E13BDDD00AA8B49 /* BasePopMenu.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BasePopMenu.m; sourceTree = "<group>"; };
+		0D28B2221E13BDDD00AA8B49 /* BasePopTableView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BasePopTableView.h; sourceTree = "<group>"; };
+		0D28B2231E13BDDD00AA8B49 /* BasePopTableView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BasePopTableView.m; sourceTree = "<group>"; };
+		0D28B2241E13BDDD00AA8B49 /* BaseWebView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BaseWebView.h; sourceTree = "<group>"; };
+		0D28B2251E13BDDD00AA8B49 /* BaseWebView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BaseWebView.m; sourceTree = "<group>"; };
+		0D28B2271E13BDDD00AA8B49 /* NSData+Base64.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSData+Base64.h"; sourceTree = "<group>"; };
+		0D28B2281E13BDDD00AA8B49 /* NSData+Base64.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSData+Base64.m"; sourceTree = "<group>"; };
+		0D28B2291E13BDDD00AA8B49 /* NSNumber+Wqz.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSNumber+Wqz.h"; sourceTree = "<group>"; };
+		0D28B22A1E13BDDD00AA8B49 /* NSNumber+Wqz.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSNumber+Wqz.m"; sourceTree = "<group>"; };
+		0D28B22B1E13BDDD00AA8B49 /* NSString+Wqz.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSString+Wqz.h"; sourceTree = "<group>"; };
+		0D28B22C1E13BDDD00AA8B49 /* NSString+Wqz.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSString+Wqz.m"; sourceTree = "<group>"; };
+		0D28B22D1E13BDDD00AA8B49 /* UIButton+Wqz.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIButton+Wqz.h"; sourceTree = "<group>"; };
+		0D28B22E1E13BDDD00AA8B49 /* UIButton+Wqz.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIButton+Wqz.m"; sourceTree = "<group>"; };
+		0D28B22F1E13BDDD00AA8B49 /* UIImage+Wqz.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIImage+Wqz.h"; sourceTree = "<group>"; };
+		0D28B2301E13BDDD00AA8B49 /* UIImage+Wqz.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIImage+Wqz.m"; sourceTree = "<group>"; };
+		0D28B2331E13BDDD00AA8B49 /* YHT_MBProgressHUD+Wqz.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "YHT_MBProgressHUD+Wqz.h"; sourceTree = "<group>"; };
+		0D28B2341E13BDDD00AA8B49 /* YHT_MBProgressHUD+Wqz.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "YHT_MBProgressHUD+Wqz.m"; sourceTree = "<group>"; };
+		0D28B2351E13BDDD00AA8B49 /* YHT_MBProgressHUD.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = YHT_MBProgressHUD.h; sourceTree = "<group>"; };
+		0D28B2361E13BDDD00AA8B49 /* YHT_MBProgressHUD.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = YHT_MBProgressHUD.m; sourceTree = "<group>"; };
+		0D28B2371E13BDDD00AA8B49 /* YHT_MBProgressHUDManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = YHT_MBProgressHUDManager.h; sourceTree = "<group>"; };
+		0D28B2381E13BDDD00AA8B49 /* YHT_MBProgressHUDManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = YHT_MBProgressHUDManager.m; sourceTree = "<group>"; };
+		0D28B23A1E13BDDD00AA8B49 /* YHT_NJKWebViewProgress.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = YHT_NJKWebViewProgress.h; sourceTree = "<group>"; };
+		0D28B23B1E13BDDD00AA8B49 /* YHT_NJKWebViewProgress.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = YHT_NJKWebViewProgress.m; sourceTree = "<group>"; };
+		0D28B23C1E13BDDD00AA8B49 /* YHT_NJKWebViewProgressView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = YHT_NJKWebViewProgressView.h; sourceTree = "<group>"; };
+		0D28B23D1E13BDDD00AA8B49 /* YHT_NJKWebViewProgressView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = YHT_NJKWebViewProgressView.m; sourceTree = "<group>"; };
+		0D28B23F1E13BDDD00AA8B49 /* YHT_PPSSignatureView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = YHT_PPSSignatureView.h; sourceTree = "<group>"; };
+		0D28B2401E13BDDD00AA8B49 /* YHT_PPSSignatureView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = YHT_PPSSignatureView.m; sourceTree = "<group>"; };
+		0D28B2431E13BDDD00AA8B49 /* YHTContract.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = YHTContract.h; sourceTree = "<group>"; };
+		0D28B2441E13BDDD00AA8B49 /* YHTContract.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = YHTContract.m; sourceTree = "<group>"; };
+		0D28B2451E13BDDD00AA8B49 /* YHTContractOperateMenu.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = YHTContractOperateMenu.h; sourceTree = "<group>"; };
+		0D28B2461E13BDDD00AA8B49 /* YHTContractOperateMenu.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = YHTContractOperateMenu.m; sourceTree = "<group>"; };
+		0D28B2471E13BDDD00AA8B49 /* YHTContractPartner.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = YHTContractPartner.h; sourceTree = "<group>"; };
+		0D28B2481E13BDDD00AA8B49 /* YHTContractPartner.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = YHTContractPartner.m; sourceTree = "<group>"; };
+		0D28B2491E13BDDD00AA8B49 /* YHTContractWebView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = YHTContractWebView.h; sourceTree = "<group>"; };
+		0D28B24A1E13BDDD00AA8B49 /* YHTContractWebView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = YHTContractWebView.m; sourceTree = "<group>"; };
+		0D28B24C1E13BDDD00AA8B49 /* YHTSign.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = YHTSign.h; sourceTree = "<group>"; };
+		0D28B24D1E13BDDD00AA8B49 /* YHTSign.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = YHTSign.m; sourceTree = "<group>"; };
+		0D28B24E1E13BDDD00AA8B49 /* YHTSignView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = YHTSignView.h; sourceTree = "<group>"; };
+		0D28B24F1E13BDDD00AA8B49 /* YHTSignView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = YHTSignView.m; sourceTree = "<group>"; };
+		0D28B2501E13BDDD00AA8B49 /* YHTConstants.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = YHTConstants.h; sourceTree = "<group>"; };
+		0D28B2511E13BDDD00AA8B49 /* YHTConstants.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = YHTConstants.m; sourceTree = "<group>"; };
+		0D28B2521E13BDDD00AA8B49 /* YHTError.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = YHTError.h; sourceTree = "<group>"; };
+		0D28B2531E13BDDD00AA8B49 /* YHTError.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = YHTError.m; sourceTree = "<group>"; };
+		0D28B2541E13BDDD00AA8B49 /* YHTHttpRequest.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = YHTHttpRequest.h; sourceTree = "<group>"; };
+		0D28B2551E13BDDD00AA8B49 /* YHTHttpRequest.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = YHTHttpRequest.m; sourceTree = "<group>"; };
+		0D28B2561E13BDDD00AA8B49 /* YHTSdk.bundle */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.plug-in"; path = YHTSdk.bundle; sourceTree = "<group>"; };
+		0D28B2571E13BDDD00AA8B49 /* YHTSdk.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = YHTSdk.h; sourceTree = "<group>"; };
+		0D28B2581E13BDDD00AA8B49 /* YHTSdk.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = YHTSdk.m; sourceTree = "<group>"; };
+		0D28B25A1E13BDDD00AA8B49 /* YHTContractContentViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = YHTContractContentViewController.h; sourceTree = "<group>"; };
+		0D28B25B1E13BDDD00AA8B49 /* YHTContractContentViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = YHTContractContentViewController.m; sourceTree = "<group>"; };
+		0D28B25C1E13BDDD00AA8B49 /* YHTSignMadeViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = YHTSignMadeViewController.h; sourceTree = "<group>"; };
+		0D28B25D1E13BDDD00AA8B49 /* YHTSignMadeViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = YHTSignMadeViewController.m; sourceTree = "<group>"; };
+		0D28B25E1E13BDDD00AA8B49 /* YHTSignViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = YHTSignViewController.h; sourceTree = "<group>"; };
+		0D28B25F1E13BDDD00AA8B49 /* YHTSignViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = YHTSignViewController.m; sourceTree = "<group>"; };
+		0D28B2611E13BDDD00AA8B49 /* YHTContractManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = YHTContractManager.h; sourceTree = "<group>"; };
+		0D28B2621E13BDDD00AA8B49 /* YHTContractManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = YHTContractManager.m; sourceTree = "<group>"; };
+		0D28B2631E13BDDD00AA8B49 /* YHTSignManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = YHTSignManager.h; sourceTree = "<group>"; };
+		0D28B2641E13BDDD00AA8B49 /* YHTSignManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = YHTSignManager.m; sourceTree = "<group>"; };
+		0D28B2651E13BDDD00AA8B49 /* YHTTokenManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = YHTTokenManager.h; sourceTree = "<group>"; };
+		0D28B2661E13BDDD00AA8B49 /* YHTTokenManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = YHTTokenManager.m; sourceTree = "<group>"; };
+		0D28B2941E14FCE700AA8B49 /* BorrowRecordViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BorrowRecordViewController.swift; sourceTree = "<group>"; };
+		0D28B2971E14FD0900AA8B49 /* MineViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MineViewController.swift; sourceTree = "<group>"; };
+		0D28B29A1E14FD3500AA8B49 /* RepayBillViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RepayBillViewController.swift; sourceTree = "<group>"; };
+		0D28B29D1E14FDF300AA8B49 /* RepayListViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RepayListViewController.swift; sourceTree = "<group>"; };
+		0D28B29F1E14FF6500AA8B49 /* RepayPeriodDetailVC.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RepayPeriodDetailVC.swift; sourceTree = "<group>"; };
+		0D28B2A11E15003400AA8B49 /* NeedRepayViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NeedRepayViewController.swift; sourceTree = "<group>"; };
+		0D28B2A21E15003400AA8B49 /* RepayDetailViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RepayDetailViewController.swift; sourceTree = "<group>"; };
+		0D28B2A61E15212000AA8B49 /* OCTools.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OCTools.h; sourceTree = "<group>"; };
+		0D28B2A71E15212000AA8B49 /* OCTools.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OCTools.m; sourceTree = "<group>"; };
+		0D28B3271E163E5800AA8B49 /* JBankRisk.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = JBankRisk.entitlements; sourceTree = "<group>"; };
+		0D28B3281E16509700AA8B49 /* BorrowMoneyTopTipsView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BorrowMoneyTopTipsView.swift; sourceTree = "<group>"; };
+		0D37121E1E11213C007DA3C2 /* PopupEbankRepayView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PopupEbankRepayView.swift; sourceTree = "<group>"; };
+		0D3712211E1140FC007DA3C2 /* RepayBillSelectVC.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RepayBillSelectVC.swift; sourceTree = "<group>"; };
+		0D3712221E1140FC007DA3C2 /* RepayViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RepayViewController.swift; sourceTree = "<group>"; };
+		0D3712241E1140FC007DA3C2 /* BillSelectTableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BillSelectTableViewCell.swift; sourceTree = "<group>"; };
+		0D3712251E1140FC007DA3C2 /* RepayTableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RepayTableViewCell.swift; sourceTree = "<group>"; };
+		0D37122C1E114154007DA3C2 /* RepayTipsViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RepayTipsViewController.swift; sourceTree = "<group>"; };
 		0D3ADC7E1DCC1DE300838043 /* SettingViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SettingViewController.swift; sourceTree = "<group>"; };
 		0D3ADC831DCC202A00838043 /* SettingTableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SettingTableViewCell.swift; sourceTree = "<group>"; };
 		0D3ADC871DCC31BB00838043 /* ResetPsdViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ResetPsdViewController.swift; sourceTree = "<group>"; };
@@ -244,15 +357,9 @@
 		0D3ADC9C1DCC853300838043 /* SysMessageTableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SysMessageTableViewCell.swift; sourceTree = "<group>"; };
 		0D3ADC9E1DCC94F400838043 /* MessageDetailViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MessageDetailViewController.swift; sourceTree = "<group>"; };
 		0D3ADCA11DCCA35600838043 /* NothingDefaultView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NothingDefaultView.swift; sourceTree = "<group>"; };
-		0D3ADCA51DCCC23B00838043 /* RepayBillViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RepayBillViewController.swift; sourceTree = "<group>"; };
 		0D3ADCA61DCCC23B00838043 /* RepayWayViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RepayWayViewController.swift; sourceTree = "<group>"; };
-		0D3ADCAD1DCCF1A200838043 /* RepayDetailViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RepayDetailViewController.swift; sourceTree = "<group>"; };
 		0D3ADCAF1DCCF5BD00838043 /* RepayDetailTableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RepayDetailTableViewCell.swift; sourceTree = "<group>"; };
 		0D3E96F81E0CF9210087182E /* IncomeViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = IncomeViewController.swift; sourceTree = "<group>"; };
-		0D3E96FB1E0D26CA0087182E /* RepayBillSelectVC.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RepayBillSelectVC.swift; sourceTree = "<group>"; };
-		0D3E96FE1E0D28440087182E /* BillSelectTableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BillSelectTableViewCell.swift; sourceTree = "<group>"; };
-		0D3E97001E0D34BD0087182E /* RepayViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RepayViewController.swift; sourceTree = "<group>"; };
-		0D3E97021E0D37C60087182E /* RepayTableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RepayTableViewCell.swift; sourceTree = "<group>"; };
 		0D536EDF1DE4347A008B3BC3 /* BorrowProgressView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BorrowProgressView.swift; sourceTree = "<group>"; };
 		0D536EE31DE47D95008B3BC3 /* JulixinWebViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = JulixinWebViewController.swift; sourceTree = "<group>"; };
 		0D61C4271DB08ECE00C2BC23 /* PopupSelectRoleView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PopupSelectRoleView.swift; sourceTree = "<group>"; };
@@ -294,6 +401,7 @@
 		0D8EB7561DE5B0190002BF08 /* PopupProgressView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PopupProgressView.swift; sourceTree = "<group>"; };
 		0D8EB75A1DE5C0400002BF08 /* BorrowStatusDefaultVC.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BorrowStatusDefaultVC.swift; sourceTree = "<group>"; };
 		0D9290C51DDD9FA000DB77FD /* PopupRegisterTipsView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PopupRegisterTipsView.swift; sourceTree = "<group>"; };
+		0D93A1601E1CE05F0055E58B /* UserInfoCellModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = UserInfoCellModel.swift; sourceTree = "<group>"; };
 		0DAF602E1DA8DFAD0009054F /* JBankRisk.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = JBankRisk.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		0DAF60311DA8DFAD0009054F /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = AppDelegate.swift; path = ../AppDelegate.swift; sourceTree = "<group>"; };
 		0DAF60361DA8DFAD0009054F /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
@@ -306,10 +414,7 @@
 		0DAF60511DA8DFAD0009054F /* JBankRiskUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = JBankRiskUITests.swift; sourceTree = "<group>"; };
 		0DAF60531DA8DFAD0009054F /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		0DB36C601DDE138E0083825D /* MineTopView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MineTopView.swift; sourceTree = "<group>"; };
-		0DB36C641DDE98850083825D /* BorrowProgressVC.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BorrowProgressVC.swift; sourceTree = "<group>"; };
 		0DB36C661DDE99290083825D /* BorrowDefaultView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BorrowDefaultView.swift; sourceTree = "<group>"; };
-		0DB36C6D1DDEADC40083825D /* RepayingStatusVC.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RepayingStatusVC.swift; sourceTree = "<group>"; };
-		0DB36C731DDEBA7B0083825D /* RepayListViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RepayListViewController.swift; sourceTree = "<group>"; };
 		0DB36C751DDECFB30083825D /* RepayListTableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RepayListTableViewCell.swift; sourceTree = "<group>"; };
 		0DB36C7B1DDEE5BC0083825D /* BorrowStatusVC.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BorrowStatusVC.swift; sourceTree = "<group>"; };
 		0DB36C7D1DDF01520083825D /* Base.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Base.swift; sourceTree = "<group>"; };
@@ -322,11 +427,14 @@
 		0DC4C5AE1DD6CF70007FDBDD /* UIKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = UIKit.framework; path = System/Library/Frameworks/UIKit.framework; sourceTree = SDKROOT; };
 		0DC4C5B01DD6CF79007FDBDD /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
 		0DC8B1541DD84F4D001323D3 /* NeedRepayTimeView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NeedRepayTimeView.swift; sourceTree = "<group>"; };
-		0DC8B1581DD8AB16001323D3 /* RepayPeriodDetailVC.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RepayPeriodDetailVC.swift; sourceTree = "<group>"; };
 		0DC8B15A1DD8B0ED001323D3 /* RepayPeriodDetailView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RepayPeriodDetailView.swift; sourceTree = "<group>"; };
 		0DCACBE31DADC9D300AFD3E9 /* RegisterOrResetPsdVC.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RegisterOrResetPsdVC.swift; sourceTree = "<group>"; };
+		0DD2BD9F1E1BA10A000363A8 /* YHTSDKTokenListener.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = YHTSDKTokenListener.swift; sourceTree = "<group>"; };
 		0DD43CBA1DAFD74400091272 /* PopupRoleView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PopupRoleView.swift; sourceTree = "<group>"; };
 		0DD99BFE1DB1E47F00342E29 /* NetworkRequest.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NetworkRequest.swift; sourceTree = "<group>"; };
+		0DDE5FD41E12A2910076CE03 /* CyclePictureView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CyclePictureView.swift; sourceTree = "<group>"; };
+		0DDE5FD61E12A2A70076CE03 /* NavigationView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NavigationView.swift; sourceTree = "<group>"; };
+		0DDE5FD81E13A4C00076CE03 /* NoNeedRepayVC.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NoNeedRepayVC.swift; sourceTree = "<group>"; };
 		0DE7871A1DF9905600F175DB /* MJCustomRefreshHeader.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MJCustomRefreshHeader.swift; sourceTree = "<group>"; };
 		0DECC8701DCAEB130022D3F6 /* AreaTableView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AreaTableView.swift; sourceTree = "<group>"; };
 		0DECC8741DCB07D30022D3F6 /* DataCollectionViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DataCollectionViewCell.swift; sourceTree = "<group>"; };
@@ -343,6 +451,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				0D84AAD41DE1919D00957B0A /* libexidcardios.a in Frameworks */,
 				0D737C1C1DEC0E7A00700F15 /* libz.tbd in Frameworks */,
 				0D737C1A1DEC0E6400700F15 /* SystemConfiguration.framework in Frameworks */,
 				0D737C181DEC0E5800700F15 /* Security.framework in Frameworks */,
@@ -352,7 +461,6 @@
 				0D7EEF881DE8988A00DBF0D4 /* AddressBook.framework in Frameworks */,
 				0D7EEF861DE8988400DBF0D4 /* AddressBookUI.framework in Frameworks */,
 				0D737C101DEC0D3E00700F15 /* libTalkingData.a in Frameworks */,
-				0D84AAD41DE1919D00957B0A /* libexidcardios.a in Frameworks */,
 				0DC4C5B11DD6CF79007FDBDD /* Foundation.framework in Frameworks */,
 				0DC4C5AF1DD6CF70007FDBDD /* UIKit.framework in Frameworks */,
 				0DC4C5AD1DD6CF5F007FDBDD /* CoreGraphics.framework in Frameworks */,
@@ -500,7 +608,8 @@
 		0D0E2A331DAB380F00A64F76 /* View */ = {
 			isa = PBXGroup;
 			children = (
-				0D0E2A351DAB389D00A64F76 /* CyclePictureView.swift */,
+				0DDE5FD31E12A27D0076CE03 /* CyclePictureView */,
+				0DDE5FD21E12A2510076CE03 /* NavigationView */,
 				0D3ADCA01DCCA33000838043 /* DefaultView */,
 				0DFFAED81DAF6F9D00819CF7 /* PopupView */,
 			);
@@ -510,6 +619,7 @@
 		0D0E2A341DAB381E00A64F76 /* Controller */ = {
 			isa = PBXGroup;
 			children = (
+				0D1D62571E123A7600C64748 /* GuideViewController */,
 			);
 			path = Controller;
 			sourceTree = "<group>";
@@ -530,8 +640,17 @@
 				0D2841081DACC1D600059FD2 /* HomeTableViewCell.swift */,
 				0D61C42D1DB0CE0000C2BC23 /* BorrowMoneyView.swift */,
 				0D61C4311DB128F600C2BC23 /* BorrowMoneyDoneView.swift */,
+				0D28B3281E16509700AA8B49 /* BorrowMoneyTopTipsView.swift */,
 			);
 			path = View;
+			sourceTree = "<group>";
+		};
+		0D1D62571E123A7600C64748 /* GuideViewController */ = {
+			isa = PBXGroup;
+			children = (
+				0D1D62581E123A9D00C64748 /* GuideViewController.swift */,
+			);
+			path = GuideViewController;
 			sourceTree = "<group>";
 		};
 		0D1E823D1DE192690040B39E /* PhotoPicker */ = {
@@ -580,25 +699,259 @@
 			path = View;
 			sourceTree = "<group>";
 		};
+		0D28B21C1E13BB1100AA8B49 /* CloudContract_SDK */ = {
+			isa = PBXGroup;
+			children = (
+				0D28B21D1E13BDDD00AA8B49 /* YHT_SDK_1.0.0 */,
+				0DD2BD9F1E1BA10A000363A8 /* YHTSDKTokenListener.swift */,
+			);
+			path = CloudContract_SDK;
+			sourceTree = "<group>";
+		};
+		0D28B21D1E13BDDD00AA8B49 /* YHT_SDK_1.0.0 */ = {
+			isa = PBXGroup;
+			children = (
+				0D28B21E1E13BDDD00AA8B49 /* Utils */,
+				0D28B2411E13BDDD00AA8B49 /* YHTModules */,
+				0D28B2561E13BDDD00AA8B49 /* YHTSdk.bundle */,
+				0D28B2571E13BDDD00AA8B49 /* YHTSdk.h */,
+				0D28B2581E13BDDD00AA8B49 /* YHTSdk.m */,
+				0D28B2591E13BDDD00AA8B49 /* 快速集成 */,
+				0D28B2601E13BDDD00AA8B49 /* 手动集成 */,
+			);
+			path = YHT_SDK_1.0.0;
+			sourceTree = "<group>";
+		};
+		0D28B21E1E13BDDD00AA8B49 /* Utils */ = {
+			isa = PBXGroup;
+			children = (
+				0D28B21F1E13BDDD00AA8B49 /* Bases */,
+				0D28B2261E13BDDD00AA8B49 /* Categorys */,
+				0D28B2311E13BDDD00AA8B49 /* lib */,
+			);
+			path = Utils;
+			sourceTree = "<group>";
+		};
+		0D28B21F1E13BDDD00AA8B49 /* Bases */ = {
+			isa = PBXGroup;
+			children = (
+				0D28B2201E13BDDD00AA8B49 /* BasePopMenu.h */,
+				0D28B2211E13BDDD00AA8B49 /* BasePopMenu.m */,
+				0D28B2221E13BDDD00AA8B49 /* BasePopTableView.h */,
+				0D28B2231E13BDDD00AA8B49 /* BasePopTableView.m */,
+				0D28B2241E13BDDD00AA8B49 /* BaseWebView.h */,
+				0D28B2251E13BDDD00AA8B49 /* BaseWebView.m */,
+			);
+			path = Bases;
+			sourceTree = "<group>";
+		};
+		0D28B2261E13BDDD00AA8B49 /* Categorys */ = {
+			isa = PBXGroup;
+			children = (
+				0D28B2271E13BDDD00AA8B49 /* NSData+Base64.h */,
+				0D28B2281E13BDDD00AA8B49 /* NSData+Base64.m */,
+				0D28B2291E13BDDD00AA8B49 /* NSNumber+Wqz.h */,
+				0D28B22A1E13BDDD00AA8B49 /* NSNumber+Wqz.m */,
+				0D28B22B1E13BDDD00AA8B49 /* NSString+Wqz.h */,
+				0D28B22C1E13BDDD00AA8B49 /* NSString+Wqz.m */,
+				0D28B22D1E13BDDD00AA8B49 /* UIButton+Wqz.h */,
+				0D28B22E1E13BDDD00AA8B49 /* UIButton+Wqz.m */,
+				0D28B22F1E13BDDD00AA8B49 /* UIImage+Wqz.h */,
+				0D28B2301E13BDDD00AA8B49 /* UIImage+Wqz.m */,
+			);
+			path = Categorys;
+			sourceTree = "<group>";
+		};
+		0D28B2311E13BDDD00AA8B49 /* lib */ = {
+			isa = PBXGroup;
+			children = (
+				0D28B2321E13BDDD00AA8B49 /* YHT_MBProgressHUD */,
+				0D28B2391E13BDDD00AA8B49 /* YHT_NJKWebViewProgress */,
+				0D28B23E1E13BDDD00AA8B49 /* YHT_PPSSignatureView */,
+			);
+			path = lib;
+			sourceTree = "<group>";
+		};
+		0D28B2321E13BDDD00AA8B49 /* YHT_MBProgressHUD */ = {
+			isa = PBXGroup;
+			children = (
+				0D28B2331E13BDDD00AA8B49 /* YHT_MBProgressHUD+Wqz.h */,
+				0D28B2341E13BDDD00AA8B49 /* YHT_MBProgressHUD+Wqz.m */,
+				0D28B2351E13BDDD00AA8B49 /* YHT_MBProgressHUD.h */,
+				0D28B2361E13BDDD00AA8B49 /* YHT_MBProgressHUD.m */,
+				0D28B2371E13BDDD00AA8B49 /* YHT_MBProgressHUDManager.h */,
+				0D28B2381E13BDDD00AA8B49 /* YHT_MBProgressHUDManager.m */,
+			);
+			path = YHT_MBProgressHUD;
+			sourceTree = "<group>";
+		};
+		0D28B2391E13BDDD00AA8B49 /* YHT_NJKWebViewProgress */ = {
+			isa = PBXGroup;
+			children = (
+				0D28B23A1E13BDDD00AA8B49 /* YHT_NJKWebViewProgress.h */,
+				0D28B23B1E13BDDD00AA8B49 /* YHT_NJKWebViewProgress.m */,
+				0D28B23C1E13BDDD00AA8B49 /* YHT_NJKWebViewProgressView.h */,
+				0D28B23D1E13BDDD00AA8B49 /* YHT_NJKWebViewProgressView.m */,
+			);
+			path = YHT_NJKWebViewProgress;
+			sourceTree = "<group>";
+		};
+		0D28B23E1E13BDDD00AA8B49 /* YHT_PPSSignatureView */ = {
+			isa = PBXGroup;
+			children = (
+				0D28B23F1E13BDDD00AA8B49 /* YHT_PPSSignatureView.h */,
+				0D28B2401E13BDDD00AA8B49 /* YHT_PPSSignatureView.m */,
+			);
+			path = YHT_PPSSignatureView;
+			sourceTree = "<group>";
+		};
+		0D28B2411E13BDDD00AA8B49 /* YHTModules */ = {
+			isa = PBXGroup;
+			children = (
+				0D28B2421E13BDDD00AA8B49 /* Contract */,
+				0D28B24B1E13BDDD00AA8B49 /* Sign */,
+				0D28B2501E13BDDD00AA8B49 /* YHTConstants.h */,
+				0D28B2511E13BDDD00AA8B49 /* YHTConstants.m */,
+				0D28B2521E13BDDD00AA8B49 /* YHTError.h */,
+				0D28B2531E13BDDD00AA8B49 /* YHTError.m */,
+				0D28B2541E13BDDD00AA8B49 /* YHTHttpRequest.h */,
+				0D28B2551E13BDDD00AA8B49 /* YHTHttpRequest.m */,
+			);
+			path = YHTModules;
+			sourceTree = "<group>";
+		};
+		0D28B2421E13BDDD00AA8B49 /* Contract */ = {
+			isa = PBXGroup;
+			children = (
+				0D28B2431E13BDDD00AA8B49 /* YHTContract.h */,
+				0D28B2441E13BDDD00AA8B49 /* YHTContract.m */,
+				0D28B2451E13BDDD00AA8B49 /* YHTContractOperateMenu.h */,
+				0D28B2461E13BDDD00AA8B49 /* YHTContractOperateMenu.m */,
+				0D28B2471E13BDDD00AA8B49 /* YHTContractPartner.h */,
+				0D28B2481E13BDDD00AA8B49 /* YHTContractPartner.m */,
+				0D28B2491E13BDDD00AA8B49 /* YHTContractWebView.h */,
+				0D28B24A1E13BDDD00AA8B49 /* YHTContractWebView.m */,
+			);
+			path = Contract;
+			sourceTree = "<group>";
+		};
+		0D28B24B1E13BDDD00AA8B49 /* Sign */ = {
+			isa = PBXGroup;
+			children = (
+				0D28B24C1E13BDDD00AA8B49 /* YHTSign.h */,
+				0D28B24D1E13BDDD00AA8B49 /* YHTSign.m */,
+				0D28B24E1E13BDDD00AA8B49 /* YHTSignView.h */,
+				0D28B24F1E13BDDD00AA8B49 /* YHTSignView.m */,
+			);
+			path = Sign;
+			sourceTree = "<group>";
+		};
+		0D28B2591E13BDDD00AA8B49 /* 快速集成 */ = {
+			isa = PBXGroup;
+			children = (
+				0D28B25A1E13BDDD00AA8B49 /* YHTContractContentViewController.h */,
+				0D28B25B1E13BDDD00AA8B49 /* YHTContractContentViewController.m */,
+				0D28B25C1E13BDDD00AA8B49 /* YHTSignMadeViewController.h */,
+				0D28B25D1E13BDDD00AA8B49 /* YHTSignMadeViewController.m */,
+				0D28B25E1E13BDDD00AA8B49 /* YHTSignViewController.h */,
+				0D28B25F1E13BDDD00AA8B49 /* YHTSignViewController.m */,
+			);
+			path = "快速集成";
+			sourceTree = "<group>";
+		};
+		0D28B2601E13BDDD00AA8B49 /* 手动集成 */ = {
+			isa = PBXGroup;
+			children = (
+				0D28B2611E13BDDD00AA8B49 /* YHTContractManager.h */,
+				0D28B2621E13BDDD00AA8B49 /* YHTContractManager.m */,
+				0D28B2631E13BDDD00AA8B49 /* YHTSignManager.h */,
+				0D28B2641E13BDDD00AA8B49 /* YHTSignManager.m */,
+				0D28B2651E13BDDD00AA8B49 /* YHTTokenManager.h */,
+				0D28B2661E13BDDD00AA8B49 /* YHTTokenManager.m */,
+			);
+			path = "手动集成";
+			sourceTree = "<group>";
+		};
+		0D28B2931E14FCCF00AA8B49 /* BorrowRecord */ = {
+			isa = PBXGroup;
+			children = (
+				0D28B2941E14FCE700AA8B49 /* BorrowRecordViewController.swift */,
+			);
+			path = BorrowRecord;
+			sourceTree = "<group>";
+		};
+		0D28B2961E14FCF500AA8B49 /* Mine */ = {
+			isa = PBXGroup;
+			children = (
+				0D28B2971E14FD0900AA8B49 /* MineViewController.swift */,
+			);
+			path = Mine;
+			sourceTree = "<group>";
+		};
+		0D28B2991E14FD2500AA8B49 /* RepayBill */ = {
+			isa = PBXGroup;
+			children = (
+				0D28B2A11E15003400AA8B49 /* NeedRepayViewController.swift */,
+				0D28B2A21E15003400AA8B49 /* RepayDetailViewController.swift */,
+				0D28B29F1E14FF6500AA8B49 /* RepayPeriodDetailVC.swift */,
+				0D28B29A1E14FD3500AA8B49 /* RepayBillViewController.swift */,
+			);
+			path = RepayBill;
+			sourceTree = "<group>";
+		};
+		0D28B29C1E14FDDE00AA8B49 /* RepayedList */ = {
+			isa = PBXGroup;
+			children = (
+				0D28B29D1E14FDF300AA8B49 /* RepayListViewController.swift */,
+			);
+			path = RepayedList;
+			sourceTree = "<group>";
+		};
+		0D28B2A51E1520F700AA8B49 /* ToolsWithOC */ = {
+			isa = PBXGroup;
+			children = (
+				0D28B2A61E15212000AA8B49 /* OCTools.h */,
+				0D28B2A71E15212000AA8B49 /* OCTools.m */,
+			);
+			path = ToolsWithOC;
+			sourceTree = "<group>";
+		};
 		0D29681C1DA9F772002FBB4C /* Mine */ = {
 			isa = PBXGroup;
 			children = (
-				0D3E96FA1E0D25850087182E /* Prerepay */,
-				0DB36C681DDEABAA0083825D /* BorrowStatus */,
 				0D3ADC971DCC838000838043 /* SystemMessage */,
 				0D3ADC7D1DCC1D0500838043 /* Setting */,
+				0DB36C681DDEABAA0083825D /* BorrowStatus */,
+				0D3712201E1140FC007DA3C2 /* Repay */,
+				0D28B29C1E14FDDE00AA8B49 /* RepayedList */,
+				0D28B2991E14FD2500AA8B49 /* RepayBill */,
+				0D28B2931E14FCCF00AA8B49 /* BorrowRecord */,
 				0D24F2FA1DCB72DA00BBAC8F /* View */,
-				0D0E29FC1DAA220200A64F76 /* MineViewController.swift */,
-				0D24F3011DCB731800BBAC8F /* BorrowRecordViewController.swift */,
-				0D3ADCA51DCCC23B00838043 /* RepayBillViewController.swift */,
-				0DB36C731DDEBA7B0083825D /* RepayListViewController.swift */,
-				0D3ADCAD1DCCF1A200838043 /* RepayDetailViewController.swift */,
-				0DC8B1581DD8AB16001323D3 /* RepayPeriodDetailVC.swift */,
-				0D0A6ED71DD76DF7006B54DD /* NeedRepayViewController.swift */,
-				0DB36C641DDE98850083825D /* BorrowProgressVC.swift */,
+				0D28B2961E14FCF500AA8B49 /* Mine */,
 				0D3ADCA61DCCC23B00838043 /* RepayWayViewController.swift */,
 			);
 			path = Mine;
+			sourceTree = "<group>";
+		};
+		0D3712201E1140FC007DA3C2 /* Repay */ = {
+			isa = PBXGroup;
+			children = (
+				0D3712231E1140FC007DA3C2 /* View */,
+				0D3712221E1140FC007DA3C2 /* RepayViewController.swift */,
+				0D37122C1E114154007DA3C2 /* RepayTipsViewController.swift */,
+				0DDE5FD81E13A4C00076CE03 /* NoNeedRepayVC.swift */,
+				0D3712211E1140FC007DA3C2 /* RepayBillSelectVC.swift */,
+			);
+			path = Repay;
+			sourceTree = "<group>";
+		};
+		0D3712231E1140FC007DA3C2 /* View */ = {
+			isa = PBXGroup;
+			children = (
+				0D3712241E1140FC007DA3C2 /* BillSelectTableViewCell.swift */,
+				0D3712251E1140FC007DA3C2 /* RepayTableViewCell.swift */,
+			);
+			path = View;
 			sourceTree = "<group>";
 		};
 		0D3ADC7D1DCC1D0500838043 /* Setting */ = {
@@ -650,28 +1003,10 @@
 			path = Income;
 			sourceTree = "<group>";
 		};
-		0D3E96FA1E0D25850087182E /* Prerepay */ = {
-			isa = PBXGroup;
-			children = (
-				0D3E96FD1E0D28270087182E /* View */,
-				0D3E96FB1E0D26CA0087182E /* RepayBillSelectVC.swift */,
-				0D3E97001E0D34BD0087182E /* RepayViewController.swift */,
-			);
-			path = Prerepay;
-			sourceTree = "<group>";
-		};
-		0D3E96FD1E0D28270087182E /* View */ = {
-			isa = PBXGroup;
-			children = (
-				0D3E96FE1E0D28440087182E /* BillSelectTableViewCell.swift */,
-				0D3E97021E0D37C60087182E /* RepayTableViewCell.swift */,
-			);
-			path = View;
-			sourceTree = "<group>";
-		};
 		0D68E9701DCA25E7000DA5E6 /* Others */ = {
 			isa = PBXGroup;
 			children = (
+				0D28B2A51E1520F700AA8B49 /* ToolsWithOC */,
 				0D68E9711DCA2604000DA5E6 /* Area */,
 			);
 			path = Others;
@@ -699,6 +1034,7 @@
 		0D84AAB51DE1919D00957B0A /* 3rd */ = {
 			isa = PBXGroup;
 			children = (
+				0D28B21C1E13BB1100AA8B49 /* CloudContract_SDK */,
 				0DE787161DF98FE900F175DB /* MJRefresh */,
 				0D737C0D1DEC0CA700700F15 /* TalkingData */,
 				0D1E823D1DE192690040B39E /* PhotoPicker */,
@@ -772,6 +1108,14 @@
 			path = PullToRefreshSwift;
 			sourceTree = "<group>";
 		};
+		0D93A15F1E1CE0350055E58B /* Model */ = {
+			isa = PBXGroup;
+			children = (
+				0D93A1601E1CE05F0055E58B /* UserInfoCellModel.swift */,
+			);
+			path = Model;
+			sourceTree = "<group>";
+		};
 		0D9EF4881DACF48300DC075C /* Login&Register */ = {
 			isa = PBXGroup;
 			children = (
@@ -809,6 +1153,7 @@
 		0DAF60301DA8DFAD0009054F /* JBankRisk */ = {
 			isa = PBXGroup;
 			children = (
+				0D28B3271E163E5800AA8B49 /* JBankRisk.entitlements */,
 				0DAF605F1DA8EBB20009054F /* Home */,
 				0D29681C1DA9F772002FBB4C /* Mine */,
 				0D9EF4881DACF48300DC075C /* Login&Register */,
@@ -848,6 +1193,7 @@
 				0D006DDA1DC77EE40091CF33 /* Work */,
 				0D006DD61DC77DB60091CF33 /* Product */,
 				0D006DD51DC77DA00091CF33 /* Identity */,
+				0D93A15F1E1CE0350055E58B /* Model */,
 				0D0E2A381DAB408700A64F76 /* View */,
 				0D0E2A371DAB407300A64F76 /* Controller */,
 			);
@@ -869,7 +1215,6 @@
 			isa = PBXGroup;
 			children = (
 				0DB36C811DDF61B60083825D /* View */,
-				0DB36C6D1DDEADC40083825D /* RepayingStatusVC.swift */,
 				0D8EB75A1DE5C0400002BF08 /* BorrowStatusDefaultVC.swift */,
 				0DB36C7B1DDEE5BC0083825D /* BorrowStatusVC.swift */,
 				0DB44FB51DE40576004E1695 /* UpLoadServiceBillVC.swift */,
@@ -885,6 +1230,22 @@
 				0D536EDF1DE4347A008B3BC3 /* BorrowProgressView.swift */,
 			);
 			path = View;
+			sourceTree = "<group>";
+		};
+		0DDE5FD21E12A2510076CE03 /* NavigationView */ = {
+			isa = PBXGroup;
+			children = (
+				0DDE5FD61E12A2A70076CE03 /* NavigationView.swift */,
+			);
+			path = NavigationView;
+			sourceTree = "<group>";
+		};
+		0DDE5FD31E12A27D0076CE03 /* CyclePictureView */ = {
+			isa = PBXGroup;
+			children = (
+				0DDE5FD41E12A2910076CE03 /* CyclePictureView.swift */,
+			);
+			path = CyclePictureView;
 			sourceTree = "<group>";
 		};
 		0DE787161DF98FE900F175DB /* MJRefresh */ = {
@@ -914,6 +1275,7 @@
 				0D9290C51DDD9FA000DB77FD /* PopupRegisterTipsView.swift */,
 				0DB44FB31DE35204004E1695 /* PopupNewVersionView.swift */,
 				0D8EB7561DE5B0190002BF08 /* PopupProgressView.swift */,
+				0D37121E1E11213C007DA3C2 /* PopupEbankRepayView.swift */,
 			);
 			path = PopupView;
 			sourceTree = "<group>";
@@ -959,6 +1321,7 @@
 				0DAF602C1DA8DFAD0009054F /* Resources */,
 				88590A15F4070991519F19FD /* [CP] Embed Pods Frameworks */,
 				F33122D1464769E1969B22C9 /* [CP] Copy Pods Resources */,
+				0D93A1641E1D23F20055E58B /* ShellScript */,
 			);
 			buildRules = (
 			);
@@ -1020,6 +1383,11 @@
 						DevelopmentTeam = JB79VQ5W7K;
 						LastSwiftMigration = 0800;
 						ProvisioningStyle = Automatic;
+						SystemCapabilities = {
+							com.apple.ApplePay = {
+								enabled = 1;
+							};
+						};
 					};
 					0DAF60411DA8DFAD0009054F = {
 						CreatedOnToolsVersion = 8.0;
@@ -1069,6 +1437,7 @@
 				0D1E82571DE1927A0040B39E /* photoCollectionViewCell.xib in Resources */,
 				0D84AAD31DE1919D00957B0A /* zocr0.lib in Resources */,
 				0D2747DA1DADE9840060E221 /* Assets.xcassets in Resources */,
+				0D28B27E1E13BDDD00AA8B49 /* YHTSdk.bundle in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1103,6 +1472,19 @@
 			shellPath = /bin/sh;
 			shellScript = "diff \"${PODS_ROOT}/../Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n";
 			showEnvVarsInLog = 0;
+		};
+		0D93A1641E1D23F20055E58B /* ShellScript */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "#!/bin/sh\n#\n# Copyright 2016 Bugly, Tencent. All rights reserved.\n#\n# V1.4.0\n#\n# 2016.08.03\n#\n#\n#\n######################################################\n# 1. 脚本集成到Xcode工程的Target\n######################################################\n#\n# --- Copy the SCRIPT to the Run Script of Build Phases in the Xcode project ---\n#\n# #\nBUGLY_APP_ID=\"dde98fc932\"\n# #\nBUGLY_APP_KEY=\"9b8500a7-61bb-416c-af88-e8eac63819ea\"\n# #\nBUNDLE_IDENTIFIER=\"com.jingjinsuo.risk\"\n# #\nUPLOAD_DSYM_ONLY=1\n#\n# # 脚本默认配置的版本格式为CFBundleShortVersionString(CFBundleVersion),  如果你修改默认的版本格式, 请设置此变量, 如果不想修改, 请忽略此设置\n# CUSTOMIZED_APP_VERSION=\"\"\n#\n# # Debug模式编译是否上传，1＝上传 0＝不上传，默认不上传\nUPLOAD_DEBUG_SYMBOLS=1\n#\n# # 模拟器编译是否上传，1=上传 0=不上传，默认不上传\nUPLOAD_SIMULATOR_SYMBOLS=1\n#\n# #只有Archive操作时上传, 1=支持Archive上传 0=所有Release模式编译都上传\nUPLOAD_ARCHIVE_ONLY=0\n#\n# #\n# source dSYMUpload.sh\n#\n# --- END OF SCRIPT ---\n#\n#\n#\n#\n#######################################################\n# 2. 脚本根据输入参数处理\n#######################################################\n#\n# #命令行下输入应用基本信息, .dSYM文件的父目录路径, 输出文件目录即可\n#\n# sh dSYMUpload.sh <bugly_app_id> <bugly_app_key> <app_bundle_identifier> <app_version> <dSYM_src_dir> <bSYMBOL_dest_dir>\n#\n# #\n#\n# #注意:\n# # 1. dSYMUpload.sh会调用buglySymboliOS.jar进行.dSYM解析，所以依赖Java运行时环境\n# # 2. dSYMUpload.sh和buglySymboliOS.jar的文件路径需一致\n#\n#\n\n#\n# --- CONTENT OF SCRIPT ---\n#\n\n# Bugly服务域名\nBUGLY_DSYM_UPLOAD_DOMAIN=\"api.bugly.qq.com\"\n\n# 注意jar工具的路径跟dSYMUpload.sh脚本路径一致, 请务必保证jar路径的正确性\nBUGLY_SYMBOL_JAR_PATH=\"dsymtool/buglySymboliOS.jar\"\n# 查找添加到系统目录的jar工具\nif [ ! -f \"${BUGLY_SYMBOL_JAR_PATH}\" ]; then\nBUGLY_SYMBOL_JAR_PATH=\"$HOME/bin/buglySymboliOS.jar\"\nfi\n\n# 打印错误信息\nfunction exitWithMessage(){\n    echo \"--------------------------------\"\n    echo \"${1}\"\n    echo \"--------------------------------\"\n    exit ${2}\n}\n\n# 上传bSYMBOL文件\nfunction dSYMUpload() {\n    P_APP_ID=\"$1\"\n    P_APP_KEY=\"$2\"\n    P_APP_BUNDLE_ID=\"$3\"\n    P_APP_VERSION=\"$4\"\n    P_BSYMBOL_ZIP_FILE=\"$5\"\n    \n    #\n    P_BSYMBOL_ZIP_FILE_NAME=${P_BSYMBOL_ZIP_FILE##*/}\n        P_BSYMBOL_ZIP_FILE_NAME=${P_BSYMBOL_ZIP_FILE_NAME//&/_}\n            P_BSYMBOL_ZIP_FILE_NAME=\"${P_BSYMBOL_ZIP_FILE_NAME// /_}\"\n            \n            DSYM_UPLOAD_URL=\"https://${BUGLY_DSYM_UPLOAD_DOMAIN}/openapi/file/upload/symbol?app_id=${P_APP_ID}&app_key=${P_APP_KEY}\"\n            echo \"dSYM upload url: ${DSYM_UPLOAD_URL}\"\n            \n            echo \"-----------------------------\"\n            STATUS=$(/usr/bin/curl -k \"${DSYM_UPLOAD_URL}\" --form \"api_version=1\" --form \"app_id=${P_APP_ID}\" --form \"app_key=${P_APP_KEY}\" --form \"symbolType=2\"  --form \"bundleId=${BUNDLE_IDENTIFIER}\" --form \"productVersion=${BUGLY_APP_VERSION}\" --form \"fileName=${P_BSYMBOL_ZIP_FILE_NAME}\" --form \"file=@${P_BSYMBOL_ZIP_FILE}\" --verbose)\n            echo \"-----------------------------\"\n            \n            UPLOAD_RESULT=\"FAILTURE\"\n            echo \"Bugly server response: ${STATUS}\"\n            if [ ! \"${STATUS}\" ]; then\n            echo \"Error: Failed to upload the zip archive file.\"\n            elif [[ \"${STATUS}\" == *\"{\\\"reponseCode\\\":\\\"0\\\"}\"* ]]; then\n            echo \"Success to upload the dSYM for the app [${BUNDLE_IDENTIFIER} ${BUGLY_APP_VERSION}]\"\n            UPLOAD_RESULT=\"SUCCESS\"\n            else\n            echo \"Error: Failed to upload the zip archive file to Bugly.\"\n            fi\n            \n            #Remove temp dSYM archive\n            #echo \"Remove temporary zip archive: ${DSYM_ZIP_FPATH}\"\n            #/bin/rm -f \"${DSYM_ZIP_FPATH}\"\n            \n            if [ \"$?\" -ne 0 ]; then\n            exitWithMessage \"Error: Failed to remove temporary zip archive.\" 0\n            fi\n            \n            echo \"--------------------------------\"\n            echo \"${UPLOAD_RESULT} - dSYM upload complete.\"\n            \n            if [[ \"${UPLOAD_RESULT}\" == \"FAILTURE\" ]]; then\n            echo \"--------------------------------\"\n            echo \"Failed to upload the dSYM\"\n            echo \"Please check the script and try it again.\"\n            fi\n        }\n        \n        # .dSYM解析为bSYMBOL文件\n        function dSYMParse() {\n            DSYM_FILE=\"$1\"\n            DSYM_SYMBOL_FILE=\"$2\"\n            \n            echo \"--------------------------------\"\n            echo \"Extract symbol info from .dSYM file. to ${DSYM_SYMBOL_FILE}\"\n            (/usr/bin/java -Xms512m -Xmx1024m -Dfile.encoding=UTF8 -jar \"${BUGLY_SYMBOL_JAR_PATH}\" -i \"${DSYM_FILE}\" -o \"${DSYM_SYMBOL_FILE}\" ) || exitWithMessage \"Error: Failed to extract symbols.\" 1\n            echo \"--------------------------------\"\n            \n        }\n        \n        # 执行\n        function run() {\n            \n            CONFIG_BUGLY_APP_ID=\"$1\"\n            CONFIG_BUGLY_APP_KEY=\"$2\"\n            \n            CONFIG_BUGLY_APP_BUNDLE_IDENTIFIER=\"$3\"\n            CONFIG_BUGLY_APP_VERSION=\"$4\"\n            CONFIG_DSYM_SOURCE_DIR=\"$5\"\n            CONFIG_DSYM_DEST_DIR=\"$6\"\n            CONFIG_UPLOAD_DSYM_ONLY=\"$7\"\n            \n            # 检查必须参数是否设置\n            if [ ! \"${CONFIG_BUGLY_APP_ID}\" ]; then\n            exitWithMessage \"Error: Bugly App ID not defined. Please set 'BUGLY_APP_ID' \" 0\n            fi\n            \n            if [[ \"${CONFIG_BUGLY_APP_ID}\" == *\"App ID\"* ]]; then\n            exitWithMessage \"Error: Bugly App ID not defined.\" 0\n            fi\n            \n            if [ ! \"${CONFIG_BUGLY_APP_KEY}\" ]; then\n            exitWithMessage \"Error: Bugly App Key not defined.\" 0\n            fi\n            \n            if [ ! \"${CONFIG_BUGLY_APP_BUNDLE_IDENTIFIER}\" ]; then\n            exitWithMessage \"Error: Bundle Identifier not defined.\" 0\n            fi\n            \n            if [ ! \"${CONFIG_BUGLY_APP_VERSION}\" ]; then\n            exitWithMessage \"Error: App Version not defined.\" 0\n            fi\n            \n            if [ ! -e \"${CONFIG_DSYM_SOURCE_DIR}\" ]; then\n            exitWithMessage \"Error: Invalid dir ${CONFIG_DSYM_SOURCE_DIR}\" 0\n            fi\n            \n            if [ ! \"${CONFIG_DSYM_DEST_DIR}\" ]; then\n            exitWithMessage \"Error: Invalid dir ${CONFIG_DSYM_DEST_DIR}\" 0\n            fi\n            \n            if [ ! -e \"${CONFIG_DSYM_DEST_DIR}\" ]; then\n            mkdir ${CONFIG_DSYM_DEST_DIR}\n            fi\n            \n            DSYM_FOLDER=\"${CONFIG_DSYM_SOURCE_DIR}\"\n            IFS=$'\\n'\n            \n            echo \"Scaning dSYM FOLDER: ${DSYM_FOLDER} ...\"\n            RET=\"F\"\n            \n            #\n            for dsymFile in $(find \"$DSYM_FOLDER\" -name '*.dSYM'); do\n            RET=\"T\"\n            echo \"Found dSYM file: $dsymFile\"\n            \n            DSYM_FILE_NAME=${dsymFile##*/}\n                DSYM_SYMBOL_ZIP_FILE_NAME=\"${DSYM_FILE_NAME}.zip\"\n                DSYM_SYMBOL_ZIP_FILE_NAME=\"${DSYM_SYMBOL_ZIP_FILE_NAME// /_}\"\n                DSYM_SYMBOL_ZIP_FILE=${CONFIG_DSYM_DEST_DIR}/${DSYM_SYMBOL_ZIP_FILE_NAME}\n                \n                if [ $CONFIG_UPLOAD_DSYM_ONLY -eq 1 ]; then\n                if [ -e $DSYM_SYMBOL_ZIP_FILE ]; then\n                rm -f $DSYM_SYMBOL_ZIP_FILE\n                fi\n                # 如果只上传dSYM，直接压缩dSYM目录\n                zip -r -j $DSYM_SYMBOL_ZIP_FILE $dsymFile -x *.plist\n                else\n                # 使用符号表工具来生成Symbol文件\n                dSYMParse $dsymFile $DSYM_SYMBOL_ZIP_FILE\n                fi\n                \n                # 上传\n                dSYMUpload $CONFIG_BUGLY_APP_ID $CONFIG_BUGLY_APP_KEY $CONFIG_BUGLY_APP_BUNDLE_IDENTIFIER $CONFIG_BUGLY_APP_VERSION $DSYM_SYMBOL_ZIP_FILE\n                done\n                \n                if [ $RET = \"F\" ]; then\n                exitWithMessage \"No .dSYM found in ${DSYM_FOLDER}\" 0\n                fi\n            }\n            \n            # 在Xcode工程中执行\n            function runInXcode(){\n                echo \"Uploading dSYM to Bugly in Xcode ...\"\n                \n                echo \"Info.Plist : ${INFOPLIST_FILE}\"\n                \n                BUNDLE_VERSION=$(/usr/libexec/PlistBuddy -c 'Print CFBundleVersion' \"${INFOPLIST_FILE}\")\n                BUNDLE_SHORT_VERSION=$(/usr/libexec/PlistBuddy -c 'Print CFBundleShortVersionString' \"${INFOPLIST_FILE}\")\n                \n                # 组装Bugly默认识别的版本信息(格式为CFBundleShortVersionString(CFBundleVersion), 例如: 1.0(1))\n                if [ ! \"${CUSTOMIZED_APP_VERSION}\" ]; then\n                BUGLY_APP_VERSION=\"${BUNDLE_SHORT_VERSION}(${BUNDLE_VERSION})\"\n                else\n                BUGLY_APP_VERSION=\"${CUSTOMIZED_APP_VERSION}\"\n                fi\n                \n                echo \"--------------------------------\"\n                echo \"Prepare application information.\"\n                echo \"--------------------------------\"\n                \n                echo \"Product Name: ${PRODUCT_NAME}\"\n                echo \"Bundle Identifier: ${BUNDLE_IDENTIFIER}\"\n                echo \"Version: ${BUNDLE_SHORT_VERSION}\"\n                echo \"Build: ${BUNDLE_VERSION}\"\n                \n                echo \"Bugly App ID: ${BUGLY_APP_ID}\"\n                echo \"Bugly App key: ${BUGLY_APP_KEY}\"\n                echo \"Bugly App Version: ${BUGLY_APP_VERSION}\"\n                \n                echo \"--------------------------------\"\n                echo \"Check the arguments ...\"\n                \n                ##检查模拟器编译是否允许上传符号\n                if [ \"$EFFECTIVE_PLATFORM_NAME\" == \"-iphonesimulator\" ]; then\n                if [ $UPLOAD_SIMULATOR_SYMBOLS -eq 0 ]; then\n                exitWithMessage \"Warning: Build for simulator and skipping to upload. \\nYou can modify 'UPLOAD_SIMULATOR_SYMBOLS' to 1 in the script.\" 0\n                fi\n                fi\n                \n                ##检查是否是Release模式编译\n                if [ \"${CONFIGURATION=}\" == \"Debug\" ]; then\n                if [ $UPLOAD_DEBUG_SYMBOLS -eq 0 ]; then\n                exitWithMessage \"Warning: Build for debug mode and skipping to upload. \\nYou can modify 'UPLOAD_DEBUG_SYMBOLS' to 1 in the script.\" 0\n                fi\n                fi\n                \n                ##检查是否Archive操作\n                if [ $UPLOAD_ARCHIVE_ONLY -eq 1 ]; then\n                if [[ \"$TARGET_BUILD_DIR\" == *\"/Archive\"* ]]; then\n                echo \"Archive the package\"\n                else\n                exitWithMessage \"Warning: Build for NOT Archive mode and skipping to upload. \\nYou can modify 'UPLOAD_ARCHIVE_ONLY' to 0 in the script.\" 0\n                fi\n                fi\n                \n                #\n                run ${BUGLY_APP_ID} ${BUGLY_APP_KEY} ${BUNDLE_IDENTIFIER} ${BUGLY_APP_VERSION} ${DWARF_DSYM_FOLDER_PATH} ${BUILD_DIR}/BuglySymbolTemp ${UPLOAD_DSYM_ONLY}\n            }\n            \n            # 根据Xcode的环境变量判断是否处于Xcode环境\n            INFO_PLIST_FILE=\"${INFOPLIST_FILE}\"\n            \n            BuildInXcode=\"F\"\n            if [ -f \"${INFO_PLIST_FILE}\" ]; then\n            BuildInXcode=\"T\"\n            fi\n            \n            if [ $BuildInXcode = \"T\" ]; then\n            runInXcode\n            else\n            echo \"\\nUsage: dSYMUpload.sh <bugly_app_id> <bugly_app_key> <app_bundle_identifier> <app_version> <dSYM_src_dir> <bSYMBOL_dest_dir> [upload_dsym_only]\\n\"\n            # 你可以在此处直接设置BuglyAppID和BuglyAppKey，排除不常变参数的输入\n            BUGLY_APP_ID=\"$1\"\n            BUGLY_APP_KEY=\"$2\"\n            BUNDLE_IDENTIFIER=\"$3\"\n            BUGLY_APP_VERSION=\"$4\"\n            DWARF_DSYM_FOLDER_PATH=\"$5\"\n            SYMBOL_OUTPUT_PATH=\"$6\"\n            UPLOAD_DSYM_ONLY=$7\n            run ${BUGLY_APP_ID} ${BUGLY_APP_KEY} ${BUNDLE_IDENTIFIER} ${BUGLY_APP_VERSION} ${DWARF_DSYM_FOLDER_PATH} ${SYMBOL_OUTPUT_PATH} ${UPLOAD_DSYM_ONLY}\n            fi";
 		};
 		88590A15F4070991519F19FD /* [CP] Embed Pods Frameworks */ = {
 			isa = PBXShellScriptBuildPhase;
@@ -1144,15 +1526,16 @@
 				0D84AAD61DE1919D00957B0A /* PullToRefreshOption.swift in Sources */,
 				0D24F2FF1DCB72F300BBAC8F /* MineFooterView.swift in Sources */,
 				0D24F3041DCB76E700BBAC8F /* BorrowRecordTableViewCell.swift in Sources */,
-				0D3E96FC1E0D26CA0087182E /* RepayBillSelectVC.swift in Sources */,
 				0D84AAD21DE1919D00957B0A /* IdInfo.m in Sources */,
 				0D3ADCA81DCCC23B00838043 /* RepayWayViewController.swift in Sources */,
 				0D1E825B1DE1927A0040B39E /* PhotoImageManager.swift in Sources */,
 				0DB36C851DDF61D50083825D /* BorrowStatusView.swift in Sources */,
 				0DE7871B1DF9905600F175DB /* MJCustomRefreshHeader.swift in Sources */,
+				0D28B2841E13BDDD00AA8B49 /* YHTSignManager.m in Sources */,
 				0DB36C611DDE138E0083825D /* MineTopView.swift in Sources */,
 				0DB36C671DDE99290083825D /* BorrowDefaultView.swift in Sources */,
 				0D1EAA861DC8D4FF00789E37 /* DataViewController.swift in Sources */,
+				0D28B2781E13BDDD00AA8B49 /* YHTContractWebView.m in Sources */,
 				0D3ADC921DCC50FF00838043 /* ChangePhoneNumVC.swift in Sources */,
 				0D1EAA921DC9BB2500789E37 /* PopupDeadlineCollectionViewCell.swift in Sources */,
 				0D3ADC8C1DCC3B4A00838043 /* AboutOursTableViewCell.swift in Sources */,
@@ -1162,105 +1545,141 @@
 				0D006DDF1DC7A0A90091CF33 /* IdentityViewController.swift in Sources */,
 				0D1EAA8A1DC97E8000789E37 /* PopupStaticTableViewCell.swift in Sources */,
 				0D84AAD71DE1919D00957B0A /* PullToRefreshView.swift in Sources */,
+				0D3712271E1140FC007DA3C2 /* RepayViewController.swift in Sources */,
+				0DDE5FD51E12A2910076CE03 /* CyclePictureView.swift in Sources */,
+				0D28B27F1E13BDDD00AA8B49 /* YHTSdk.m in Sources */,
+				0D28B29B1E14FD3500AA8B49 /* RepayBillViewController.swift in Sources */,
+				0D3712281E1140FC007DA3C2 /* BillSelectTableViewCell.swift in Sources */,
 				0D1E82531DE1927A0040B39E /* PhotoAlbumsTableViewController.swift in Sources */,
-				0D3E96FF1E0D28440087182E /* BillSelectTableViewCell.swift in Sources */,
 				0D61C42E1DB0CE0000C2BC23 /* BorrowMoneyView.swift in Sources */,
 				0D0E2A321DAB377E00A64F76 /* HHTabBarController.swift in Sources */,
 				0D1E825F1DE1927A0040B39E /* PhotoPreviewCell.swift in Sources */,
 				0D006DE51DC8AAFA0091CF33 /* ProductViewController.swift in Sources */,
-				0DC8B1591DD8AB16001323D3 /* RepayPeriodDetailVC.swift in Sources */,
+				0D28B26A1E13BDDD00AA8B49 /* NSData+Base64.m in Sources */,
+				0DDE5FD71E12A2A70076CE03 /* NavigationView.swift in Sources */,
+				0D28B2771E13BDDD00AA8B49 /* YHTContractPartner.m in Sources */,
+				0DDE5FD91E13A4C00076CE03 /* NoNeedRepayVC.swift in Sources */,
 				0DB36C7C1DDEE5BC0083825D /* BorrowStatusVC.swift in Sources */,
 				0D61C4281DB08ECE00C2BC23 /* PopupSelectRoleView.swift in Sources */,
+				0D28B2681E13BDDD00AA8B49 /* BasePopTableView.m in Sources */,
 				0D1070C21DAE297E00F9591C /* LoginPsdOrSetPsdVC.swift in Sources */,
 				0D1E82591DE1927A0040B39E /* PhotoFetchOptions.swift in Sources */,
-				0D24F3021DCB731800BBAC8F /* BorrowRecordViewController.swift in Sources */,
 				0D7BBB881DE316480071B84E /* RepayedNameView.swift in Sources */,
 				0D1E825A1DE1927A0040B39E /* PhotoImage.swift in Sources */,
+				0D28B26F1E13BDDD00AA8B49 /* YHT_MBProgressHUD+Wqz.m in Sources */,
 				0D1EAA801DC8C88F00789E37 /* SchoolViewController.swift in Sources */,
 				0DFFAEDA1DAF6FB100819CF7 /* PopupPhoneCallView.swift in Sources */,
 				0DCACBE41DADC9D300AFD3E9 /* RegisterOrResetPsdVC.swift in Sources */,
-				0D3ADCAE1DCCF1A200838043 /* RepayDetailViewController.swift in Sources */,
+				0D1D62591E123A9D00C64748 /* GuideViewController.swift in Sources */,
+				0D28B27C1E13BDDD00AA8B49 /* YHTError.m in Sources */,
+				0D3712291E1140FC007DA3C2 /* RepayTableViewCell.swift in Sources */,
 				0DB44FB41DE35204004E1695 /* PopupNewVersionView.swift in Sources */,
 				0D61C42C1DB0C2CB00C2BC23 /* BorrowMoneyViewController.swift in Sources */,
 				0D1E82521DE1927A0040B39E /* ImageModel.swift in Sources */,
 				0DAF60321DA8DFAD0009054F /* AppDelegate.swift in Sources */,
 				0D84AAD11DE1919D00957B0A /* IDCardViewController.m in Sources */,
 				0D0A6ED61DD6FB51006B54DD /* FilterRepayView.swift in Sources */,
-				0D0E29FD1DAA220200A64F76 /* MineViewController.swift in Sources */,
 				0D3ADC901DCC455800838043 /* PopupLogoutView.swift in Sources */,
 				0D84AACE1DE1919D00957B0A /* CNPPopupController.m in Sources */,
 				0D3ADCB01DCCF5BD00838043 /* RepayDetailTableViewCell.swift in Sources */,
+				0D28B2A01E14FF6500AA8B49 /* RepayPeriodDetailVC.swift in Sources */,
+				0D28B26B1E13BDDD00AA8B49 /* NSNumber+Wqz.m in Sources */,
 				0D006DE11DC7A5410091CF33 /* LoginViewController.swift in Sources */,
 				0DB36C841DDF61D50083825D /* BorrowInfoView.swift in Sources */,
+				0D28B2831E13BDDD00AA8B49 /* YHTContractManager.m in Sources */,
 				0D3ADCA21DCCA35600838043 /* NothingDefaultView.swift in Sources */,
 				0D536EE41DE47D95008B3BC3 /* JulixinWebViewController.swift in Sources */,
 				0D84AACF1DE1919D00957B0A /* iCarousel.m in Sources */,
+				0D28B2701E13BDDD00AA8B49 /* YHT_MBProgressHUD.m in Sources */,
 				0D536EE01DE4347A008B3BC3 /* BorrowProgressView.swift in Sources */,
 				0D1E82611DE1927A0040B39E /* PhotoPreviewViewController.swift in Sources */,
-				0DB36C741DDEBA7B0083825D /* RepayListViewController.swift in Sources */,
 				0D006DDD1DC7810D0091CF33 /* UserHelper.swift in Sources */,
 				0D84AAD81DE1919D00957B0A /* UIScrollViewExtension.swift in Sources */,
 				0D0E2A271DAA927A00A64F76 /* UIViewController+HUD.swift in Sources */,
+				0D28B27D1E13BDDD00AA8B49 /* YHTHttpRequest.m in Sources */,
+				0D93A1611E1CE05F0055E58B /* UserInfoCellModel.swift in Sources */,
+				0D28B2741E13BDDD00AA8B49 /* YHT_PPSSignatureView.m in Sources */,
+				0D28B27A1E13BDDD00AA8B49 /* YHTSignView.m in Sources */,
 				0D24F30A1DCB9F2E00BBAC8F /* AreaSelectHeaderView.swift in Sources */,
+				0D28B2A31E15003400AA8B49 /* NeedRepayViewController.swift in Sources */,
 				0DFFAEDC1DAF707900819CF7 /* PopupRepaymentTipView.swift in Sources */,
 				0D1E82621DE1927A0040B39E /* UICollectionView+Extension.swift in Sources */,
 				0D3ADC7F1DCC1DE300838043 /* SettingViewController.swift in Sources */,
 				0D8C33FB1DCA3E1600F33F0C /* PopupAreaView.swift in Sources */,
-				0D3ADCA71DCCC23B00838043 /* RepayBillViewController.swift in Sources */,
+				0D28B2721E13BDDD00AA8B49 /* YHT_NJKWebViewProgress.m in Sources */,
 				0D3ADC991DCC839500838043 /* SysMessageViewController.swift in Sources */,
 				0D1E82561DE1927A0040B39E /* photoCollectionViewCell.swift in Sources */,
 				0D3ADC8A1DCC31DA00838043 /* AboutOursViewController.swift in Sources */,
 				0D24F3001DCB72F300BBAC8F /* MineHeaderView.swift in Sources */,
 				0DC8B1551DD84F4D001323D3 /* NeedRepayTimeView.swift in Sources */,
+				0D3712261E1140FC007DA3C2 /* RepayBillSelectVC.swift in Sources */,
+				0D28B2801E13BDDD00AA8B49 /* YHTContractContentViewController.m in Sources */,
 				0D3ADC8E1DCC407400838043 /* PopupCopyNoticeView.swift in Sources */,
+				0D28B2A41E15003400AA8B49 /* RepayDetailViewController.swift in Sources */,
+				0D28B3291E16509700AA8B49 /* BorrowMoneyTopTipsView.swift in Sources */,
+				0D28B2951E14FCE700AA8B49 /* BorrowRecordViewController.swift in Sources */,
 				0D9290C61DDD9FA000DB77FD /* PopupRegisterTipsView.swift in Sources */,
 				0D1E82541DE1927A0040B39E /* PhotoAlbumTableViewCell.swift in Sources */,
 				0DD43CBB1DAFD74400091272 /* PopupRoleView.swift in Sources */,
 				0DB36C801DDF22210083825D /* Tools.swift in Sources */,
 				0D0E2A311DAB377E00A64F76 /* HHNavigationController.swift in Sources */,
 				0D006DCD1DC758480091CF33 /* URL.swift in Sources */,
+				0D37122D1E114154007DA3C2 /* RepayTipsViewController.swift in Sources */,
 				0D1E825D1DE1927A0040B39E /* PhotoPickerController.swift in Sources */,
 				0DECC8711DCAEB130022D3F6 /* AreaTableView.swift in Sources */,
-				0DB36C651DDE98850083825D /* BorrowProgressVC.swift in Sources */,
+				0D28B2981E14FD0900AA8B49 /* MineViewController.swift in Sources */,
+				0D28B2761E13BDDD00AA8B49 /* YHTContractOperateMenu.m in Sources */,
 				0D61C4321DB128F600C2BC23 /* BorrowMoneyDoneView.swift in Sources */,
+				0DD2BDA01E1BA10A000363A8 /* YHTSDKTokenListener.swift in Sources */,
 				0D1E82601DE1927A0040B39E /* PhotoPreviewToolbarView.swift in Sources */,
 				0D3E96F91E0CF9210087182E /* IncomeViewController.swift in Sources */,
 				0D1E825C1DE1927A0040B39E /* PhotoPickerConfig.swift in Sources */,
 				0D8EB7571DE5B0190002BF08 /* PopupProgressView.swift in Sources */,
-				0D0A6ED81DD76DF7006B54DD /* NeedRepayViewController.swift in Sources */,
 				0D1EAA821DC8C91500789E37 /* WorkViewController.swift in Sources */,
 				0D84AAD01DE1919D00957B0A /* Capture.m in Sources */,
 				0D24F2FE1DCB72F300BBAC8F /* MineCollectionViewCell.swift in Sources */,
+				0D28B29E1E14FDF300AA8B49 /* RepayListViewController.swift in Sources */,
+				0D28B2731E13BDDD00AA8B49 /* YHT_NJKWebViewProgressView.m in Sources */,
 				0DB36C761DDECFB30083825D /* RepayListTableViewCell.swift in Sources */,
+				0D28B2A81E15212000AA8B49 /* OCTools.m in Sources */,
 				0D3ADC9D1DCC853300838043 /* SysMessageTableViewCell.swift in Sources */,
 				0D1EAA8C1DC99C5C00789E37 /* PopupPhotoSelectView.swift in Sources */,
 				0D0E2A301DAB377D00A64F76 /* File.swift in Sources */,
+				0D28B2751E13BDDD00AA8B49 /* YHTContract.m in Sources */,
+				0D28B26D1E13BDDD00AA8B49 /* UIButton+Wqz.m in Sources */,
 				0D006DCF1DC75A280091CF33 /* NetConnect.swift in Sources */,
 				0D3ADC961DCC76B900838043 /* SuggestCollectionViewCell.swift in Sources */,
+				0D28B26C1E13BDDD00AA8B49 /* NSString+Wqz.m in Sources */,
+				0D28B2811E13BDDD00AA8B49 /* YHTSignMadeViewController.m in Sources */,
+				0D28B2671E13BDDD00AA8B49 /* BasePopMenu.m in Sources */,
+				0D28B27B1E13BDDD00AA8B49 /* YHTConstants.m in Sources */,
 				0DDF09CA1DD4DDB900E8946E /* ContactViewController.swift in Sources */,
-				0D3E97031E0D37C60087182E /* RepayTableViewCell.swift in Sources */,
-				0DB36C6E1DDEADC40083825D /* RepayingStatusVC.swift in Sources */,
 				0D1E825E1DE1927A0040B39E /* PhotoPreviewBottomBarView.swift in Sources */,
 				0D006DE71DC8AB5B0091CF33 /* BMTableViewCell.swift in Sources */,
 				0D1EAA8E1DC9AE1800789E37 /* PopupSubmitTipsView.swift in Sources */,
 				0DD99BFF1DB1E47F00342E29 /* NetworkRequest.swift in Sources */,
+				0D28B2851E13BDDD00AA8B49 /* YHTTokenManager.m in Sources */,
 				0DB44FB61DE40576004E1695 /* UpLoadServiceBillVC.swift in Sources */,
 				0D3ADC941DCC54BB00838043 /* SuggestViewController.swift in Sources */,
+				0D28B2821E13BDDD00AA8B49 /* YHTSignViewController.m in Sources */,
 				0D1E82511DE1927A0040B39E /* AlbumToolbarView.swift in Sources */,
 				0DFFAECF1DAF218C00819CF7 /* LoginCodeViewController.swift in Sources */,
-				0D3E97011E0D34BD0087182E /* RepayViewController.swift in Sources */,
 				0DC8B15B1DD8B0ED001323D3 /* RepayPeriodDetailView.swift in Sources */,
+				0D28B26E1E13BDDD00AA8B49 /* UIImage+Wqz.m in Sources */,
+				0D37121F1E11213C007DA3C2 /* PopupEbankRepayView.swift in Sources */,
 				0DECC8751DCB07D30022D3F6 /* DataCollectionViewCell.swift in Sources */,
 				0D0E2A3B1DAB40DB00A64F76 /* HomeViewController.swift in Sources */,
 				0D8EB75B1DE5C0400002BF08 /* BorrowStatusDefaultVC.swift in Sources */,
+				0D28B2691E13BDDD00AA8B49 /* BaseWebView.m in Sources */,
 				0D0E2A451DABB86E00A64F76 /* BaseWebViewController.swift in Sources */,
+				0D28B2711E13BDDD00AA8B49 /* YHT_MBProgressHUDManager.m in Sources */,
 				0D1EAA881DC97D2500789E37 /* PopupStaticSelectView.swift in Sources */,
+				0D28B2791E13BDDD00AA8B49 /* YHTSign.m in Sources */,
 				0D2841091DACC1D600059FD2 /* HomeTableViewCell.swift in Sources */,
 				0D1E82631DE1927A0040B39E /* UIImage+Extension.swift in Sources */,
 				0D1E82581DE1927A0040B39E /* PhotoCollectionViewController.swift in Sources */,
 				0DB36C7E1DDF01520083825D /* Base.swift in Sources */,
 				0D3ADC9F1DCC94F400838043 /* MessageDetailViewController.swift in Sources */,
-				0D0E2A361DAB389D00A64F76 /* CyclePictureView.swift in Sources */,
 				0D64C8B01DE6E9200071EEE8 /* DataReuploadVC.swift in Sources */,
 				0D1EAA901DC9B4D200789E37 /* PopupDeadlineView.swift in Sources */,
 			);
@@ -1341,8 +1760,8 @@
 				CLANG_WARN_SUSPICIOUS_MOVES = YES;
 				CLANG_WARN_UNREACHABLE_CODE = YES;
 				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
-				CODE_SIGN_IDENTITY = "iPhone Developer: yan xu (Z883PHSZKQ)";
-				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer: yan xu (Z883PHSZKQ)";
+				CODE_SIGN_IDENTITY = "iPhone Developer";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				COPY_PHASE_STRIP = NO;
 				DEBUG_INFORMATION_FORMAT = dwarf;
 				DEVELOPMENT_TEAM = JB79VQ5W7K;
@@ -1429,8 +1848,9 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = LaunchImage;
 				CLANG_ENABLE_MODULES = YES;
+				CODE_SIGN_ENTITLEMENTS = JBankRisk/JBankRisk.entitlements;
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
-				DEBUG_INFORMATION_FORMAT = dwarf;
+				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
 				DEVELOPMENT_TEAM = JB79VQ5W7K;
 				ENABLE_BITCODE = NO;
 				INFOPLIST_FILE = JBankRisk/Info.plist;
@@ -1458,8 +1878,10 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = LaunchImage;
 				CLANG_ENABLE_MODULES = YES;
+				CODE_SIGN_ENTITLEMENTS = JBankRisk/JBankRisk.entitlements;
 				CODE_SIGN_IDENTITY = "iPhone Distribution: Jing Jin Suo Information Technology Co., Ltd. (JB79VQ5W7K)";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
 				DEVELOPMENT_TEAM = JB79VQ5W7K;
 				ENABLE_BITCODE = NO;
 				INFOPLIST_FILE = JBankRisk/Info.plist;

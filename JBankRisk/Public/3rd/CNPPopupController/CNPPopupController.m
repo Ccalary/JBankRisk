@@ -424,7 +424,7 @@ CGFloat CNP_UIInterfaceOrientationAngleOfOrientation(UIInterfaceOrientation orie
     defaultTheme.presentationStyle = CNPPopupPresentationStyleSlideInFromTop;
     defaultTheme.dismissesOppositeDirection = YES;
     defaultTheme.maskType = CNPPopupMaskTypeDimmed;
-    defaultTheme.shouldDismissOnBackgroundTouch = false;
+    defaultTheme.shouldDismissOnBackgroundTouch = NO;
     defaultTheme.movesAboveKeyboard = YES;
     defaultTheme.contentVerticalPadding = 16.0f;
     defaultTheme.maxPopupWidth = 300.0f;

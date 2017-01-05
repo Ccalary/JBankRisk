@@ -243,6 +243,15 @@ class NetConnect {
         })
     }
     
+    /// 2.18收入信息上传
+    static func bm_upload_income_info(parameters: Parameters,success:@escaping (_ response:[String:AnyObject]) -> (),failure:@escaping(_ error: Error) -> ()){
+        
+        NetworkRequest.sharedInstance.postRequest(urlString: BM_INCOME_STATUS, params: parameters, success: { (response) in
+            success(response)
+        }, failture: { (error) in
+            failure(error)
+        })
+    }
     
     /***********************个人中心（PC）**************************/
     
@@ -337,7 +346,7 @@ class NetConnect {
         })
     }
     
-    //3.10 消息
+    //3.10 已读消息
     static func pc_message_readed(parameters: Parameters,success:@escaping (_ response:[String:AnyObject]) -> (),failure:@escaping(_ error: Error) -> ()){
         
         NetworkRequest.sharedInstance.getRequest(urlString: PC_MESSAGE_READED_URL, params: parameters, success: { (response) in
@@ -347,6 +356,25 @@ class NetConnect {
         })
     }
 
+    //3.11计算还款总额
+    static func pc_repay_amount(parameters: Parameters,success:@escaping (_ response:[String:AnyObject]) -> (),failure:@escaping(_ error: Error) -> ()){
+        
+        NetworkRequest.sharedInstance.postRequest(urlString: PC_REPAY_AMOUNT, params: parameters, success: { (response) in
+            success(response)
+        }, failture: { (error) in
+            failure(error)
+        })
+    }
+
+    //3.12发起支付请求
+    static func pc_repay_request(parameters: Parameters,success:@escaping (_ response:[String:AnyObject]) -> (),failure:@escaping(_ error: Error) -> ()){
+        
+        NetworkRequest.sharedInstance.postRequest(urlString: PC_REPAY_REQUEST, params: parameters, success: { (response) in
+            success(response)
+        }, failture: { (error) in
+            failure(error)
+        })
+    }
     
     /******************其他******************/
     //4.1 修改密码
@@ -376,6 +404,24 @@ class NetConnect {
         }, failture: { (error) in
             failure(error)
         })
-    }    
+    }
+    
+    //4.4 合同签约
+    static func other_contract_sign(parameters: Parameters,success:@escaping (_ response:[String:AnyObject]) -> (),failure:@escaping(_ error: Error) -> ()){
+        NetworkRequest.sharedInstance.getRequest(urlString: OT_CONTRACT_SIGN_URL, params: parameters, success: { (response) in
+            success(response)
+        }, failture: { (error) in
+            failure(error)
+        })
+    }
+    
+    //4.5 合同查询
+    static func other_contract_search(parameters: Parameters,success:@escaping (_ response:[String:AnyObject]) -> (),failure:@escaping(_ error: Error) -> ()){
+        NetworkRequest.sharedInstance.getRequest(urlString: OT_CONTRACT_SEARCH_URL, params: parameters, success: { (response) in
+            success(response)
+        }, failture: { (error) in
+            failure(error)
+        })
+    }
 }
 

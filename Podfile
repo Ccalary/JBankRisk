@@ -12,6 +12,11 @@ target ‘JBankRisk’ do
    pod 'AMapLocation'
    pod 'IQKeyboardManagerSwift'
    pod 'MJRefresh'
+   pod 'Pingpp/Alipay', '~> 2.2.10'
+   pod 'Pingpp/Wx’, '~> 2.2.10'
+   pod 'KMCGeigerCounter'
+   pod 'MLeaksFinder'
+   pod 'Bugly'
 
 post_install do |installer|
   installer.pods_project.targets.each do |target|

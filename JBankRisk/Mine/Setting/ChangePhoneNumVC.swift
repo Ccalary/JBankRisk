@@ -283,13 +283,12 @@ class ChangePhoneNumVC: UIViewController {
         let popupController = CNPPopupController(contents: [phoneCallView])!
         popupController.present(animated: true)
         
-        phoneCallView.onClickCancle = {_ in
+        phoneCallView.onClickCancel = {_ in
             popupController.dismiss(animated:true)
         }
         phoneCallView.onClickCall = {_ in
             popupController.dismiss(animated: true)
         }
-        
     }
     
     func tapViewAction(){

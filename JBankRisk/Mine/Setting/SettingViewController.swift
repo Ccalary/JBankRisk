@@ -38,11 +38,7 @@ class SettingViewController: UIViewController,UITableViewDelegate, UITableViewDa
     //Nav
     func setNavUI(){
         self.view.addSubview(navHoldView)
-        self.navHoldView.addSubview(navImageView)
-        self.navHoldView.addSubview(navTextLabel)
-        self.navHoldView.addSubview(navDivideLine)
-        
-        navTextLabel.text = self.title
+        navHoldView.navTextLabel.text = self.title
         
         navHoldView.snp.makeConstraints { (make) in
             make.width.equalTo(self.view)
@@ -50,105 +46,63 @@ class SettingViewController: UIViewController,UITableViewDelegate, UITableViewDa
             make.centerX.equalTo(self.view)
             make.top.equalTo(0)
         }
-        
-        navImageView.snp.makeConstraints { (make) in
-            make.width.equalTo(13)
-            make.height.equalTo(21)
-            make.left.equalTo(19)
-            make.centerY.equalTo(10)
-        }
-        
-        navTextLabel.snp.makeConstraints { (make) in
-            make.centerX.equalTo(self.view)
-            make.centerY.equalTo(navImageView)
-        }
-        
-        navDivideLine.snp.makeConstraints { (make) in
-            make.width.equalTo(self.view)
-            make.height.equalTo(0.5*UIRate)
-            make.centerX.equalTo(self.view)
-            make.bottom.equalTo(navHoldView)
-        }
     }
     
     func setupUI(){
-        self.navigationController!.navigationBar.isTranslucent = true;
-        self.automaticallyAdjustsScrollViewInsets = false;
+        self.automaticallyAdjustsScrollViewInsets = false
         self.view.backgroundColor = defaultBackgroundColor
         self.title = "设置"
         
         self.setNavUI()
         
-        self.view.addSubview(aScrollView)
-        self.aScrollView.addSubview(aTableView)
-        self.aScrollView.addSubview(divideLine1)
+        let headerView = UIView(frame: CGRect(x: 0, y: 0, width: SCREEN_WIDTH, height: 10*UIRate))
+        headerView.backgroundColor = defaultBackgroundColor
+        headerView.addSubview(divideLine1)
+        
+        let footerView = UIView(frame: CGRect(x: 0, y: 0, width: SCREEN_WIDTH, height: 74*UIRate))
+        footerView.backgroundColor = defaultBackgroundColor
+        footerView.addSubview(divideLine2)
+        
+        self.aTableView.tableHeaderView = headerView
+        self.aTableView.tableFooterView = footerView
+        
+        self.view.addSubview(aTableView)
         self.view.addSubview(exitBtn)
         
-        aScrollView.snp.makeConstraints { (make) in
+        aTableView.snp.makeConstraints { (make) in
             make.width.equalTo(self.view)
-            make.height.equalTo(SCREEN_HEIGHT - 64 - 110*UIRate)
+            make.height.equalTo(SCREEN_HEIGHT - 64)
             make.centerX.equalTo(self.view)
             make.top.equalTo(64)
-        }
-
-        aScrollView.contentSize = CGSize(width: SCREEN_WIDTH, height: 667*UIRate - 64 - 110*UIRate + 1)
-        
-        aTableView.snp.makeConstraints { (make) in
-            make.width.equalTo(aScrollView)
-            make.height.equalTo(300*UIRate)
-            make.centerX.equalTo(aScrollView)
-            make.top.equalTo(10*UIRate)
         }
         
         divideLine1.snp.makeConstraints { (make) in
             make.width.equalTo(self.view)
             make.height.equalTo(0.5*UIRate)
-            make.centerX.equalTo(self.aScrollView)
-            make.top.equalTo(aTableView)
+            make.centerX.equalTo(headerView)
+            make.bottom.equalTo(headerView)
+        }
+        
+        divideLine2.snp.makeConstraints { (make) in
+            make.width.equalTo(self.view)
+            make.height.equalTo(0.5*UIRate)
+            make.centerX.equalTo(footerView)
+            make.top.equalTo(footerView)
         }
         
         exitBtn.snp.makeConstraints { (make) in
             make.width.equalTo(345*UIRate)
             make.height.equalTo(44*UIRate)
-            make.centerX.equalTo(self.view)
-            make.bottom.equalTo(-55*UIRate)
+            make.centerX.equalTo(footerView)
+            make.bottom.equalTo(-20*UIRate)
         }
         
     }
     
     /***Nav隐藏时使用***/
-    private lazy var navHoldView: UIView = {
-        let holdView = UIView()
-        holdView.backgroundColor = UIColor.white
+    private lazy var navHoldView: NavigationView = {
+        let holdView = NavigationView()
         return holdView
-    }()
-    
-    //图片
-    private lazy var navImageView: UIImageView = {
-        let imageView = UIImageView()
-        imageView.image = UIImage(named: "navigation_left_back_13x21")
-        return imageView
-    }()
-    
-    private lazy var navTextLabel: UILabel = {
-        let label = UILabel()
-        label.font = UIFontSize(size: 18)
-        label.textAlignment = .center
-        label.textColor = UIColorHex("666666")
-        return label
-    }()
-    
-    //分割线
-    private lazy var navDivideLine: UIView = {
-        let lineView = UIView()
-        lineView.backgroundColor = defaultDivideLineColor
-        return lineView
-    }()
-
-   /********/
-    private lazy var aScrollView: UIScrollView = {
-        let scrollView = UIScrollView()
-        return scrollView
     }()
     
     private lazy var aTableView: UITableView = {
@@ -156,7 +110,6 @@ class SettingViewController: UIViewController,UITableViewDelegate, UITableViewDa
         let tableView = UITableView()
         tableView.delegate = self
         tableView.dataSource = self
-        tableView.isScrollEnabled = false
         tableView.backgroundColor = defaultBackgroundColor
         tableView.tableFooterView = UIView()
         tableView.register(SettingTableViewCell.self, forCellReuseIdentifier: "setCellID")
@@ -179,6 +132,14 @@ class SettingViewController: UIViewController,UITableViewDelegate, UITableViewDa
         lineView.backgroundColor = defaultDivideLineColor
         return lineView
     }()
+    
+    //分割线
+    private lazy var divideLine2: UIView = {
+        let lineView = UIView()
+        lineView.backgroundColor = defaultDivideLineColor
+        return lineView
+    }()
+
     
     
     //／按钮
@@ -242,11 +203,11 @@ class SettingViewController: UIViewController,UITableViewDelegate, UITableViewDa
             let popupView = PopupPhotoSelectView()
             let popupController = CNPPopupController(contents: [popupView])!
             popupController.present(animated: true)
-            popupView.onClickCamera = {_ in //相机
+            popupView.onClickCamera = {[unowned self]_ in //相机
                 popupController.dismiss(animated: true)
                 self.present(self.cameraPicker, animated: true, completion: nil)
             }
-            popupView.onClickPhoto = { _ in //相册选取
+            popupView.onClickPhoto = {[unowned self] _ in //相册选取
                 
                 self.present(self.photoPicker, animated: true, completion: nil)
                 popupController.dismiss(animated: true)
@@ -257,7 +218,7 @@ class SettingViewController: UIViewController,UITableViewDelegate, UITableViewDa
             break
         case 2://手机号码
             let viewController = ChangePhoneNumVC()
-            viewController.onClickChangeSuccess = { _ in
+            viewController.onClickChangeSuccess = {[unowned self] _ in
                 let position = IndexPath(row: 2, section: 0)
                 self.aTableView.reloadRows(at: [position], with: UITableViewRowAnimation.none)
             }
@@ -328,7 +289,7 @@ class SettingViewController: UIViewController,UITableViewDelegate, UITableViewDa
         phoneCallView.onClickCancle = {_ in
             popupController.dismiss(animated:true)
         }
-        phoneCallView.onClickSure = {_ in
+        phoneCallView.onClickSure = {[unowned self] _ in
             UserHelper.setLogoutInfo()
             popupController.dismiss(animated: true)
              self.tabBarController?.selectedIndex = 0
@@ -368,9 +329,6 @@ class SettingViewController: UIViewController,UITableViewDelegate, UITableViewDa
         }, failure: { error in
             //隐藏HUD
             self.hideHud()
-            
         })
-
     }
-    
 }

@@ -11,16 +11,7 @@ import SwiftyJSON
 
 class ProductViewController: UIViewController,UITableViewDelegate, UITableViewDataSource,UITextFieldDelegate,AMapLocationManagerDelegate {
     
-     var ProductCellData:[CellDataInfo] = [ CellDataInfo(leftText: "所属商户", holdText: "商户名称", content: "", cellType: .defaultType),
-        CellDataInfo(leftText: "产品名称", holdText: "请输入产品名称", content: "", cellType: .clearType),
-        CellDataInfo(leftText: "", holdText: "", content: "", cellType: .defaultType),
-        CellDataInfo(leftText: "借款金额", holdText: "请输入借款金额", content: "", cellType: .textType),
-        CellDataInfo(leftText: "申请期限", holdText: "", content: "", cellType: .arrowType),
-        CellDataInfo(leftText: "月还款额", holdText: "", content: "", cellType: .textType),
-        CellDataInfo(leftText: "", holdText: "", content: "", cellType: .defaultType),
-        CellDataInfo(leftText: "业务员", holdText: "请输入业务员工号", content: "", cellType: .clearType)
-    ]
-    
+    var productCellData = UserInfoCellModel(dataType: UserInfoCellModel.CellModelType.product)
     var uploadSucDelegate: UploadSuccessDelegate?
     
     //商户名称
@@ -43,14 +34,14 @@ class ProductViewController: UIViewController,UITableViewDelegate, UITableViewDa
     override func viewDidLoad() {
         super.viewDidLoad()
         
-       //高德地图配置key
-       AMapServices.shared().apiKey = "41b0c56389d5985147098b2d6b18898f";
+        //高德地图配置key
+        AMapServices.shared().apiKey = "41b0c56389d5985147098b2d6b18898f";
         
         self.setupUI()
         
         self.initLocation()
         
-        if UserHelper.getProductIsUpload(){
+        if UserHelper.getProductIsUpload() && !UserHelper.getAllFinishIsUpload(){
             self.requestProductInfo()
         }else {
             self.getAddress()
@@ -69,33 +60,28 @@ class ProductViewController: UIViewController,UITableViewDelegate, UITableViewDa
         
         self.navigationItem.leftBarButtonItem = UIBarButtonItem(image: UIImage(named:"navigation_left_back_13x21"), style: .plain, target: self, action: #selector(leftNavigationBarBtnAction))
         
-        self.view.addSubview(aScrollView)
-        self.aScrollView.addSubview(aTableView)
-        self.aScrollView.addSubview(divideLine1)
+        let headerView = UIView(frame: CGRect(x: 0, y: 0, width: SCREEN_WIDTH, height: 10*UIRate))
+        headerView.backgroundColor = defaultBackgroundColor
+        
+        self.view.addSubview(aTableView)
+        self.aTableView.tableHeaderView = headerView
+        
+        headerView.addSubview(divideLine1)
         self.view.addSubview(lastStepBtn)
         self.view.addSubview(nextStepBtn)
         
-        aScrollView.snp.makeConstraints { (make) in
-            make.width.equalTo(self.view)
+        aTableView.snp.makeConstraints { (make) in
+            make.width.equalTo(SCREEN_WIDTH)
             make.height.equalTo(SCREEN_HEIGHT - 64 - 64*UIRate)
             make.centerX.equalTo(self.view)
             make.top.equalTo(64)
         }
         
-        aScrollView.contentSize = CGSize(width: SCREEN_WIDTH, height: SCREEN_HEIGHT - 64 - 64*UIRate + 1)
-        
-        aTableView.snp.makeConstraints { (make) in
-            make.width.equalTo(aScrollView)
-            make.height.equalTo(320*UIRate)
-            make.centerX.equalTo(aScrollView)
-            make.top.equalTo(10*UIRate)
-        }
-        
         divideLine1.snp.makeConstraints { (make) in
             make.width.equalTo(self.view)
             make.height.equalTo(0.5*UIRate)
-            make.centerX.equalTo(self.aScrollView)
-            make.top.equalTo(aTableView)
+            make.centerX.equalTo(self.view)
+            make.bottom.equalTo(headerView)
         }
         
         lastStepBtn.snp.makeConstraints { (make) in
@@ -113,18 +99,14 @@ class ProductViewController: UIViewController,UITableViewDelegate, UITableViewDa
         }
     }
 
-    private lazy var aScrollView: UIScrollView = {
-       let scrollView = UIScrollView()
-        return scrollView
-    }()
-    
     lazy var aTableView: UITableView = {
         
         let tableView = UITableView()
         tableView.delegate = self
         tableView.dataSource = self
-        tableView.isScrollEnabled = false
         tableView.tableFooterView = UIView()
+        tableView.showsVerticalScrollIndicator = false
+        tableView.backgroundColor = defaultBackgroundColor
         tableView.register(BMTableViewCell.self, forCellReuseIdentifier: "ProCellID")
         
         //tableView 单元格分割线的显示
@@ -171,14 +153,14 @@ class ProductViewController: UIViewController,UITableViewDelegate, UITableViewDa
     }
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return ProductCellData.count
+        return productCellData.cellData.count
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: "ProCellID") as! BMTableViewCell
         //去除选择效果
         cell.selectionStyle = .none
-        cell.cellDataInfo = ProductCellData[indexPath.row]
+        cell.cellDataInfo = productCellData.cellData[indexPath.row]
         cell.backgroundColor = UIColor.white
 
         switch indexPath.row {
@@ -249,7 +231,7 @@ class ProductViewController: UIViewController,UITableViewDelegate, UITableViewDa
                     let popupController = CNPPopupController(contents: [phoneCallView])!
                     popupController.present(animated: true)
                     //返回的数据展示
-                    phoneCallView.onClickSure = { (cell,text,moneyRepay) in
+                    phoneCallView.onClickSure = {[unowned self] (cell,text,moneyRepay) in
                         self.selectPeriodInfo = (cell,text)
                         self.repayment = moneyRepay
                         let position1 = IndexPath(row: 5, section: 0)
@@ -372,11 +354,7 @@ class ProductViewController: UIViewController,UITableViewDelegate, UITableViewDa
     
     //下一步(上传用户信息)
     func nextStepBtnAction(){
-        //是否已生成订单
-        guard !UserHelper.getAllFinishIsUpload() else {
-            self.showHint(in: self.view, hint: "订单已生成，信息不可更改哦！")
-            return
-        }
+       
         //判断是否可以上传
         guard self.proName.characters.count > 0,
              self.saleName.characters.count > 0,
@@ -459,7 +437,7 @@ class ProductViewController: UIViewController,UITableViewDelegate, UITableViewDa
             guard json["RET_CODE"] == "000000" else{
                 return self.showHint(in: self.view, hint: json["RET_DESC"].stringValue)
             }
-            self.refreshUI(json: json["orderInfo"])
+            self.refreshUI(json: json)
             
         }, failure:{ error in
             //隐藏HUD

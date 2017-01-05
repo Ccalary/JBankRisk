@@ -10,6 +10,16 @@ import UIKit
 
 class PopupLogoutView: UIView {
 
+    //弹窗内容
+    var content: (title: String, content: String, leftBtn: String, rightBtn: String) = ("","","","") {
+        didSet {
+            titleLabel.text = content.title
+            noticeLabel.text = content.content
+            cancelBtn.setTitle(content.leftBtn, for: .normal)
+            sureBtn.setTitle(content.rightBtn, for: .normal)
+        }
+    }
+    
     override init(frame: CGRect ) {
         super.init(frame: frame)
         setupUI()
@@ -86,6 +96,7 @@ class PopupLogoutView: UIView {
         let label = UILabel()
         label.font = UIFontSize(size: 15*UIRate)
         label.textAlignment = .center
+        label.numberOfLines = 0
         label.textColor = UIColorHex("666666")
         label.text = "确定要退出当前账号？"
         return label
@@ -101,7 +112,7 @@ class PopupLogoutView: UIView {
         return button
     }()
     
-    ///拨打按钮
+    ///按钮
     private lazy var sureBtn: UIButton = {
         let button = UIButton()
         button.setBackgroundImage(UIImage(named: "pop_btn_red_85x40"), for: .normal)
@@ -123,7 +134,6 @@ class PopupLogoutView: UIView {
         }
     }
     
-    //拨打电话
     func sureBtnAction(){
         if let onClickSure = onClickSure {
             onClickSure()

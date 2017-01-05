@@ -85,7 +85,6 @@ class BorrowStatusVC: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        
         setupUI()
     }
 
@@ -99,39 +98,16 @@ class BorrowStatusVC: UIViewController {
         }
     }
     
-    //Nav
+    //nav
     func setNavUI(){
-        
-        self.navTextLabel.text = self.title
         self.view.addSubview(navHoldView)
-        self.navHoldView.addSubview(navImageView)
-        self.navHoldView.addSubview(navTextLabel)
-        self.navHoldView.addSubview(navDivideLine)
+        navHoldView.navTextLabel.text = self.title
         
         navHoldView.snp.makeConstraints { (make) in
             make.width.equalTo(self.view)
             make.height.equalTo(64)
             make.centerX.equalTo(self.view)
             make.top.equalTo(0)
-        }
-        
-        navImageView.snp.makeConstraints { (make) in
-            make.width.equalTo(13)
-            make.height.equalTo(21)
-            make.left.equalTo(19)
-            make.centerY.equalTo(10)
-        }
-        
-        navTextLabel.snp.makeConstraints { (make) in
-            make.centerX.equalTo(self.view)
-            make.centerY.equalTo(navImageView)
-        }
-        
-        navDivideLine.snp.makeConstraints { (make) in
-            make.width.equalTo(self.view)
-            make.height.equalTo(0.5*UIRate)
-            make.centerX.equalTo(self.view)
-            make.bottom.equalTo(navHoldView)
         }
     }
     
@@ -148,7 +124,6 @@ class BorrowStatusVC: UIViewController {
     
     //正常页面
     func setNormalUI(){
-        
         self.title = ""
         self.setNavUI()
         
@@ -181,9 +156,9 @@ class BorrowStatusVC: UIViewController {
         }
         
         //协议
-        infoView.onClickProtocol = {
+        infoView.onClickProtocol = {[unowned self] in
             let webView = BaseWebViewController()
-            webView.requestUrl = PC_PROTOCOL_DETAIL + "&orderId=" + (self.orderInfo?["orderId"].stringValue)!
+            webView.requestUrl = PC_PROTOCOL_DETAIL + "&orderId=" + (self.orderId)
             webView.webTitle = "合同详情"
             self.navigationController?.pushViewController(webView, animated: true)
         }
@@ -236,38 +211,13 @@ class BorrowStatusVC: UIViewController {
         return holdView
     }()
     
-    
     /***Nav隐藏时使用***/
-    private lazy var navHoldView: UIView = {
-        let holdView = UIView()
-        holdView.backgroundColor = UIColor.white
+    private lazy var navHoldView: NavigationView = {
+        let holdView = NavigationView()
         return holdView
     }()
     
-    //图片
-    private lazy var navImageView: UIImageView = {
-        let imageView = UIImageView()
-        imageView.image = UIImage(named: "navigation_left_back_13x21")
-        return imageView
-    }()
-    
-    private lazy var navTextLabel: UILabel = {
-        let label = UILabel()
-        label.font = UIFontSize(size: 18)
-        label.textAlignment = .center
-        label.textColor = UIColorHex("666666")
-        return label
-    }()
-    
-    //分割线
-    private lazy var navDivideLine: UIView = {
-        let lineView = UIView()
-        lineView.backgroundColor = defaultDivideLineColor
-        return lineView
-    }()
-    
     /*********/
-
     private lazy var statusView: BorrowStatusView = {
         let holdView = BorrowStatusView()
         return holdView
@@ -284,9 +234,10 @@ class BorrowStatusVC: UIViewController {
         //添加HUD
         self.showHud(in: self.view, hint: "加载中...")
         
+        //默认显示最近一单的
         var params = NetConnect.getBaseRequestParams()
         params["userId"] = UserHelper.getUserId()!
-        params["orderId"] = self.orderId
+        params["orderId"] = self.orderId //产品id有得话按此ID处理，没有的话后台按最新的产品处理
         
         NetConnect.pc_borrow_status(parameters: params, success: { response in
             //隐藏HUD
@@ -302,6 +253,7 @@ class BorrowStatusVC: UIViewController {
             self.status = json["jstatus"].stringValue
             self.statusView.failDis = json["descrption"].stringValue
             self.statusView.statusType = self.statusType
+            self.orderId = json["orderId"].stringValue
             
         }, failure:{ error in
             //隐藏HUD
@@ -311,14 +263,14 @@ class BorrowStatusVC: UIViewController {
 
     func refreshOrderUI(json: JSON){
          self.title = json["orderName"].stringValue
-         navTextLabel.text = self.title
+         navHoldView.navTextLabel.text = self.title
          self.infoView.json = json
     }
     
     //点击按钮
     func onClickButton(){
         
-        statusView.onClickButton = {
+        statusView.onClickButton = {[unowned self] in
             
             switch self.statusType {
             case .finish:
@@ -326,6 +278,7 @@ class BorrowStatusVC: UIViewController {
             
             case .fullSuccess://全额通过
                 let serviceVC = UpLoadServiceBillVC()
+                serviceVC.orderId = self.orderId//产品id
                 self.navigationController?.pushViewController(serviceVC, animated: true)
             case .repaying://还款中
                 let repayDetailVC = RepayDetailViewController()
@@ -341,6 +294,7 @@ class BorrowStatusVC: UIViewController {
                 break
             case .upLoadBill: //重新上传服务单
                  let billVC = UpLoadServiceBillVC()
+                 billVC.orderId = self.orderId//产品id
                  self.navigationController?.pushViewController(billVC, animated: true)
             case .reUploadData://被驳回
                 let dataVC = DataReuploadVC()

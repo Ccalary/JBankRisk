@@ -14,32 +14,11 @@ import Kingfisher
 
 class DataViewController: UIViewController,UITableViewDelegate, UITableViewDataSource,UICollectionViewDelegate,UICollectionViewDataSource, UICollectionViewDelegateFlowLayout,UIImagePickerControllerDelegate,UINavigationControllerDelegate,PhotoPickerControllerDelegate{
     
-    var WorkerCellData:[CellDataInfo] = [ CellDataInfo(leftText: "身份证", holdText: "上传身份证正反面", content: "", cellType: .cameraType),
-                                          CellDataInfo(leftText: "亲签照", holdText: "上传手持身份证照片", content: "", cellType: .cameraType),
-                                          CellDataInfo(leftText: "征信报告", holdText: "上传人民银行征信报告", content: "", cellType: .cameraType),
-                                          CellDataInfo(leftText: "收入流水", holdText: "上传银行卡6个月收入流水", content: "", cellType: .cameraType),
-                                          CellDataInfo(leftText: "居住证明", holdText: "上传居住证明文件照片", content: "", cellType: .cameraType),
-                                          CellDataInfo(leftText: "社保", holdText: "社保公积金缴纳信息（选填）", content: "", cellType: .cameraType),
-                                          CellDataInfo(leftText: "财力证明", holdText: "上传可证明财力的文件（选填）", content: "", cellType: .cameraType)]
-    
-    var StudentCellData:[CellDataInfo] = [ CellDataInfo(leftText: "身份证", holdText: "上传身份证正反面", content: "", cellType: .cameraType),
-                                          CellDataInfo(leftText: "亲签照", holdText: "上传手持身份证照片", content: "", cellType: .cameraType),
-                                          CellDataInfo(leftText: "在读证明", holdText: "上传学信网个人信息或校园卡", content: "", cellType: .cameraType)]
-    
-    var FreedomCellData:[CellDataInfo] = [ CellDataInfo(leftText: "身份证", holdText: "上传身份证正反面", content: "", cellType: .cameraType),
-                                          CellDataInfo(leftText: "亲签照", holdText: "上传手持身份证照片", content: "", cellType: .cameraType),
-                                          CellDataInfo(leftText: "征信报告", holdText: "上传人民银行征信报告", content: "", cellType: .cameraType),
-                                          CellDataInfo(leftText: "收入流水", holdText: "上传银行卡6个月收入流水", content: "", cellType: .cameraType),
-                                          CellDataInfo(leftText: "居住证明", holdText: "上传居住证明文件照片", content: "", cellType: .cameraType),
-                                          CellDataInfo(leftText: "社保", holdText: "社保公积金缴纳信息（选填）", content: "", cellType: .cameraType),
-                                          CellDataInfo(leftText: "财力证明", holdText: "上传可证明财力的文件（选填）", content: "", cellType: .cameraType)]
-    
-
     //是否是下载
     var isdownLoad: Bool = false
     var downloadPhoto: [String] = []
     
-    var uploadSucDelegate:UploadSuccessDelegate?
+    weak var uploadSucDelegate:UploadSuccessDelegate?
     
     var dataArray: [CellDataInfo]!
     var tableViewHeight: CGFloat!
@@ -89,46 +68,39 @@ class DataViewController: UIViewController,UITableViewDelegate, UITableViewDataS
         
         switch roleType {
         case .worker:
+            //加载的时候如果没有金额则默认dataArray为all
+            dataArray = UserInfoCellModel(dataType: UserInfoCellModel.CellModelType.dataWorkerAll).cellData
             if let money = UserHelper.getUserBorrowAmt() {
                 if money <= 30000 {
                  
-                    WorkerCellData = [CellDataInfo(leftText: "身份证", holdText: "上传身份证正反面", content: "", cellType: .cameraType),
-                    CellDataInfo(leftText: "亲签照", holdText: "上传手持身份证照片", content: "", cellType: .cameraType), CellDataInfo(leftText: "社保", holdText: "社保公积金缴纳信息（选填）", content: "", cellType: .cameraType)]
+                dataArray = UserInfoCellModel(dataType: UserInfoCellModel.CellModelType.dataWorker30000).cellData
                 
                 }else if money <= 50000{
                     
-                    WorkerCellData = [CellDataInfo(leftText: "身份证", holdText: "上传身份证正反面", content: "", cellType: .cameraType),
-                                      CellDataInfo(leftText: "亲签照", holdText: "上传手持身份证照片", content: "", cellType: .cameraType),
-                                      CellDataInfo(leftText: "收入流水", holdText: "上传银行卡6个月收入流水", content: "", cellType: .cameraType),
-                                      CellDataInfo(leftText: "居住证明", holdText: "上传居住证明文件照片", content: "", cellType: .cameraType),
-                                      CellDataInfo(leftText: "社保", holdText: "社保公积金缴纳信息（选填）", content: "", cellType: .cameraType)]
+                dataArray = UserInfoCellModel(dataType: UserInfoCellModel.CellModelType.dataWorker50000).cellData
                     
                 }else {
-                    //不变
+                  //不变
                 }
             }
-             dataArray = WorkerCellData
             
         case .student:
-            dataArray = StudentCellData
+            dataArray = UserInfoCellModel(dataType: UserInfoCellModel.CellModelType.dataStudentAll).cellData
         case .freedom:
+            
+             dataArray = UserInfoCellModel(dataType: UserInfoCellModel.CellModelType.dataFreedomAll).cellData
+            
             if let money = UserHelper.getUserBorrowAmt(){
                 if money <= 10000{
-                    FreedomCellData = [ CellDataInfo(leftText: "身份证", holdText: "上传身份证正反面", content: "", cellType: .cameraType),
-                                        CellDataInfo(leftText: "亲签照", holdText: "上传手持身份证照片", content: "", cellType: .cameraType)]
+                    dataArray = UserInfoCellModel(dataType: UserInfoCellModel.CellModelType.dataFreedom10000).cellData
                 }else if money <= 30000 {
-                    FreedomCellData = [ CellDataInfo(leftText: "身份证", holdText: "上传身份证正反面", content: "", cellType: .cameraType),
-                                        CellDataInfo(leftText: "亲签照", holdText: "上传手持身份证照片", content: "", cellType: .cameraType),
-                                        CellDataInfo(leftText: "收入流水", holdText: "上传银行卡6个月收入流水", content: "", cellType: .cameraType)]
+                    dataArray = UserInfoCellModel(dataType: UserInfoCellModel.CellModelType.dataFreedom30000).cellData
                 }else if money <= 50000 {
-                    FreedomCellData = [ CellDataInfo(leftText: "身份证", holdText: "上传身份证正反面", content: "", cellType: .cameraType),
-                                        CellDataInfo(leftText: "亲签照", holdText: "上传手持身份证照片", content: "", cellType: .cameraType),
-                                        CellDataInfo(leftText: "收入流水", holdText: "上传银行卡6个月收入流水", content: "", cellType: .cameraType),CellDataInfo(leftText: "居住证明", holdText: "上传居住证明文件照片", content: "", cellType: .cameraType)]
+                   dataArray = UserInfoCellModel(dataType: UserInfoCellModel.CellModelType.dataFreedom50000).cellData
                 }else {
-                    //不变
+                   //不变
                 }
             }
-            dataArray = FreedomCellData
         }
         
         tableViewHeight = CGFloat(dataArray.count)*50*UIRate
@@ -145,12 +117,11 @@ class DataViewController: UIViewController,UITableViewDelegate, UITableViewDataS
         self.automaticallyAdjustsScrollViewInsets = false;
         self.view.backgroundColor = defaultBackgroundColor
         
+        self.title = "资料上传"
+        
         self.navigationItem.leftBarButtonItem = UIBarButtonItem(image: UIImage(named:"navigation_left_back_13x21"), style: .plain, target: self, action: #selector(leftNavigationBarBtnAction))
         
         self.view.addSubview(topView)
-        self.view.addSubview(topTextLabel)
-        self.view.addSubview(starImageView)
-        self.view.addSubview(topDivideLine)
         
         let scrollViewHeight: CGFloat = SCREEN_HEIGHT - 64 - 124*UIRate
         
@@ -158,7 +129,6 @@ class DataViewController: UIViewController,UITableViewDelegate, UITableViewDataS
         self.aScrollView.addSubview(aTableView)
         self.aScrollView.addSubview(divideLine1)
         self.aScrollView.addSubview(aCollectionView)
-        
         
         /******点击图片放大*****/
         UIApplication.shared.keyWindow?.addSubview(bigBgholdView)
@@ -168,28 +138,10 @@ class DataViewController: UIViewController,UITableViewDelegate, UITableViewDataS
         aTap.numberOfTapsRequired = 1
         self.bigBgholdView.addGestureRecognizer(aTap)
         
-        
         topView.snp.makeConstraints { (make) in
             make.width.equalTo(self.view)
             make.height.equalTo(30*UIRate)
             make.top.equalTo(64)
-        }
-        
-        topTextLabel.snp.makeConstraints { (make) in
-            make.centerY.equalTo(topView)
-            make.centerX.equalTo(topView).offset(9*UIRate)
-        }
-        
-        starImageView.snp.makeConstraints { (make) in
-            make.width.height.equalTo(15*UIRate)
-            make.right.equalTo(topTextLabel.snp.left).offset(-3*UIRate)
-            make.centerY.equalTo(topTextLabel)
-        }
-        
-        topDivideLine.snp.makeConstraints { (make) in
-            make.width.equalTo(self.view)
-            make.height.equalTo(0.5*UIRate)
-            make.bottom.equalTo(topView)
         }
         
         aScrollView.snp.makeConstraints { (make) in
@@ -242,8 +194,7 @@ class DataViewController: UIViewController,UITableViewDelegate, UITableViewDataS
     }
     
     func normalSetupUI(){
-        self.title = "资料上传"
-        self.topTextLabel.text = "请上传真实资料，乱填或误填将会影响借款申请！"
+       
         self.nextStepBtn.setBackgroundImage(UIImage(named: "btn_red_254x44"), for: .normal)
         
         self.view.addSubview(lastStepBtn)
@@ -301,31 +252,10 @@ class DataViewController: UIViewController,UITableViewDelegate, UITableViewDataS
         return imageView
     }()
     
-    private lazy var topView: UIView = {
-        let holdView = UIView()
-        holdView.backgroundColor = UIColorHex("fbfbfb")
+    /******/
+    private lazy var topView: BorrowMoneyTopTipsView = {
+        let holdView = BorrowMoneyTopTipsView(viewType: BorrowMoneyTopTipsView.TipsType.tips2)
         return holdView
-    }()
-    
-    ///顶部文字
-    private lazy var topTextLabel: UILabel = {
-        let label = UILabel()
-        label.font = UIFontSize(size: 15*UIRate)
-        label.textColor = UIColorHex("666666")
-        return label
-    }()
-    
-    private lazy var starImageView: UIImageView = {
-        let imageView = UIImageView()
-        imageView.image = UIImage(named: "icon_star_15x15")
-        return imageView
-    }()
-    
-    //分割线
-    private lazy var topDivideLine: UIView = {
-        let lineView = UIView()
-        lineView.backgroundColor = defaultDivideLineColor
-        return lineView
     }()
     
     private lazy var aScrollView: UIScrollView = {
@@ -447,11 +377,11 @@ class DataViewController: UIViewController,UITableViewDelegate, UITableViewDataS
         let popupController = CNPPopupController(contents: [popupView])!
         popupController.present(animated: true)
         selectCell = indexPath.row
-        popupView.onClickCamera = {_ in //相机
+        popupView.onClickCamera = {[unowned self] _ in //相机
             popupController.dismiss(animated: true)
             self.present(self.cameraPicker, animated: true, completion: nil)
         }
-        popupView.onClickPhoto = { _ in //相册选取
+        popupView.onClickPhoto = {[unowned self] _ in //相册选取
             
             self.selectFromPhoto()
             popupController.dismiss(animated: true)
@@ -485,7 +415,6 @@ class DataViewController: UIViewController,UITableViewDelegate, UITableViewDataS
         }else {
              return photoArray.count
         }
-       
     }
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
@@ -501,7 +430,7 @@ class DataViewController: UIViewController,UITableViewDelegate, UITableViewDataS
             cell.imageView.image = photoArray[indexPath.row].image
             cell.textLabel.text = photoArray[indexPath.row].dis
             
-            cell.onClickDelete = { _ in
+            cell.onClickDelete = {[unowned self] _ in
                 let selectCell = self.photoArray[indexPath.row].selectCell
                 self.numArray[selectCell] -= 1
                 if self.numArray[selectCell] > 0{

@@ -101,7 +101,7 @@ class MineFooterView: UICollectionReusableView {
         let popupController = CNPPopupController(contents: [phoneCallView])!
         popupController.present(animated: true)
         
-        phoneCallView.onClickCancle = {_ in
+        phoneCallView.onClickCancel = {_ in
             popupController.dismiss(animated:true)
         }
         phoneCallView.onClickCall = {_ in

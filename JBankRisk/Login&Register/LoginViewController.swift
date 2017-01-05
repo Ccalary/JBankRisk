@@ -37,12 +37,9 @@ class LoginViewController: UIViewController {
         }
     }
     
-    //Nav
     func setNavUI(){
         self.view.addSubview(navHoldView)
-        self.navHoldView.addSubview(navImageView)
-        self.navHoldView.addSubview(navTextLabel)
-        self.navHoldView.addSubview(navDivideLine)
+        navHoldView.navTextLabel.text = self.title
         
         navHoldView.snp.makeConstraints { (make) in
             make.width.equalTo(self.view)
@@ -50,27 +47,6 @@ class LoginViewController: UIViewController {
             make.centerX.equalTo(self.view)
             make.top.equalTo(0)
         }
-        
-        navImageView.snp.makeConstraints { (make) in
-            make.width.equalTo(13)
-            make.height.equalTo(21)
-            make.left.equalTo(19)
-            make.centerY.equalTo(10)
-        }
-        
-        navTextLabel.snp.makeConstraints { (make) in
-            make.centerX.equalTo(self.view)
-            make.centerY.equalTo(navImageView)
-        }
-        
-        navDivideLine.snp.makeConstraints { (make) in
-            make.width.equalTo(self.view)
-            make.height.equalTo(0.5*UIRate)
-            make.centerX.equalTo(self.view)
-            make.bottom.equalTo(navHoldView)
-        }
-        
-        navTextLabel.text = "登录"
     }
     
     //MARK: - 基本UI
@@ -164,36 +140,13 @@ class LoginViewController: UIViewController {
     }
     
     /***Nav隐藏时使用***/
-    private lazy var navHoldView: UIView = {
-        let holdView = UIView()
-        holdView.backgroundColor = UIColor.white
+
+    private lazy var navHoldView: NavigationView = {
+        let holdView = NavigationView()
         return holdView
     }()
     
-    //图片
-    private lazy var navImageView: UIImageView = {
-        let imageView = UIImageView()
-        imageView.image = UIImage(named: "navigation_left_back_13x21")
-        return imageView
-    }()
-    
-    private lazy var navTextLabel: UILabel = {
-        let label = UILabel()
-        label.font = UIFontSize(size: 18)
-        label.textAlignment = .center
-        label.textColor = UIColorHex("666666")
-        return label
-    }()
-    
-    //分割线
-    private lazy var navDivideLine: UIView = {
-        let lineView = UIView()
-        lineView.backgroundColor = defaultDivideLineColor
-        return lineView
-    }()
- /*********/
-    
-    
+   /*********/
    private lazy var textLabel: UILabel = {
        let label = UILabel(frame: CGRect(x: 0, y: 64, width: SCREEN_WIDTH, height: 60*UIRate))
         label.font = UIFontSize(size: 15*UIRate)
@@ -288,13 +241,12 @@ class LoginViewController: UIViewController {
         let popupController = CNPPopupController(contents: [phoneCallView])!
         popupController.present(animated: true)
         
-        phoneCallView.onClickCancle = {_ in
+        phoneCallView.onClickCancel = {_ in
             popupController.dismiss(animated:true)
         }
         phoneCallView.onClickCall = {_ in
             popupController.dismiss(animated: true)
         }
-
     }
     
     func tapViewAction(){

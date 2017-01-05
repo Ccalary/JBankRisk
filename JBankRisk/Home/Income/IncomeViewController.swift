@@ -11,12 +11,9 @@ import SwiftyJSON
 
 class IncomeViewController:  UIViewController,UITableViewDelegate, UITableViewDataSource {
     
-    var incomeCellData:[CellDataInfo] = [
-        CellDataInfo(leftText: "每月收入", holdText: "请填写每月收入", content: "", cellType: .textType),
-        CellDataInfo(leftText: "收入来源", holdText: "请填写收入来源", content: "", cellType: .clearType),
-        CellDataInfo(leftText: "结算方式", holdText: "请选择结算方式", content: "", cellType: .arrowType)]
+    var incomeCellData = UserInfoCellModel(dataType: UserInfoCellModel.CellModelType.income)
     
-    var uploadSucDelegate:UploadSuccessDelegate?
+    weak var uploadSucDelegate:UploadSuccessDelegate?
     
     var incomeAmount = ""//收入
     var incomeWay = "" //收入来源
@@ -27,7 +24,7 @@ class IncomeViewController:  UIViewController,UITableViewDelegate, UITableViewDa
         self.setupUI()
         
         if UserHelper.getIncomeIsUpload() {
-//            self.requestSchoolInfo()
+            self.requestIncomeInfo()
         }
     }
     
@@ -44,33 +41,35 @@ class IncomeViewController:  UIViewController,UITableViewDelegate, UITableViewDa
         
         self.navigationItem.leftBarButtonItem = UIBarButtonItem(image: UIImage(named:"navigation_left_back_13x21"), style: .plain, target: self, action: #selector(leftNavigationBarBtnAction))
         
-        self.view.addSubview(aScrollView)
-        self.aScrollView.addSubview(aTableView)
-        self.aScrollView.addSubview(divideLine1)
+        let headerView = UIView(frame: CGRect(x: 0, y: 0, width: SCREEN_WIDTH, height: 10*UIRate))
+        headerView.backgroundColor = defaultBackgroundColor
+        
+        self.view.addSubview(aTableView)
+        self.aTableView.tableHeaderView = headerView
+        
+        headerView.addSubview(divideLine1)
         self.view.addSubview(lastStepBtn)
         self.view.addSubview(nextStepBtn)
         
-        aScrollView.snp.makeConstraints { (make) in
-            make.width.equalTo(self.view)
+        aTableView.snp.makeConstraints { (make) in
+            make.width.equalTo(SCREEN_WIDTH)
             make.height.equalTo(SCREEN_HEIGHT - 64 - 64*UIRate)
             make.centerX.equalTo(self.view)
             make.top.equalTo(64)
         }
         
-        aScrollView.contentSize = CGSize(width: SCREEN_WIDTH, height: SCREEN_HEIGHT - 64 - 64*UIRate + 1)
-        
-        aTableView.snp.makeConstraints { (make) in
-            make.width.equalTo(aScrollView)
-            make.height.equalTo(150*UIRate)
-            make.centerX.equalTo(aScrollView)
-            make.top.equalTo(10*UIRate)
-        }
-        
         divideLine1.snp.makeConstraints { (make) in
             make.width.equalTo(self.view)
             make.height.equalTo(0.5*UIRate)
-            make.centerX.equalTo(self.aScrollView)
-            make.top.equalTo(aTableView)
+            make.centerX.equalTo(self.view)
+            make.bottom.equalTo(headerView)
+        }
+        
+        lastStepBtn.snp.makeConstraints { (make) in
+            make.width.equalTo(85*UIRate)
+            make.height.equalTo(44*UIRate)
+            make.left.equalTo(15*UIRate)
+            make.bottom.equalTo(self.view).offset(-10*UIRate)
         }
         
         lastStepBtn.snp.makeConstraints { (make) in
@@ -86,13 +85,7 @@ class IncomeViewController:  UIViewController,UITableViewDelegate, UITableViewDa
             make.right.equalTo(self.view).offset(-15*UIRate)
             make.bottom.equalTo(lastStepBtn)
         }
-        
     }
-    
-    private lazy var aScrollView: UIScrollView = {
-        let scrollView = UIScrollView()
-        return scrollView
-    }()
     
     lazy var aTableView: UITableView = {
         
@@ -101,6 +94,8 @@ class IncomeViewController:  UIViewController,UITableViewDelegate, UITableViewDa
         tableView.dataSource = self
         tableView.isScrollEnabled = false
         tableView.tableFooterView = UIView()
+        tableView.showsVerticalScrollIndicator = false
+        tableView.backgroundColor = defaultBackgroundColor
         tableView.register(BMTableViewCell.self, forCellReuseIdentifier: "IncomeCellID")
         
         //tableView 单元格分割线的显示
@@ -149,14 +144,14 @@ class IncomeViewController:  UIViewController,UITableViewDelegate, UITableViewDa
     }
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return incomeCellData.count
+        return incomeCellData.cellData.count
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: "IncomeCellID") as! BMTableViewCell
         //去除选择效果
         cell.selectionStyle = .none
-        cell.cellDataInfo = incomeCellData[indexPath.row]
+        cell.cellDataInfo = incomeCellData.cellData[indexPath.row]
         
         switch indexPath.row {
         case 0://每月收入
@@ -188,7 +183,7 @@ class IncomeViewController:  UIViewController,UITableViewDelegate, UITableViewDa
             let popupController = CNPPopupController(contents: [popupView])!
             popupController.present(animated: true)
             
-            popupView.onClickSelect = { (row, text) in
+            popupView.onClickSelect = {[unowned self] (row, text) in
                 self.payWayInfo = (row,text)
                 let position = IndexPath(row: indexPath.row, section: 0)
                 self.aTableView.reloadRows(at: [position], with: UITableViewRowAnimation.none)
@@ -270,13 +265,11 @@ class IncomeViewController:  UIViewController,UITableViewDelegate, UITableViewDa
         //添加HUD
         self.showHud(in: self.view, hint: "上传中...")
         var params = NetConnect.getBaseRequestParams()
-//        params["province"] = self.province
-//        params["education"] = self.eduDegreeInfo.row + 5 //学历
-//        params["school_len"] = self.eduSystemInfo.row + 1 //学制
-//        params["majoy"] = self.majoyText //专业
-//        params["grade"] = self.eduGradeInfo.row + 1
+        params["month_wages"] = self.incomeAmount
+        params["income"] = incomeWay
+        params["settlement"] = self.payWayInfo.row + 1 //结算方式
         
-        NetConnect.bm_upload_school_info(parameters: params, success:
+        NetConnect.bm_upload_income_info(parameters: params, success:
             { response in
                 //隐藏HUD
                 self.hideHud()
@@ -301,15 +294,15 @@ class IncomeViewController:  UIViewController,UITableViewDelegate, UITableViewDa
         })
     }
     
-    //MARK:请求学校信息
-    func requestSchoolInfo(){
+    //MARK:请求收入信息
+    func requestIncomeInfo(){
         
         //添加HUD
         self.showHud(in: self.view, hint: "加载中...")
         
         let params = ["userId": UserHelper.getUserId()!]
         
-        NetConnect.bm_get_school_info(parameters: params, success: { response in
+        NetConnect.bm_upload_income_info(parameters: params, success: { response in
             //隐藏HUD
             self.hideHud()
             let json = JSON(response)
@@ -317,7 +310,7 @@ class IncomeViewController:  UIViewController,UITableViewDelegate, UITableViewDa
                 return self.showHint(in: self.view, hint: json["RET_DESC"].stringValue)
             }
             
-            self.refreshUI(json: json["schoolInfo"])
+            self.refreshUI(json: json)
             
         }, failure:{ error in
             //隐藏HUD
@@ -327,17 +320,11 @@ class IncomeViewController:  UIViewController,UITableViewDelegate, UITableViewDa
     }
     //填充信息
     func refreshUI(json: JSON){
-//        self.areaInfo.pro = json["province"].stringValue
-//        self.province = self.areaInfo.pro
-//        self.placeText = json["address"].stringValue
-//        self.schoolInfo.text = json["school"].stringValue
-//        self.eduDegreeInfo.row = json["education"].intValue - 5 //客户端与数据库数据不统一删除了4个低点的学历
-//        self.eduDegreeInfo.text = eduDegreeData[self.eduDegreeInfo.row]
-//        self.eduGradeInfo.row = json["grade"].intValue - 1
-//        self.eduGradeInfo.text = eduGradeData[self.eduGradeInfo.row]
-//        self.eduSystemInfo.row = json["school_len"].intValue - 1
-//        self.eduSystemInfo.text = eduSystemData[self.eduSystemInfo.row]
-//        self.majoyText = json["majoy"].stringValue
+        self.incomeAmount = json["month_wages"].stringValue
+        self.incomeWay = json["income"].stringValue
+        let settlement = json["settlement"].intValue - 1
+        self.payWayInfo.row = settlement < 0 ? 0 : settlement
+        self.payWayInfo.text = incomePayWayData[self.payWayInfo.row]
         self.aTableView.reloadData()
     }
 }

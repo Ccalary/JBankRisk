@@ -104,7 +104,24 @@ func toolsChangeDateStyle(toMMMonthDDDay string: String) -> String {
     return str
 }
 
+//获取ip地址
+func toolsGetIPAddresses() -> String {
+    return OCTools.getIPAddress() as String
+}
 
-
-
-
+func toolsChangeToJson(info: Any) -> String{
+    //首先判断能不能转换
+    guard JSONSerialization.isValidJSONObject(info) else {
+        PrintLog("json转换失败")
+        return ""
+    }
+    //如果设置options为JSONSerialization.WritingOptions.prettyPrinted，则打印格式更好阅读
+    let jsonData = try? JSONSerialization.data(withJSONObject: info, options: [])
+    
+    if let jsonData = jsonData {
+        let str = String(data: jsonData, encoding: String.Encoding.utf8)
+        return str ?? ""
+    }else {
+       return ""
+    }
+}

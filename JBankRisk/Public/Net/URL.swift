@@ -7,7 +7,7 @@
 //
 
 import UIKit
-let LOCAL = "http://192.168.1.121:8080" //本地
+let LOCAL = "http://192.168.1.76:8080" //本地
 let ONLINE = "http://106.38.109.11:8081" //线上
 let PRODUCT = "http://123.57.66.164:11569"//生产
 
@@ -89,6 +89,9 @@ let BM_GET_DATA_INFO = BASR_DEV_URL + "/jinangk.xhtml?TX_CODE=490114"
 /// 2.19借款状态与信息上传状态
 let BM_BORROW_STATUS = BASR_DEV_URL + "/jinangk.xhtml?TX_CODE=490012"
 
+/// 2.20收入信息上传
+let BM_INCOME_STATUS = BASR_DEV_URL + "/jinangk.xhtml?TX_CODE=490413"
+
 /***************************个人中心(PC)****************************/
 
 ///3.1个人中心首页
@@ -124,6 +127,11 @@ let PC_MESSAGE_URL = BASR_DEV_URL + "/jinangk.xhtml?TX_CODE=490223"
 ///3.11消息已读
 let PC_MESSAGE_READED_URL = BASR_DEV_URL + "/jinangk.xhtml?TX_CODE=490224"
 
+///3.12计算总额
+let PC_REPAY_AMOUNT = BASR_DEV_URL + "/jinangk.xhtml?TX_CODE=900090"
+
+///3.13发起支付请求
+let PC_REPAY_REQUEST = BASR_DEV_URL + "/jinangk.xhtml?TX_CODE=900099"
 /****************其他(other)******************/
 ///4.1修改密码
 let OT_CHANGE_PSD_URL = BASR_DEV_URL + "/jinangk.xhtml?TX_CODE=490385"
@@ -134,3 +142,8 @@ let OT_CHANGE_MOBILE_URL = BASR_DEV_URL + "/jinangk.xhtml?TX_CODE=490113"
 ///4.3版本升级
 let OT_UPDATA_VERSION_URL = BASR_DEV_URL + "/jinangk.xhtml?TX_CODE=490000"
 
+///4.4合同签约
+let OT_CONTRACT_SIGN_URL = BASR_DEV_URL + "/jinangk.xhtml?TX_CODE=999111"
+
+///4.5合同查询
+let OT_CONTRACT_SEARCH_URL = BASR_DEV_URL + "/jinangk.xhtml?TX_CODE=900002"

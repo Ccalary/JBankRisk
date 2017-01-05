@@ -10,15 +10,8 @@ import UIKit
 import SwiftyJSON
 
 class WorkViewController: UIViewController,UITableViewDelegate, UITableViewDataSource {
-
-    var WorkCellData:[CellDataInfo] = [CellDataInfo(leftText: "单位名称", holdText: "请输入单位名称", content: "", cellType: .clearType),
-        CellDataInfo(leftText: "单位性质", holdText: "请选择单位性质", content: "", cellType: .arrowType),
-        CellDataInfo(leftText: "单位电话", holdText: "请填写单位电话", content: "", cellType: .clearType),
-        CellDataInfo(leftText: "单位地址", holdText: "请选择所属地区", content: "", cellType: .arrowType),
-        CellDataInfo(leftText: "", holdText: "详细街道地址", content: "", cellType: .clearType),
-        CellDataInfo(leftText: "职位", holdText: "请填写当前职位", content: "", cellType: .clearType),
-        CellDataInfo(leftText: "工作年限", holdText: "请选择工作年限", content: "", cellType: .arrowType),
-        CellDataInfo(leftText: "月收入", holdText: "请填写月收入", content: "", cellType: .textType)]
+    
+    var workCellData = UserInfoCellModel(dataType: UserInfoCellModel.CellModelType.work)
     
     var uploadSucDelegate:UploadSuccessDelegate?
     
@@ -61,33 +54,28 @@ class WorkViewController: UIViewController,UITableViewDelegate, UITableViewDataS
         
         self.navigationItem.leftBarButtonItem = UIBarButtonItem(image: UIImage(named:"navigation_left_back_13x21"), style: .plain, target: self, action: #selector(leftNavigationBarBtnAction))
                 
-        self.view.addSubview(aScrollView)
-        self.aScrollView.addSubview(aTableView)
-        self.aScrollView.addSubview(divideLine1)
+        let headerView = UIView(frame: CGRect(x: 0, y: 0, width: SCREEN_WIDTH, height: 10*UIRate))
+        headerView.backgroundColor = defaultBackgroundColor
+        
+        self.view.addSubview(aTableView)
+        self.aTableView.tableHeaderView = headerView
+        
+        headerView.addSubview(divideLine1)
         self.view.addSubview(lastStepBtn)
         self.view.addSubview(nextStepBtn)
         
-        aScrollView.snp.makeConstraints { (make) in
-            make.width.equalTo(self.view)
+        aTableView.snp.makeConstraints { (make) in
+            make.width.equalTo(SCREEN_WIDTH)
             make.height.equalTo(SCREEN_HEIGHT - 64 - 64*UIRate)
             make.centerX.equalTo(self.view)
             make.top.equalTo(64)
         }
         
-        aScrollView.contentSize = CGSize(width: SCREEN_WIDTH, height: SCREEN_HEIGHT - 64 - 64*UIRate + 1)
-        
-        aTableView.snp.makeConstraints { (make) in
-            make.width.equalTo(aScrollView)
-            make.height.equalTo(390*UIRate)
-            make.centerX.equalTo(aScrollView)
-            make.top.equalTo(10*UIRate)
-        }
-        
         divideLine1.snp.makeConstraints { (make) in
             make.width.equalTo(self.view)
             make.height.equalTo(0.5*UIRate)
-            make.centerX.equalTo(self.aScrollView)
-            make.top.equalTo(aTableView)
+            make.centerX.equalTo(self.view)
+            make.bottom.equalTo(headerView)
         }
         
         lastStepBtn.snp.makeConstraints { (make) in
@@ -105,18 +93,14 @@ class WorkViewController: UIViewController,UITableViewDelegate, UITableViewDataS
         }
     }
     
-    private lazy var aScrollView: UIScrollView = {
-        let scrollView = UIScrollView()
-        return scrollView
-    }()
-    
     private lazy var aTableView: UITableView = {
         
         let tableView = UITableView()
         tableView.delegate = self
         tableView.dataSource = self
-        tableView.isScrollEnabled = false
         tableView.tableFooterView = UIView()
+        tableView.showsVerticalScrollIndicator = false
+        tableView.backgroundColor = defaultBackgroundColor
         tableView.register(BMTableViewCell.self, forCellReuseIdentifier: "WorkCellID")
         
         //tableView 单元格分割线的显示
@@ -165,14 +149,14 @@ class WorkViewController: UIViewController,UITableViewDelegate, UITableViewDataS
     }
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return WorkCellData.count
+        return workCellData.cellData.count
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: "WorkCellID") as! BMTableViewCell
         //去除选择效果
         cell.selectionStyle = .none
-        cell.cellDataInfo = WorkCellData[indexPath.row]
+        cell.cellDataInfo = workCellData.cellData[indexPath.row]
         
         switch indexPath.row {
         case 0://单位名称
@@ -228,7 +212,7 @@ class WorkViewController: UIViewController,UITableViewDelegate, UITableViewDataS
             let popupController = CNPPopupController(contents: [popupView])!
             popupController.present(animated: true)
             
-            popupView.onClickSelect = { (row, text) in
+            popupView.onClickSelect = {[unowned self] (row, text) in
                 self.companyTypeInfo = (row,text)
                 //刷新cell
                 self.reloadOneCell(at: indexPath.row)
@@ -240,7 +224,7 @@ class WorkViewController: UIViewController,UITableViewDelegate, UITableViewDataS
             let popupController = CNPPopupController(contents: [popupView])!
             popupController.present(animated: true)
             
-            popupView.onClickSelect = { (pro,city,county) in
+            popupView.onClickSelect = {[unowned self] (pro,city,county) in
                 self.areaInfo = (pro.pro + " ",city.city + " ",county.county)
                 self.areaRow = (pro.proRow, city.cityRow, county.countyRow)
                 self.reloadOneCell(at: indexPath.row)
@@ -256,7 +240,7 @@ class WorkViewController: UIViewController,UITableViewDelegate, UITableViewDataS
             let popupController = CNPPopupController(contents: [popupView])!
             popupController.present(animated: true)
             
-            popupView.onClickSelect = { (row, text) in
+            popupView.onClickSelect = {[unowned self] (row, text) in
                 self.workYearsInfo = (row,text)
                 self.reloadOneCell(at: indexPath.row)
                 popupController.dismiss(animated: true)
@@ -338,12 +322,6 @@ class WorkViewController: UIViewController,UITableViewDelegate, UITableViewDataS
        }
     }
     func nextStepBtnAction(){
-        
-        //是否已生成订单
-        guard !UserHelper.getAllFinishIsUpload() else {
-            self.showHint(in: self.view, hint: "订单已生成，信息不可更改哦！")
-            return
-        }
         
         guard self.unitName.characters.count > 0,
             self.companyTypeInfo.text.characters.count > 0,
@@ -430,9 +408,12 @@ class WorkViewController: UIViewController,UITableViewDelegate, UITableViewDataS
         self.areaInfo.pro = json["province"].stringValue + " "
         self.areaInfo.city = json["county"].stringValue + " "
         self.areaInfo.county = json["AREA"].stringValue
-        self.companyTypeInfo.row = json["unitPro"].intValue - 1
+        let unitPro = json["unitPro"].intValue - 1
+        self.companyTypeInfo.row = unitPro < 0 ? 0 : unitPro
         self.companyTypeInfo.text = companyTypeData[self.companyTypeInfo.row]
-        self.workYearsInfo.row = json["workLife"].intValue - 1
+        
+        let workLife = json["workLife"].intValue - 1
+        self.workYearsInfo.row = workLife < 0 ? 0 : workLife
         self.workYearsInfo.text = workYearData[self.workYearsInfo.row]
         
         self.aTableView.reloadData()

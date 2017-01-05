@@ -173,8 +173,7 @@
         if (videoConnection)
         {
             [videoConnection setVideoMinFrameDuration:CMTimeMake(1, 15)];
-            
-                        break;
+            break;
         }
     }
     

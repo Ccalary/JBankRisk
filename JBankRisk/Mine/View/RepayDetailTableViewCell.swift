@@ -196,63 +196,52 @@ class RepayDetailTableViewCell: UITableViewCell {
     
     
     //还款详情待还
-    func waitCellWithData(dic: Dictionary<String,JSON>){
-        leftTopTextLabel.text = "第\(dic["term"]!.stringValue)期"
-        leftBottomTextLabel.text = toolsChangeDateStyle(toYYYYMMDD: (dic["realpay_date"]?.stringValue)!)
+    func waitCellWithData(dic: JSON){
+        leftTopTextLabel.text = "第\(dic["term"].stringValue)期"
+        leftBottomTextLabel.text = toolsChangeDateStyle(toYYYYMMDD: dic["realpay_date"].stringValue)
         statusTextLabel.text = "待还"
-        let penaltyDay = dic["penalty_day"]?.intValue //逾期
+        let penaltyDay = dic["penalty_day"].intValue //逾期
         
-        if let penaltyDay = penaltyDay{
-            
-           if penaltyDay > 0 {//有逾期
+        if penaltyDay > 0 {//有逾期
             noticeTextLabel.text = "逾期\(penaltyDay)天"
         }else {
             noticeTextLabel.text = ""
         }
-     }
-    
-        moneyTextLabel.text = toolsChangeMoneyStyle(amount: (dic["showMoney"]?.doubleValue)!) + "元"
+        moneyTextLabel.text = toolsChangeMoneyStyle(amount: dic["showMoney"].doubleValue) + "元"
     }
     
     //还款详情已还
-    func alreadyCellWithData(dic: Dictionary<String,JSON>){
+    func alreadyCellWithData(dic: JSON){
         
-        leftTopTextLabel.text = "第\(dic["term"]!.stringValue)期"
-        leftBottomTextLabel.text = toolsChangeDateStyle(toYYYYMMDD: (dic["realpay_date"]?.stringValue)!)
+        leftTopTextLabel.text = "第\(dic["term"].stringValue)期"
+        leftBottomTextLabel.text = toolsChangeDateStyle(toYYYYMMDD: dic["realpay_date"].stringValue)
         statusTextLabel.text = "完成"
-        let penaltyDay = dic["penalty_day"]?.intValue //逾期
-        
-        if let penaltyDay = penaltyDay{
+        let penaltyDay = dic["penalty_day"].intValue //逾期
             
-            if penaltyDay > 0 {//有逾期
-                noticeTextLabel.text = "逾期\(penaltyDay)天"
-            }else {
-                noticeTextLabel.text = ""
-            }
+        if penaltyDay > 0 {//有逾期
+            noticeTextLabel.text = "逾期\(penaltyDay)天"
+        }else {
+            noticeTextLabel.text = ""
         }
         
-        moneyTextLabel.text = toolsChangeMoneyStyle(amount: (dic["pay_amt_total"]?.doubleValue)!)
-             + "元"
+        moneyTextLabel.text = toolsChangeMoneyStyle(amount: dic["pay_amt_total"].doubleValue) + "元"
     }
     
     //应还
-    func needRepayCellWithData(dic: Dictionary<String,JSON>){
+    func needRepayCellWithData(dic: JSON){
         
-        leftTopTextLabel.text = dic["orderName"]?.stringValue
-        leftTopTextLabel2.text = "第" + (dic["term"]?.stringValue)! + "期"
-        leftBottomTextLabel.text = toolsChangeDateStyle(toYYYYMMDD: (dic["realpay_date"]?.stringValue)!)
+        leftTopTextLabel.text = dic["orderName"].stringValue
+        leftTopTextLabel2.text = "第" + dic["term"].stringValue + "期"
+        leftBottomTextLabel.text = toolsChangeDateStyle(toYYYYMMDD: dic["realpay_date"].stringValue)
         statusTextLabel.text = "待还"
-        let penaltyDay = dic["penalty_day"]?.intValue //逾期
+        let penaltyDay = dic["penalty_day"].intValue //逾期
         
-        if let penaltyDay = penaltyDay {
-            if penaltyDay > 0 {//有逾期
-                noticeTextLabel.text = "逾期\(penaltyDay)天"
-            }else {
-                noticeTextLabel.text = ""
-            }
+        if penaltyDay > 0 {//有逾期
+            noticeTextLabel.text = "逾期\(penaltyDay)天"
+        }else {
+            noticeTextLabel.text = ""
         }
         
-        moneyTextLabel.text = toolsChangeMoneyStyle(amount: (dic["showMoney"]?.doubleValue)!)
-            + "元"
+        moneyTextLabel.text = toolsChangeMoneyStyle(amount: dic["showMoney"].doubleValue) + "元"
     }
 }

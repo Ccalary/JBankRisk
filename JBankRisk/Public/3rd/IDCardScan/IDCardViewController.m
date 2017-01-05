@@ -18,6 +18,7 @@
     
     NSString *userName;
     NSString *userCodeNum;
+    NSString *userAddress;
     UIButton *confiremBtn;
 }
 @end
@@ -235,6 +236,11 @@ static Boolean init_flag = false;
             [codeLabel setText:[NSString stringWithFormat:@"%@", idInfo.code]];
         }
         
+        if (idInfo.address != nil)
+        {
+            userAddress = idInfo.address;
+        }
+        
         [confiremBtn setBackgroundImage:[UIImage imageNamed:@"login_btn_red_345x44"] forState:UIControlStateNormal];
         confiremBtn.userInteractionEnabled = YES;
     });
@@ -263,7 +269,7 @@ static Boolean init_flag = false;
     [self removeCapture];
     [self.navigationController popViewControllerAnimated:YES];
     if (self.block){
-        self.block(userName,userCodeNum);
+        self.block(userName,userCodeNum,userAddress);
     }
     if(init_flag){
         EXCARDS_Done();

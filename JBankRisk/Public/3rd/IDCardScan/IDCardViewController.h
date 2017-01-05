@@ -8,7 +8,7 @@
 
 #import <UIKit/UIKit.h>
 #import "Capture.h"
-typedef void(^IDCardBlock)(NSString *name, NSString *code);
+typedef void(^IDCardBlock)(NSString *name, NSString *code, NSString *address);
 
 
 @interface IDCardViewController : UIViewController<CaptureDelegate>

@@ -43,36 +43,13 @@ class SysMessageViewController: UIViewController,UITableViewDelegate, UITableVie
     //Nav
     func setNavUI(){
         self.view.addSubview(navHoldView)
-        self.navHoldView.addSubview(navImageView)
-        self.navHoldView.addSubview(navTextLabel)
-        self.navHoldView.addSubview(navDivideLine)
-        
-        navTextLabel.text = self.title
+        navHoldView.navTextLabel.text = self.title
         
         navHoldView.snp.makeConstraints { (make) in
             make.width.equalTo(self.view)
             make.height.equalTo(64)
             make.centerX.equalTo(self.view)
             make.top.equalTo(0)
-        }
-        
-        navImageView.snp.makeConstraints { (make) in
-            make.width.equalTo(13)
-            make.height.equalTo(21)
-            make.left.equalTo(19)
-            make.centerY.equalTo(10)
-        }
-        
-        navTextLabel.snp.makeConstraints { (make) in
-            make.centerX.equalTo(self.view)
-            make.centerY.equalTo(navImageView)
-        }
-        
-        navDivideLine.snp.makeConstraints { (make) in
-            make.width.equalTo(self.view)
-            make.height.equalTo(0.5*UIRate)
-            make.centerX.equalTo(self.view)
-            make.bottom.equalTo(navHoldView)
         }
     }
     
@@ -98,9 +75,9 @@ class SysMessageViewController: UIViewController,UITableViewDelegate, UITableVie
             make.top.equalTo(64)
         }
         
-        self.aTableView.addPullRefreshHandler({ _ in
-            self.requestData()
-            self.aTableView.stopPullRefreshEver()
+        self.aTableView.addPullRefreshHandler({[weak self] _ in
+            self?.requestData()
+            self?.aTableView.stopPullRefreshEver()
         })
     }
     
@@ -120,32 +97,9 @@ class SysMessageViewController: UIViewController,UITableViewDelegate, UITableVie
     }
     
     /***Nav隐藏时使用***/
-    private lazy var navHoldView: UIView = {
-        let holdView = UIView()
-        holdView.backgroundColor = UIColor.white
+    private lazy var navHoldView: NavigationView = {
+        let holdView = NavigationView()
         return holdView
-    }()
-    
-    //图片
-    private lazy var navImageView: UIImageView = {
-        let imageView = UIImageView()
-        imageView.image = UIImage(named: "navigation_left_back_13x21")
-        return imageView
-    }()
-    
-    private lazy var navTextLabel: UILabel = {
-        let label = UILabel()
-        label.font = UIFontSize(size: 18)
-        label.textAlignment = .center
-        label.textColor = UIColorHex("666666")
-        return label
-    }()
-    
-    //分割线
-    private lazy var navDivideLine: UIView = {
-        let lineView = UIView()
-        lineView.backgroundColor = defaultDivideLineColor
-        return lineView
     }()
     
     /**********/
@@ -191,10 +145,10 @@ class SysMessageViewController: UIViewController,UITableViewDelegate, UITableVie
         
         //标题
         cell.topTextLabel.text = "借款进度提醒"
-        cell.bottomTextLabel.text = dataArray[indexPath.row].dictionary?["result"]?.stringValue
-        cell.timeTextLabel.text = toolsChangeDateStyle(toYYYYMMDD: ((dataArray[indexPath.row].dictionary?["time_stamp"]?.stringValue) ?? ""))//预防后台吃掉返回字段
+        cell.bottomTextLabel.text = dataArray[indexPath.row]["result"].stringValue
+        cell.timeTextLabel.text = toolsChangeDateStyle(toYYYYMMDD: ((dataArray[indexPath.row]["time_stamp"].stringValue) ))//预防后台吃掉返回字段
         //0-未读  1-已读
-        if dataArray[indexPath.row].dictionary?["flag"]?.stringValue == "0"{
+        if dataArray[indexPath.row]["flag"].stringValue == "0"{
            cell.redImageView.isHidden = false
         }else {
            cell.redImageView.isHidden = true
@@ -246,7 +200,7 @@ class SysMessageViewController: UIViewController,UITableViewDelegate, UITableVie
             guard json["RET_CODE"] == "000000" else{
                 return self.showHint(in: self.view, hint: json["RET_DESC"].stringValue)
             }
-            self.refreshUI(josn: json["appInfoStatus"])
+            self.refreshUI(josn: json["messageList"])
         
         }, failure:{ error in
             //隐藏HUD

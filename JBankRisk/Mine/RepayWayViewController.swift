@@ -234,9 +234,7 @@ class RepayWayViewController: UIViewController {
         return lineView
     }()
 
-    
-    /**********/
-    
+    /**********/    
     private lazy var centerHoldView: UIView = {
         let holdView = UIView()
         holdView.backgroundColor = UIColor.white

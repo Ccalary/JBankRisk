@@ -11,6 +11,11 @@ import SwiftyJSON
 
 class UpLoadServiceBillVC: UIViewController,UIImagePickerControllerDelegate,UINavigationControllerDelegate {
 
+    var orderId = ""
+    
+    //合同签约结果(是否签合同)
+    var isSigned = false
+    
     ///相机，相册
     var cameraPicker: UIImagePickerController!
     var photoPicker: UIImagePickerController!
@@ -168,11 +173,11 @@ class UpLoadServiceBillVC: UIViewController,UIImagePickerControllerDelegate,UINa
         let popupView = PopupPhotoSelectView()
         let popupController = CNPPopupController(contents: [popupView])!
         popupController.present(animated: true)
-        popupView.onClickCamera = {_ in //相机
+        popupView.onClickCamera = {[unowned self]_ in //相机
             popupController.dismiss(animated: true)
             self.present(self.cameraPicker, animated: true, completion: nil)
         }
-        popupView.onClickPhoto = { _ in //相册选取
+        popupView.onClickPhoto = {[unowned self] _ in //相册选取
             
             self.present(self.photoPicker, animated: true, completion: nil)
             popupController.dismiss(animated: true)
@@ -180,14 +185,32 @@ class UpLoadServiceBillVC: UIViewController,UIImagePickerControllerDelegate,UINa
         popupView.onClickClose = { _ in //关闭
             popupController.dismiss(animated: true)
         }
-
     }
     
     //确认上传
     func nextStepBtnAction(){
-        self.uploadBillImage(image: self.imageView.image!)
+        
+        //H 测试
+        if !isSigned {
+            let popupView = PopupLogoutView()
+            popupView.content = ("温馨提示","为了保障您的权益与服务，请\n签署电子合同","缓一缓","去签署")
+            let popupController = CNPPopupController(contents: [popupView])!
+            popupController.present(animated: true)
+            
+            popupView.onClickCancle = {
+                popupController.dismiss(animated: true)
+            }
+            
+            popupView.onClickSure = {[unowned self] in
+                popupController.dismiss(animated: true)
+                self.requestContractSign()
+            }
+        }else {
+            self.uploadBillImage(image: self.imageView.image!)
+        }
     }
     
+    //MARK: 上传服务单
     func uploadBillImage(image:UIImage){
         
         var imageDataArray:[Data] = []
@@ -215,9 +238,36 @@ class UpLoadServiceBillVC: UIViewController,UIImagePickerControllerDelegate,UINa
         }, failure: { error in
             //隐藏HUD
             self.hideHud()
-            
         })
+    }
+    
+    //MARK: 请求合同签约的token与contractId
+    func requestContractSign(){
         
+        self.showHud(in: self.view,hint:"加载中...")
+        var params = NetConnect.getBaseRequestParams()
+        params["orderId"] = self.orderId
+        
+        NetConnect.other_contract_sign(parameters: params, success:
+            { response in
+                
+                //隐藏HUD
+                self.hideHud()
+                let json = JSON(response)
+                guard json["RET_CODE"] == "000000" else{
+                    return self.showHint(in: self.view, hint: json["RET_DESC"].stringValue)
+                }
+                YHTSdk.setToken(json["backInfo"]["TOKEN"].stringValue)
+                let YHTVC = YHTContractContentViewController.instance(withContractID: json["backInfo"]["contractId"].numberValue)
+                self.navigationController?.pushViewController(YHTVC!, animated: true)
+                
+                //H 测试
+                self.isSigned = true
+                
+        }, failure: {error in
+            //隐藏HUD
+            self.hideHud()
+        })
     }
 
 

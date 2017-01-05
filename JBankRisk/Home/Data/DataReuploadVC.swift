@@ -12,13 +12,9 @@ import Photos
 
 class DataReuploadVC:  UIViewController,UITableViewDelegate, UITableViewDataSource,UICollectionViewDelegate,UICollectionViewDataSource, UICollectionViewDelegateFlowLayout,UIImagePickerControllerDelegate,UINavigationControllerDelegate,PhotoPickerControllerDelegate{
     
-    //补交材料
-    var dataArray:[CellDataInfo] = [ CellDataInfo(leftText: "房产证", holdText: "上传您所拥有的房产证照片", content: "", cellType: .cameraType),
-                                        CellDataInfo(leftText: "行驶证", holdText: "上传您的汽车行驶证照片", content: "", cellType: .cameraType),
-                                        CellDataInfo(leftText: "收入流水", holdText: "上传银行卡6个月收入流水", content: "", cellType: .cameraType),
-                                        CellDataInfo(leftText: "其他材料", holdText: "选填", content: "", cellType: .cameraType)]
+    var dataCellArray = UserInfoCellModel(dataType: UserInfoCellModel.CellModelType.dataReupload)
     
-    var uploadSucDelegate:UploadSuccessDelegate?
+    weak var uploadSucDelegate:UploadSuccessDelegate?
     
     var tableViewHeight: CGFloat!
     
@@ -44,9 +40,9 @@ class DataReuploadVC:  UIViewController,UITableViewDelegate, UITableViewDataSour
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        tableViewHeight = CGFloat(dataArray.count)*50*UIRate
+        tableViewHeight = CGFloat(dataCellArray.cellData.count)*50*UIRate
         
-        numArray = Array(repeating: 0, count: dataArray.count)
+        numArray = Array(repeating: 0, count: dataCellArray.cellData.count)
         
         self.setupUI()
         self.initCameraPicker()
@@ -65,19 +61,16 @@ class DataReuploadVC:  UIViewController,UITableViewDelegate, UITableViewDataSour
         self.navigationController!.navigationBar.isTranslucent = true;
         self.automaticallyAdjustsScrollViewInsets = false;
         self.view.backgroundColor = defaultBackgroundColor
+        self.title = "补交材料"
         
         self.navigationItem.leftBarButtonItem = UIBarButtonItem(image: UIImage(named:"navigation_left_back_13x21"), style: .plain, target: self, action: #selector(leftNavigationBarBtnAction))
         
         self.view.addSubview(topView)
-        self.view.addSubview(topTextLabel)
-        self.view.addSubview(starImageView)
-        self.view.addSubview(topDivideLine)
        
         self.view.addSubview(aScrollView)
         self.aScrollView.addSubview(aTableView)
         self.aScrollView.addSubview(divideLine1)
         self.aScrollView.addSubview(aCollectionView)
-        
         
         /******点击图片放大*****/
         UIApplication.shared.keyWindow?.addSubview(bigBgholdView)
@@ -92,23 +85,6 @@ class DataReuploadVC:  UIViewController,UITableViewDelegate, UITableViewDataSour
             make.width.equalTo(self.view)
             make.height.equalTo(30*UIRate)
             make.top.equalTo(64)
-        }
-        
-        topTextLabel.snp.makeConstraints { (make) in
-            make.centerY.equalTo(topView)
-            make.centerX.equalTo(topView).offset(9*UIRate)
-        }
-        
-        starImageView.snp.makeConstraints { (make) in
-            make.width.height.equalTo(15*UIRate)
-            make.right.equalTo(topTextLabel.snp.left).offset(-3*UIRate)
-            make.centerY.equalTo(topTextLabel)
-        }
-        
-        topDivideLine.snp.makeConstraints { (make) in
-            make.width.equalTo(self.view)
-            make.height.equalTo(0.5*UIRate)
-            make.bottom.equalTo(topView)
         }
         
         aScrollView.snp.makeConstraints { (make) in
@@ -158,8 +134,7 @@ class DataReuploadVC:  UIViewController,UITableViewDelegate, UITableViewDataSour
     
    //补交材料
     func reupLoadSetupUI(){
-        self.title = "补交材料"
-        self.topTextLabel.text = "请上传真实资料，乱填或误填将会影响借款申请！"
+    
         self.nextStepBtn.setBackgroundImage(UIImage(named: "login_btn_red_345x44"), for: .normal)
         
         self.view.addSubview(nextStepBtn)
@@ -195,32 +170,10 @@ class DataReuploadVC:  UIViewController,UITableViewDelegate, UITableViewDataSour
         return imageView
     }()
     
-    
-    private lazy var topView: UIView = {
-        let holdView = UIView()
-        holdView.backgroundColor = UIColorHex("fbfbfb")
+    /******/
+    private lazy var topView: BorrowMoneyTopTipsView = {
+        let holdView = BorrowMoneyTopTipsView(viewType: BorrowMoneyTopTipsView.TipsType.tips2)
         return holdView
-    }()
-    
-    ///顶部文字
-    private lazy var topTextLabel: UILabel = {
-        let label = UILabel()
-        label.font = UIFontSize(size: 15*UIRate)
-        label.textColor = UIColorHex("666666")
-        return label
-    }()
-    
-    private lazy var starImageView: UIImageView = {
-        let imageView = UIImageView()
-        imageView.image = UIImage(named: "icon_star_15x15")
-        return imageView
-    }()
-    
-    //分割线
-    private lazy var topDivideLine: UIView = {
-        let lineView = UIView()
-        lineView.backgroundColor = defaultDivideLineColor
-        return lineView
     }()
     
     private lazy var aScrollView: UIScrollView = {
@@ -314,14 +267,14 @@ class DataReuploadVC:  UIViewController,UITableViewDelegate, UITableViewDataSour
     }
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return dataArray.count
+        return dataCellArray.cellData.count
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: "DataCellID") as! BMTableViewCell
         //去除选择效果
         cell.selectionStyle = .none
-        cell.cellDataInfo = dataArray[indexPath.row]
+        cell.cellDataInfo = dataCellArray.cellData[indexPath.row]
         
         return cell
     }
@@ -381,9 +334,9 @@ class DataReuploadVC:  UIViewController,UITableViewDelegate, UITableViewDataSour
             let selectCell = self.photoArray[indexPath.row].selectCell
             self.numArray[selectCell] -= 1
             if self.numArray[selectCell] > 0{
-                self.dataArray[selectCell].content = "已上传\(self.numArray[selectCell])张"
+                self.dataCellArray.cellData[selectCell].content = "已上传\(self.numArray[selectCell])张"
             }else {
-                self.dataArray[selectCell].content = ""
+                self.dataCellArray.cellData[selectCell].content = ""
             }
             self.reloadOneTabelViewCell(at: selectCell)
             
@@ -418,9 +371,9 @@ class DataReuploadVC:  UIViewController,UITableViewDelegate, UITableViewDataSour
         let image = info[UIImagePickerControllerOriginalImage] as! UIImage
         //主线程刷新
         DispatchQueue.main.async {
-            self.photoArray.append((image,self.dataArray[self.selectCell].leftText,self.selectCell))
+            self.photoArray.append((image,self.dataCellArray.cellData[self.selectCell].leftText,self.selectCell))
             self.numArray[self.selectCell] += 1
-            self.dataArray[self.selectCell].content = "已上传\(self.numArray[self.selectCell])张"
+            self.dataCellArray.cellData[self.selectCell].content = "已上传\(self.numArray[self.selectCell])张"
             self.reloadOneTabelViewCell(at: self.selectCell)
         }
     }
@@ -567,9 +520,9 @@ extension DataReuploadVC {
                     if image != nil {
                         //主线程刷新
                         DispatchQueue.main.async {
-                            self.photoArray.append((image!,self.dataArray[self.selectCell].leftText,self.selectCell))
+                            self.photoArray.append((image!,self.dataCellArray.cellData[self.selectCell].leftText,self.selectCell))
                             self.numArray[self.selectCell] += 1
-                            self.dataArray[self.selectCell].content = "已上传\(self.numArray[self.selectCell])张"
+                            self.dataCellArray.cellData[self.selectCell].content = "已上传\(self.numArray[self.selectCell])张"
                             self.reloadOneTabelViewCell(at: self.selectCell)
                         }
                     }

@@ -56,6 +56,4 @@ class BorrowMoneyDoneView: UIView {
         imageView.isHidden = true
         return imageView
     }()
-
-    
 }

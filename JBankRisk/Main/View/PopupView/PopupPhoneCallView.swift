@@ -98,13 +98,13 @@ class PopupPhoneCallView: UIView {
 
     //MARK: - Action
     
-    var onClickCancle : (()->())?
+    var onClickCancel : (()->())?
     var onClickCall: (()->())?
     
     //取消
     func cancelBtnAction(){
-        if let onClickCancle = onClickCancle {
-           onClickCancle()
+        if let onClickCancel = onClickCancel {
+           onClickCancel()
         }
     }
     
