@@ -309,7 +309,7 @@ class SettingViewController: UIViewController,UITableViewDelegate, UITableViewDa
         
         self.showHud(in: self.view,hint:"上传中...")
         //参数000-头像上传
-        let params: [String: String] = ["userId":UserHelper.getUserId()!, "flag":"000"]
+        let params: [String: String] = ["userId":UserHelper.getUserId()!, "flag":"100"]
         
         NetConnect.bm_upload_photo_info(params:params , data: imageDataArray, name: imageNameArray, success: { response in
             

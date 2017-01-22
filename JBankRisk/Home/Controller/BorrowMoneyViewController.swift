@@ -52,6 +52,11 @@ class BorrowMoneyViewController: UIViewController,iCarouselDelegate, iCarouselDa
         super.didReceiveMemoryWarning()
     }
     
+    //移除
+    deinit {
+        NotificationCenter.default.removeObserver(self)
+    }
+    
     override func viewWillAppear(_ animated: Bool) {
         upLoadInfoSuccess()
         self.carouselCurrentItemIndexDidChange(carousel)
@@ -112,7 +117,7 @@ class BorrowMoneyViewController: UIViewController,iCarouselDelegate, iCarouselDa
             make.height.equalTo(0.5*UIRate)
             make.top.equalTo(holdView)
         }
-
+        
         //icon
         indicatorImageView.snp.makeConstraints { (make) in
             make.width.equalTo(38.5*UIRate)
@@ -527,6 +532,8 @@ class BorrowMoneyViewController: UIViewController,iCarouselDelegate, iCarouselDa
     func leftNavigationBarBtnAction(){
         self.carousel.isHidden = true
         _ = self.navigationController?.popViewController(animated: true)
+        
+         NotificationCenter.default.post(name: NSNotification.Name(rawValue: noticeBorrowAgainAction), object: self)
     }
     
     //MARK: - ReselectRoleDelegate

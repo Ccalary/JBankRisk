@@ -10,6 +10,8 @@ import UIKit
 import SwiftyJSON
 import AddressBookUI
 import ContactsUI //iOS 9.0以上可用
+import Contacts
+import AddressBook
 
 class ContactViewController: UIViewController, UITableViewDelegate, UITableViewDataSource,ABPeoplePickerNavigationControllerDelegate,CNContactPickerDelegate {
     
@@ -43,19 +45,24 @@ class ContactViewController: UIViewController, UITableViewDelegate, UITableViewD
     ///直系亲属联系信息
     var relativeContactInfo: (name: String, number:String) = ("","")
     ///紧急联系人信息
+    ///紧急关系
+    var linkmanInfo: (row: Int, text: String) = (0,"")
+    
     var urgentContactInfo: (name: String, number:String) = ("","")
     var contactType:Int = 0
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        
+
         homeDetail = UserHelper.getUserHomeAddress() ?? ""
         
         self.setupUI()
-        //访问通讯录
-//        pickerVC = ABPeoplePickerNavigationController()
-//        pickerVC.peoplePickerDelegate = self
-//        
+        
+        //如果通讯录没有上传过则进行上传
+        if !UserHelper.getContactListIsUpload() {
+             self.uploadUserContact()
+        }
+       
         if UserHelper.getContactIsUpload() {
             self.requestContactInfo()
         }
@@ -224,6 +231,9 @@ class ContactViewController: UIViewController, UITableViewDelegate, UITableViewD
             cell.centerTextField.keyboardType = .numberPad
             cell.centerTextField.tag = 10003
             cell.centerTextField.addTarget(self, action: #selector(textFieldAction(_:)), for: UIControlEvents.editingChanged)
+        case self.contactCellData.cellData.count - 3: //联系人关系
+            cell.centerTextField.isEnabled = false
+            cell.centerTextField.text = self.linkmanInfo.text
         case self.contactCellData.cellData.count - 2: //紧急联系人姓名
             cell.centerTextField.isEnabled = true
             cell.centerTextField.text = self.urgentContactInfo.name
@@ -353,12 +363,25 @@ class ContactViewController: UIViewController, UITableViewDelegate, UITableViewD
                 let pickerVC = CNContactPickerViewController()
                 pickerVC.delegate = self
                 self.present(pickerVC, animated: true, completion: nil)
+                
             }else {
                 let pickerVC = ABPeoplePickerNavigationController()
                 pickerVC.peoplePickerDelegate = self
                 self.present(pickerVC, animated: true, completion: nil)
             }
-        case self.contactCellData.cellData.count - 3:  //紧急联系人姓名
+        case self.contactCellData.cellData.count - 3://紧急联系人关系
+            let popupView =  PopupStaticSelectView(cellType: PopupStaticSelectView.PopupCellType.linkman, selectRow: self.linkmanInfo.row)
+            let popupController = CNPPopupController(contents: [popupView])!
+            popupController.present(animated: true)
+            
+            popupView.onClickSelect = {[unowned self] (row, text) in
+                self.linkmanInfo = (row,text)
+                //局部刷新cell
+                self.reloadOneCell(at: indexPath.row)
+                popupController.dismiss(animated: true)
+            }
+            
+        case self.contactCellData.cellData.count - 2:  //紧急联系人姓名
             contactType = 1
             if #available(iOS 9.0, *) {
                 let pickerVC = CNContactPickerViewController()
@@ -504,6 +527,12 @@ class ContactViewController: UIViewController, UITableViewDelegate, UITableViewD
     //下一步
     func nextStepBtnAction(){
     
+        //是否已生成订单
+        guard !UserHelper.getAllFinishIsUpload() else {
+            self.showHint(in: self.view, hint: "订单已生成，信息不可更改哦！")
+            return
+        }
+        
         guard
             self.homeInfo.county.characters.count > 0,
             self.homeDetail.characters.count > 0,
@@ -513,6 +542,7 @@ class ContactViewController: UIViewController, UITableViewDelegate, UITableViewD
             self.liveTimeInfo.text.characters.count > 0,
             self.marryInfo.text.characters.count > 0,
             self.relativeInfo.text.characters.count > 0,
+            self.linkmanInfo.text.characters.count > 0,
             self.relativeContactInfo.name.characters.count > 0,
             self.relativeContactInfo.number.characters.count > 0,
             self.urgentContactInfo.name.characters.count > 0,
@@ -543,13 +573,18 @@ class ContactViewController: UIViewController, UITableViewDelegate, UITableViewD
         params["isHouse"] = self.houseInfo.row + 1 //住房情况
         params["forTheMonth"] = self.monthRent
         params["residenceTime"] = self.liveTimeInfo.text //居住时间
-        params["isMarried"] = self.marryInfo.row + 1 //婚姻状况
+        
+        if self.marryInfo.row == 2 { //婚姻状况（“其他”传6）
+             params["isMarried"] = 6
+        }else {
+            params["isMarried"] = self.marryInfo.row + 1
+        }
         params["contactsType1"] = "1"//固定
         params["contactsType2"] = "2"
         params["relation1"] = self.relativeInfo.row//亲属关系  /*神奇的从0开始*/
         params["name1"] = self.relativeContactInfo.name //直系姓名
         params["mobile1"] = self.relativeContactInfo.number //直系电话
-        params["relation2"] = "4"//紧急联系人关系
+        params["relation2"] = self.linkmanInfo.row + 3//紧急联系人关系 /*奇葩的从3开始*/
         params["name2"] = self.urgentContactInfo.name
         params["mobile2"] = self.urgentContactInfo.number
         
@@ -620,9 +655,15 @@ class ContactViewController: UIViewController, UITableViewDelegate, UITableViewD
         self.houseInfo.row = isHouse < 0 ? 0 : isHouse
         self.houseInfo.text = houseData[self.houseInfo.row]
         let isMarried = homeJson["isMarried"].intValue - 1
+        
         self.marryInfo.row = isMarried < 0 ? 0 : isMarried
-        self.marryInfo.text = marryData[self.marryInfo.row]
-            
+        
+        if self.marryInfo.row == 6 - 1 { //如果是其它则回传6
+            self.marryInfo.text = marryData[2]
+        }else {
+            self.marryInfo.text = marryData[self.marryInfo.row]
+        }
+    
         self.areaInfo.pro = normalJson["province"].stringValue + " "
         self.areaInfo.city = normalJson["county"].stringValue + " "
         self.areaInfo.county = normalJson["AREA"].stringValue
@@ -633,6 +674,9 @@ class ContactViewController: UIViewController, UITableViewDelegate, UITableViewD
         self.relativeContactInfo.name = contact[0]["NAME"].stringValue
         self.relativeContactInfo.number = contact[0]["mobile"].stringValue
         
+        let linkmanRow = contact[1]["relation"].intValue - 3
+        self.linkmanInfo.row = linkmanRow < 0 ? 0 : linkmanRow
+        self.linkmanInfo.text = linkmanData[self.linkmanInfo.row]
         self.urgentContactInfo.name = contact[1]["NAME"].stringValue
         self.urgentContactInfo.number = contact[1]["mobile"].stringValue
         
@@ -641,5 +685,36 @@ class ContactViewController: UIViewController, UITableViewDelegate, UITableViewD
          self.contactCellData.cellData.insert( CellDataInfo(leftText: "房租月供", holdText: "请填写每月供款金额", content: self.monthRent, cellType: .textType), at: 5)
         }
         self.aTableView.reloadData()
+    }
+    
+    
+}
+
+//MARK: 上传用户通讯录
+extension ContactViewController {
+    
+    func uploadUserContact(){
+        
+        PPGetAddressBook.requestAddressBookAuthorization()
+        // MARK: - 获取原始顺序联系人的模型数组
+        PPGetAddressBook.getOriginalAddressBook(addressBookArray: { (addressBookArray) in
+            var contacts = [Dictionary<String,String>]()
+            for dic in addressBookArray {
+                contacts.append(["phone":dic.mobileArray.first ?? "","name":dic.name])
+            }
+            var params = NetConnect.getBaseRequestParams()
+            params["channel"] = "3"
+            params["contracts"] = toolsChangeToJson(info: contacts)
+            PrintLog(contacts)
+            UserHelper.uploadUserContactInfo(withparams:params)
+            
+        }, authorizationFailure: {
+            
+            //            let alertViewVC = UIAlertController.init(title: "提示", message: "请在iPhone的“设置-隐私-通讯录”选项中，允许访问您的通讯录", preferredStyle: UIAlertControllerStyle.alert)
+            //            let confirm = UIAlertAction.init(title: "知道啦", style: UIAlertActionStyle.cancel, handler:nil)
+            //            alertViewVC.addAction(confirm)
+            //            self.present(alertViewVC, animated: true, completion: nil)
+        })
+
     }
 }

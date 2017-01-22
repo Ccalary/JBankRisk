@@ -11,7 +11,6 @@ import SnapKit
 import SwiftyJSON
 import Alamofire
 import MJRefresh
-import KMCGeigerCounter
 
 let homeCellID = "HomeTableViewCell"
 
@@ -20,11 +19,18 @@ class HomeViewController: UIViewController, UIGestureRecognizerDelegate{
     var bannerView: CyclePictureView! //图片轮播
     var imageArray:[String]? = [""] //储存所有照片
     
+    //汇款信息
+    var alertInfo:JSON?
+    
     //cell数据
     var cellDataArray: [Dictionary<String,String>]? = [["":""],["":""],["":""]]
 
     //判断进行到哪一步
     var flagIndex = 0
+    //目前的步数
+    var currentStep = 0
+    //最新产品的orderId
+    var orderId = ""
     
     //还款状态判断
     var mJstatus = ""
@@ -46,9 +52,6 @@ class HomeViewController: UIViewController, UIGestureRecognizerDelegate{
         
         //添加HUD
         self.showHud(in: self.view)
-        
-        //H 测试  监测卡顿问题
-//        KMCGeigerCounter.shared().isEnabled = true
 
     }
     override func viewWillAppear(_ animated: Bool) {
@@ -131,8 +134,15 @@ class HomeViewController: UIViewController, UIGestureRecognizerDelegate{
                 }
                 //第一个为1，依次类推
                 self.flagIndex = json["flag"].intValue
+                self.currentStep = self.flagIndex
                 //还款状态
                 self.mJstatus = json["jstatus"].stringValue
+                //最新一单的id
+                self.orderId = json["orderId"].stringValue
+                
+                //7日内有回款（一天只弹出一次）
+                self.alertInfo = json["alertMap"]
+                self.showTips()
                 
                 if UserHelper.getUserId() != nil {
                     
@@ -168,6 +178,7 @@ class HomeViewController: UIViewController, UIGestureRecognizerDelegate{
     //老用户判断进程
     func getTheUploadProgree(flag: String, userType: String){
         //flag 进度  1－ 2- 3- 4- 5-   9完成
+        
         if flag == "2"{
             UserHelper.setIdentity(isUpload: true)
         }else if flag == "3"{
@@ -185,15 +196,35 @@ class HomeViewController: UIViewController, UIGestureRecognizerDelegate{
             self.setUpload(with: userType)
             
         }else if flag == "9" {
-            UserHelper.setIdentity(isUpload: true)
-            UserHelper.setProduct(isUpload: true)
-            self.setUpload(with: userType)
-            UserHelper.setContact(isUpload: true)
-            UserHelper.setData(isUpload: true)
-            UserHelper.setAllFinishIsUpload(isUpload: true)
+             //如果第一单进入还款中，则清空录入信息(只保留身份信息)
+            if self.mJstatus == "5" {
+                self.currentStep = 2
+                UserHelper.setIdentity(isUpload: true)
+                UserHelper.setProduct(isUpload: false)
+                UserHelper.setSchool(isUpload: false)
+                UserHelper.setWork(isUpload: false)
+                UserHelper.setIncome(isUpload: false)
+                UserHelper.setContact(isUpload: false)
+                UserHelper.setData(isUpload: false)
+                UserHelper.setAllFinishIsUpload(isUpload: false)
+                
+            }else if self.mJstatus == "99" { //录入中
+                UserHelper.setIdentity(isUpload: true)
+                UserHelper.setProduct(isUpload: true)
+                self.setUpload(with: userType)
+                UserHelper.setContact(isUpload: true)
+                UserHelper.setData(isUpload: false)
+                UserHelper.setAllFinishIsUpload(isUpload: false)
+            }else {
+                UserHelper.setIdentity(isUpload: true)
+                UserHelper.setProduct(isUpload: true)
+                self.setUpload(with: userType)
+                UserHelper.setContact(isUpload: true)
+                UserHelper.setData(isUpload: true)
+                UserHelper.setAllFinishIsUpload(isUpload: true)
+            }
         }
     }
-    
     //进度弹窗
     func borrowStatusNotice(){
         
@@ -302,7 +333,7 @@ extension HomeViewController: UITableViewDelegate, UITableViewDataSource,CyclePi
                 return
         }
             let borrowMoneyVC = BorrowMoneyViewController()
-            borrowMoneyVC.currentIndex = self.flagIndex - 1 
+            borrowMoneyVC.currentIndex = self.currentStep - 1
             self.navigationController?.pushViewController(borrowMoneyVC, animated: false)
             
         case 1:
@@ -311,45 +342,26 @@ extension HomeViewController: UITableViewDelegate, UITableViewDataSource,CyclePi
                 self.navigationController?.pushViewController(loginVC, animated: true)
                 return
             }
-            let repayDetailVC = BorrowStatusVC()
-            //9 为不加载缺省页
-            if self.flagIndex == 9 {
-                repayDetailVC.isHaveData = true
+            let borrowStatusVC = BorrowStatusVC()
+            borrowStatusVC.orderId = self.orderId
+            
+            //99 为录入中 加载缺省页
+            if self.mJstatus == "99" || self.mJstatus.isEmpty {
+                borrowStatusVC.isHaveData = false
             }else {
-                repayDetailVC.isHaveData = false
+                borrowStatusVC.isHaveData = true
             }
-            self.navigationController?.pushViewController(repayDetailVC, animated: true)
+            self.navigationController?.pushViewController(borrowStatusVC, animated: true)
         case 2:
             
-          let popupView = PopupLogoutView()
-          popupView.content = ("温馨提示","为了保障您的权益与服务，请\n签署电子合同","缓一缓","去签署")
-          let popupController = CNPPopupController(contents: [popupView])!
-          popupController.present(animated: true)
-
-          popupView.onClickCancle = {
-             popupController.dismiss(animated: true)
-          }
+            guard UserHelper.isLogin() else {
+                let loginVC = LoginViewController()
+                self.navigationController?.pushViewController(loginVC, animated: true)
+                return
+            }
             
-          popupView.onClickSure = {[unowned self] in
-             popupController.dismiss(animated: true)
-             self.requestContractSign()
-          }
-            
-          
-//            guard UserHelper.isLogin() else {
-//                let loginVC = LoginViewController()
-//                self.navigationController?.pushViewController(loginVC, animated: true)
-//                return
-//            }
-//            
-//               let repayDetailVC = RepayBillViewController()
-//               // 5-还款中 0-已完结
-//                if mJstatus == "5" || mJstatus == "0"{
-//                    repayDetailVC.isHaveData = true
-//                }else {
-//                    repayDetailVC.isHaveData = false
-//                }
-//                self.navigationController?.pushViewController(repayDetailVC, animated: true)
+               let repayDetailVC = RepayBillViewController()
+                self.navigationController?.pushViewController(repayDetailVC, animated: true)
         default:
             break
         }
@@ -412,25 +424,26 @@ extension HomeViewController: UITableViewDelegate, UITableViewDataSource,CyclePi
         //        self.navigationController?.pushViewController(bannerUrlVC, animated: false
         //        )
     }
+}
+
+extension HomeViewController {
     
-    //H 测试
-    func requestContractSign(){
+    //弹出窗口（如果有的话一天只一次）
+    func showTips(){
         
-        var params = NetConnect.getBaseRequestParams()
-        params["orderId"] = "8112121620797"
-        
-        NetConnect.other_contract_sign(parameters: params, success:
-            { response in
-                let json = JSON(response)
-                guard json["RET_CODE"] == "000000" else{
-                    return self.showHint(in: self.view, hint: json["RET_DESC"].stringValue)
-                }
-                YHTSdk.setToken(json["backInfo"]["TOKEN"].stringValue)
-                let YHTVC = YHTContractContentViewController.instance(withContractID: json["backInfo"]["contractId"].numberValue)
-                self.navigationController?.pushViewController(YHTVC!, animated: true)
+        if let alertInfo = self.alertInfo {
+            if !alertInfo.isEmpty && UserHelper.getRepayNoticeCanShow() {
                 
-        }, failure: {error in
-            
-        })
+                let popupView =  PopupRepaymentTipView()
+                let popupController = CNPPopupController(contents: [popupView])!
+                popupView.dicInfo = alertInfo
+                popupController.present(animated: true)
+                popupView.onClickSure = { _ in
+                    popupController.dismiss(animated: true)
+                }
+                //保存弹出时间
+                UserHelper.setRepayNoticeTime()
+            }
+        }
     }
 }

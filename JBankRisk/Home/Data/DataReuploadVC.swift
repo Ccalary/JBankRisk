@@ -421,8 +421,20 @@ extension DataReuploadVC {
     //MARK: - 补交附件
     func reuploadPhoto(){
         
-        guard photoArray.count >= 2 else {
-            self.showHint(in: self.view, hint: "最少上传两张照片")
+//        //每条信息至少上传一张照片
+//        for i in 0..<numArray.count {
+//            if dataCellArray.cellData[i].holdText.contains("选填") {
+//                break
+//            }else {
+//                if numArray[i] == 0 {
+//                    self.showHint(in: self.view, hint: "每条信息至少上传一张照片")
+//                    return
+//                }
+//            }
+//        }
+        
+        guard photoArray.count > 0 else {
+            self.showHint(in: self.view, hint: "至少上传一张照片")
             return
         }
         

@@ -7,20 +7,55 @@
 //
 
 import UIKit
+import SwiftyJSON
 
 class RepayTipsViewController: UIViewController {
 
+    enum RepayResult{
+        case success
+        case fail
+    }
+    
+    //支付结果
+    var repayResult: RepayResult = .success
+
+    //支付信息
+    var repayInfo:(amount: String, way: String, repaymentId: String) = ("", "", "")
+    
     override func viewDidLoad() {
         super.viewDidLoad()
+        //借款流程返回通知
+        NotificationCenter.default.addObserver(self, selector: #selector(borrowAgainAction), name: NSNotification.Name(rawValue: noticeBorrowAgainAction), object: nil)
+        
         self.setupUI()
+        
+        switch repayResult {
+        case .success:
+            statusImageView.image = UIImage(named: "repay_success_20x20")
+            statusTextLabel.text = "还款成功"
+            statusTextLabel.textColor = UIColorHex("3dc133")
+            tipsTextLabel.text = "再借一笔，下款更快，额度也可能更高呦～"
+            nextStepBtn.setTitle("再借一笔", for: UIControlState.normal)
+            repayWayLabel.text = "还款方式：\(repayInfo.way)"
+            self.requestSuccessData()
+        case .fail:
+            statusImageView.image = UIImage(named: "repay_fail_20x20")
+            statusTextLabel.text = "还款失败"
+            statusTextLabel.textColor = UIColorHex("ff3900")
+            tipsTextLabel.text = "出了点意外，再试试吧！"
+            nextStepBtn.setTitle("再试试", for: UIControlState.normal)
+            moneyLabel.text = "¥\(repayInfo.amount)"
+            repayWayLabel.text = "还款方式：\(repayInfo.way)"
+            repayTimeLabel.text = "还款时间：\(toolsChangeCurrentDateStyle())"
+        }
+    }
+    
+    deinit {
+        NotificationCenter.default.removeObserver(self)
     }
 
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
-    }
-
-    deinit {
-        PrintLog("deinit")
     }
     
     func setupUI(){
@@ -29,6 +64,8 @@ class RepayTipsViewController: UIViewController {
         
         self.title = "还款"
         self.view.backgroundColor = defaultBackgroundColor
+          self.navigationItem.leftBarButtonItem = UIBarButtonItem(image: UIImage(named:"navigation_left_back_13x21"), style: .plain, target: self, action: #selector(leftNavigationBarBtnAction))
+        
         self.navigationItem.rightBarButtonItem = UIBarButtonItem(title: "关闭", style: UIBarButtonItemStyle.plain, target: self, action: #selector(rightNavigationBarBtnAction))
         self.navigationItem.rightBarButtonItem?.tintColor = UIColorHex("666666")
         
@@ -119,7 +156,6 @@ class RepayTipsViewController: UIViewController {
     //图片
     private lazy var statusImageView: UIImageView = {
         let imageView = UIImageView()
-        imageView.image = UIImage(named: "repay_success_20x20")
         return imageView
     }()
     
@@ -127,8 +163,6 @@ class RepayTipsViewController: UIViewController {
         let label = UILabel()
         label.font = UIFontSize(size: 15*UIRate)
         label.textAlignment = .center
-        label.textColor = UIColorHex("3dc133")
-        label.text = "还款成功"
         return label
     }()
 
@@ -174,25 +208,23 @@ class RepayTipsViewController: UIViewController {
         label.font = UIFontBoldSize(size: 20*UIRate)
         label.textAlignment = .center
         label.textColor = UIColorHex("666666")
-        label.text = "¥1000.00"
+        label.text = "¥0.00"
         return label
     }()
 
     private lazy var repayWayLabel: UILabel = {
         let label = UILabel()
         label.font = UIFontSize(size: 15*UIRate)
-        label.textAlignment = .center
         label.textColor = UIColorHex("c5c5c5")
-        label.text = "还款方式：微信支付"
+        label.text = "还款方式："
         return label
     }()
 
     private lazy var repayTimeLabel: UILabel = {
         let label = UILabel()
         label.font = UIFontSize(size: 15*UIRate)
-        label.textAlignment = .center
         label.textColor = UIColorHex("c5c5c5")
-        label.text = "还款时间：2016-8-12 14:20:20"
+        label.text = "还款时间："
         return label
     }()
 
@@ -201,7 +233,6 @@ class RepayTipsViewController: UIViewController {
         label.font = UIFontSize(size: 13*UIRate)
         label.textAlignment = .center
         label.textColor = UIColorHex("666666")
-        label.text = "再借一笔，下款更快，额度也可能更高呦～"
         return label
     }()
 
@@ -209,19 +240,66 @@ class RepayTipsViewController: UIViewController {
     private lazy var nextStepBtn: UIButton = {
         let button = UIButton()
         button.setBackgroundImage(UIImage(named: "login_btn_red_345x44"), for: .normal)
-        button.setTitle("再借一笔", for: UIControlState.normal)
         button.titleLabel?.font = UIFontSize(size: 18*UIRate)
         button.addTarget(self, action: #selector(nextStepBtnAction), for: .touchUpInside)
         return button
     }()
+    //返回键
+    func leftNavigationBarBtnAction(){
+        
+        let vcCount = self.navigationController?.viewControllers.count
+        
+       _ = self.navigationController?.popToViewController((self.navigationController?.viewControllers[vcCount! - 3])!, animated: true)
+    }
     
     //关闭
     func rightNavigationBarBtnAction(){
         
+      _ = self.navigationController?.popToViewController((self.navigationController?.viewControllers[1])!, animated: true)
     }
-    
     
     func nextStepBtnAction(){
-        
+        switch repayResult {
+        case .success:
+
+            let borrowMoneyVC = BorrowMoneyViewController()
+            borrowMoneyVC.currentIndex = 0
+            self.navigationController?.pushViewController(borrowMoneyVC, animated: false)
+            
+        case .fail:
+            _ = self.navigationController?.popViewController(animated: true)
+            NotificationCenter.default.post(name: NSNotification.Name(rawValue: noticeRepayFailAndTryAgain), object: self)
+        }
     }
+    
+    //MARK: Notice
+    func borrowAgainAction(){
+       _ = self.navigationController?.popToRootViewController(animated: false)
+    }
+    
+    //MARK: - 请求成功的数据
+    func requestSuccessData(){
+        //添加HUD
+        self.showHud(in: self.view, hint: "加载中...")
+        
+        var params = NetConnect.getBaseRequestParams()
+        params["repayment_id"] = repayInfo.repaymentId
+        
+        NetConnect.pc_repay_success_result(parameters: params, success: { response in
+            //隐藏HUD
+            self.hideHud()
+            let json = JSON(response)
+            guard json["RET_CODE"] == "000000" else{
+                return self.showHint(in: self.view, hint: json["RET_DESC"].stringValue)
+            }
+            
+            self.moneyLabel.text = "¥\(toolsChangeMoneyStyle(amount: json["payInfo"]["real_pay"].doubleValue))"
+            self.repayTimeLabel.text = "还款时间：\(toolsChangeDataStyle(toFullStyle: json["payInfo"]["back_stamp"].stringValue))"
+            
+        }, failure:{ error in
+            //隐藏HUD
+            self.hideHud()
+        })
+    }
+    
 }

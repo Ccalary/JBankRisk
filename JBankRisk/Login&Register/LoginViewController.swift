@@ -59,7 +59,7 @@ class LoginViewController: UIViewController {
             //左侧返回按钮
             self.navigationItem.leftBarButtonItem = UIBarButtonItem(image: UIImage(named:"navigation_left_back_13x21"), style: .plain, target: self, action: #selector(navigationBack))
             
-            NotificationCenter.default.addObserver(self, selector: #selector(LoginSuccessAction), name: NSNotification.Name(rawValue: NotificationLoginSuccess), object: nil)
+            NotificationCenter.default.addObserver(self, selector: #selector(LoginSuccessAction), name: NSNotification.Name(rawValue: notificationLoginSuccess), object: nil)
         }
         
         self.setNavUI()

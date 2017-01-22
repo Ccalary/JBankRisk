@@ -13,6 +13,9 @@ import MJRefresh
 
 class MineViewController: UIViewController, UIGestureRecognizerDelegate,UICollectionViewDelegate,UICollectionViewDataSource, UICollectionViewDelegateFlowLayout, StatusButtonClickDelegate,MineTioViewClickDelegate{
 
+    //是否有单子产生了
+    var isHaveBill = false
+    
     var topHeight:CGFloat = 0//总高度
     
     var topImageHeight = 220*UIRate//头部
@@ -209,24 +212,20 @@ class MineViewController: UIViewController, UIGestureRecognizerDelegate,UICollec
             self.navigationController?.pushViewController(borrowRecordVC, animated: true)
         case 1://还款账单
             let repayVC = RepayBillViewController()
-            //5-还款中 0-已完结
-            if moneyStatus == "5" || moneyStatus == "0" {
-                repayVC.isHaveData = true
-            }else {
-                repayVC.isHaveData = false
-            }
             self.navigationController?.pushViewController(repayVC, animated: true)
         case 2://还款明细
             let repayDetailVC = RepayListViewController()
-            if moneyStatus == "5" || moneyStatus == "0" {
-                repayDetailVC.isHaveData = true
-            }else {
-                repayDetailVC.isHaveData = false
-            }
+            repayDetailVC.isHaveData = isHaveBill
             self.navigationController?.pushViewController(repayDetailVC, animated: true)
         case 3://提前还款
-            let repayBillVC = RepayBillSelectVC()
-            self.navigationController?.pushViewController(repayBillVC, animated: true)
+            
+            if isHaveBill {
+                let repayBillVC = RepayBillSelectVC()
+                self.navigationController?.pushViewController(repayBillVC, animated: true)
+            }else {
+                 self.navigationController?.pushViewController(NoNeedRepayVC(), animated: true)
+            }
+            
         default:
             break
         }
@@ -272,9 +271,11 @@ class MineViewController: UIViewController, UIGestureRecognizerDelegate,UICollec
             let settingVC = SettingViewController()
             self.navigationController?.pushViewController(settingVC, animated: true)
         case 40000://逾期
-            let repayDetailVC = RepayDetailViewController()
-            repayDetailVC.orderId = self.orderId
-            self.navigationController?.pushViewController(repayDetailVC, animated: true)
+            //暂时关闭  H 测试
+//            let repayDetailVC = RepayDetailViewController()
+//            repayDetailVC.orderId = self.orderId
+//            self.navigationController?.pushViewController(repayDetailVC, animated: true)
+            break
         default:
             break
         }
@@ -315,7 +316,6 @@ class MineViewController: UIViewController, UIGestureRecognizerDelegate,UICollec
                 //大于2单还款中则加载还款账单
                 if statusNumber.repaying > 1 {
                     let repayVC = RepayBillViewController()
-                    repayVC.isHaveData = true
                     self.navigationController?.pushViewController(repayVC, animated: true)
                 }else {
                     let statusVC = BorrowStatusVC()
@@ -404,12 +404,10 @@ class MineViewController: UIViewController, UIGestureRecognizerDelegate,UICollec
         //未读消息
         self.messageCount = json["num"].intValue
         
-        //H 未完成
         //有逾期话术
         let message = json["message"].stringValue
         if  message.characters.count > 0 {
             self.mineTopView.overdueBtn.isHidden = false
-            self.orderId = json["orderId"].stringValue
             self.mineTopView.tipsTextLabel.text = message
             self.mineTopView.tipsHoldViewContraint.update(offset: tipViewHeight)
             topHeight = topHeight + tipViewHeight
@@ -452,7 +450,8 @@ class MineViewController: UIViewController, UIGestureRecognizerDelegate,UICollec
         //数字显示全置为0
         statusNumber = (0, 0, 0, 0)
         messageIsHaveData = false
-        for (_,dic) in listArray.enumerated() {
+        isHaveBill = false
+        for dic in listArray {
             moneyStatus = dic["jstatus"].stringValue//个人中心借款状态
             orderId = dic["orderId"].stringValue
             
@@ -461,6 +460,9 @@ class MineViewController: UIViewController, UIGestureRecognizerDelegate,UICollec
                 messageIsHaveData = true
                 //0- 订单完结 2－ 审核中 3-满额通过 4-等待放款，校验中 5-还款中 7－审核悲剧 8-重新上传服务单 9-补交材料 99-录入中
                 switch moneyStatus {
+                    
+                case "0": //订单完结
+                    isHaveBill = true
                 case "2": //审核中
                     statusNumber.examing += 1
                     statusOrderId.examing = orderId
@@ -472,6 +474,7 @@ class MineViewController: UIViewController, UIGestureRecognizerDelegate,UICollec
                     headerView.tipImage2.isHidden = false
                     headerView.tipTextLabel2.text = "\(statusNumber.waiting)"
                 case "5"://还款中
+                    isHaveBill = true
                     statusNumber.repaying += 1
                     statusOrderId.repaying = orderId
                     headerView.tipImage3.isHidden = false
@@ -499,7 +502,6 @@ class MineViewController: UIViewController, UIGestureRecognizerDelegate,UICollec
         if statusNumber.rejust == 0 {
             headerView.tipImage4.isHidden = true
         }
-
     }
 }
 
@@ -517,5 +519,4 @@ extension MineViewController {
         self.momAnimation.isRemovedOnCompletion = false
         self.mineTopView.messageBtn.layer.add(momAnimation, forKey: "centerLayer")
     }
-    
  }

@@ -536,6 +536,18 @@ extension DataViewController {
             return
         }
         
+        //每条信息至少上传一张照片
+        for i in 0..<numArray.count {
+            if dataArray[i].holdText.contains("选填") {
+                break
+            }else {
+                if numArray[i] == 0 {
+                    self.showHint(in: self.view, hint: "每条信息至少上传一张照片")
+                    return
+                }
+            }
+        }
+        
             let popupView = PopupSubmitTipsView()
             let popupController = CNPPopupController(contents: [popupView])!
             popupController.present(animated: true)
@@ -550,17 +562,6 @@ extension DataViewController {
     
     //MARK: - 照片上传
     func uploadPhoto(){
-        
-        //是否已生成订单
-        guard !UserHelper.getAllFinishIsUpload() else {
-            self.showHint(in: self.view, hint: "订单已生成，信息不可更改哦！")
-            return
-        }
-        
-        guard photoArray.count >= 2 else {
-            self.showHint(in: self.view, hint: "最少上传两张照片")
-            return
-        }
         
         //添加HUD
         self.showHud(in: self.view, hint:"上传中...")

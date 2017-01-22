@@ -9,15 +9,23 @@
 import UIKit
 import SwiftyJSON
 
-class RepayedNameView: UIView , UITableViewDataSource, UITableViewDelegate{
-
-    var dataArray:[JSON] = []{
-        didSet{
-            self.aTableView.reloadData()
+class RepayedNameView: UIView, UITableViewDataSource, UITableViewDelegate{
+    
+        var repayNameData: [OrdersModel] = [] {
+           didSet{
+              self.aTableView.reloadData()
+          }
+       }
+    
+        //默认标题为“全部纪录”
+        var titleText = "全部纪录" {
+            didSet{
+                self.aTableView.reloadData()
+            }
         }
-    }
+        
         var onClickCell:((_ title: String,_ nameId: String)->())?
-        //选中的cell
+            //选中的cell
         var selectCell: Int = 0
         
         override init(frame: CGRect ) {
@@ -55,7 +63,6 @@ class RepayedNameView: UIView , UITableViewDataSource, UITableViewDelegate{
             let tableView = UITableView()
             tableView.delegate = self
             tableView.dataSource = self
-            tableView.isScrollEnabled = false
             tableView.tableFooterView = UIView()
             tableView.register(RepayDetailTableViewCell.self, forCellReuseIdentifier: "CellID")
             
@@ -76,7 +83,7 @@ class RepayedNameView: UIView , UITableViewDataSource, UITableViewDelegate{
         }
         
         func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-            return  dataArray.count + 1
+            return  repayNameData.count + 1
         }
         
         func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
@@ -85,9 +92,9 @@ class RepayedNameView: UIView , UITableViewDataSource, UITableViewDelegate{
             cell.arrowImageView.isHidden = true
             
             if indexPath.row == 0 {
-                cell.textLabel?.text = "全部纪录"
+                cell.textLabel?.text = titleText
             }else {
-                cell.textLabel?.text = dataArray[indexPath.row - 1]["orderName"].stringValue
+                cell.textLabel?.text = repayNameData[indexPath.row - 1].orderName
             }
             
             if indexPath.row == selectCell {
@@ -106,9 +113,10 @@ class RepayedNameView: UIView , UITableViewDataSource, UITableViewDelegate{
             if let onClickCell = onClickCell {
                 
                 if indexPath.row == 0 {
-                    onClickCell("全部纪录", "")
+                    onClickCell(titleText, "")
                 }else {
-                    onClickCell(dataArray[indexPath.row - 1]["orderName"].stringValue, dataArray[indexPath.row - 1]["orderId"].stringValue)
+                    onClickCell(repayNameData[indexPath.row - 1].orderName,
+                               repayNameData[indexPath.row - 1].orderId)
                 }
             }
         }

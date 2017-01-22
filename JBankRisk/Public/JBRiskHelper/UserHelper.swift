@@ -277,6 +277,31 @@ class UserHelper {
         defaults.synchronize()
     }
     
+    /***********用户电子合同相关*************/
+    //最新产品id
+    static func getUserNewOrderId() -> String? {
+        let defaults = UserDefaults()
+        return defaults.object(forKey: "userOrderId\(self.getUserId())") as? String
+    }
+    
+    static func setUserNewOrderId(_ orderId: String){
+        let defaults = UserDefaults()
+        defaults.set(orderId, forKey: "userOrderId\(self.getUserId())")
+        defaults.synchronize()
+    }
+    
+    //合同是否签署完毕
+    static func getContractIsSigned() -> Bool {
+        let defaults = UserDefaults()
+        return (defaults.object(forKey: "ContractIsSigned\(self.getUserNewOrderId())") as? Bool) ?? false
+    }
+    
+    static func setContract(isSigned: Bool){
+        let defaults = UserDefaults()
+        defaults.set(isSigned, forKey: "ContractIsSigned\(self.getUserNewOrderId())")
+        defaults.synchronize()
+    }
+
     /*************个人中心***************/
     //MARK:个人中心
     //用户头像地址
@@ -290,8 +315,56 @@ class UserHelper {
         defaults.set(headerUrl, forKey: "userHeaderUrl\(self.getUserId())")
         defaults.synchronize()
     }
-
     
+    /**************上传用户通讯录******************/
+    //用户通讯录是否上传
+    static func getContactListIsUpload() -> Bool {
+        let defaults = UserDefaults()
+        return (defaults.object(forKey: "ContactListIsUpLoad\(self.getUserId())") as? Bool) ?? false
+    }
     
+    static func setContactList(isUpload: Bool){
+        let defaults = UserDefaults()
+        defaults.set(isUpload, forKey: "ContactListIsUpLoad\(self.getUserId())")
+        defaults.synchronize()
+    }
+    
+    //MARK:上传用户通讯录
+    static func uploadUserContactInfo(withparams params:[String:Any]){
+        
+        NetConnect.other_upload_contact_list(parameters: params, success: { response in
+            let json = JSON(response)
+            guard json["RET_CODE"] == "000000" else{
+                return
+            }
+            //已上传
+            UserHelper.setContactList(isUpload: true)
+            PrintLog("通讯录上传成功")
+            
+        }, failure:{ error in
+           PrintLog("通讯录上传失败")
+        })
+    }
+    
+    /**********七日内有还款一天显示一次***********/
+    //获取今天日期
+    static func getTodayTime() -> String{
+        let dateFormat = DateFormatter()
+        dateFormat.dateFormat = "yyyy.MM.dd"
+        
+        return dateFormat.string(from: Date())
+    }
+    
+    static func getRepayNoticeCanShow() -> Bool {
+        let defaults = UserDefaults()
+        let dateStr = defaults.object(forKey: "repayNotice\(self.getUserId())") as? String
+        return dateStr == getTodayTime() ? false : true //判断时间是否相同
+    }
+    
+    static func setRepayNoticeTime(){
+        let defaults = UserDefaults()
+        defaults.set(getTodayTime(), forKey: "repayNotice\(self.getUserId())")
+        defaults.synchronize()
+    }
 }
 

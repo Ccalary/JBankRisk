@@ -104,6 +104,43 @@ func toolsChangeDateStyle(toMMMonthDDDay string: String) -> String {
     return str
 }
 
+///当前时间信息
+func toolsChangeCurrentDateStyle() -> String{
+    
+    //获得当前时间，但是时间是格林威治时间
+    let currentDate = Date()  //当前时间：2016-12-07 10:00:58 +0000
+    //设置时间显示样式
+    let dateFormatter = DateFormatter()
+    dateFormatter.locale = Locale.current //设置时区，时间为当前系统时间
+    //输出样式
+    dateFormatter.dateFormat = "yyyy-MM-dd HH:mm:ss"
+    let stringDate = dateFormatter.string(from: currentDate) //转换后的当前时间：2016-12-07 18:00:58
+    
+    return stringDate
+}
+
+///日期处理--后台给的是全位数（20161112190000） -> 2016-11-12 19:00:00
+func toolsChangeDataStyle(toFullStyle string: String) -> String{
+    let dateFormat = DateFormatter()
+    dateFormat.dateFormat = "yyyyMMddHHmmss"
+    let date = dateFormat.date(from: string)
+    let dateMatt = DateFormatter()
+    dateMatt.dateFormat = "yyyy-MM-dd HH:mm:ss"
+    let str = dateMatt.string(from: date ?? Date())
+    return str
+}
+
+///日期处理--后台给的是全位数（20161112190000） -> 2016-11-12
+func toolsChangeDataStyle(toDateStyle string: String) -> String{
+    let dateFormat = DateFormatter()
+    dateFormat.dateFormat = "yyyyMMddHHmmss"
+    let date = dateFormat.date(from: string)
+    let dateMatt = DateFormatter()
+    dateMatt.dateFormat = "yyyy.MM.dd"
+    let str = dateMatt.string(from: date ?? Date())
+    return str
+}
+
 //获取ip地址
 func toolsGetIPAddresses() -> String {
     return OCTools.getIPAddress() as String
@@ -125,3 +162,5 @@ func toolsChangeToJson(info: Any) -> String{
        return ""
     }
 }
+
+

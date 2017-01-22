@@ -312,7 +312,7 @@ class BorrowRecordViewController: UIViewController,UITableViewDelegate, UITableV
     
     //刷新界面
     func refreshUI(json: JSON){
-        let money = json["amt"].doubleValue
+        let money = json["totalMoney"].doubleValue
         self.moneyLabel.text = toolsChangeMoneyStyle(amount: money)
         self.dataArray.removeAll()
         self.dataArray = json["orderList"].arrayValue

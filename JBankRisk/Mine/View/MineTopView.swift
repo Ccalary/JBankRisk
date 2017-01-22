@@ -21,7 +21,6 @@ class MineTopView: UIView {
     //本月待还
     var repayHoldViewContraint: Constraint!
     
-    
     var delegate: MineTioViewClickDelegate?
     
     override init(frame: CGRect ) {
@@ -105,42 +104,41 @@ class MineTopView: UIView {
 
     
         sayHelloTextLabel.snp.makeConstraints { (make) in
-        make.bottom.equalTo(topImageView.snp.bottom).offset(-30*UIRate)
-        make.centerX.equalTo(self)
+            make.bottom.equalTo(topImageView.snp.bottom).offset(-30*UIRate)
+            make.centerX.equalTo(self)
         }
         
         /********/
         tipsHoldView.snp.makeConstraints { (make) in
-        make.width.equalTo(self)
-        self.tipsHoldViewContraint = make.height.equalTo(25*UIRate).constraint
-        make.centerX.equalTo(self)
-        make.top.equalTo(topImageView.snp.bottom)
+            make.width.equalTo(self)
+            self.tipsHoldViewContraint = make.height.equalTo(25*UIRate).constraint
+            make.centerX.equalTo(self)
+            make.top.equalTo(topImageView.snp.bottom)
         }
         
         tipsTextLabel.snp.makeConstraints { (make) in
-        make.centerX.equalTo(self)
-        make.centerY.equalTo(tipsHoldView)
+            make.centerX.equalTo(self)
+            make.centerY.equalTo(tipsHoldView)
         }
     
        overdueBtn.snp.makeConstraints { (make) in
-        make.size.equalTo(tipsHoldView)
-        make.center.equalTo(tipsHoldView)
+            make.size.equalTo(tipsHoldView)
+            make.center.equalTo(tipsHoldView)
     }
-
     
         /*********/
         repayHoldView.snp.makeConstraints { (make) in
-        make.width.equalTo(self)
-        self.repayHoldViewContraint = make.height.equalTo(70*UIRate).constraint
-        make.centerX.equalTo(self)
-        make.top.equalTo(tipsHoldView.snp.bottom)
+            make.width.equalTo(self)
+            self.repayHoldViewContraint = make.height.equalTo(70*UIRate).constraint
+            make.centerX.equalTo(self)
+            make.top.equalTo(tipsHoldView.snp.bottom)
         }
         
         repayDivideLine.snp.makeConstraints { (make) in
-        make.width.equalTo(self)
-        make.height.equalTo(0.5*UIRate)
-        make.centerX.equalTo(repayHoldView)
-        make.top.equalTo(60*UIRate)
+            make.width.equalTo(self)
+            make.height.equalTo(0.5*UIRate)
+            make.centerX.equalTo(repayHoldView)
+            make.top.equalTo(60*UIRate)
         }
         
         repayDivideLine2.snp.makeConstraints { (make) in

@@ -38,7 +38,7 @@ class RepayPeriodDetailView: UIView, UITableViewDelegate, UITableViewDataSource 
         self.viewType = viewType
         switch self.viewType {
         case .finish:
-            cellNum = 2
+            cellNum = 3
         case .overdue:
             cellNum = 5
         case .advance:

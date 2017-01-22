@@ -11,7 +11,7 @@ let LOCAL = "http://192.168.1.76:8080" //本地
 let ONLINE = "http://106.38.109.11:8081" //线上
 let PRODUCT = "http://123.57.66.164:11569"//生产
 
-let BASR_DEV_URL = LOCAL
+let BASR_DEV_URL = ONLINE
 
 /*************注册登录模块(RL)*************/
 
@@ -132,6 +132,10 @@ let PC_REPAY_AMOUNT = BASR_DEV_URL + "/jinangk.xhtml?TX_CODE=900090"
 
 ///3.13发起支付请求
 let PC_REPAY_REQUEST = BASR_DEV_URL + "/jinangk.xhtml?TX_CODE=900099"
+
+///3.14支付成功回调结果
+let PC_REPAY_SUCCESS_RESULT = BASR_DEV_URL + "/jinangk.xhtml?TX_CODE=900091"
+
 /****************其他(other)******************/
 ///4.1修改密码
 let OT_CHANGE_PSD_URL = BASR_DEV_URL + "/jinangk.xhtml?TX_CODE=490385"
@@ -147,3 +151,10 @@ let OT_CONTRACT_SIGN_URL = BASR_DEV_URL + "/jinangk.xhtml?TX_CODE=999111"
 
 ///4.5合同查询
 let OT_CONTRACT_SEARCH_URL = BASR_DEV_URL + "/jinangk.xhtml?TX_CODE=900002"
+
+///4.6合同列表
+let OT_CONTRACT_LIST = BASR_DEV_URL + "/jinangk.xhtml?TX_CODE=999113"
+
+///4.7上传用户通讯录
+let OT_UPLOAD_CONTACT_LIST = BASR_DEV_URL + "/jinangk.xhtml?TX_CODE=900005"
+

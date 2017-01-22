@@ -18,7 +18,8 @@ import UIKit
     let workExpData = ["无经验","一年以内","1-3年","3-5年","5-10年","10年以上"]
     let liveTimeData = ["3个月内","6个月内","1年","3年","3年以上"]
     let incomePayWayData = ["打卡","现金"]
-    let marryData = ["未婚","已婚"]
+    let marryData = ["未婚","已婚","其他"]
+    let linkmanData = ["亲戚", "朋友", "同学", "同事", "配偶"] //从3开始
 
 class PopupStaticSelectView: UIView, UITableViewDelegate, UITableViewDataSource {
 
@@ -34,6 +35,7 @@ class PopupStaticSelectView: UIView, UITableViewDelegate, UITableViewDataSource 
         case liveTime = "居住时间"
         case incomePayWay = "结算方式"
         case marry = "婚姻状况"
+        case linkman = "联系人关系"
     }
     
     var dataArray = [""]
@@ -77,6 +79,8 @@ class PopupStaticSelectView: UIView, UITableViewDelegate, UITableViewDataSource 
             dataArray = incomePayWayData
         case .marry:
             dataArray = marryData
+        case .linkman:
+            dataArray = linkmanData
         }
         self.frame = CGRect(x: 0, y: 0, width: SCREEN_WIDTH - 40*UIRate, height: 50*UIRate + 5*45*UIRate)
         

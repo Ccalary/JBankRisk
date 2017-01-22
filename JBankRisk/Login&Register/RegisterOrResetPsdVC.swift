@@ -435,7 +435,7 @@ class RegisterOrResetPsdVC: UIViewController {
                     }
                     UserHelper.setLoginInfo(dic: json)
                     if !self.isPush{
-                        NotificationCenter.default.post(name: NSNotification.Name(rawValue: NotificationLoginSuccess), object: self)
+                        NotificationCenter.default.post(name: NSNotification.Name(rawValue: notificationLoginSuccess), object: self)
                     }
                     _ = self.navigationController?.popToRootViewController(animated: true)
                     self.showHintInKeywindow(hint: "注册并登录成功",yOffset: SCREEN_HEIGHT/2 - 100*UIRate)
@@ -459,7 +459,7 @@ class RegisterOrResetPsdVC: UIViewController {
                     }
                     UserHelper.setLoginInfo(dic: json)
                     if !self.isPush{
-                        NotificationCenter.default.post(name: NSNotification.Name(rawValue: NotificationLoginSuccess), object: self)
+                        NotificationCenter.default.post(name: NSNotification.Name(rawValue: notificationLoginSuccess), object: self)
                     }
                     _ = self.navigationController?.popToRootViewController(animated: true)
                     self.showHintInKeywindow(hint: "密码重置并登录成功",yOffset: SCREEN_HEIGHT/2 - 100*UIRate)

@@ -14,9 +14,9 @@ target ‘JBankRisk’ do
    pod 'MJRefresh'
    pod 'Pingpp/Alipay', '~> 2.2.10'
    pod 'Pingpp/Wx’, '~> 2.2.10'
-   pod 'KMCGeigerCounter'
-   pod 'MLeaksFinder'
    pod 'Bugly'
+   pod ’ObjectMapper', '~> 2.2'
+   pod 'AlamofireObjectMapper', '~> 4.0'
 
 post_install do |installer|
   installer.pods_project.targets.each do |target|

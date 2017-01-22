@@ -107,7 +107,6 @@ class IncomeViewController:  UIViewController,UITableViewDelegate, UITableViewDa
             tableView.layoutMargins = .zero
         }
         return tableView
-        
     }()
     
     //分割线
@@ -116,7 +115,6 @@ class IncomeViewController:  UIViewController,UITableViewDelegate, UITableViewDa
         lineView.backgroundColor = defaultDivideLineColor
         return lineView
     }()
-    
     
     //／按钮
     private lazy var nextStepBtn: UIButton = {
@@ -171,7 +169,6 @@ class IncomeViewController:  UIViewController,UITableViewDelegate, UITableViewDa
         default:
             break
         }
-        
         return cell
     }
     
@@ -205,7 +202,6 @@ class IncomeViewController:  UIViewController,UITableViewDelegate, UITableViewDa
         if cell.responds(to: #selector(setter: UITableViewCell.layoutMargins)) {
             cell.layoutMargins = .zero
         }
-    
     }
     
     //MARK: - Method
@@ -309,14 +305,12 @@ class IncomeViewController:  UIViewController,UITableViewDelegate, UITableViewDa
             guard json["RET_CODE"] == "000000" else{
                 return self.showHint(in: self.view, hint: json["RET_DESC"].stringValue)
             }
-            
+
             self.refreshUI(json: json)
-            
         }, failure:{ error in
             //隐藏HUD
             self.hideHud()
         })
-        
     }
     //填充信息
     func refreshUI(json: JSON){

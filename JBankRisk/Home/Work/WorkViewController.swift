@@ -323,6 +323,12 @@ class WorkViewController: UIViewController,UITableViewDelegate, UITableViewDataS
     }
     func nextStepBtnAction(){
         
+        //是否已生成订单
+        guard !UserHelper.getAllFinishIsUpload() else {
+            self.showHint(in: self.view, hint: "订单已生成，信息不可更改哦！")
+            return
+        }
+        
         guard self.unitName.characters.count > 0,
             self.companyTypeInfo.text.characters.count > 0,
             self.areaInfo.county.characters.count > 0,

@@ -210,29 +210,24 @@ class NeedRepayViewController: UIViewController,UITableViewDelegate, UITableView
         
         var monthRepayStatus: RepayStatusType = .finish
         //0-已支付 1-未支付 2-提前支付 3-逾期未支付 4-逾期已支付
-        let repayStatus = (dataArray[indexPath.row].dictionary?["is_pay"]?.stringValue)!
+        let repayStatus = dataArray[indexPath.row]["is_pay"].stringValue
         if repayStatus == "0" ||  repayStatus == "2" || repayStatus == "4"{
             monthRepayStatus = .finish
         }else { //有逾期
             
-            if let penaltyDay = dataArray[indexPath.row].dictionary?["penalty_day"]?.intValue {
+        let penaltyDay = dataArray[indexPath.row]["penalty_day"].intValue
                 
-                if penaltyDay > 0 {
-                    monthRepayStatus = .overdue
-                }else {
-                    monthRepayStatus = .not
-                }
-                
-            }else {
-                monthRepayStatus = .not
+        if penaltyDay > 0 {
+            monthRepayStatus = .overdue
+         }else {
+            monthRepayStatus = .not
         }
-    }
+       }
 
         let repayDetailVC = RepayPeriodDetailVC()
-        repayDetailVC.repaymentId = (dataArray[indexPath.row].dictionary?["repayment_id"]?.stringValue)!
+        repayDetailVC.repaymentId = dataArray[indexPath.row]["repayment_id"].stringValue
         repayDetailVC.repayStatusType = monthRepayStatus //还款状态
         self.navigationController?.pushViewController(repayDetailVC, animated: true)
-        
     }
     
     //设置分割线

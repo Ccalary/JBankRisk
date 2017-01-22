@@ -85,7 +85,7 @@ class BorrowRecordTableViewCell: UITableViewCell {
     ///还款账单月数据
     func cellWithMonthData(dic: JSON){
         leftTextLabel.text = dic["orderName"].stringValue
-        rightSecondTextLabel.text = dic["term"].stringValue
+        rightSecondTextLabel.text = "第\(dic["term"].stringValue)期"
     
         //0-已支付 1-未支付 2-提前支付 3-逾期未支付 4-逾期已支付
         let repayStatus = dic["is_pay"].stringValue

@@ -8,34 +8,93 @@
 
 import UIKit
 import SwiftyJSON
+import SnapKit
 
 private let cellIdentity = "cellID"
-class RepayBillSelectVC: UIViewController, UITableViewDelegate, UITableViewDataSource {
-
-    var selectArray: [Int] = [] {
-        didSet{
-            self.aTableView.reloadData()
-        }
-    }
+class RepayBillSelectVC: UIViewController, UITableViewDelegate, UITableViewDataSource, UIGestureRecognizerDelegate{
+    
+    //单期还款id
+    var periodInfo:(orderId: String, repaymentId: String) = ("","")
     
     var dataArray:[JSON] = []
     
     var selectInfo: [Dictionary<String,Any>] = []
     
+    //还款总额
+    var repayAmount = "0.00" {
+        didSet{
+          amountLabel.attributedText = changeTextColor(text: "将还款总额：\(repayAmount)元", color: UIColorHex("fb5c57"), range:NSRange(location: 6, length: repayAmount.characters.count))
+        }
+    }
+    
     //全选
     var isSelectAll = false
+    
+    
+    //产品名字
+    var nameArray: [JSON] = [] {
+        didSet{
+            self.selectView.dataArray = nameArray
+        }
+    }
+    
+    var orderId = ""
+    
+    //筛选的id
+    var filterOrderId = ""
+    //标题
+    var titleText = "" {
+        didSet{
+            self.titleTextLabel.text = titleText
+            navHoldView.navTextLabel.text = titleText
+        }
+    }
+    
+    //是否打开了下拉框
+    var isTransformed: Bool = false
+    var selectViewConstraint: Constraint?
     
     override func viewDidLoad() {
         super.viewDidLoad()
         setupUI()
-        requestData()
     }
 
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
-
     }
     
+    override func viewWillAppear(_ animated: Bool) {
+       
+        self.requestData()
+    }
+    
+    func setTitle(){
+        let titleView = UIView(frame: CGRect(x: 0, y: 0, width: 100*UIRate, height: 40))
+        
+        titleView.addSubview(self.titleTextLabel)
+        titleView.addSubview(titleButton)
+        titleView.addSubview(titleArrowImgView)
+        
+        
+        titleTextLabel.snp.makeConstraints { (make) in
+            make.centerX.equalTo(titleView)
+            make.centerY.equalTo(titleView)
+        }
+        
+        titleButton.snp.makeConstraints { (make) in
+            make.size.equalTo(titleView)
+            make.center.equalTo(titleView)
+        }
+        
+        titleArrowImgView.snp.makeConstraints { (make) in
+            make.width.height.equalTo(6*UIRate)
+            make.left.equalTo(titleTextLabel.snp.right).offset(2*UIRate)
+            make.centerY.equalTo(titleTextLabel)
+        }
+        
+        self.navigationItem.titleView = titleView
+    }
+
     //nav
     func setNavUI(){
         self.view.addSubview(navHoldView)
@@ -50,13 +109,16 @@ class RepayBillSelectVC: UIViewController, UITableViewDelegate, UITableViewDataS
     }
     
     func setupUI(){
-        self.navigationController!.navigationBar.isTranslucent = true;
-        self.automaticallyAdjustsScrollViewInsets = false;
-        self.title = "账单选择"
+        self.automaticallyAdjustsScrollViewInsets = false
+        self.title = "全部账单"
         self.view.backgroundColor = defaultBackgroundColor
         
         self.setNavUI()
-        
+        setupNormalUI()
+    }
+    
+    func setupNormalUI(){
+        self.setTitle()
         self.navigationItem.rightBarButtonItem = UIBarButtonItem(title: "全选", style: UIBarButtonItemStyle.plain, target: self, action: #selector(rightNavigationBarBtnAction))
         self.navigationItem.rightBarButtonItem?.tintColor = UIColorHex("00b2ff")
         
@@ -65,6 +127,29 @@ class RepayBillSelectVC: UIViewController, UITableViewDelegate, UITableViewDataS
         self.bottomHoldView.addSubview(amountLabel)
         self.bottomHoldView.addSubview(nextStepBtn)
         
+        self.view.addSubview(selectBgView)
+        self.view.addSubview(selectView)
+        
+        let aTap = UITapGestureRecognizer(target: self, action: #selector(tapViewAction))
+        aTap.numberOfTapsRequired = 1
+        aTap.delegate = self
+        selectBgView.addGestureRecognizer(aTap)
+        
+        selectBgView.snp.makeConstraints { (make) in
+            make.size.equalTo(self.view)
+            make.center.equalTo(self.view)
+        }
+        
+        selectView.snp.makeConstraints { (make) in
+            make.width.equalTo(self.view)
+            make.height.equalTo(180*UIRate)
+            make.centerX.equalTo(self.view)
+            self.selectViewConstraint = make.top.equalTo(-180*UIRate).constraint
+        }
+        selectView.titleText = "全部账单"
+        self.selectViewClick()
+    
+        /******************/
         aTableView.snp.makeConstraints { (make) in
             make.width.equalTo(SCREEN_WIDTH)
             make.height.equalTo(515*UIRate)
@@ -94,9 +179,75 @@ class RepayBillSelectVC: UIViewController, UITableViewDelegate, UITableViewDataS
         }
     }
     
+//    func setupDefaultUI(){
+//        self.view.addSubview(defaultView)
+//        defaultView.snp.makeConstraints { (make) in
+//            make.width.equalTo(self.view)
+//            make.height.equalTo(SCREEN_HEIGHT - 64)
+//            make.centerX.equalTo(self.view)
+//            make.top.equalTo(64)
+//        }
+//        
+//        //去申请回调
+//        defaultView.onClickApplyAction = {[unowned self] _ in
+//            if UserHelper.getUserRole() == nil {
+//                UserHelper.setUserRole(role: "白领")
+//            }
+//            let borrowMoneyVC = BorrowMoneyViewController()
+//            borrowMoneyVC.currentIndex = 0
+//            self.navigationController?.pushViewController(borrowMoneyVC, animated: false)
+//        }
+//    }
+    
+    //选择框
+    //title
+    private lazy var titleTextLabel: UILabel = {
+        let label = UILabel()
+        label.font = UIFontSize(size: 18)
+        label.textAlignment = .center
+        label.textColor = UIColorHex("666666")
+        label.text = "全部账单"
+        return label
+    }()
+    
+    //navigationBar图片
+    private lazy var titleArrowImgView: UIImageView = {
+        let imageView = UIImageView()
+        imageView.image = UIImage(named: "triangle_down_6x6")
+        return imageView
+    }()
+    
+    //／title按钮
+    private lazy var titleButton: UIButton = {
+        let button = UIButton()
+        button.addTarget(self, action: #selector(titleButtonAction), for: .touchUpInside)
+        return button
+    }()
+    
+    //下拉选择View
+    private lazy var selectView: RepayedSelectNameView = {
+        let selectView = RepayedSelectNameView()
+        selectView.titleText = "全部账单"
+        return selectView
+    }()
+
+    //下拉时变暗背景
+    private lazy var selectBgView: UIView = {
+        let holdView = UIView()
+        holdView.alpha = 0
+        holdView.backgroundColor = UIColorHex("000000", 0.6)
+        return holdView
+    }()
+    
     /***Nav隐藏时使用***/
     private lazy var navHoldView: NavigationView = {
         let holdView = NavigationView()
+        return holdView
+    }()
+    
+    //还款账单缺省页
+    private lazy var defaultView: BorrowDefaultView = {
+        let holdView = BorrowDefaultView(viewType: BorrowDefaultView.BorrowDefaultViewType.repayBill)
         return holdView
     }()
     
@@ -111,7 +262,8 @@ class RepayBillSelectVC: UIViewController, UITableViewDelegate, UITableViewDataS
         label.font = UIFontSize(size: 15*UIRate)
         label.textAlignment = .right
         label.textColor = UIColorHex("666666")
-        label.text = "将还款总额：11110元"
+        label.text = "将还款总额：0.00元"
+        label.attributedText = changeTextColor(text: "将还款总额：0.00元", color: UIColorHex("fb5c57"), range:NSRange(location: 6, length: 4))
         return label
     }()
 
@@ -159,7 +311,7 @@ class RepayBillSelectVC: UIViewController, UITableViewDelegate, UITableViewDataS
         //去除选择效果
         cell.selectionStyle = .none
         
-        if selectArray[indexPath.row] == 1 {
+        if dataArray[indexPath.row]["selected"] == 1 {
             cell.selectImageView.image = UIImage(named: "repay_selected_circle_20x20")
         }else {
             cell.selectImageView.image = UIImage(named: "repay_unselect_circle_20x20")
@@ -176,15 +328,14 @@ class RepayBillSelectVC: UIViewController, UITableViewDelegate, UITableViewDataS
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         tableView.deselectRow(at: indexPath, animated: true)
-        if selectArray[indexPath.row] == 1{
-            selectArray[indexPath.row] = 0
-            
+        if dataArray[indexPath.row]["selected"] == 1{
             dataArray[indexPath.row]["selected"] = 0
         }else {
-            selectArray[indexPath.row] = 1
-            
             dataArray[indexPath.row]["selected"] = 1
         }
+        self.aTableView.reloadData()
+        //计算钱数
+        self.calculateRepayAmount()
     }
     
     //设置分割线
@@ -200,27 +351,56 @@ class RepayBillSelectVC: UIViewController, UITableViewDelegate, UITableViewDataS
     
     //MARK: Action
     func rightNavigationBarBtnAction(){
-        if isSelectAll {
+        if isSelectAll { //取消选中
             self.navigationItem.rightBarButtonItem?.title = "全选"
-            selectArray = selectArray.map{$0 * 0}
             isSelectAll = !isSelectAll
-        }else {
+            
+            for i in 0..<dataArray.count {
+                dataArray[i]["selected"] = 0
+            }
+        }else { //选中
             self.navigationItem.rightBarButtonItem?.title = "取消"
-            selectArray = selectArray.map{$0 * 0 + 1}
             isSelectAll = !isSelectAll
             
             for i in 0..<dataArray.count {
                 dataArray[i]["selected"] = 1
             }
         }
+        
+        self.aTableView.reloadData()
+        //计算钱数
+        self.calculateRepayAmount()
     }
     
-    //确认
+    //MARK: 确认
     func nextStepBtnAction(){
     
+        //选中的
         let selectInfotemp = dataArray.filter({ (json) -> Bool in
             return json["selected"] == 1
         })
+        
+        guard selectInfotemp.count > 0 else {
+            self.showHint(in: self.view, hint: "请选择还款账单")
+            return
+        }
+        //未选的
+        let unselectInfoTemp = dataArray.filter({ (json) -> Bool in
+            return json["selected"] != 1
+        })
+        
+        for i in 0..<selectInfotemp.count{
+            for j in 0..<unselectInfoTemp.count {
+                //是同一个单号进行比较
+                if selectInfotemp[i]["orderId"] == unselectInfoTemp[j]["orderId"]{
+                    if selectInfotemp[i]["term"].intValue > unselectInfoTemp[j]["term"].intValue {
+                        self.showHint(in: self.view, hint: "请按产品期数顺序依次还款")
+                        return
+                    }
+                }
+            }
+        }
+        
         selectInfo.removeAll()
         selectInfo = selectInfotemp.reduce(selectInfo) { (selectInfo, jsonObject) -> [Dictionary<String,Any>] in
                 var dic = [String:Any]()
@@ -234,8 +414,76 @@ class RepayBillSelectVC: UIViewController, UITableViewDelegate, UITableViewDataS
         
        let repayVC = RepayViewController()
         repayVC.selectInfo = self.selectInfo
+        repayVC.selectBillInfo = selectInfotemp
        self.navigationController?.pushViewController(repayVC, animated: true)
     }
+    
+    //MARK: 计算还款总额
+    func calculateRepayAmount(){
+        let selectInfotemp = dataArray.filter({ (json) -> Bool in
+            return json["selected"] == 1
+        })
+        var money = 0.00
+        for i in 0..<selectInfotemp.count {
+            money += selectInfotemp[i]["showMoney"].doubleValue
+        }
+        repayAmount = toolsChangeMoneyStyle(amount: money)
+    }
+    
+    //MARK: 消除手势与TableView的冲突
+    func gestureRecognizer(_ gestureRecognizer: UIGestureRecognizer, shouldReceive touch: UITouch) -> Bool {
+        if NSStringFromClass((touch.view?.classForCoder)!) == "UITableViewCellContentView" {
+            return false
+        }
+        return true
+    }
+    
+    //MARK: - Method
+    //点击了下拉框的回调
+    func selectViewClick(){
+        selectView.onClickCell = {[unowned self] (title, nameId) in
+            self.titleText = title
+            self.filterOrderId = nameId
+            self.closeSelectView()
+            self.requestData()
+        }
+    }
+    
+    //MARK: - Action
+    func tapViewAction(){
+        if isTransformed{
+            self.closeSelectView()
+        }
+    }
+    
+    //头部图片点击
+    func titleButtonAction(){
+        
+        if !isTransformed {
+            //打开
+            UIView.animate(withDuration: 0.6, animations: {
+                self.titleArrowImgView.transform = CGAffineTransform(rotationAngle: CGFloat(M_PI))
+                self.selectViewConstraint?.update(offset: 64)
+                self.view.layoutIfNeeded()//一定要加上这句话才会有动画效果
+                self.selectBgView.alpha = 1
+            })
+            
+            isTransformed = !isTransformed
+        }else {
+            self.closeSelectView()
+        }
+    }
+    //关闭
+    func closeSelectView(){
+        
+        UIView.animate(withDuration: 0.6, animations: {
+            self.titleArrowImgView.transform = CGAffineTransform(rotationAngle: CGFloat(0))
+            self.selectViewConstraint?.update(offset: -180*UIRate)
+            self.view.layoutIfNeeded()
+            self.selectBgView.alpha = 0
+        })
+        isTransformed = !isTransformed
+    }    
     
     //MARK: - 请求数据
     func requestData(){
@@ -245,6 +493,7 @@ class RepayBillSelectVC: UIViewController, UITableViewDelegate, UITableViewDataS
         var params = NetConnect.getBaseRequestParams()
         params["userId"] = UserHelper.getUserId()!
         params["flag"] = 1 //1-全部应还 2-本月应还 3-近7日  4-今日
+        params["orderId"] = filterOrderId
         
         NetConnect.pc_need_repayment_detail(parameters: params, success: { response in
             //隐藏HUD
@@ -255,10 +504,22 @@ class RepayBillSelectVC: UIViewController, UITableViewDelegate, UITableViewDataS
             }
             
             self.dataArray.removeAll()
+            self.repayAmount = "0.00"
             self.dataArray = json["backList"].arrayValue
+            self.nameArray = json["orderInfoList"].arrayValue
+            //设置是否选中
+            for i in 0..<self.dataArray.count {
+                
+                //如果一单还款的ID和存在的ID相同，则默认选中
+                if self.periodInfo.repaymentId == self.dataArray[i]["repayment_id"].stringValue{
+                    self.dataArray[i]["selected"] = 1
+                    self.repayAmount = toolsChangeMoneyStyle(amount: self.dataArray[i]["showMoney"].doubleValue)
+                }else {
+                     self.dataArray[i]["selected"] = 0
+                }
+            }
             
-            self.selectArray.removeAll()
-            self.selectArray = Array(repeating: 0, count: self.dataArray.count)
+            self.aTableView.reloadData()
             
         }, failure:{ error in
             //隐藏HUD

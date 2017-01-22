@@ -13,6 +13,9 @@ let APP_VERSION = "1.0.1" //版本号
 let APP_VERSION_CODE = "101"
 
 //通知
-let NotificationLoginSuccess = "NoticeLoginSuccess"
+//登录成功
+let notificationLoginSuccess = "NoticeLoginSuccess"
 
+let noticeRepayFailAndTryAgain = "noticeRepayFailAndTryAgain"
 
+let noticeBorrowAgainAction = "noticeBorrowAgainAction"

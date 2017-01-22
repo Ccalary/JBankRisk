@@ -376,6 +376,17 @@ class NetConnect {
         })
     }
     
+    //3.13支付成功回调
+    static func pc_repay_success_result(parameters: Parameters,success:@escaping (_ response:[String:AnyObject]) -> (),failure:@escaping(_ error: Error) -> ()){
+        
+        NetworkRequest.sharedInstance.postRequest(urlString: PC_REPAY_SUCCESS_RESULT, params: parameters, success: { (response) in
+            success(response)
+        }, failture: { (error) in
+            failure(error)
+        })
+    }
+
+    
     /******************其他******************/
     //4.1 修改密码
     static func other_change_psd(parameters: Parameters,success:@escaping (_ response:[String:AnyObject]) -> (),failure:@escaping(_ error: Error) -> ()){
@@ -418,6 +429,24 @@ class NetConnect {
     //4.5 合同查询
     static func other_contract_search(parameters: Parameters,success:@escaping (_ response:[String:AnyObject]) -> (),failure:@escaping(_ error: Error) -> ()){
         NetworkRequest.sharedInstance.getRequest(urlString: OT_CONTRACT_SEARCH_URL, params: parameters, success: { (response) in
+            success(response)
+        }, failture: { (error) in
+            failure(error)
+        })
+    }
+    
+    //4.5 合同列表
+    static func other_contract_list(parameters: Parameters,success:@escaping (_ response:[String:AnyObject]) -> (),failure:@escaping(_ error: Error) -> ()){
+        NetworkRequest.sharedInstance.getRequest(urlString: OT_CONTRACT_LIST, params: parameters, success: { (response) in
+            success(response)
+        }, failture: { (error) in
+            failure(error)
+        })
+    }
+    
+    //4.6 上传用户通讯录
+    static func other_upload_contact_list(parameters: Parameters,success:@escaping (_ response:[String:AnyObject]) -> (),failure:@escaping(_ error: Error) -> ()){
+        NetworkRequest.sharedInstance.postRequest(urlString: OT_UPLOAD_CONTACT_LIST, params: parameters, success: { (response) in
             success(response)
         }, failture: { (error) in
             failure(error)

@@ -14,6 +14,9 @@ private let cellIdentity = "cellID"
 private let kAppURLScheme = "riskPayUrlSchemes"
 class RepayViewController: UIViewController, UITableViewDelegate, UITableViewDataSource {
 
+    //账单数据
+    var selectBillInfo: [JSON] = []
+    
     //支付方式
     var selectWay = "" {
         didSet{
@@ -27,8 +30,15 @@ class RepayViewController: UIViewController, UITableViewDelegate, UITableViewDat
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        
+        NotificationCenter.default.addObserver(self, selector: #selector(repayFailAndTryAgainAction), name: NSNotification.Name(rawValue: noticeRepayFailAndTryAgain), object: nil)
+        
         setupUI()
         requestData()
+    }
+    
+    deinit {
+        NotificationCenter.default.removeObserver(self)
     }
 
     override func didReceiveMemoryWarning() {
@@ -36,8 +46,7 @@ class RepayViewController: UIViewController, UITableViewDelegate, UITableViewDat
     }
     
     func setupUI(){
-        self.navigationController!.navigationBar.isTranslucent = true;
-        self.automaticallyAdjustsScrollViewInsets = false;
+        self.automaticallyAdjustsScrollViewInsets = false
         
         self.title = "还款"
         self.view.backgroundColor = defaultBackgroundColor
@@ -171,7 +180,7 @@ class RepayViewController: UIViewController, UITableViewDelegate, UITableViewDat
         let button = UIButton()
         button.setBackgroundImage(UIImage(named: "login_btn_red_345x44"), for: .normal)
         
-        button.setTitle("下一步", for: UIControlState.normal)
+        button.setTitle("确认还款", for: UIControlState.normal)
         button.titleLabel?.font = UIFontSize(size: 18*UIRate)
         button.addTarget(self, action: #selector(nextStepBtnAction), for: .touchUpInside)
         return button
@@ -261,7 +270,7 @@ class RepayViewController: UIViewController, UITableViewDelegate, UITableViewDat
                 popupController.dismiss(animated:true)
             }
             
-            popView.onClickCopy = {_ in
+            popView.onClickCopy = {[unowned self] _ in
                 popupController.dismiss(animated:true)
                 self.showHint(in: self.view, hint: "帐号已复制到剪切板")
             }
@@ -283,10 +292,18 @@ class RepayViewController: UIViewController, UITableViewDelegate, UITableViewDat
     
     //MARK: - Action
     func rightNavigationBarBtnAction(){
-        
+        let billVC = SelectedBillViewController()
+        billVC.dataArray = selectBillInfo
+        let billVCNav = HHNavigationController(rootViewController: billVC)
+        self.navigationController?.present(billVCNav, animated: true, completion: nil)
     }
     
     func nextStepBtnAction(){
+        repayRequest()
+    }
+    
+    //NotificationCenter
+    func repayFailAndTryAgainAction(){
         repayRequest()
     }
     
@@ -317,11 +334,26 @@ class RepayViewController: UIViewController, UITableViewDelegate, UITableViewDat
             Pingpp.createPayment(charge as NSObject!, viewController: self, appURLScheme: kAppURLScheme, withCompletion: { (result, error) in
                 if result == "success" {
                     //支付成功
-                    PrintLog(result)
+                    let repayWay = self.selectWay == "wx" ? "微信支付" : "支付宝支付"
+                    //需要id获取返回的信息
+                    let repaymentId = self.selectInfo.first?["repayment_id"] ?? "" 
+                    
+                    let repayResultVC = RepayTipsViewController()
+                    repayResultVC.repayResult = .success
+                    
+                    repayResultVC.repayInfo = (self.moneyLabel.text!, repayWay, repaymentId as! String)
+                    self.navigationController?.pushViewController(repayResultVC, animated: true)
                 }else {
                     //支付失败或取消
                     PrintLog(error?.code.rawValue)
                     PrintLog(error?.getMsg())
+                    
+                    let repayWay = self.selectWay == "wx" ? "微信支付" : "支付宝支付"
+                
+                    let repayResultVC = RepayTipsViewController()
+                    repayResultVC.repayResult = .fail
+                    repayResultVC.repayInfo = (self.moneyLabel.text!, repayWay, "")
+                    self.navigationController?.pushViewController(repayResultVC, animated: true)
                 }
             })
             

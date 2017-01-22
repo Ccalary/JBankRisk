@@ -211,5 +211,4 @@ class BorrowStatusView: UIView {
             onClickButton()
         }
     }
-    
 }

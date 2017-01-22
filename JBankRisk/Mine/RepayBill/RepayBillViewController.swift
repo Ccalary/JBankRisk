@@ -13,7 +13,7 @@ class RepayBillViewController: UIViewController, UITableViewDataSource, UITableV
 
     //是否有数据
     var isHaveData = false
- 
+    
     //月还款状态
     var monthRepayStatus: RepayStatusType = .finish
     
@@ -29,22 +29,17 @@ class RepayBillViewController: UIViewController, UITableViewDataSource, UITableV
         super.didReceiveMemoryWarning()
     }
     
+    override func viewWillAppear(_ animated: Bool) {
+        self.requestData()
+    }
+    
     ///MARK: - 基本UI
     func setupUI(){
         self.navigationController!.navigationBar.isTranslucent = true
         self.automaticallyAdjustsScrollViewInsets = false
         self.title = "还款账单"
         self.view.backgroundColor = defaultBackgroundColor
-        
         self.setNavUI()
-        
-        //H 测试
-//        if isHaveData {
-            setupNormalUI()
-            self.requestData()
-//        }else {
-//            setupDefaultUI()
-//        }
     }
     
     //Nav
@@ -81,8 +76,7 @@ class RepayBillViewController: UIViewController, UITableViewDataSource, UITableV
     
     func setupNormalUI(){
         self.title = "还款账单"
-        self.navigationController!.navigationBar.isTranslucent = true;
-        self.automaticallyAdjustsScrollViewInsets = false;
+        self.automaticallyAdjustsScrollViewInsets = false
         self.view.backgroundColor = defaultBackgroundColor
         
         self.view.addSubview(aTableView)
@@ -558,6 +552,17 @@ class RepayBillViewController: UIViewController, UITableViewDataSource, UITableV
         
         self.monthDataArray = json["monthAccountList"].arrayValue
         self.allDataArray = json["menuAccountList"].arrayValue
+        
+        //如果没有加载过，则加载界面
+        if !isHaveData {
+            if self.monthDataArray.isEmpty && self.allDataArray.isEmpty {
+                self.setupDefaultUI()
+            }else {
+                self.setupNormalUI()
+                isHaveData = true
+            }
+        }
+        
         self.aTableView.reloadData()
     }
 }
@@ -572,10 +577,31 @@ extension RepayBillViewController {
     
     //提前还款
     func preRepayBtnAction(){
-        
+        self.navigationController?.pushViewController(RepayBillSelectVC(), animated: true)
     }
     //本月还款
     func monthRepayBtnAction(){
-        self.navigationController?.pushViewController(NoNeedRepayVC(), animated: true)
+        if self.monthDataArray.count > 0 {
+            
+            var selectInfo: [Dictionary<String,Any>] = []
+
+            selectInfo = monthDataArray.reduce(selectInfo) { (selectInfo, jsonObject) -> [Dictionary<String,Any>] in
+                var dic = [String:Any]()
+                dic["orderId"] = jsonObject["orderId"].stringValue
+                dic["repayment_id"] = jsonObject["repayment_id"].stringValue
+                
+                var dicArray = selectInfo
+                dicArray.append(dic)
+                return dicArray
+            }
+            
+            let repayVC = RepayViewController()
+            repayVC.selectBillInfo = monthDataArray
+            repayVC.selectInfo = selectInfo
+            self.navigationController?.pushViewController(repayVC, animated: true)
+            
+        }else {
+            self.navigationController?.pushViewController(NoNeedRepayVC(), animated: true)
+        }
     }
 }

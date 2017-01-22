@@ -41,7 +41,7 @@ class ProductViewController: UIViewController,UITableViewDelegate, UITableViewDa
         
         self.initLocation()
         
-        if UserHelper.getProductIsUpload() && !UserHelper.getAllFinishIsUpload(){
+        if UserHelper.getProductIsUpload() {
             self.requestProductInfo()
         }else {
             self.getAddress()
@@ -355,6 +355,11 @@ class ProductViewController: UIViewController,UITableViewDelegate, UITableViewDa
     //下一步(上传用户信息)
     func nextStepBtnAction(){
        
+        //是否已生成订单
+        guard !UserHelper.getAllFinishIsUpload() else {
+            self.showHint(in: self.view, hint: "订单已生成，信息不可更改哦！")
+            return
+        }
         //判断是否可以上传
         guard self.proName.characters.count > 0,
              self.saleName.characters.count > 0,
@@ -419,7 +424,6 @@ class ProductViewController: UIViewController,UITableViewDelegate, UITableViewDa
             let idVC = IncomeViewController()
             self.navigationController?.pushViewController(idVC, animated: true)
         }
-        
     }
     
     //MARK:请求产品信息
@@ -437,7 +441,7 @@ class ProductViewController: UIViewController,UITableViewDelegate, UITableViewDa
             guard json["RET_CODE"] == "000000" else{
                 return self.showHint(in: self.view, hint: json["RET_DESC"].stringValue)
             }
-            self.refreshUI(json: json)
+            self.refreshUI(json: json["orderInfo"])
             
         }, failure:{ error in
             //隐藏HUD

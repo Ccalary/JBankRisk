@@ -16,7 +16,9 @@ class PopupLogoutView: UIView {
             titleLabel.text = content.title
             noticeLabel.text = content.content
             cancelBtn.setTitle(content.leftBtn, for: .normal)
+            cancelBtn.titleLabel?.font = UIFontSize(size: 18*UIRate)
             sureBtn.setTitle(content.rightBtn, for: .normal)
+            sureBtn.titleLabel?.font = UIFontSize(size: 18*UIRate)
         }
     }
     

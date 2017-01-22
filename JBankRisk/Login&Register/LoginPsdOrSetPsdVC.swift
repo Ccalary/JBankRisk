@@ -265,7 +265,7 @@ class LoginPsdOrSetPsdVC: UIViewController{
                     UserHelper.setLoginInfo(dic: json)
                     
                     if !self.isPush{
-                        NotificationCenter.default.post(name: NSNotification.Name(rawValue: NotificationLoginSuccess), object: self)
+                        NotificationCenter.default.post(name: NSNotification.Name(rawValue: notificationLoginSuccess), object: self)
                     }
                     
                     _ = self.navigationController?.popToRootViewController(animated: true)
@@ -292,7 +292,7 @@ class LoginPsdOrSetPsdVC: UIViewController{
                     UserHelper.setLoginInfo(dic: json)
                     
                     if !self.isPush{
-                        NotificationCenter.default.post(name: NSNotification.Name(rawValue: NotificationLoginSuccess), object: self)
+                        NotificationCenter.default.post(name: NSNotification.Name(rawValue: notificationLoginSuccess), object: self)
                     }
                     
                     _ = self.navigationController?.popToRootViewController(animated: true)

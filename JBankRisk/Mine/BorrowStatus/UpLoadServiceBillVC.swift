@@ -13,9 +13,6 @@ class UpLoadServiceBillVC: UIViewController,UIImagePickerControllerDelegate,UINa
 
     var orderId = ""
     
-    //合同签约结果(是否签合同)
-    var isSigned = false
-    
     ///相机，相册
     var cameraPicker: UIImagePickerController!
     var photoPicker: UIImagePickerController!
@@ -23,6 +20,8 @@ class UpLoadServiceBillVC: UIViewController,UIImagePickerControllerDelegate,UINa
     override func viewDidLoad() {
         super.viewDidLoad()
 
+        //保存orderid,用来判断合同是否签完
+        UserHelper.setUserNewOrderId(self.orderId)
         self.setupUI()
         self.initPhotoPicker()
         self.initCameraPicker()
@@ -190,8 +189,7 @@ class UpLoadServiceBillVC: UIViewController,UIImagePickerControllerDelegate,UINa
     //确认上传
     func nextStepBtnAction(){
         
-        //H 测试
-        if !isSigned {
+        if !UserHelper.getContractIsSigned() {
             let popupView = PopupLogoutView()
             popupView.content = ("温馨提示","为了保障您的权益与服务，请\n签署电子合同","缓一缓","去签署")
             let popupController = CNPPopupController(contents: [popupView])!
@@ -203,7 +201,10 @@ class UpLoadServiceBillVC: UIViewController,UIImagePickerControllerDelegate,UINa
             
             popupView.onClickSure = {[unowned self] in
                 popupController.dismiss(animated: true)
-                self.requestContractSign()
+                
+                let contractVC = ContractViewController()
+                contractVC.orderId = self.orderId
+                self.navigationController?.pushViewController(contractVC, animated: true)
             }
         }else {
             self.uploadBillImage(image: self.imageView.image!)
@@ -240,35 +241,4 @@ class UpLoadServiceBillVC: UIViewController,UIImagePickerControllerDelegate,UINa
             self.hideHud()
         })
     }
-    
-    //MARK: 请求合同签约的token与contractId
-    func requestContractSign(){
-        
-        self.showHud(in: self.view,hint:"加载中...")
-        var params = NetConnect.getBaseRequestParams()
-        params["orderId"] = self.orderId
-        
-        NetConnect.other_contract_sign(parameters: params, success:
-            { response in
-                
-                //隐藏HUD
-                self.hideHud()
-                let json = JSON(response)
-                guard json["RET_CODE"] == "000000" else{
-                    return self.showHint(in: self.view, hint: json["RET_DESC"].stringValue)
-                }
-                YHTSdk.setToken(json["backInfo"]["TOKEN"].stringValue)
-                let YHTVC = YHTContractContentViewController.instance(withContractID: json["backInfo"]["contractId"].numberValue)
-                self.navigationController?.pushViewController(YHTVC!, animated: true)
-                
-                //H 测试
-                self.isSigned = true
-                
-        }, failure: {error in
-            //隐藏HUD
-            self.hideHud()
-        })
-    }
-
-
 }

@@ -1,22 +1,22 @@
 PODS:
   - Alamofire (4.2.0)
+  - AlamofireObjectMapper (4.0.1):
+    - Alamofire (~> 4.1)
+    - ObjectMapper (~> 2.0)
   - AMapFoundation (1.3.1)
   - AMapLocation (2.1.1):
     - AMapFoundation (~> 1.2)
   - Bugly (2.4.2)
-  - FBRetainCycleDetector (0.1.3)
   - IQKeyboardManagerSwift (4.0.7)
   - Kingfisher (3.0.1)
-  - KMCGeigerCounter (0.2.2)
   - MBProgressHUD (1.0.0)
   - MJRefresh (3.1.12)
-  - MLeaksFinder (0.2.1):
-    - FBRetainCycleDetector
   - NJKWebViewProgress (0.2.3):
     - NJKWebViewProgress/Core (= 0.2.3)
     - NJKWebViewProgress/ProgressView (= 0.2.3)
   - NJKWebViewProgress/Core (0.2.3)
   - NJKWebViewProgress/ProgressView (0.2.3)
+  - ObjectMapper (2.2.1)
   - Pingpp/Alipay (2.2.10):
     - Pingpp/Core
   - Pingpp/Core (2.2.10)
@@ -27,15 +27,15 @@ PODS:
 
 DEPENDENCIES:
   - Alamofire (~> 4.2.0)
+  - AlamofireObjectMapper (~> 4.0)
   - AMapLocation
   - Bugly
   - IQKeyboardManagerSwift
   - Kingfisher (~> 3.0.0)
-  - KMCGeigerCounter
   - MBProgressHUD (~> 1.0.0)
   - MJRefresh
-  - MLeaksFinder
   - NJKWebViewProgress
+  - ObjectMapper (~> 2.2)
   - Pingpp/Alipay (~> 2.2.10)
   - Pingpp/Wx (~> 2.2.10)
   - SnapKit (~> 3.0.0)
@@ -43,21 +43,20 @@ DEPENDENCIES:
 
 SPEC CHECKSUMS:
   Alamofire: aa2e09d871c9160ac53c90e83c68064a94e3dfbe
+  AlamofireObjectMapper: 842d2eed43a4d0593ff0110d54ac86a170c4519c
   AMapFoundation: 636834a27cd003084f56b4232f3031e6a44c7e7e
   AMapLocation: dd203f76b034ef5cb546600f4e1ffad2a3a14072
   Bugly: b09cd3c7e54048a0e079be88a7a99610f14eab8f
-  FBRetainCycleDetector: f0c7b290bf48ae77f6ae060843ce34ae341781eb
   IQKeyboardManagerSwift: 58bbcf46b5cf9fd4ed625d28a60cb2fbae4ab0f4
   Kingfisher: d5a491b45ea453d90a31bd2c0831d5243e73a73f
-  KMCGeigerCounter: f8cc3c4aa19fc6f8cec168fb03b364b84c118a7a
   MBProgressHUD: 4890f671c94e8a0f3cf959aa731e9de2f036d71a
   MJRefresh: b96cdb21c4aa75a7b07654311ab2f315c497e806
-  MLeaksFinder: 0850e2f2abc7227adc4d4e2d1992b431264eb4d5
   NJKWebViewProgress: f481fd424cb5ecc27eacae11b5397db92fba9a4d
+  ObjectMapper: 41e43e1a89f8060ef5ea5d04ba852e269a621d68
   Pingpp: a267566fbab76c4c3b65adb0655635b1d5ba7fdc
   SnapKit: f818b8326d45b4e1c777d0ab27b5c0a3624bfdeb
   SwiftyJSON: 29b9f2a64f118c07e691667c2ba1efe536acfe0b
 
-PODFILE CHECKSUM: ec19683b25b75c3f74a4eb67e8903cc44caafa9a
+PODFILE CHECKSUM: 081fdc46cea9647d9ebd56ea90ee0deba044f346
 
 COCOAPODS: 1.1.1

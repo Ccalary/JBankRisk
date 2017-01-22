@@ -155,20 +155,29 @@ class BorrowStatusVC: UIViewController {
             make.top.equalTo(self.statusView.snp.bottom)
         }
         
-        //协议
-        infoView.onClickProtocol = {[unowned self] in
-            let webView = BaseWebViewController()
-            webView.requestUrl = PC_PROTOCOL_DETAIL + "&orderId=" + (self.orderId)
-            webView.webTitle = "合同详情"
-            self.navigationController?.pushViewController(webView, animated: true)
-        }
-        
         self.mScrollView.addPullRefreshHandler({ [weak self] in
             self?.requestData()
             self?.mScrollView.stopPullRefreshEver()
         })
-    }
-    
+        
+        //协议
+        infoView.onClickProtocol = {[unowned self] in
+            
+            //如果是还款中加载已签署的合同
+            if  self.statusType == .repaying || self.statusType == .checking {
+                let contractVC = ContractViewController()
+                contractVC.viewType = .search
+                contractVC.orderId = self.orderId
+                self.navigationController?.pushViewController(contractVC, animated: true)
+
+            }else {
+                let webView = BaseWebViewController()
+                webView.requestUrl = PC_PROTOCOL_DETAIL + "&orderId=" + (self.orderId)
+                webView.webTitle = "合同详情"
+                self.navigationController?.pushViewController(webView, animated: true)
+            }
+        }
+ }
     //缺省页面
     func setDefaultUI(){
         
@@ -250,10 +259,7 @@ class BorrowStatusVC: UIViewController {
             self.orderInfo = json["Infos"]
             
             self.refreshOrderUI(json: json["Infos"])
-            self.status = json["jstatus"].stringValue
-            self.statusView.failDis = json["descrption"].stringValue
-            self.statusView.statusType = self.statusType
-            self.orderId = json["orderId"].stringValue
+            
             
         }, failure:{ error in
             //隐藏HUD
@@ -265,6 +271,10 @@ class BorrowStatusVC: UIViewController {
          self.title = json["orderName"].stringValue
          navHoldView.navTextLabel.text = self.title
          self.infoView.json = json
+         self.status = json["jstatus"].stringValue
+         self.statusView.failDis = json["descrption"].stringValue
+         self.statusView.statusType = self.statusType
+         self.orderId = json["orderId"].stringValue
     }
     
     //点击按钮

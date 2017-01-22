@@ -21,7 +21,7 @@ class NoNeedRepayVC: UIViewController {
     }
 
     func setupUI(){
-        self.title = "隆鼻"
+        self.title = "还款"
         self.view.backgroundColor = defaultBackgroundColor
 
         self.view.addSubview(topHoldView)

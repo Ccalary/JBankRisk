@@ -83,9 +83,11 @@ class JulixinWebViewController:  UIViewController, UIWebViewDelegate, NJKWebView
     //MARK: - 加载地址
     func loadURL() {
         
-        let url = URL(string: requestUrl!)
-        let request = URLRequest(url: url!)
-        webView?.loadRequest(request)
+        let url = URL(string: requestUrl ?? "")
+        if let url = url {
+            let request = URLRequest(url: url)
+            webView?.loadRequest(request)
+        }
     }
     
     //MARK: - UIWebViewDelegate
@@ -155,10 +157,9 @@ class JulixinWebViewController:  UIViewController, UIWebViewDelegate, NJKWebView
         
         for i in 0..<(self.navigationController?.viewControllers.count)! {
             
-            if self.navigationController?.viewControllers[i].isKind(of: BorrowMoneyViewController.self) == true {
-                _ = self.navigationController?.popToViewController(self.navigationController?.viewControllers[i] as! BorrowMoneyViewController, animated: true)
+            if self.navigationController?.viewControllers[i].isKind(of: MineViewController.self) == true {
+                _ = self.navigationController?.popToViewController(self.navigationController?.viewControllers[i] as! MineViewController, animated: true)
             }
         }
-
     }
 }

@@ -7,9 +7,19 @@
 //
 
 import UIKit
+import SwiftyJSON
 
 class PopupRepaymentTipView: UIView {
 
+    
+    var dicInfo: JSON! {
+        didSet{
+            textLabel.text = dicInfo["title"].stringValue
+            moneyLabel.text = "需还金额：\(toolsChangeMoneyStyle(amount: dicInfo["payMoney"].doubleValue))元"
+            deadlineLabel.text = "截止日期：\(toolsChangeDateStyle(toYYYYMMDD: dicInfo["RecentPayDate"].stringValue))"
+        }
+    }
+    
     override init(frame: CGRect) {
         super.init(frame: frame)
         setupUI()
@@ -117,7 +127,9 @@ class PopupRepaymentTipView: UIView {
     
     //知道了
     func sureBtnAction(){
+        if let onClickSure = onClickSure {
+            onClickSure()
+        }
         
-        onClickSure!()
     }
 }

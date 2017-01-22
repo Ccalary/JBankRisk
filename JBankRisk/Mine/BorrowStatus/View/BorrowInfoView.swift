@@ -138,7 +138,6 @@ class BorrowInfoView: UIView , UITableViewDelegate, UITableViewDataSource{
         tableView.isScrollEnabled = false
         tableView.tableFooterView = UIView()
         tableView.register(RepayListTableViewCell.self, forCellReuseIdentifier: "CellID")
-        
         return tableView
         
     }()

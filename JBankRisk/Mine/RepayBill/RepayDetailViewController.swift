@@ -23,11 +23,15 @@ class RepayDetailViewController: UIViewController, UITableViewDelegate, UITableV
     override func viewDidLoad() {
         super.viewDidLoad()
         self.setupUI()
-        self.requestData()
+       
     }
     
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
+    }
+    
+    override func viewWillAppear(_ animated: Bool) {
+         self.requestData()
     }
     
     deinit {

@@ -12,19 +12,25 @@ import SwiftyJSON
 class RepayPeriodDetailVC: UIViewController {
 
     var repayStatusType: RepayStatusType = .finish
-    //还款id
+    //还款id(需要从前一个界面传过来)
     var repaymentId = ""
+    
+    //产品id
+    var orderId = ""
     
     override func viewDidLoad() {
         super.viewDidLoad()
         self.setupUI()
         self.gotoRepay()
-        self.requestData()
     }
 
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
 
+    }
+    
+    override func viewWillAppear(_ animated: Bool) {
+         self.requestData()
     }
     
     func setupUI(){
@@ -131,7 +137,9 @@ class RepayPeriodDetailVC: UIViewController {
     func gotoRepay(){
         
         detailView.onClickNextStepBtn = {[unowned self] _ in
-            let repayVC = RepayWayViewController()
+            
+            let repayVC = RepayBillSelectVC()
+            repayVC.periodInfo = (self.orderId, self.repaymentId)
             self.navigationController?.pushViewController(repayVC, animated: true)
         }
     }
@@ -166,6 +174,9 @@ class RepayPeriodDetailVC: UIViewController {
     }
     
     func refreshUI(json: JSON){
+        
+        orderId = json["orderId"].stringValue
+        
         titleTextLabel.text = json["orderName"].stringValue + "第" + json["term"].stringValue + "期"
         moneyLabel.text =  toolsChangeMoneyStyle(amount: json["pay_amt_total"].doubleValue)
         
@@ -180,9 +191,16 @@ class RepayPeriodDetailVC: UIViewController {
         //逾期罚金
         let overFee = "逾期罚金:    " + toolsChangeMoneyStyle(amount: json["penalty_amt"].doubleValue + json["demurrage"].doubleValue) + "元"
         
+        let backTime = json["back_stamp"].stringValue
+        
         switch self.repayStatusType {
         case .finish://完成
-            self.detailView.dataArray = [shouldRepay, repayTime]
+            if backTime.characters.count > 0 {
+                let backDate = "还款时间:    " + toolsChangeDataStyle(toDateStyle: json["back_stamp"].stringValue)
+                self.detailView.dataArray = [shouldRepay, repayTime, backDate]
+            }else {
+                self.detailView.dataArray = [shouldRepay, repayTime, ""]
+            }
             
         case .overdue://逾期
             self.detailView.dataArray = [shouldRepay, restRepay, repayTime, overDay, overFee]

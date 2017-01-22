@@ -77,15 +77,15 @@ struct UserInfoCellModel {
           CellDataInfo(leftText: "", holdText: "联系人姓名，可从通讯录中选择", content: "", cellType: .arrowType),
           CellDataInfo(leftText: "", holdText: "请填写手机号", content: "", cellType: .clearType),
           CellDataInfo(leftText: "", holdText: "", content: "", cellType: .defaultType),
-          CellDataInfo(leftText: "紧急联系人", holdText: "可从通讯录中选择", content: "", cellType: .arrowType),
-          CellDataInfo(leftText: "", holdText: "填写姓名", content: "", cellType: .clearType),
+          CellDataInfo(leftText: "紧急联系人", holdText: "选择紧急联系人关系", content: "", cellType: .arrowType),
+          CellDataInfo(leftText: "", holdText: "联系人姓名，可从通讯录中选择", content: "", cellType: .arrowType),
           CellDataInfo(leftText: "", holdText: "填写手机号码", content: "", cellType: .clearType)]
     
     //MARK:Data上传
    private var dataReuploadCellData:[CellDataInfo] = [
-         CellDataInfo(leftText: "房产证", holdText: "上传您所拥有的房产证照片", content: "", cellType: .cameraType),
-         CellDataInfo(leftText: "行驶证", holdText: "上传您的汽车行驶证照片", content: "", cellType: .cameraType),
-         CellDataInfo(leftText: "收入流水", holdText: "上传银行卡6个月收入流水", content: "", cellType: .cameraType),
+         CellDataInfo(leftText: "房产证", holdText: "上传您所拥有的房产证照片(选填)", content: "", cellType: .cameraType),
+         CellDataInfo(leftText: "行驶证", holdText: "上传您的汽车行驶证照片(选填)", content: "", cellType: .cameraType),
+         CellDataInfo(leftText: "收入流水", holdText: "上传银行卡6个月收入流水(选填)", content: "", cellType: .cameraType),
          CellDataInfo(leftText: "其他材料", holdText: "选填", content: "", cellType: .cameraType)]
 
  

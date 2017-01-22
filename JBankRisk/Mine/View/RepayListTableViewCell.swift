@@ -11,6 +11,16 @@ import SwiftyJSON
 
 class RepayListTableViewCell: UITableViewCell {
 
+    //赋值
+    var repayModel: RepayedListModel! {
+        didSet{
+            leftTextLabel.text = toolsChangeDateStyle(toYYYYMMDD: repayModel.realpayDate)
+            centerTextLabel.text = repayModel.orderName
+            rightTextLabel.text = toolsChangeMoneyStyle(amount: repayModel.pay_amt_total)
+        }
+    }
+    
+    
     override init(style: UITableViewCellStyle, reuseIdentifier: String?) {
         super.init(style: style, reuseIdentifier: reuseIdentifier)
         

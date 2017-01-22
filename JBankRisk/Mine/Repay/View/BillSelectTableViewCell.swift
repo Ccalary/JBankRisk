@@ -93,7 +93,7 @@ class BillSelectTableViewCell: UITableViewCell {
         let label = UILabel()
         label.font = UIFontSize(size: 15*UIRate)
         label.textAlignment = .right
-        label.text = "600.00元"
+        label.text = "0.00元"
         label.textColor = UIColorHex("fb5c57")
         return label
     }()
@@ -107,7 +107,6 @@ class BillSelectTableViewCell: UITableViewCell {
         }else {
             centerTextLabel.text = ""
         }
-        rightTextLabel.text = toolsChangeMoneyStyle(amount: dic["showMoney"].doubleValue)
+        rightTextLabel.text = "\(toolsChangeMoneyStyle(amount: dic["showMoney"].doubleValue))元"
     }
-    
 }

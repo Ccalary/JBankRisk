@@ -112,7 +112,7 @@ extension NetworkRequest {
     }
     
     
-    func dsf(data: Data){
+    func uploadProgress(data: Data){
         
         Alamofire.upload(data, to: "").uploadProgress{ progress in // main queue by default
             print("Upload Progress: \(progress.fractionCompleted)")
