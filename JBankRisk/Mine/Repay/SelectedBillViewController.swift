@@ -27,7 +27,7 @@ class SelectedBillViewController: UIViewController, UITableViewDelegate, UITable
     func setupUI(){
         self.automaticallyAdjustsScrollViewInsets = false
         self.title = "账单"
-        self.navigationItem.rightBarButtonItem = UIBarButtonItem(title: "取消", style: UIBarButtonItemStyle.plain, target: self, action: #selector(leftNavigationBarBtnAction))
+        self.navigationItem.rightBarButtonItem = UIBarButtonItem(title: "取消", style: UIBarButtonItemStyle.plain, target: self, action: #selector(rightNavigationBarBtnAction))
         self.navigationItem.rightBarButtonItem?.tintColor = UIColorHex("00b2ff")
         
         self.view.addSubview(aTableView)
@@ -98,7 +98,7 @@ class SelectedBillViewController: UIViewController, UITableViewDelegate, UITable
     
     
     //MARK: Action
-    func leftNavigationBarBtnAction(){
+    func rightNavigationBarBtnAction(){
         self.dismiss(animated: true, completion: nil)
     }
     

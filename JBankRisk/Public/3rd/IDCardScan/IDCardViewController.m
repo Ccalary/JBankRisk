@@ -172,7 +172,6 @@ static Boolean init_flag = false;
     codeLabel.font = [UIFont systemFontOfSize:15*UIRATE];
     [holdView addSubview:codeLabel];
     
-    
     confiremBtn = [[UIButton alloc] initWithFrame:CGRectMake((SCREEN_WIDTH - 345*UIRATE)/2, 500*UIRATE + 64, 345*UIRATE, 44*UIRATE)];
     [confiremBtn setBackgroundImage:[UIImage imageNamed:@"login_btn_grayred_345x44"] forState:UIControlStateNormal];
     [confiremBtn setTitle:@"确认" forState:UIControlStateNormal];

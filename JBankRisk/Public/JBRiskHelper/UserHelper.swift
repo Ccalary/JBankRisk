@@ -277,6 +277,30 @@ class UserHelper {
         defaults.synchronize()
     }
     
+    //是否是驳回
+    static func getIsReject() -> Bool {
+        let defaults = UserDefaults()
+        return (defaults.object(forKey: "isReject\(self.getUserId())") as? Bool) ?? false
+    }
+    
+    static func setIsReject(isReject: Bool){
+        let defaults = UserDefaults()
+        defaults.set(isReject, forKey: "isReject\(self.getUserId())")
+        defaults.synchronize()
+    }
+    
+    //最新一单的orderId
+    static func getHomeNewOneOrderId() -> String {
+        let defaults = UserDefaults()
+        return (defaults.object(forKey: "homeNewOneOrderId\(self.getUserId())") as? String) ?? ""
+    }
+    
+    static func setHomeNewOneOrderId(_ orderId: String){
+        let defaults = UserDefaults()
+        defaults.set(orderId, forKey: "homeNewOneOrderId\(self.getUserId())")
+        defaults.synchronize()
+    }
+    
     /***********用户电子合同相关*************/
     //最新产品id
     static func getUserNewOrderId() -> String? {

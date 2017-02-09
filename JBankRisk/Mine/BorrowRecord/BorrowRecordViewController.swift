@@ -36,7 +36,12 @@ class BorrowRecordViewController: UIViewController,UITableViewDelegate, UITableV
         
         if isHaveData {
             setupNormalUI()
-            self.requestData()
+            //刷新
+            self.aTableView.addPullRefreshHandler({[weak self] _ in
+                self?.requestData()
+            })
+            self.aTableView.startPullRefresh()
+            
         }else{
            self.setupDefaultUI()
         }
@@ -74,7 +79,6 @@ class BorrowRecordViewController: UIViewController,UITableViewDelegate, UITableV
             borrowMoneyVC.currentIndex = 0
             self.navigationController?.pushViewController(borrowMoneyVC, animated: false)
         }
-        
     }
     
     func setupNormalUI(){
@@ -87,12 +91,6 @@ class BorrowRecordViewController: UIViewController,UITableViewDelegate, UITableV
             make.top.equalTo(64)
         }
         self.initHeader()
-        
-        //刷新
-        self.aTableView.addPullRefreshHandler({[weak self] _ in
-            self?.requestData()
-            self?.aTableView.stopPullRefreshEver()
-        })
     }
     
     //header
@@ -288,7 +286,7 @@ class BorrowRecordViewController: UIViewController,UITableViewDelegate, UITableV
     //MARK: - 请求数据
     func requestData(){
         //添加HUD
-        self.showHud(in: self.view, hint: "加载中...")
+//        self.showHud(in: self.view, hint: "加载中...")
         
         var params = NetConnect.getBaseRequestParams()
         params["userId"] = UserHelper.getUserId()!
@@ -296,7 +294,7 @@ class BorrowRecordViewController: UIViewController,UITableViewDelegate, UITableV
         
         NetConnect.pc_borrow_record(parameters: params, success: { response in
             //隐藏HUD
-            self.hideHud()
+//            self.hideHud()
             let json = JSON(response)
             guard json["RET_CODE"] == "000000" else{
                 return self.showHint(in: self.view, hint: json["RET_DESC"].stringValue)
@@ -304,9 +302,13 @@ class BorrowRecordViewController: UIViewController,UITableViewDelegate, UITableV
             
             self.refreshUI(json: json)
             
+            self.aTableView.stopPullRefreshEver()
+            
         }, failure:{ error in
-            //隐藏HUD
-            self.hideHud()
+//            //隐藏HUD
+//            self.hideHud()
+            self.aTableView.stopPullRefreshEver()
+            self.showHint(in: self.view, hint: "网络请求失败")
         })
     }
     

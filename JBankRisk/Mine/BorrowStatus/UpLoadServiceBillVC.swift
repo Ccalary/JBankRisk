@@ -13,6 +13,11 @@ class UpLoadServiceBillVC: UIViewController,UIImagePickerControllerDelegate,UINa
 
     var orderId = ""
     
+    //是否进入了签字界面
+    var isSign = false
+    
+    //合同
+    var contractListArray: [JSON] = []
     ///相机，相册
     var cameraPicker: UIImagePickerController!
     var photoPicker: UIImagePickerController!
@@ -25,11 +30,18 @@ class UpLoadServiceBillVC: UIViewController,UIImagePickerControllerDelegate,UINa
         self.setupUI()
         self.initPhotoPicker()
         self.initCameraPicker()
+        self.requestListData()
     }
 
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
         
+    }
+    
+    override func viewWillAppear(_ animated: Bool) {
+        if isSign {
+            self.requestListData()
+        }
     }
     
     func setupUI(){
@@ -202,14 +214,81 @@ class UpLoadServiceBillVC: UIViewController,UIImagePickerControllerDelegate,UINa
             popupView.onClickSure = {[unowned self] in
                 popupController.dismiss(animated: true)
                 
-                let contractVC = ContractViewController()
-                contractVC.orderId = self.orderId
-                self.navigationController?.pushViewController(contractVC, animated: true)
+                self.signContract(flag: self.contractListArray[0]["flag"].stringValue)
+                //多单合同时使用
+//                let contractVC = ContractViewController()
+//                contractVC.orderId = self.orderId
+//                self.navigationController?.pushViewController(contractVC, animated: true)
             }
         }else {
             self.uploadBillImage(image: self.imageView.image!)
         }
     }
+    
+    //MARK:- 合同 请求数据
+    func requestListData(){
+        //添加HUD
+        self.showHud(in: self.view)
+        var params = NetConnect.getBaseRequestParams()
+        params["orderId"] = self.orderId
+        
+        NetConnect.other_contract_list(parameters: params, success:
+            { response in
+                //隐藏HUD
+                self.hideHud()
+                let json = JSON(response)
+                guard json["RET_CODE"] == "000000" else{
+                    return self.showHint(in: self.view, hint: json["RET_DESC"].stringValue)
+                }
+                
+                self.contractListArray.removeAll()
+                self.contractListArray = json["backList"].arrayValue
+                
+                for dic in self.contractListArray {
+                    //0- 未签署  1- 已签署
+                    if dic["jstatus"].stringValue == "1" {
+                        //是否签完合同
+                        UserHelper.setContract(isSigned: true)
+                        self.showHint(in: self.view, hint: "合同已签约完成，请上传服务单")
+                    }else {
+                         UserHelper.setContract(isSigned: false)
+                    }
+                }
+                
+        }, failure: {error in
+            //隐藏HUD
+            self.hideHud()
+        })
+    }
+    
+    //MARK: - 合同签约
+    func signContract(flag: String){
+        
+        //添加HUD
+        self.showHud(in: self.view)
+        var params = NetConnect.getBaseRequestParams()
+        params["orderId"] = self.orderId
+        params["flag"] = flag
+        
+        NetConnect.other_contract_sign(parameters: params, success:
+            { response in
+                //隐藏HUD
+                self.hideHud()
+                let json = JSON(response)
+                guard json["RET_CODE"] == "000000" else{
+                    return self.showHint(in: self.view, hint: json["RET_DESC"].stringValue)
+                }
+                self.isSign = true //进入了签字界面
+                YHTSdk.setToken(json["backInfo"]["TOKEN"].stringValue)
+                let YHTVC = YHTContractContentViewController.instance(withContractID: json["backInfo"]["contractId"].numberValue)
+                self.navigationController?.pushViewController(YHTVC!, animated: true)
+                
+        }, failure: {error in
+            //隐藏HUD
+            self.hideHud()
+        })
+    }
+
     
     //MARK: 上传服务单
     func uploadBillImage(image:UIImage){

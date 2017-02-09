@@ -364,6 +364,7 @@ class MineViewController: UIViewController, UIGestureRecognizerDelegate,UICollec
             //隐藏HUD
             self.hideHud()
             self.aScrollView.mj_header.endRefreshing()
+            self.showHint(in: self.view, hint: "网络请求失败")
         })
     }
     
@@ -398,7 +399,7 @@ class MineViewController: UIViewController, UIGestureRecognizerDelegate,UICollec
         topHeight = topImageHeight
         
         //头像
-        UserHelper.setUserHeader(headerUrl: BASR_DEV_URL + json["head_img"].stringValue)
+        UserHelper.setUserHeader(headerUrl: BASR_DEV_URL + json["headImg"].stringValue)
         mineTopView.headerImageView.kf_setImage(with: URL(string: UserHelper.getUserHeaderUrl() ?? ""), placeholder: UIImage(named: "m_heder_icon_90x90"), options: nil, progressBlock: nil, completionHandler: nil)
         
         //未读消息

@@ -161,13 +161,14 @@ class BorrowMoneyView: UIView {
         button.setBackgroundImage(UIImage(named:"btn_green_150x44"), for: .normal)
         button.titleLabel?.font = UIFontBoldSize(size: 18*UIRate)
         button.addTarget(self, action: #selector(writeBtnAction), for: .touchUpInside)
+        button.isHidden = true
         return button
     }()
     
     ///承载锁和提示语,默认隐藏
      lazy var holdTipsView: UIView = {
         let holdView = UIView()
-        holdView.isHidden = true
+        holdView.isHidden = false
         return holdView
     }()
     
@@ -179,12 +180,12 @@ class BorrowMoneyView: UIView {
     }()
     
     //提示语
-   private lazy var tipTextLabel: UILabel = {
+   lazy var tipTextLabel: UILabel = {
         let label = UILabel()
         label.font = UIFontSize(size: 12*UIRate)
         label.textColor = UIColorHex("919191")
         label.numberOfLines = 0
-        label.text = "需完成之前的步骤\n才能进入呦"
+        label.text = UserHelper.getIsReject() ? "锁定中，不可修改!" : "需完成之前的步骤\n才能进入呦"//如果是驳回的则更改文案
         return label
     }()
 

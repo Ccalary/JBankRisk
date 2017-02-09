@@ -7,7 +7,7 @@
 //
 
 import UIKit
-let LOCAL = "http://192.168.1.76:8080" //本地
+let LOCAL = "http://192.168.1.80:8080" //本地
 let ONLINE = "http://106.38.109.11:8081" //线上
 let PRODUCT = "http://123.57.66.164:11569"//生产
 
@@ -41,11 +41,17 @@ let BM_IDENTITY_UPLOAD = BASR_DEV_URL + "/jinangk.xhtml?TX_CODE=590013"
 /// 2.3 产品信息上传
 let BM_PRODUCT_UPLOAD = BASR_DEV_URL + "/jinangk.xhtml?TX_CODE=490041"
 
+/// 2.3.1 产品信息上传(驳回)
+let BM_PRODUCT_UPLOAD_REJECT = BASR_DEV_URL + "/jinangk.xhtml?TX_CODE=490043"
+
 /// 2.4 获取商户地址
 let BM_GET_SALE_ADDRESS = BASR_DEV_URL + "/jinangk.xhtml?TX_CODE=490012"
 
 /// 2.5 学校信息上传
 let BM_SCHOOL_UPLOAD = BASR_DEV_URL + "/jinangk.xhtml?TX_CODE=590042"
+
+/// 2.5.1 学校信息上传(驳回)
+let BM_SCHOOL_UPLOAD_REJECT = BASR_DEV_URL + "/jinangk.xhtml?TX_CODE=590043"
 
 /// 2.6 获取学校名称
 let BM_GET_SCHOOL_NAME = BASR_DEV_URL + "/jinangk.xhtml?TX_CODE=490099"
@@ -59,8 +65,14 @@ let BM_COUNT_REPAYMENT_URL = BASR_DEV_URL + "/jinangk.xhtml?TX_CODE=400046"
 /// 2.9 职业信息上传
 let BM_WORK_UPLOAD = BASR_DEV_URL + "/jinangk.xhtml?TX_CODE=490071"
 
+/// 2.9.1 职业信息上传(驳回)
+let BM_WORK_UPLOAD_REJECT = BASR_DEV_URL + "/jinangk.xhtml?TX_CODE=490072"
+
 /// 2.10 联系人信息上传
 let BM_CONTACT_UPLOAD = BASR_DEV_URL + "/jinangk.xhtml?TX_CODE=490091"
+
+/// 2.10.1 联系人信息上传(驳回)
+let BM_CONTACT_UPLOAD_REJECT = BASR_DEV_URL + "/jinangk.xhtml?TX_CODE=490097"
 
 /// 2.11 照片信息上传
 let BM_PHOTO_UPLOAD = BASR_DEV_URL + "/jinangk.xhtml?TX_CODE=100001"
@@ -77,11 +89,20 @@ let BM_GET_PRODUCT_INFO = BASR_DEV_URL + "/jinangk.xhtml?TX_CODE=490044"
 /// 2.15工作信息回传
 let BM_GET_WORK_INFO = BASR_DEV_URL + "/jinangk.xhtml?TX_CODE=490074"
 
+/// 2.15.1工作信息回传(驳回)
+let BM_GET_WORK_INFO_REJECT = BASR_DEV_URL + "/jinangk.xhtml?TX_CODE=490075"
+
 /// 2.16学校信息回传
 let BM_GET_SCHOOL_INFO = BASR_DEV_URL + "/jinangk.xhtml?TX_CODE=490094"
 
+/// 2.16.1学校信息回传(驳回)
+let BM_GET_SCHOOL_INFO_REJECT = BASR_DEV_URL + "/jinangk.xhtml?TX_CODE=490095"
+
 /// 2.17联系信息回传
 let BM_GET_CONTACT_INFO = BASR_DEV_URL + "/jinangk.xhtml?TX_CODE=490093"
+
+/// 2.17.1联系信息回传(驳回)
+let BM_GET_CONTACT_INFO_REJECT = BASR_DEV_URL + "/jinangk.xhtml?TX_CODE=490092"
 
 /// 2.18照片信息回传
 let BM_GET_DATA_INFO = BASR_DEV_URL + "/jinangk.xhtml?TX_CODE=490114"
@@ -89,8 +110,11 @@ let BM_GET_DATA_INFO = BASR_DEV_URL + "/jinangk.xhtml?TX_CODE=490114"
 /// 2.19借款状态与信息上传状态
 let BM_BORROW_STATUS = BASR_DEV_URL + "/jinangk.xhtml?TX_CODE=490012"
 
-/// 2.20收入信息上传
+/// 2.20自由族收入信息上传
 let BM_INCOME_STATUS = BASR_DEV_URL + "/jinangk.xhtml?TX_CODE=490413"
+
+/// 2.20.1自由族收入信息上传(驳回)
+let BM_INCOME_STATUS_REJECT = BASR_DEV_URL + "/jinangk.xhtml?TX_CODE=490414"
 
 /***************************个人中心(PC)****************************/
 

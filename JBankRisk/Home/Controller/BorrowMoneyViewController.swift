@@ -291,49 +291,39 @@ class BorrowMoneyViewController: UIViewController,iCarouselDelegate, iCarouselDa
     //MARK: - 轮播界面
     private lazy var identityView: BorrowMoneyView = {
         let popView = BorrowMoneyView(viewType: .identity)
+        popView.holdTipsView.isHidden = true
+        popView.writeBtn.isHidden = false
         return popView
     }()
     
     private lazy var productView: BorrowMoneyView = {
         let popView = BorrowMoneyView(viewType: .product)
-        popView.holdTipsView.isHidden = false
-        popView.writeBtn.isHidden = true
         return popView
     }()
     
     private lazy var workView: BorrowMoneyView = {
         let popView = BorrowMoneyView(viewType: .work)
-        popView.holdTipsView.isHidden = false
-        popView.writeBtn.isHidden = true
         return popView
     }()
     
     private lazy var schoolView: BorrowMoneyView = {
         let popView = BorrowMoneyView(viewType: .school)
-        popView.holdTipsView.isHidden = false
-        popView.writeBtn.isHidden = true
         return popView
     }()
     
     private lazy var incomeView: BorrowMoneyView = {
         let popView = BorrowMoneyView(viewType: .income)
-        popView.holdTipsView.isHidden = false
-        popView.writeBtn.isHidden = true
         return popView
     }()
 
     
     private lazy var contactView: BorrowMoneyView = {
         let popView = BorrowMoneyView(viewType: .contact)
-        popView.holdTipsView.isHidden = false
-        popView.writeBtn.isHidden = true
         return popView
     }()
     
     private lazy var dataView: BorrowMoneyView = {
         let popView = BorrowMoneyView(viewType: .data)
-        popView.holdTipsView.isHidden = false
-        popView.writeBtn.isHidden = true
         return popView
     }()
     
@@ -476,8 +466,12 @@ class BorrowMoneyViewController: UIViewController,iCarouselDelegate, iCarouselDa
     //判断上传了多少信息
     func judgeUploadInfo(){
         if UserHelper.getIdentityIsUpload() {
-             imageColor.0 = "light"
+            imageColor.0 = "light"
             identityImageView.finishImageView.isHidden = false
+            if UserHelper.getIsReject() { //如果是被驳回
+                identityView.holdTipsView.isHidden = false
+                identityView.writeBtn.isHidden = true
+            }
             productView.holdTipsView.isHidden = true
             productView.writeBtn.isHidden = false
         }
@@ -525,6 +519,10 @@ class BorrowMoneyViewController: UIViewController,iCarouselDelegate, iCarouselDa
         if UserHelper.getDataIsUpload() {
             imageColor.6 = "light"
             dataImageView.finishImageView.isHidden = false
+            if UserHelper.getIsReject() { //如果是被驳回
+                dataView.holdTipsView.isHidden = false
+                dataView.writeBtn.isHidden = true
+            }
         }
     }
     

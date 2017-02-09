@@ -152,7 +152,7 @@ class ContactViewController: UIViewController, UITableViewDelegate, UITableViewD
     private lazy var nextStepBtn: UIButton = {
         let button = UIButton()
         button.setBackgroundImage(UIImage(named: "btn_red_254x44"), for: .normal)
-        button.setTitle("下一步", for: UIControlState.normal)
+        button.setTitle( UserHelper.getIsReject() ? "保存修改" : "下一步", for: UIControlState.normal)
         button.titleLabel?.font = UIFontBoldSize(size: 18*UIRate)
         button.addTarget(self, action: #selector(nextStepBtnAction), for: .touchUpInside)
         return button
@@ -424,7 +424,6 @@ class ContactViewController: UIViewController, UITableViewDelegate, UITableViewD
     
     //MARK: - 访问通讯录
     //代理方法--可获得姓名，电话，邮箱等信息
-  
     @available(iOS 9.0, *)
     func contactPicker(_ picker: CNContactPickerViewController, didSelect contact: CNContact) {
         var phoneNum = ""
@@ -527,8 +526,8 @@ class ContactViewController: UIViewController, UITableViewDelegate, UITableViewD
     //下一步
     func nextStepBtnAction(){
     
-        //是否已生成订单
-        guard !UserHelper.getAllFinishIsUpload() else {
+        //是否已生成订单并且没有被驳回
+        guard !(UserHelper.getAllFinishIsUpload() && !UserHelper.getIsReject()) else {
             self.showHint(in: self.view, hint: "订单已生成，信息不可更改哦！")
             return
         }
@@ -550,6 +549,11 @@ class ContactViewController: UIViewController, UITableViewDelegate, UITableViewD
             else {
                 self.showHint(in: self.view, hint: "请完善信息再上传!")
                 return
+        }
+        
+        guard self.relativeContactInfo.number != self.urgentContactInfo.number else{
+            self.showHint(in: self.view, hint: "不可使用同一联系人")
+            return
         }
         
         //添加HUD
@@ -588,6 +592,11 @@ class ContactViewController: UIViewController, UITableViewDelegate, UITableViewD
         params["name2"] = self.urgentContactInfo.name
         params["mobile2"] = self.urgentContactInfo.number
         
+        //如果是驳回的则上传orderId
+        if UserHelper.getIsReject() {
+            params["orderId"] = UserHelper.getHomeNewOneOrderId()
+        }
+        
         NetConnect.bm_upload_contact_info(parameters: params, success:
             { response in
                 //隐藏HUD
@@ -603,8 +612,12 @@ class ContactViewController: UIViewController, UITableViewDelegate, UITableViewD
                     self.uploadSucDelegate?.upLoadInfoSuccess()
                 }
                 self.showHintInKeywindow(hint: "联系信息上传完成！",yOffset: SCREEN_HEIGHT/2 - 100*UIRate)
-                
-                self.pushToNextVC()
+                //如果是驳回的则直接退出界面
+                if UserHelper.getIsReject() {
+                   self.leftNavigationBarBtnAction()
+                }else{
+                    self.pushToNextVC()
+                }
                 
         }, failure: {error in
             //隐藏HUD
@@ -625,7 +638,11 @@ class ContactViewController: UIViewController, UITableViewDelegate, UITableViewD
         //添加HUD
         self.showHud(in: self.view, hint: "加载中...")
         
-        let params = ["userId": UserHelper.getUserId()!]
+        var params = ["userId": UserHelper.getUserId()!]
+        //如果是驳回的则上传orderId
+        if UserHelper.getIsReject() {
+            params["orderId"] = UserHelper.getHomeNewOneOrderId()
+        }
         
         NetConnect.bm_get_contact_info(parameters: params, success: { response in
             //隐藏HUD
@@ -705,7 +722,6 @@ extension ContactViewController {
             var params = NetConnect.getBaseRequestParams()
             params["channel"] = "3"
             params["contracts"] = toolsChangeToJson(info: contacts)
-            PrintLog(contacts)
             UserHelper.uploadUserContactInfo(withparams:params)
             
         }, authorizationFailure: {

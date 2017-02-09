@@ -96,8 +96,9 @@ class NetConnect {
     ///2.3产品信息上传
     static func bm_upload_product_info(parameters: Parameters,success:@escaping (_ response:[String:AnyObject]) -> (),failure:@escaping(_ error: Error) -> ()){
         
-        NetworkRequest.sharedInstance.postRequest(urlString: BM_PRODUCT_UPLOAD, params: parameters, success: { (response) in
+        NetworkRequest.sharedInstance.postRequest(urlString: UserHelper.getIsReject() ? BM_PRODUCT_UPLOAD_REJECT : BM_PRODUCT_UPLOAD, params: parameters, success: { (response) in
             success(response)
+
         }, failture: { (error) in
             failure(error)
         })
@@ -116,7 +117,7 @@ class NetConnect {
     ///2.5学校信息上传
     static func bm_upload_school_info(parameters: Parameters,success:@escaping (_ response:[String:AnyObject]) -> (),failure:@escaping(_ error: Error) -> ()){
         
-        NetworkRequest.sharedInstance.postRequest(urlString: BM_SCHOOL_UPLOAD, params: parameters, success: { (response) in
+        NetworkRequest.sharedInstance.postRequest(urlString: UserHelper.getIsReject() ? BM_SCHOOL_UPLOAD_REJECT : BM_SCHOOL_UPLOAD, params: parameters, success: { (response) in
             success(response)
         }, failture: { (error) in
             failure(error)
@@ -156,7 +157,7 @@ class NetConnect {
     /// 2.9职业信息上传
     static func bm_upload_work_info(parameters: Parameters,success:@escaping (_ response:[String:AnyObject]) -> (),failure:@escaping(_ error: Error) -> ()){
         
-        NetworkRequest.sharedInstance.postRequest(urlString: BM_WORK_UPLOAD, params: parameters, success: { (response) in
+        NetworkRequest.sharedInstance.postRequest(urlString: UserHelper.getIsReject() ? BM_WORK_UPLOAD_REJECT : BM_WORK_UPLOAD, params: parameters, success: { (response) in
             success(response)
         }, failture: { (error) in
             failure(error)
@@ -166,7 +167,7 @@ class NetConnect {
     /// 2.10联系信息上传
     static func bm_upload_contact_info(parameters: Parameters,success:@escaping (_ response:[String:AnyObject]) -> (),failure:@escaping(_ error: Error) -> ()){
         
-        NetworkRequest.sharedInstance.postRequest(urlString: BM_CONTACT_UPLOAD, params: parameters, success: { (response) in
+        NetworkRequest.sharedInstance.postRequest(urlString: UserHelper.getIsReject() ? BM_CONTACT_UPLOAD_REJECT : BM_CONTACT_UPLOAD, params: parameters, success: { (response) in
             success(response)
         }, failture: { (error) in
             failure(error)
@@ -206,7 +207,7 @@ class NetConnect {
     /// 2.14获得工作信息
     static func bm_get_work_info(parameters: Parameters,success:@escaping (_ response:[String:AnyObject]) -> (),failure:@escaping(_ error: Error) -> ()){
         
-        NetworkRequest.sharedInstance.getRequest(urlString: BM_GET_WORK_INFO, params: parameters, success: { (response) in
+        NetworkRequest.sharedInstance.getRequest(urlString: UserHelper.getIsReject() ? BM_GET_WORK_INFO_REJECT : BM_GET_WORK_INFO, params: parameters, success: { (response) in
             success(response)
         }, failture: { (error) in
             failure(error)
@@ -216,7 +217,7 @@ class NetConnect {
     /// 2.15获得学校信息
     static func bm_get_school_info(parameters: Parameters,success:@escaping (_ response:[String:AnyObject]) -> (),failure:@escaping(_ error: Error) -> ()){
         
-        NetworkRequest.sharedInstance.getRequest(urlString: BM_GET_SCHOOL_INFO, params: parameters, success: { (response) in
+        NetworkRequest.sharedInstance.getRequest(urlString: UserHelper.getIsReject() ? BM_GET_SCHOOL_INFO_REJECT : BM_GET_SCHOOL_INFO, params: parameters, success: { (response) in
             success(response)
         }, failture: { (error) in
             failure(error)
@@ -226,7 +227,7 @@ class NetConnect {
     /// 2.16获得联系信息
     static func bm_get_contact_info(parameters: Parameters,success:@escaping (_ response:[String:AnyObject]) -> (),failure:@escaping(_ error: Error) -> ()){
         
-        NetworkRequest.sharedInstance.getRequest(urlString: BM_GET_CONTACT_INFO, params: parameters, success: { (response) in
+        NetworkRequest.sharedInstance.getRequest(urlString: UserHelper.getIsReject() ? BM_GET_CONTACT_INFO_REJECT : BM_GET_CONTACT_INFO, params: parameters, success: { (response) in
             success(response)
         }, failture: { (error) in
             failure(error)
@@ -246,7 +247,7 @@ class NetConnect {
     /// 2.18收入信息上传
     static func bm_upload_income_info(parameters: Parameters,success:@escaping (_ response:[String:AnyObject]) -> (),failure:@escaping(_ error: Error) -> ()){
         
-        NetworkRequest.sharedInstance.postRequest(urlString: BM_INCOME_STATUS, params: parameters, success: { (response) in
+        NetworkRequest.sharedInstance.postRequest(urlString: UserHelper.getIsReject() ? BM_INCOME_STATUS_REJECT : BM_INCOME_STATUS, params: parameters, success: { (response) in
             success(response)
         }, failture: { (error) in
             failure(error)

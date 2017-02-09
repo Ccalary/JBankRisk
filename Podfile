@@ -15,7 +15,7 @@ target ‘JBankRisk’ do
    pod 'Pingpp/Alipay', '~> 2.2.10'
    pod 'Pingpp/Wx’, '~> 2.2.10'
    pod 'Bugly'
-   pod ’ObjectMapper', '~> 2.2'
+   pod 'ObjectMapper', '~> 2.2'
    pod 'AlamofireObjectMapper', '~> 4.0'
 
 post_install do |installer|

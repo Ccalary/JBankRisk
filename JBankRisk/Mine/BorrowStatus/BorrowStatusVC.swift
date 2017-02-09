@@ -74,7 +74,7 @@ class BorrowStatusVC: UIViewController {
                 infoView.isHidden = false
             case "9": //补交材料
                 statusType = .reUploadData
-                topHeight = 280*UIRate
+                topHeight = 300*UIRate
                 infoView.isHidden = false
             default:
                 statusType = .defaultStatus
@@ -165,10 +165,11 @@ class BorrowStatusVC: UIViewController {
             
             //如果是还款中加载已签署的合同
             if  self.statusType == .repaying || self.statusType == .checking {
-                let contractVC = ContractViewController()
-                contractVC.viewType = .search
-                contractVC.orderId = self.orderId
-                self.navigationController?.pushViewController(contractVC, animated: true)
+                 self.requestListData()
+//                let contractVC = ContractViewController()
+//                contractVC.viewType = .search
+//                contractVC.orderId = self.orderId
+//                self.navigationController?.pushViewController(contractVC, animated: true)
 
             }else {
                 let webView = BaseWebViewController()
@@ -257,9 +258,10 @@ class BorrowStatusVC: UIViewController {
             }
             
             self.orderInfo = json["Infos"]
-            
+            self.status = json["jstatus"].stringValue
+            self.statusView.failDis = json["descrption"].stringValue
+            self.statusView.statusType = self.statusType
             self.refreshOrderUI(json: json["Infos"])
-            
             
         }, failure:{ error in
             //隐藏HUD
@@ -271,9 +273,6 @@ class BorrowStatusVC: UIViewController {
          self.title = json["orderName"].stringValue
          navHoldView.navTextLabel.text = self.title
          self.infoView.json = json
-         self.status = json["jstatus"].stringValue
-         self.statusView.failDis = json["descrption"].stringValue
-         self.statusView.statusType = self.statusType
          self.orderId = json["orderId"].stringValue
     }
     
@@ -309,10 +308,62 @@ class BorrowStatusVC: UIViewController {
             case .reUploadData://被驳回
                 let dataVC = DataReuploadVC()
                 self.navigationController?.pushViewController(dataVC, animated: true)
-                
             default:
                 break
             }
         }
+        
+        //修改非图片资料
+        statusView.onClickTipsButton = { [unowned self] in
+            self.navigationController?.pushViewController(BorrowMoneyViewController(), animated: true)
+        }
+    }
+    
+    //MARK:- 合同 请求数据
+    func requestListData(){
+        //添加HUD
+        self.showHud(in: self.view)
+        var params = NetConnect.getBaseRequestParams()
+        params["orderId"] = self.orderId
+        
+        NetConnect.other_contract_list(parameters: params, success:
+            { response in
+                
+                let json = JSON(response)
+                guard json["RET_CODE"] == "000000" else{
+                    return self.showHint(in: self.view, hint: json["RET_DESC"].stringValue)
+                }
+                
+                self.seeContract(contractId: json["backList"].arrayValue[0]["contractId"].stringValue)
+                
+        }, failure: {error in
+            //隐藏HUD
+            self.hideHud()
+        })
+    }
+    
+    //合同查看
+    func seeContract(contractId: String){
+        var params = NetConnect.getBaseRequestParams()
+        params["orderId"] = self.orderId
+        params["contractId"] = contractId
+        
+        NetConnect.other_contract_search(parameters: params, success:
+            { response in
+                //隐藏HUD
+                self.hideHud()
+                let json = JSON(response)
+                guard json["RET_CODE"] == "000000" else{
+                    return self.showHint(in: self.view, hint: json["RET_DESC"].stringValue)
+                }
+                YHTSdk.setToken(json["backInfo"]["token"].stringValue)
+                let YHTVC = YHTContractContentViewController.instance(withContractID: json["backInfo"]["contractId"].numberValue)
+                YHTVC?.titleStr = "合同查看"
+                self.navigationController?.pushViewController(YHTVC!, animated: true)
+                
+        }, failure: {error in
+            //隐藏HUD
+            self.hideHud()
+        })
     }
 }

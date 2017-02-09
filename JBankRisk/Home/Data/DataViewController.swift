@@ -479,6 +479,7 @@ class DataViewController: UIViewController,UITableViewDelegate, UITableViewDataS
         let image = info[UIImagePickerControllerOriginalImage] as! UIImage
         //主线程刷新
         DispatchQueue.main.async {
+        
             self.photoArray.append((image,self.dataArray[self.selectCell].leftText,self.selectCell))
             self.numArray[self.selectCell] += 1
             self.dataArray[self.selectCell].content = "已上传\(self.numArray[self.selectCell])张"
@@ -540,14 +541,16 @@ extension DataViewController {
         for i in 0..<numArray.count {
             if dataArray[i].holdText.contains("选填") {
                 break
-            }else {
-                if numArray[i] == 0 {
+            }else if dataArray[i].leftText.contains("身份证") {
+                if numArray[i] < 2{
+                    self.showHint(in: self.view, hint: "身份证信息至少上传两张照片")
+                    return
+                }
+            }else if numArray[i] == 0{
                     self.showHint(in: self.view, hint: "每条信息至少上传一张照片")
                     return
                 }
-            }
-        }
-        
+          }
             let popupView = PopupSubmitTipsView()
             let popupController = CNPPopupController(contents: [popupView])!
             popupController.present(animated: true)
@@ -558,7 +561,7 @@ extension DataViewController {
                 popupController.dismiss(animated: true)
                 self.uploadPhoto()
             }
-}
+    }
     
     //MARK: - 照片上传
     func uploadPhoto(){
@@ -592,12 +595,17 @@ extension DataViewController {
             if self.uploadSucDelegate != nil {
                 self.uploadSucDelegate?.upLoadInfoSuccess()
             }
-            self.showHintInKeywindow(hint: "附件上传成功！",yOffset: SCREEN_HEIGHT/2 - 100*UIRate)
+        
+            self.showHint(in: self.view, hint: "附件上传成功！")
             
-            let webVC = JulixinWebViewController()
-            webVC.requestUrl = json["actionUrl"].stringValue
-            webVC.webTitle = "聚信立"
-            self.navigationController?.pushViewController(webVC, animated: false)
+            //延时执行
+            DispatchQueue.main.asyncAfter(deadline: DispatchTime.now() + 0.5){
+                
+                let webVC = JulixinWebViewController()
+                webVC.requestUrl = json["actionUrl"].stringValue
+                webVC.webTitle = "聚信立"
+                self.navigationController?.pushViewController(webVC, animated: false)
+            }
             
         }, failure: { error in
             //隐藏HUD

@@ -30,6 +30,8 @@ class BorrowStatusView: UIView {
              case reUploadData//补交材料
              case defaultStatus //缺省
              */
+            tipsBtn.isHidden = true
+            
             switch statusType {
             case .finish://订单完结
                 self.bgImageView.isHidden = false
@@ -86,6 +88,7 @@ class BorrowStatusView: UIView {
                 }
                 nextStepBtn.isHidden = false
                 nextStepBtn.setTitle("补交材料", for: UIControlState.normal)
+                tipsBtn.isHidden = false
                 break
             case .defaultStatus:
                 self.bgImageView.isHidden = true
@@ -114,6 +117,7 @@ class BorrowStatusView: UIView {
         self.addSubview(disTextLabel)
         self.addSubview(nextStepBtn)
         self.addSubview(tipsTextLabel)
+        self.addSubview(tipsBtn)
         self.addSubview(divideLine1)
         
         bgImageView.snp.makeConstraints { (make) in
@@ -142,6 +146,13 @@ class BorrowStatusView: UIView {
         }
 
         tipsTextLabel.snp.makeConstraints { (make) in
+            make.centerX.equalTo(self)
+            make.top.equalTo(nextStepBtn.snp.bottom).offset(10*UIRate)
+        }
+        
+        tipsBtn.snp.makeConstraints { (make) in
+            make.width.equalTo(150*UIRate)
+            make.height.equalTo(20*UIRate)
             make.centerX.equalTo(self)
             make.top.equalTo(nextStepBtn.snp.bottom).offset(10*UIRate)
         }
@@ -196,6 +207,17 @@ class BorrowStatusView: UIView {
         label.textColor = UIColorHex("e9342d")
         return label
     }()
+    
+    //／按钮
+    private lazy var tipsBtn: UIButton = {
+        let button = UIButton()
+        button.isHidden = true
+        button.titleLabel?.font = UIFontSize(size: 15*UIRate)
+        button.setTitle("非图片资料修改>", for: .normal)
+        button.setTitleColor(UIColorHex("3caafa"), for: .normal)
+        button.addTarget(self, action: #selector(tipsBtnAction), for: .touchUpInside)
+        return button
+    }()
 
     //分割线
     private lazy var divideLine1: UIView = {
@@ -205,10 +227,18 @@ class BorrowStatusView: UIView {
     }()
 
     var onClickButton:(()->())?
+    var onClickTipsButton:(()->())?
     
     func nextStepBtnAction(){
         if let onClickButton = onClickButton {
             onClickButton()
+        }
+    }
+    
+    //点击修改
+    func tipsBtnAction(){
+        if let onClickTipsButton = onClickTipsButton {
+            onClickTipsButton()
         }
     }
 }

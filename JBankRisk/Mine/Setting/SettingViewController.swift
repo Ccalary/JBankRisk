@@ -30,6 +30,7 @@ class SettingViewController: UIViewController,UITableViewDelegate, UITableViewDa
         self.initCameraPicker()
     }
     
+    /****************/
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
         

@@ -13,7 +13,6 @@ class RepayBillViewController: UIViewController, UITableViewDataSource, UITableV
 
     //是否有数据
     var isHaveData = false
-    
     //月还款状态
     var monthRepayStatus: RepayStatusType = .finish
     
@@ -434,6 +433,8 @@ class RepayBillViewController: UIViewController, UITableViewDataSource, UITableV
             if monthDataArray.count == 0 {
                 cell.leftTextLabel.textColor = UIColorHex("999999")
                 cell.leftTextLabel.text = "暂无待还借款"
+                cell.rightSecondTextLabel.text = ""
+                cell.rightTextLabel.text = ""
                 cell.arrowImageView.isHidden = true
             }else {
                 cell.leftTextLabel.textColor = UIColorHex("666666")
@@ -545,6 +546,8 @@ class RepayBillViewController: UIViewController, UITableViewDataSource, UITableV
         totalMoneyLabel.text = toolsChangeMoneyStyle(amount: json["currentPayMoney"].doubleValue)
         if json["currentPayMoney"].doubleValue > 0{
             self.recentTimeLabel.text = "最近还款日" + toolsChangeDateStyle(toMMDD: json["RecentPayDate"].stringValue)
+        }else{
+             self.recentTimeLabel.text = ""
         }
         
         self.monthDataArray.removeAll()

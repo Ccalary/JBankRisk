@@ -44,5 +44,22 @@ extension NetworkTools {
             }
         }
     }
-
+    
+    /*
+     学校信息
+     **/
+    func schoolListDetail(parameters : [String : Any]? = nil, finished :  @escaping (_ result : SchoolListModel?, _ error: Error?) -> ()) {
+        
+        Alamofire.request(BM_GET_SCHOOL_NAME, method: HTTPMethod.post, parameters: parameters).responseObject { (response: DataResponse<SchoolListModel>) in
+            
+            let schoolListResponse = response.result.value
+            let json = JSON(data: response.data!)
+            PrintLog(json)
+            if let schoolListResponse = schoolListResponse {
+                finished(schoolListResponse, nil)
+            }else {
+                finished(nil,response.result.error)
+            }
+        }
+    }
 }

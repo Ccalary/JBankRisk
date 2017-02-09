@@ -11,6 +11,7 @@
 
 @interface YHTContractContentViewController : UIViewController
 
+@property (nonatomic, strong) NSString *titleStr; //标题名称
 /**
  *  'YHTContractContentViewController'实例方法
  *

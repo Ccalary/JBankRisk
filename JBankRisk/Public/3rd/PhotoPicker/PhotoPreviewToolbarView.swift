@@ -35,7 +35,7 @@ class PhotoPreviewToolbarView: UIView {
         self.backgroundColor = UIColor(red: 40/255, green: 40/255, blue: 40/255, alpha: 1)
         
         // back arrow buttton
-        let backArrow = UIButton(frame: CGRect(x: 5, y: 5, width: 40, height: 40))
+        let backArrow = UIButton(frame: CGRect(x: 5, y: 12, width: 40, height: 40))
         let backArrowImage = UIImage(named: "arrow_back")
         backArrow.setImage(backArrowImage, for: UIControlState.normal)
         backArrow.addTarget(self, action: #selector(PhotoPreviewToolbarView.eventBackArrow), for: .touchUpInside)

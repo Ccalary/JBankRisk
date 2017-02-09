@@ -538,7 +538,6 @@ class IdentityViewController: UIViewController {
     /*********/
     private lazy var bottomHoldView: UIView = {
         let holdView = UIView()
-        holdView.isHidden = true
         holdView.backgroundColor = UIColor.white
         return holdView
     }()
@@ -579,7 +578,6 @@ class IdentityViewController: UIViewController {
         label.addTarget(self, action: #selector(textFieldAction(_:)), for: .editingChanged)
         label.placeholder = "请输入您的身份证号"
         label.textColor = UIColorHex("666666")
-    
         return label
     }()
 
@@ -592,7 +590,6 @@ class IdentityViewController: UIViewController {
         button.addTarget(self, action: #selector(nextStepBtnAction), for: .touchUpInside)
         return button
     }()
-    
     
      //MARK: - Timer
     func startCount(){
@@ -705,9 +702,8 @@ class IdentityViewController: UIViewController {
         let idCardVC =  IDCardViewController(nibName: nil, bundle: nil)
         idCardVC.block = {[unowned self] (name,code,address) in
             UserHelper.setUserHome(address: address)
-            self.nameTextLabel.text = name;
-            self.idNumLabel.text = code;
-            self.bottomHoldView.isHidden = false
+            self.nameTextLabel.text = name
+            self.idNumLabel.text = code
             self.idImageView.image = UIImage(named: "bm_idCard_did_65x43")
         }
         self.navigationController?.pushViewController(idCardVC, animated: true)
@@ -881,7 +877,6 @@ class IdentityViewController: UIViewController {
         self.phoneNumField.text = json["mobile"].stringValue
         self.nameTextLabel.text = json["realName"].stringValue
         self.idNumLabel.text = json["idCard"].stringValue
-        self.bottomHoldView.isHidden = false
         self.idImageView.image = UIImage(named: "bm_idCard_did_65x43")
     }
 }

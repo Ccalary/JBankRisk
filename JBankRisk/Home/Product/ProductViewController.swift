@@ -131,7 +131,7 @@ class ProductViewController: UIViewController,UITableViewDelegate, UITableViewDa
     private lazy var nextStepBtn: UIButton = {
         let button = UIButton()
         button.setBackgroundImage(UIImage(named: "btn_red_254x44"), for: .normal)
-        button.setTitle("下一步", for: UIControlState.normal)
+        button.setTitle(UserHelper.getIsReject() ? "保存修改" : "下一步", for: UIControlState.normal)
         button.titleLabel?.font = UIFontBoldSize(size: 18*UIRate)
         button.addTarget(self, action: #selector(nextStepBtnAction), for: .touchUpInside)
         return button
@@ -355,11 +355,12 @@ class ProductViewController: UIViewController,UITableViewDelegate, UITableViewDa
     //下一步(上传用户信息)
     func nextStepBtnAction(){
        
-        //是否已生成订单
-        guard !UserHelper.getAllFinishIsUpload() else {
+        //是否已生成订单并且没有被驳回
+        guard !(UserHelper.getAllFinishIsUpload() && !UserHelper.getIsReject()) else {
             self.showHint(in: self.view, hint: "订单已生成，信息不可更改哦！")
             return
         }
+        
         //判断是否可以上传
         guard self.proName.characters.count > 0,
              self.saleName.characters.count > 0,
@@ -384,7 +385,10 @@ class ProductViewController: UIViewController,UITableViewDelegate, UITableViewDa
         params["amt"] = self.borrowMoney
         params["employeeId"] = self.workerName
         params["total"] = total
-        
+        //如果是驳回的则上传orderId
+        if UserHelper.getIsReject() {
+            params["orderId"] = UserHelper.getHomeNewOneOrderId()
+        }
         NetConnect.bm_upload_product_info(parameters: params, success:
             { response in
                 

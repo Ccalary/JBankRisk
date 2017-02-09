@@ -193,6 +193,9 @@
 		0DDE5FD71E12A2A70076CE03 /* NavigationView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0DDE5FD61E12A2A70076CE03 /* NavigationView.swift */; };
 		0DDE5FD91E13A4C00076CE03 /* NoNeedRepayVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0DDE5FD81E13A4C00076CE03 /* NoNeedRepayVC.swift */; };
 		0DDF09CA1DD4DDB900E8946E /* ContactViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0D1EAA831DC8CC4900789E37 /* ContactViewController.swift */; };
+		0DE1E1751E4815CC009AB942 /* SchoolModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0DE1E1741E4815CC009AB942 /* SchoolModel.swift */; };
+		0DE1E1771E48169C009AB942 /* SchoolListModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0DE1E1761E48169C009AB942 /* SchoolListModel.swift */; };
+		0DE1E1791E481745009AB942 /* SchoolListVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0DE1E1781E481745009AB942 /* SchoolListVC.swift */; };
 		0DE7871B1DF9905600F175DB /* MJCustomRefreshHeader.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0DE7871A1DF9905600F175DB /* MJCustomRefreshHeader.swift */; };
 		0DECC8711DCAEB130022D3F6 /* AreaTableView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0DECC8701DCAEB130022D3F6 /* AreaTableView.swift */; };
 		0DECC8751DCB07D30022D3F6 /* DataCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0DECC8741DCB07D30022D3F6 /* DataCollectionViewCell.swift */; };
@@ -457,6 +460,9 @@
 		0DDE5FD41E12A2910076CE03 /* CyclePictureView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CyclePictureView.swift; sourceTree = "<group>"; };
 		0DDE5FD61E12A2A70076CE03 /* NavigationView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NavigationView.swift; sourceTree = "<group>"; };
 		0DDE5FD81E13A4C00076CE03 /* NoNeedRepayVC.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NoNeedRepayVC.swift; sourceTree = "<group>"; };
+		0DE1E1741E4815CC009AB942 /* SchoolModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SchoolModel.swift; sourceTree = "<group>"; };
+		0DE1E1761E48169C009AB942 /* SchoolListModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SchoolListModel.swift; sourceTree = "<group>"; };
+		0DE1E1781E481745009AB942 /* SchoolListVC.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SchoolListVC.swift; sourceTree = "<group>"; };
 		0DE7871A1DF9905600F175DB /* MJCustomRefreshHeader.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MJCustomRefreshHeader.swift; sourceTree = "<group>"; };
 		0DECC8701DCAEB130022D3F6 /* AreaTableView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AreaTableView.swift; sourceTree = "<group>"; };
 		0DECC8741DCB07D30022D3F6 /* DataCollectionViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DataCollectionViewCell.swift; sourceTree = "<group>"; };
@@ -531,6 +537,8 @@
 			isa = PBXGroup;
 			children = (
 				0D1EAA7F1DC8C88F00789E37 /* SchoolViewController.swift */,
+				0DE1E1781E481745009AB942 /* SchoolListVC.swift */,
+				0DE1E1731E4815A3009AB942 /* Model */,
 			);
 			path = School;
 			sourceTree = "<group>";
@@ -1327,6 +1335,15 @@
 			path = CyclePictureView;
 			sourceTree = "<group>";
 		};
+		0DE1E1731E4815A3009AB942 /* Model */ = {
+			isa = PBXGroup;
+			children = (
+				0DE1E1741E4815CC009AB942 /* SchoolModel.swift */,
+				0DE1E1761E48169C009AB942 /* SchoolListModel.swift */,
+			);
+			path = Model;
+			sourceTree = "<group>";
+		};
 		0DE787161DF98FE900F175DB /* MJRefresh */ = {
 			isa = PBXGroup;
 			children = (
@@ -1635,6 +1652,7 @@
 				0DDE5FD51E12A2910076CE03 /* CyclePictureView.swift in Sources */,
 				0D28B27F1E13BDDD00AA8B49 /* YHTSdk.m in Sources */,
 				0D28B29B1E14FD3500AA8B49 /* RepayBillViewController.swift in Sources */,
+				0DE1E1771E48169C009AB942 /* SchoolListModel.swift in Sources */,
 				0D3712281E1140FC007DA3C2 /* BillSelectTableViewCell.swift in Sources */,
 				0D1E82531DE1927A0040B39E /* PhotoAlbumsTableViewController.swift in Sources */,
 				0D61C42E1DB0CE0000C2BC23 /* BorrowMoneyView.swift in Sources */,
@@ -1649,6 +1667,7 @@
 				0D61C4281DB08ECE00C2BC23 /* PopupSelectRoleView.swift in Sources */,
 				0D28B2681E13BDDD00AA8B49 /* BasePopTableView.m in Sources */,
 				0D1070C21DAE297E00F9591C /* LoginPsdOrSetPsdVC.swift in Sources */,
+				0DE1E1751E4815CC009AB942 /* SchoolModel.swift in Sources */,
 				0D1E82591DE1927A0040B39E /* PhotoFetchOptions.swift in Sources */,
 				0D7BBB881DE316480071B84E /* RepayedNameView.swift in Sources */,
 				0D1E825A1DE1927A0040B39E /* PhotoImage.swift in Sources */,
@@ -1684,6 +1703,7 @@
 				0D1E82611DE1927A0040B39E /* PhotoPreviewViewController.swift in Sources */,
 				0D006DDD1DC7810D0091CF33 /* UserHelper.swift in Sources */,
 				0D84AAD81DE1919D00957B0A /* UIScrollViewExtension.swift in Sources */,
+				0DE1E1791E481745009AB942 /* SchoolListVC.swift in Sources */,
 				0D0E2A271DAA927A00A64F76 /* UIViewController+HUD.swift in Sources */,
 				0D28B27D1E13BDDD00AA8B49 /* YHTHttpRequest.m in Sources */,
 				0D93A1611E1CE05F0055E58B /* UserInfoCellModel.swift in Sources */,

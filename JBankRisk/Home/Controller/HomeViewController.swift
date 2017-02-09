@@ -161,6 +161,7 @@ class HomeViewController: UIViewController, UIGestureRecognizerDelegate{
             //隐藏HUD
             self.hideHud()
             self.aTableView.mj_header.endRefreshing()
+            self.showHint(in: self.view, hint: "网络请求失败")
         })
     }
     
@@ -178,6 +179,7 @@ class HomeViewController: UIViewController, UIGestureRecognizerDelegate{
     //老用户判断进程
     func getTheUploadProgree(flag: String, userType: String){
         //flag 进度  1－ 2- 3- 4- 5-   9完成
+        UserHelper.setIsReject(isReject: false)
         
         if flag == "2"{
             UserHelper.setIdentity(isUpload: true)
@@ -197,9 +199,9 @@ class HomeViewController: UIViewController, UIGestureRecognizerDelegate{
             
         }else if flag == "9" {
              //如果第一单进入还款中，则清空录入信息(只保留身份信息)
-            if self.mJstatus == "5" {
+            UserHelper.setIdentity(isUpload: true)
+            if self.mJstatus == "5" { //还款中
                 self.currentStep = 2
-                UserHelper.setIdentity(isUpload: true)
                 UserHelper.setProduct(isUpload: false)
                 UserHelper.setSchool(isUpload: false)
                 UserHelper.setWork(isUpload: false)
@@ -209,14 +211,21 @@ class HomeViewController: UIViewController, UIGestureRecognizerDelegate{
                 UserHelper.setAllFinishIsUpload(isUpload: false)
                 
             }else if self.mJstatus == "99" { //录入中
-                UserHelper.setIdentity(isUpload: true)
                 UserHelper.setProduct(isUpload: true)
                 self.setUpload(with: userType)
                 UserHelper.setContact(isUpload: true)
                 UserHelper.setData(isUpload: false)
                 UserHelper.setAllFinishIsUpload(isUpload: false)
+            }else if self.mJstatus == "9"{ //被驳回(身份信息和附件上传不可更改，其它可以更改)
+                UserHelper.setIsReject(isReject: true)
+                UserHelper.setHomeNewOneOrderId(self.orderId)//保存orderId
+                UserHelper.setProduct(isUpload: true)
+                self.setUpload(with: userType)
+                UserHelper.setContact(isUpload: true)
+                UserHelper.setData(isUpload: true)
+                UserHelper.setAllFinishIsUpload(isUpload: true)
+                
             }else {
-                UserHelper.setIdentity(isUpload: true)
                 UserHelper.setProduct(isUpload: true)
                 self.setUpload(with: userType)
                 UserHelper.setContact(isUpload: true)

@@ -15,6 +15,9 @@ class SchoolViewController:  UIViewController,UITableViewDelegate, UITableViewDa
     
     var uploadSucDelegate:UploadSuccessDelegate?
     
+    //学校列表
+    var schoolList: [SchoolModel] = []
+    
     //地区信息
     var areaInfo:(pro:String, city:String, county:String) = ("","","")
     var areaRow:(proRow:Int, cityRow:Int, countyRow:Int) = (-1,-1,-1)
@@ -25,14 +28,13 @@ class SchoolViewController:  UIViewController,UITableViewDelegate, UITableViewDa
     var majoyText = ""
     
     //学校名字
-    var schoolInfo: (row: Int, text:String, code:String) = (0,"","")
+    var schoolInfo: (text:String, code:String) = ("","")
     ///学历
     var eduDegreeInfo:(row: Int, text: String) = (0,"")
     ///年级
     var eduGradeInfo:(row: Int, text: String) = (0,"")
     ///学制
     var eduSystemInfo:(row: Int, text: String) = (0,"")
-
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -131,7 +133,7 @@ class SchoolViewController:  UIViewController,UITableViewDelegate, UITableViewDa
     private lazy var nextStepBtn: UIButton = {
         let button = UIButton()
         button.setBackgroundImage(UIImage(named: "btn_red_254x44"), for: .normal)
-        button.setTitle("下一步", for: UIControlState.normal)
+        button.setTitle(UserHelper.getIsReject() ? "保存修改" : "下一步", for: UIControlState.normal)
         button.titleLabel?.font = UIFontBoldSize(size: 18*UIRate)
         button.addTarget(self, action: #selector(nextStepBtnAction), for: .touchUpInside)
         return button
@@ -214,7 +216,6 @@ class SchoolViewController:  UIViewController,UITableViewDelegate, UITableViewDa
                 return
             }
             self.requestSchoolData()
-            
             
         }else if indexPath.row == 3 { //请选择学历
             let popupView =  PopupStaticSelectView(cellType: PopupStaticSelectView.PopupCellType.eduDegree, selectRow: self.eduDegreeInfo.row)
@@ -320,8 +321,8 @@ class SchoolViewController:  UIViewController,UITableViewDelegate, UITableViewDa
     //下一步
     func nextStepBtnAction(){
         
-        //是否已生成订单
-        guard !UserHelper.getAllFinishIsUpload() else {
+        //是否已生成订单并且没有被驳回
+        guard !(UserHelper.getAllFinishIsUpload() && !UserHelper.getIsReject()) else {
             self.showHint(in: self.view, hint: "订单已生成，信息不可更改哦！")
             return
         }
@@ -349,7 +350,10 @@ class SchoolViewController:  UIViewController,UITableViewDelegate, UITableViewDa
         params["school_len"] = self.eduSystemInfo.row + 1 //学制
         params["majoy"] = self.majoyText //专业
         params["grade"] = self.eduGradeInfo.row + 1
-        
+        //如果是驳回的则上传orderId
+        if UserHelper.getIsReject() {
+            params["orderId"] = UserHelper.getHomeNewOneOrderId()
+        }
         NetConnect.bm_upload_school_info(parameters: params, success:
             { response in
                 //隐藏HUD
@@ -381,8 +385,11 @@ class SchoolViewController:  UIViewController,UITableViewDelegate, UITableViewDa
         //添加HUD
         self.showHud(in: self.view, hint: "加载中...")
         
-        let params = ["userId": UserHelper.getUserId()!]
-        
+        var params = ["userId": UserHelper.getUserId()!]
+        //如果是驳回的则上传orderId
+        if UserHelper.getIsReject() {
+            params["orderId"] = UserHelper.getHomeNewOneOrderId()
+        }
         NetConnect.bm_get_school_info(parameters: params, success: { response in
             //隐藏HUD
             self.hideHud()
@@ -405,7 +412,8 @@ class SchoolViewController:  UIViewController,UITableViewDelegate, UITableViewDa
         self.province = self.areaInfo.pro
         self.placeText = json["address"].stringValue
         self.schoolInfo.text = json["school"].stringValue
-        self.eduDegreeInfo.row = json["education"].intValue - 5 //客户端与数据库数据不统一删除了4个低点的学历
+        let degree = json["education"].intValue - 5 //客户端与数据库数据不统一删除了4个低点的学历
+        self.eduDegreeInfo.row = degree < 0 ? 0 : degree
         self.eduDegreeInfo.text = eduDegreeData[self.eduDegreeInfo.row]
         let grade = json["grade"].intValue - 1
         self.eduGradeInfo.row = grade < 0 ? 0 : grade
@@ -418,7 +426,6 @@ class SchoolViewController:  UIViewController,UITableViewDelegate, UITableViewDa
     }
 }
 
-
 extension SchoolViewController {
     //请求学校信息
     func requestSchoolData(){
@@ -429,41 +436,40 @@ extension SchoolViewController {
         var params = NetConnect.getBaseRequestParams()
         params["province"] = self.province
         
-        NetConnect.bm_get_school_name(parameters: params, success:
-            { response in
-                
-                //隐藏HUD
-                self.hideHud()
-                let json = JSON(response)
-                guard json["RET_CODE"] == "000000" else{
-                    return self.showHint(in: self.view, hint: json["RET_DESC"].stringValue)
-                }
-               
-                let schoolArray = json["schoolCode"].arrayObject as! Array<Dictionary<String, Any>>
-                
-                let nameArray = schoolArray.map({ (schoolDic) in
-                    return schoolDic["school_name"] as! String
-                })
-                
-                let codeArray = schoolArray.map({ (schoolDic) in
-                    return schoolDic["school_code"] as! String
-                })
-                
-                let popupView =  PopupStaticSelectView(schoolInfo: nameArray, selectRow:self.schoolInfo.row)
-                let popupController = CNPPopupController(contents: [popupView])!
-                popupController.present(animated: true)
-                
-                popupView.onClickSelect = {[unowned self] (row, text) in
-                    self.schoolInfo = (row,text,codeArray[row])
-                    let position = IndexPath(row: 2, section: 0)
-                    self.aTableView.reloadRows(at: [position], with: UITableViewRowAnimation.none)
-                    popupController.dismiss(animated: true)
-                }
-                
-        }, failure: {error in
+        NetworkTools.sharedInstance.schoolListDetail(parameters: params, finished: { (response, error) in
             //隐藏HUD
             self.hideHud()
+            if let response = response {
+                if response.isSuccess(){
+                    
+                    self.schoolList = response.schoolCode
+                    
+                    let schoolListVC = SchoolListVC()
+                    schoolListVC.onClickSelect = {[unowned self] text in
+                        
+                        var schoolCode = ""
+                        //取出对应的code
+                        for i in 0..<self.schoolList.count{
+                            if text == self.schoolList[i].school_name{
+                                schoolCode = self.schoolList[i].school_code
+                            }
+                        }
+                        self.schoolInfo = (text,schoolCode)
+                        PrintLog(self.schoolInfo)
+                        let position = IndexPath(row: 2, section: 0)
+                        self.aTableView.reloadRows(at: [position], with: UITableViewRowAnimation.none)
+                    }
+                    schoolListVC.dataArray = self.schoolList
+                    let SchoolVCNav = HHNavigationController(rootViewController: schoolListVC)
+                    self.navigationController?.present(SchoolVCNav, animated: true, completion: nil)
+                    
+                    
+                }else {
+                    self.showHint(in: self.view, hint: response.RET_DESC)
+                }
+            }else {
+                self.showHint(in: self.view, hint: "网络错误")
+            }
         })
-        
     }
 }
