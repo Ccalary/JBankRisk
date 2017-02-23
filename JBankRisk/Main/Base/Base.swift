@@ -9,8 +9,8 @@
 import Foundation
 
 //版本
-let APP_VERSION = "1.0.1" //版本号
-let APP_VERSION_CODE = "101"
+let APP_VERSION = "2.0.0" //版本号
+let APP_VERSION_CODE = "200"
 
 //通知
 //登录成功

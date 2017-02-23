@@ -9,7 +9,7 @@
 import UIKit
 import IQKeyboardManagerSwift
 import Alamofire
-
+import SwiftyJSON
 
 @UIApplicationMain
 class AppDelegate: UIResponder, UIApplicationDelegate,UITabBarControllerDelegate, GuideViewDelegate {
@@ -20,6 +20,9 @@ class AppDelegate: UIResponder, UIApplicationDelegate,UITabBarControllerDelegate
     let manager = NetworkReachabilityManager(host: "www.baidu.com")
     
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplicationLaunchOptionsKey: Any]?) -> Bool {
+        
+        //临时使用，地址转换
+        requestChangeSevice()
         
         Thread.sleep(forTimeInterval: 1.0)//启动延时1秒
         
@@ -156,6 +159,25 @@ class AppDelegate: UIResponder, UIApplicationDelegate,UITabBarControllerDelegate
         Bugly.setTag(1799);
         
         Bugly.setUserIdentifier(UIDevice.current.name)
+    }
+    
+    //临时使用，地址转换
+    func requestChangeSevice(){
+        
+        let params = NetConnect.getBaseRequestParams()
+        
+        NetConnect.other_service_url(parameters: params, success:
+            { response in
+                
+                let json = JSON(response)
+                
+                let realUrl = json["url"].string ?? ""
+                
+                UserHelper.setRerviceUrl(realUrl: realUrl)
+                
+        }, failure: {error in
+            
+        })
     }
 }
 

@@ -14,7 +14,7 @@ class AboutOursViewController: UIViewController, UITableViewDelegate, UITableVie
     
     let instructionText = "        深圳中诚信佳金融服务有限公司简称中诚消费，成立于二零一四年，是一家专为年轻人提供优质消费金融服务的互联网金融公司。\n        中诚消费致力于打造专业可靠的消费分期服务平台，在利用金融产品满足顾客消费需求的同时，整合线下渠道资源，帮助其扩大消费人群，降低消费门槛。公司汇聚了金融，IT和市场营销等业界专业人士，结合全球金融发展趋势，创造新的金融模式，融合互联网技术，为广大客户提供新型互联网消费金融信息服务平台。"
     
-    let leftTextInfo = ["","服务热线","客服邮箱","公司网址","","最新版本"]
+    let leftTextInfo = ["","服务热线","客服邮箱","公司网址","","当前版本"]
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -227,7 +227,8 @@ class AboutOursViewController: UIViewController, UITableViewDelegate, UITableVie
                 popupController.dismiss(animated: true)
             }
         case 5://版本更新
-            self.requestUpdataVersion()
+//            self.requestUpdataVersion()
+            break
         default:
             break
         }

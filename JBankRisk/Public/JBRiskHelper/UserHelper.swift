@@ -11,6 +11,18 @@ import SwiftyJSON
 
 class UserHelper {
     
+    //临时，地址切换用
+    static func setRerviceUrl(realUrl: String) {
+        let defaults = UserDefaults()
+        defaults.set(realUrl, forKey: "realUrl")
+        defaults.synchronize()
+    }
+    
+    static func getRerviceUrl() -> String?{
+        let defaults = UserDefaults()
+        return defaults.object(forKey: "realUrl") as? String
+    }
+    
     //MARK:是否已登录 1- 已登录
     static func isLogin() -> Bool {
         let defaults = UserDefaults()

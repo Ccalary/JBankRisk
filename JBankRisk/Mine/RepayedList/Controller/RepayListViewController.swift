@@ -245,7 +245,6 @@ class RepayListViewController: UIViewController,UIGestureRecognizerDelegate,UITa
                 self.view.layoutIfNeeded()//一定要加上这句话才会有动画效果
                 self.selectBgView.alpha = 1
             })
-            
             isTransformed = !isTransformed
         }else {
             self.closeSelectView()

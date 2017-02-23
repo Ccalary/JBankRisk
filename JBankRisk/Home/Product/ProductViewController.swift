@@ -53,8 +53,8 @@ class ProductViewController: UIViewController,UITableViewDelegate, UITableViewDa
     }
     
     func setupUI(){
-        self.navigationController!.navigationBar.isTranslucent = true;
-        self.automaticallyAdjustsScrollViewInsets = false;
+        self.navigationController!.navigationBar.isTranslucent = true
+        self.automaticallyAdjustsScrollViewInsets = false
         self.view.backgroundColor = defaultBackgroundColor
         self.title = "产品信息"
         

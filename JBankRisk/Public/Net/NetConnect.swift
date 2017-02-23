@@ -19,6 +19,16 @@ class NetConnect {
         params["channelId"] = "3" // iOS-3,android-4
         return params
     }
+    /*******************************/
+    //临时接口，地址转换用
+    static func other_service_url(parameters: Parameters,success:@escaping (_ response:[String:AnyObject]) -> (),failure:@escaping(_ error: Error) -> ()){
+        
+        NetworkRequest.sharedInstance.getRequest(urlString: OTHER_SERVICE_URL, params: parameters, success: { (response) in
+            success(response)
+        }, failture: { (error) in
+            failure(error)
+        })
+    }
     
     /*************注册登录模块(RL)*************/
     /// 1.1注册
@@ -78,6 +88,8 @@ class NetConnect {
         
         NetworkRequest.sharedInstance.getRequest(urlString: BM_HOME_URL, params: parameters, success: { (response) in
             success(response)
+           
+            PrintLog("首页地址\(BM_HOME_URL)")
         }, failture: { (error) in
             failure(error)
         })

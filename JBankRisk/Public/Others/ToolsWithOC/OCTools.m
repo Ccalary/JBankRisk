@@ -27,10 +27,23 @@
         while(temp_addr != NULL) {
             if(temp_addr->ifa_addr->sa_family == AF_INET) {
                 // Check if interface is en0 which is the wifi connection on the iPhone
-                if([[NSString stringWithUTF8String:temp_addr->ifa_name] isEqualToString:@"en0"]) {
+                
+                NSString *ifaName = [NSString stringWithUTF8String:temp_addr->ifa_name];
+                
+                NSString* getedAddress = [NSString stringWithUTF8String:inet_ntoa(((struct sockaddr_in *) temp_addr->ifa_addr)->sin_addr)];
+                NSString* mask = [NSString stringWithUTF8String:inet_ntoa(((struct sockaddr_in *) temp_addr->ifa_netmask)->sin_addr)];
+                NSString* gateway = [NSString stringWithUTF8String:inet_ntoa(((struct sockaddr_in *) temp_addr->ifa_dstaddr)->sin_addr)];
+                
+                NSLog(@"ifaName:%@--address:%@--mask:%@--gateway:%@",ifaName,address,mask,gateway);
+                
+                if([ifaName isEqualToString:@"en0"]) {//无线网
                     // Get NSString from C String
                     address = [NSString stringWithUTF8String:inet_ntoa(((struct sockaddr_in *)temp_addr->ifa_addr)->sin_addr)];
+                }else if([ifaName isEqualToString:@"pdp_ip0"]){//3g、4g网
+                    address = getedAddress;
                 }
+                
+                
             }
             temp_addr = temp_addr->ifa_next;
         }
@@ -39,5 +52,4 @@
     freeifaddrs(interfaces);
     return address;
 }
-
 @end

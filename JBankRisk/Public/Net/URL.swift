@@ -8,13 +8,18 @@
 
 import UIKit
 let LOCAL = "http://192.168.1.80:8080" //本地
-let ONLINE = "http://106.38.109.11:8081" //线上
-let PRODUCT = "http://123.57.66.164:11569"//生产
+let ONLINE = "https://dev.zc-cfc.com" //线上
+let PRODUCT = "https://www.zc-cfc.com"//生产
 
-let BASR_DEV_URL = ONLINE
+//H 测试
+//let BASR_DEV_URL = UserHelper.getRerviceUrl() ?? PRODUCT
+
+let BASR_DEV_URL = LOCAL 
+
+/// 请求地址接口
+let OTHER_SERVICE_URL = "https://www.zc-cfc.com/jinangk.xhtml?TX_CODE=490001"
 
 /*************注册登录模块(RL)*************/
-
 /// 1.1注册
 let RL_REGISTER_URL = BASR_DEV_URL + "/jinangk.xhtml?TX_CODE=490051"
 
