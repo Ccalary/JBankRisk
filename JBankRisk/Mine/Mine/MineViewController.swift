@@ -63,8 +63,8 @@ class MineViewController: UIViewController, UIGestureRecognizerDelegate,UICollec
     override func viewDidLoad() {
         super.viewDidLoad()
         //设置不自动下调64
-        self.navigationController!.navigationBar.isTranslucent = true;
-        self.automaticallyAdjustsScrollViewInsets = false;
+        self.navigationController!.navigationBar.isTranslucent = true
+        self.automaticallyAdjustsScrollViewInsets = false
 
         //启动滑动返回（swipe back）
         self.navigationController?.interactivePopGestureRecognizer?.delegate = self
@@ -76,16 +76,17 @@ class MineViewController: UIViewController, UIGestureRecognizerDelegate,UICollec
     }
 
     override func viewWillAppear(_ animated: Bool) {
-        self.navigationController?.isNavigationBarHidden = true
-        
+        super.viewWillAppear(animated)
+        self.navigationController?.setNavigationBarHidden(true, animated: animated)
     }
     
     override func viewDidAppear(_ animated: Bool) {
         self.requestHomeData()
     }
     
-    override func viewDidDisappear(_ animated: Bool) {
-        self.navigationController?.isNavigationBarHidden = false
+    override func viewWillDisappear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        self.navigationController?.setNavigationBarHidden(false, animated: animated)
     }
 
     override func didReceiveMemoryWarning() {

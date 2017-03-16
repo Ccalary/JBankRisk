@@ -17,6 +17,7 @@ target ‘JBankRisk’ do
    pod 'Bugly'
    pod 'ObjectMapper', '~> 2.2'
    pod 'AlamofireObjectMapper', '~> 4.0'
+   pod 'JPush'
 
 post_install do |installer|
   installer.pods_project.targets.each do |target|

@@ -39,29 +39,30 @@ class SuggestCollectionViewCell: UICollectionViewCell {
             make.left.equalTo(self)
             make.top.equalTo(6*UIRate)
         }
-        
+
         cameraImageView.snp.makeConstraints { (make) in
             make.width.equalTo(35*UIRate)
             make.height.equalTo(28*UIRate)
             make.centerX.equalTo(self)
-            make.top.equalTo(14*UIRate*UIRate)
+            make.top.equalTo(14*UIRate)
         }
-        
+
         textLabel.snp.makeConstraints { (make) in
             make.top.equalTo(cameraImageView.snp.bottom).offset(5*UIRate)
             make.centerX.equalTo(cameraImageView)
         }
-        
+
         deleteImageView.snp.makeConstraints { (make) in
             make.width.height.equalTo(12*UIRate)
             make.centerX.equalTo(imageView.snp.right)
             make.centerY.equalTo(imageView.snp.top)
 
         }
-        
+
         deleteBtn.snp.makeConstraints { (make) in
             make.width.height.equalTo(30*UIRate)
-            make.center.equalTo(deleteImageView.snp.right)
+            make.right.equalTo(deleteImageView)
+            make.top.equalTo(deleteImageView)
         }
     }
     

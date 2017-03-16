@@ -98,19 +98,6 @@ class BorrowStatusVC: UIViewController {
         }
     }
     
-    //nav
-    func setNavUI(){
-        self.view.addSubview(navHoldView)
-        navHoldView.navTextLabel.text = self.title
-        
-        navHoldView.snp.makeConstraints { (make) in
-            make.width.equalTo(self.view)
-            make.height.equalTo(64)
-            make.centerX.equalTo(self.view)
-            make.top.equalTo(0)
-        }
-    }
-    
     func setupUI(){
         self.view.backgroundColor = defaultBackgroundColor
        
@@ -125,7 +112,6 @@ class BorrowStatusVC: UIViewController {
     //正常页面
     func setNormalUI(){
         self.title = ""
-        self.setNavUI()
         
         self.view.addSubview(mScrollView)
         
@@ -160,6 +146,7 @@ class BorrowStatusVC: UIViewController {
             self?.mScrollView.stopPullRefreshEver()
         })
         
+        
         //协议
         infoView.onClickProtocol = {[unowned self] in
             
@@ -182,8 +169,7 @@ class BorrowStatusVC: UIViewController {
     //缺省页面
     func setDefaultUI(){
         
-        self.title = "借款进度"
-        self.setNavUI()
+        self.navigationItem.title = "借款进度"
         
         self.view.addSubview(defaultProView)
         self.view.addSubview(defaultView)
@@ -221,12 +207,6 @@ class BorrowStatusVC: UIViewController {
         return holdView
     }()
     
-    /***Nav隐藏时使用***/
-    private lazy var navHoldView: NavigationView = {
-        let holdView = NavigationView()
-        return holdView
-    }()
-    
     /*********/
     private lazy var statusView: BorrowStatusView = {
         let holdView = BorrowStatusView()
@@ -242,7 +222,7 @@ class BorrowStatusVC: UIViewController {
     //MARK: - 请求数据
     func requestData(){
         //添加HUD
-        self.showHud(in: self.view, hint: "加载中...")
+//        self.showHud(in: self.view, hint: "加载中...")
         
         //默认显示最近一单的
         var params = NetConnect.getBaseRequestParams()
@@ -270,8 +250,7 @@ class BorrowStatusVC: UIViewController {
     }
 
     func refreshOrderUI(json: JSON){
-         self.title = json["orderName"].stringValue
-         navHoldView.navTextLabel.text = self.title
+         self.navigationItem.title = json["orderName"].stringValue
          self.infoView.json = json
          self.orderId = json["orderId"].stringValue
     }
@@ -328,7 +307,7 @@ class BorrowStatusVC: UIViewController {
         
         NetConnect.other_contract_list(parameters: params, success:
             { response in
-                
+                self.hideHud()
                 let json = JSON(response)
                 guard json["RET_CODE"] == "000000" else{
                     return self.showHint(in: self.view, hint: json["RET_DESC"].stringValue)

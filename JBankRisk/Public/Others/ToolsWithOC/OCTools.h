@@ -11,4 +11,6 @@
 @interface OCTools : NSObject
 //获取设备IP
 +(NSString *)getIPAddress;
+//Log打印显示更改
++ (NSString *)logDic:(NSDictionary *)dic;
 @end

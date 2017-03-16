@@ -8,6 +8,9 @@ PODS:
     - AMapFoundation (~> 1.2)
   - Bugly (2.4.2)
   - IQKeyboardManagerSwift (4.0.7)
+  - JCore (1.1.1)
+  - JPush (3.0.2):
+    - JCore (~> 1.1.1)
   - Kingfisher (3.0.1)
   - MBProgressHUD (1.0.0)
   - MJRefresh (3.1.12)
@@ -31,6 +34,7 @@ DEPENDENCIES:
   - AMapLocation
   - Bugly
   - IQKeyboardManagerSwift
+  - JPush
   - Kingfisher (~> 3.0.0)
   - MBProgressHUD (~> 1.0.0)
   - MJRefresh
@@ -48,6 +52,8 @@ SPEC CHECKSUMS:
   AMapLocation: dd203f76b034ef5cb546600f4e1ffad2a3a14072
   Bugly: b09cd3c7e54048a0e079be88a7a99610f14eab8f
   IQKeyboardManagerSwift: 58bbcf46b5cf9fd4ed625d28a60cb2fbae4ab0f4
+  JCore: 2210a789c8efb7dc2a46b1c24d2209b995b18ad2
+  JPush: 01a693fafe51b93eafc2e368bbc7a7cc07e12ce4
   Kingfisher: d5a491b45ea453d90a31bd2c0831d5243e73a73f
   MBProgressHUD: 4890f671c94e8a0f3cf959aa731e9de2f036d71a
   MJRefresh: b96cdb21c4aa75a7b07654311ab2f315c497e806
@@ -57,6 +63,6 @@ SPEC CHECKSUMS:
   SnapKit: f818b8326d45b4e1c777d0ab27b5c0a3624bfdeb
   SwiftyJSON: 29b9f2a64f118c07e691667c2ba1efe536acfe0b
 
-PODFILE CHECKSUM: 081fdc46cea9647d9ebd56ea90ee0deba044f346
+PODFILE CHECKSUM: 5581f8ca95786698b73b0eaf7d44c8ff38a28df7
 
-COCOAPODS: 1.1.1
+COCOAPODS: 1.2.0

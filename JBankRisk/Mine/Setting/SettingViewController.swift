@@ -11,7 +11,7 @@ import SwiftyJSON
 
 class SettingViewController: UIViewController,UITableViewDelegate, UITableViewDataSource,UIImagePickerControllerDelegate,UINavigationControllerDelegate {
 
-    var leftTextInfo = ["头像","","手机号码","修改帐号密码","","关于我们"]
+    var leftTextInfo = ["头像","","手机号码","修改帐号密码","","关于我们","我要吐槽"]
     
     ///相机，相册
     var cameraPicker: UIImagePickerController!
@@ -36,25 +36,10 @@ class SettingViewController: UIViewController,UITableViewDelegate, UITableViewDa
         
     }
     
-    //Nav
-    func setNavUI(){
-        self.view.addSubview(navHoldView)
-        navHoldView.navTextLabel.text = self.title
-        
-        navHoldView.snp.makeConstraints { (make) in
-            make.width.equalTo(self.view)
-            make.height.equalTo(64)
-            make.centerX.equalTo(self.view)
-            make.top.equalTo(0)
-        }
-    }
-    
     func setupUI(){
         self.automaticallyAdjustsScrollViewInsets = false
         self.view.backgroundColor = defaultBackgroundColor
         self.title = "设置"
-        
-        self.setNavUI()
         
         let headerView = UIView(frame: CGRect(x: 0, y: 0, width: SCREEN_WIDTH, height: 10*UIRate))
         headerView.backgroundColor = defaultBackgroundColor
@@ -100,11 +85,6 @@ class SettingViewController: UIViewController,UITableViewDelegate, UITableViewDa
         
     }
     
-    /***Nav隐藏时使用***/
-    private lazy var navHoldView: NavigationView = {
-        let holdView = NavigationView()
-        return holdView
-    }()
     
     private lazy var aTableView: UITableView = {
         
@@ -231,10 +211,8 @@ class SettingViewController: UIViewController,UITableViewDelegate, UITableViewDa
            let viewController = AboutOursViewController()
            self.navigationController?.pushViewController(viewController, animated: true)
         case 6://我要吐槽
-            break
-//            let viewController = SuggestViewController()
-//            self.navigationController?.pushViewController(viewController, animated: true)
-
+            let viewController = SuggestViewController()
+            self.navigationController?.pushViewController(viewController, animated: true)
         default:
             break
         }

@@ -34,10 +34,10 @@ class IncomeViewController:  UIViewController,UITableViewDelegate, UITableViewDa
     }
     
     func setupUI(){
-        self.navigationController!.navigationBar.isTranslucent = true;
-        self.automaticallyAdjustsScrollViewInsets = false;
+        self.navigationController!.navigationBar.isTranslucent = true
+        self.automaticallyAdjustsScrollViewInsets = false
         self.view.backgroundColor = defaultBackgroundColor
-        self.title = "收入信息"
+        self.navigationItem.title = "收入信息"
         
         self.navigationItem.leftBarButtonItem = UIBarButtonItem(image: UIImage(named:"navigation_left_back_13x21"), style: .plain, target: self, action: #selector(leftNavigationBarBtnAction))
         

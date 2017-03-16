@@ -37,8 +37,8 @@ class HomeViewController: UIViewController, UIGestureRecognizerDelegate{
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        self.navigationController!.navigationBar.isTranslucent = true;
-        self.automaticallyAdjustsScrollViewInsets = false;
+        self.navigationController!.navigationBar.isTranslucent = true
+        self.automaticallyAdjustsScrollViewInsets = false
         //启动滑动返回（swipe back）
         self.navigationController?.interactivePopGestureRecognizer?.delegate = self
         
@@ -55,15 +55,16 @@ class HomeViewController: UIViewController, UIGestureRecognizerDelegate{
 
     }
     override func viewWillAppear(_ animated: Bool) {
-         self.navigationController?.isNavigationBarHidden = true
+        self.navigationController?.setNavigationBarHidden(true, animated: animated)
     }
     
     override func viewDidAppear(_ animated: Bool) {
          self.requestHomeData()
     }
     
-    override func viewDidDisappear(_ animated: Bool) {
-         self.navigationController?.isNavigationBarHidden = false
+    override func viewWillDisappear(_ animated: Bool) {
+         super.viewWillAppear(animated)
+         self.navigationController?.setNavigationBarHidden(false, animated: animated)
     }
     
     override func didReceiveMemoryWarning() {

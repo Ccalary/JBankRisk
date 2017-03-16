@@ -34,7 +34,6 @@ class RepayListViewController: UIViewController,UIGestureRecognizerDelegate,UITa
     var titleText = "" {
         didSet{
             self.navTitleView.titleTextLabel.text = titleText
-            navHoldView.navTextLabel.text = titleText
         }
     }
     
@@ -53,11 +52,6 @@ class RepayListViewController: UIViewController,UIGestureRecognizerDelegate,UITa
         super.didReceiveMemoryWarning()
     }
 
-    //Nav
-    func setNavUI(){
-        self.view.addSubview(navHoldView)
-        navHoldView.navTextLabel.text = self.title
-     }
     
     func setupUI(){
         self.automaticallyAdjustsScrollViewInsets = false
@@ -65,12 +59,9 @@ class RepayListViewController: UIViewController,UIGestureRecognizerDelegate,UITa
         self.title = "全部纪录"
         if isHaveData {
             self.setupUINormalUI()
-            navHoldView.navTextLabel.text = self.navTitleView.titleTextLabel.text
         }else {
             self.setupDefaultUI()
-            navHoldView.navTextLabel.text = self.title
         }
-        self.setNavUI()
     }
     
     func setupDefaultUI(){
@@ -120,11 +111,6 @@ class RepayListViewController: UIViewController,UIGestureRecognizerDelegate,UITa
         }
     }
     
-    /***Nav隐藏时使用***/
-    private lazy var navHoldView: NavigationView = {
-        let holdView = NavigationView()
-        return holdView
-    }()
     /*********/
     //缺省页
     private lazy var defaultView: NothingDefaultView = {

@@ -20,22 +20,8 @@ class NoNeedRepayVC: UIViewController {
         super.didReceiveMemoryWarning()
     }
     
-    //nav
-    func setNavUI(){
-        self.view.addSubview(navHoldView)
-        navHoldView.navTextLabel.text = self.title
-        
-        navHoldView.snp.makeConstraints { (make) in
-            make.width.equalTo(self.view)
-            make.height.equalTo(64)
-            make.centerX.equalTo(self.view)
-            make.top.equalTo(0)
-        }
-    }
-
     func setupUI(){
         self.title = "还款"
-        self.setNavUI()
         
         self.view.backgroundColor = defaultBackgroundColor
 
@@ -154,11 +140,6 @@ class NoNeedRepayVC: UIViewController {
         }
     }
     
-    /***Nav隐藏时使用***/
-    private lazy var navHoldView: NavigationView = {
-        let holdView = NavigationView()
-        return holdView
-    }()
     
     private lazy var topHoldView: UIView = {
         let holdView = UIView()

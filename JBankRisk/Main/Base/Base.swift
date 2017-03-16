@@ -12,6 +12,7 @@ import Foundation
 let APP_VERSION = "2.0.0" //版本号
 let APP_VERSION_CODE = "200"
 
+let JPUSH_IS_PRO = false //H 测试 极光推送，是否是生产环境
 //通知
 //登录成功
 let notificationLoginSuccess = "NoticeLoginSuccess"

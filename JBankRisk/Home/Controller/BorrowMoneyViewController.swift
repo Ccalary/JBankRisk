@@ -58,29 +58,15 @@ class BorrowMoneyViewController: UIViewController,iCarouselDelegate, iCarouselDa
     }
     
     override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
         upLoadInfoSuccess()
         self.carouselCurrentItemIndexDidChange(carousel)
     }
     
-    //nav
-    func setNavUI(){
-        self.view.addSubview(navHoldView)
-        navHoldView.navTextLabel.text = self.title
-        
-        navHoldView.snp.makeConstraints { (make) in
-            make.width.equalTo(self.view)
-            make.height.equalTo(64)
-            make.centerX.equalTo(self.view)
-            make.top.equalTo(0)
-        }
-    }
-    
     //基本UI
     func setupUI(){
-        self.title = "我要借款"
+        self.navigationItem.title = "我要借款"
         self.view.backgroundColor = UIColor.white
-        
-        self.setNavUI()
         
         self.view.addSubview(topView)
          
@@ -200,13 +186,6 @@ class BorrowMoneyViewController: UIViewController,iCarouselDelegate, iCarouselDa
         }
     }
     
-    /***Nav隐藏时使用***/
-    
-    private lazy var navHoldView: NavigationView = {
-        let holdView = NavigationView()
-        return holdView
-    }()
-
     /******/
     private lazy var topView: BorrowMoneyTopTipsView = {
         let holdView = BorrowMoneyTopTipsView(viewType: BorrowMoneyTopTipsView.TipsType.tips1)

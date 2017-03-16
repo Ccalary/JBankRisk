@@ -26,6 +26,9 @@ class AppDelegate: UIResponder, UIApplicationDelegate,UITabBarControllerDelegate
         
         Thread.sleep(forTimeInterval: 1.0)//启动延时1秒
         
+        //访问通讯录
+        PPGetAddressBook.requestAddressBookAuthorization()
+        
         //解决键盘遮挡问题
         IQKeyboardManager.sharedManager().enable = true
         
@@ -34,6 +37,22 @@ class AppDelegate: UIResponder, UIApplicationDelegate,UITabBarControllerDelegate
         //2.2.8 及以上版本，可选择是否在 WAP 渠道中支付完成后，点击“返回商户”按钮，直接关闭支付页面
         Pingpp.ignoreResultUrl(true)
         
+        //极光推送部署
+        let entity = JPUSHRegisterEntity()
+        entity.types = Int(JPAuthorizationOptions.alert.rawValue | JPAuthorizationOptions.sound.rawValue | JPAuthorizationOptions.badge.rawValue)
+        
+        JPUSHService.register(forRemoteNotificationConfig: entity, delegate: self)
+        JPUSHService.setup(withOption: launchOptions, appKey: "1cbb0b714502d6add4f412ee", channel: "Publish channel", apsForProduction: JPUSH_IS_PRO) 
+        
+        JPUSHService.registrationIDCompletionHandler { (resCode, registrationID) in
+            if resCode == 0{
+                PrintLog("registrationID获取成功：\(registrationID)")
+            }else {
+                PrintLog("registrationID获取失败：\(registrationID)")
+            }
+        }
+        
+    
         self.window = UIWindow(frame: UIScreen.main.bounds)
         self.window?.backgroundColor = UIColor.white
         
@@ -69,6 +88,8 @@ class AppDelegate: UIResponder, UIApplicationDelegate,UITabBarControllerDelegate
 
     func applicationWillEnterForeground(_ application: UIApplication) {
         // Called as part of the transition from the background to the active state; here you can undo many of the changes made on entering the background.
+        application.applicationIconBadgeNumber = 0
+        application.cancelAllLocalNotifications()
     }
 
     func applicationDidBecomeActive(_ application: UIApplication) {
@@ -91,7 +112,6 @@ class AppDelegate: UIResponder, UIApplicationDelegate,UITabBarControllerDelegate
         let canHandleUrl = Pingpp.handleOpen(url, withCompletion: nil)
         return canHandleUrl
     }
-    
     
     //MARK: - GuideViewDelegate  引导页回调
     func enterTheApp() {
@@ -160,7 +180,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate,UITabBarControllerDelegate
         
         Bugly.setUserIdentifier(UIDevice.current.name)
     }
-    
+       
     //临时使用，地址转换
     func requestChangeSevice(){
         
@@ -180,4 +200,73 @@ class AppDelegate: UIResponder, UIApplicationDelegate,UITabBarControllerDelegate
         })
     }
 }
+
+//MARK:-极光推送
+extension AppDelegate:UNUserNotificationCenterDelegate,JPUSHRegisterDelegate
+{
+    func application(_ application: UIApplication, didRegisterForRemoteNotificationsWithDeviceToken deviceToken: Data) {
+        
+        JPUSHService.registerDeviceToken(deviceToken)
+        
+        PrintLog("deviceToken:\(deviceToken)")
+    }
+    
+    func application(_ application: UIApplication, didFailToRegisterForRemoteNotificationsWithError error: Error) {
+        PrintLog("did Fail To Register For Remote Notifications With Error:\(error)")
+    }
+    /**
+     收到静默推送的回调
+     
+     @param application  UIApplication 实例
+     @param userInfo 推送时指定的参数
+     @param completionHandler 完成回调
+     */
+    func application(_ application: UIApplication, didReceiveRemoteNotification userInfo: [AnyHashable : Any], fetchCompletionHandler completionHandler: @escaping (UIBackgroundFetchResult) -> Void) {
+        
+        JPUSHService.handleRemoteNotification(userInfo)
+        PrintLog("iOS7及以上系统，收到通知:\(userInfo)")
+        completionHandler(UIBackgroundFetchResult.newData)
+    }
+    
+    func application(_ application: UIApplication, didReceive notification: UILocalNotification) {
+        JPUSHService.showLocalNotification(atFront: notification, identifierKey: nil)
+    }
+    
+    @available(iOS 10.0, *)
+    func jpushNotificationCenter(_ center: UNUserNotificationCenter!, willPresent notification: UNNotification!, withCompletionHandler completionHandler: ((Int) -> Void)!) {
+        
+        let userInfo = notification.request.content.userInfo
+        
+//        let request = notification.request; // 收到推送的请求
+//        let content = request.content; // 收到推送的消息内容
+//        
+//        let badge = content.badge;  // 推送消息的角标
+//        let body = content.body;    // 推送消息体
+//        let sound = content.sound;  // 推送消息的声音
+//        let subtitle = content.subtitle;  // 推送消息的副标题
+//        let title = content.title;  // 推送消息的标题
+        
+        if (notification.request.trigger?.isKind(of: UNPushNotificationTrigger.self))!{
+            PrintLog("iOS10 前台收到远程通知:\(userInfo)")
+            JPUSHService.handleRemoteNotification(userInfo)
+        }else {
+            // 判断为本地通知
+            PrintLog("iOS10 前台收到本地通知:\(userInfo)")
+        }
+        completionHandler(Int(UNAuthorizationOptions.alert.rawValue | UNAuthorizationOptions.sound.rawValue | UNAuthorizationOptions.badge.rawValue))// 需要执行这个方法，选择是否提醒用户，有badge、sound、alert三种类型可以选择设置
+    }
+    
+    @available(iOS 10.0, *)
+    func jpushNotificationCenter(_ center: UNUserNotificationCenter!, didReceive response: UNNotificationResponse!, withCompletionHandler completionHandler: (() -> Void)!) {
+        let userInfo = response.notification.request.content.userInfo
+        
+        if (response.notification.request.trigger?.isKind(of: UNPushNotificationTrigger.self))!{
+            PrintLog("iOS10 收到远程通知:\(userInfo)")
+            JPUSHService.handleRemoteNotification(userInfo)
+        }
+        completionHandler()
+    }
+}
+
+
 

@@ -58,6 +58,10 @@
 	<string>中诚消费想获取您的位置</string>
 	<key>NSPhotoLibraryUsageDescription</key>
 	<string>中诚消费想访问您的相册</string>
+	<key>UIBackgroundModes</key>
+	<array>
+		<string>remote-notification</string>
+	</array>
 	<key>UIMainStoryboardFile</key>
 	<string>Main</string>
 	<key>UIRequiredDeviceCapabilities</key>

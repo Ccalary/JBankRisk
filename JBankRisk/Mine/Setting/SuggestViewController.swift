@@ -90,7 +90,7 @@ class SuggestViewController: UIViewController,UITextViewDelegate, UICollectionVi
             make.centerX.equalTo(self.view)
             make.top.equalTo(self.textHoldView.snp.bottom).offset(20*UIRate)
         }
-        
+
         sureBtn.snp.makeConstraints { (make) in
             make.width.equalTo(345*UIRate)
             make.height.equalTo(44*UIRate)

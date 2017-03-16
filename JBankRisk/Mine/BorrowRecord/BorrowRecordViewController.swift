@@ -27,12 +27,10 @@ class BorrowRecordViewController: UIViewController,UITableViewDelegate, UITableV
     
     //MARK: -基本UI
     func setupUI(){
-        self.navigationController!.navigationBar.isTranslucent = true;
-        self.automaticallyAdjustsScrollViewInsets = false;
+        self.navigationController!.navigationBar.isTranslucent = true
+        self.automaticallyAdjustsScrollViewInsets = false
         self.title = "借款记录"
         self.view.backgroundColor = defaultBackgroundColor
-        
-        self.setNavUI()
         
         if isHaveData {
             setupNormalUI()
@@ -44,19 +42,6 @@ class BorrowRecordViewController: UIViewController,UITableViewDelegate, UITableV
             
         }else{
            self.setupDefaultUI()
-        }
-    }
-    
-    //nav
-    func setNavUI(){
-        self.view.addSubview(navHoldView)
-        navHoldView.navTextLabel.text = self.title
-        
-        navHoldView.snp.makeConstraints { (make) in
-            make.width.equalTo(self.view)
-            make.height.equalTo(64)
-            make.centerX.equalTo(self.view)
-            make.top.equalTo(0)
         }
     }
     
@@ -152,12 +137,7 @@ class BorrowRecordViewController: UIViewController,UITableViewDelegate, UITableV
         }
     }
     
-    /***Nav隐藏时使用***/
-    private lazy var navHoldView: NavigationView = {
-        let holdView = NavigationView()
-        return holdView
-    }()
-    /********/
+       /********/
     //借款纪录缺省页
     private lazy var defaultView: BorrowDefaultView = {
         let holdView = BorrowDefaultView(viewType: BorrowDefaultView.BorrowDefaultViewType.borrowRecord)

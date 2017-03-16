@@ -52,6 +52,7 @@
 		0D1EAA8E1DC9AE1800789E37 /* PopupSubmitTipsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0D1EAA8D1DC9AE1800789E37 /* PopupSubmitTipsView.swift */; };
 		0D1EAA901DC9B4D200789E37 /* PopupDeadlineView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0D1EAA8F1DC9B4D200789E37 /* PopupDeadlineView.swift */; };
 		0D1EAA921DC9BB2500789E37 /* PopupDeadlineCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0D1EAA911DC9BB2500789E37 /* PopupDeadlineCollectionViewCell.swift */; };
+		0D220BE41E74FE3B00DC9FBD /* UserNotifications.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 0D220BE31E74FE3B00DC9FBD /* UserNotifications.framework */; };
 		0D24F2FE1DCB72F300BBAC8F /* MineCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0D24F2FB1DCB72F300BBAC8F /* MineCollectionViewCell.swift */; };
 		0D24F2FF1DCB72F300BBAC8F /* MineFooterView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0D24F2FC1DCB72F300BBAC8F /* MineFooterView.swift */; };
 		0D24F3001DCB72F300BBAC8F /* MineHeaderView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0D24F2FD1DCB72F300BBAC8F /* MineHeaderView.swift */; };
@@ -190,7 +191,6 @@
 		0DD43CBB1DAFD74400091272 /* PopupRoleView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0DD43CBA1DAFD74400091272 /* PopupRoleView.swift */; };
 		0DD99BFF1DB1E47F00342E29 /* NetworkRequest.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0DD99BFE1DB1E47F00342E29 /* NetworkRequest.swift */; };
 		0DDE5FD51E12A2910076CE03 /* CyclePictureView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0DDE5FD41E12A2910076CE03 /* CyclePictureView.swift */; };
-		0DDE5FD71E12A2A70076CE03 /* NavigationView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0DDE5FD61E12A2A70076CE03 /* NavigationView.swift */; };
 		0DDE5FD91E13A4C00076CE03 /* NoNeedRepayVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0DDE5FD81E13A4C00076CE03 /* NoNeedRepayVC.swift */; };
 		0DDF09CA1DD4DDB900E8946E /* ContactViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0D1EAA831DC8CC4900789E37 /* ContactViewController.swift */; };
 		0DE1E1751E4815CC009AB942 /* SchoolModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0DE1E1741E4815CC009AB942 /* SchoolModel.swift */; };
@@ -274,6 +274,7 @@
 		0D1EAA8D1DC9AE1800789E37 /* PopupSubmitTipsView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PopupSubmitTipsView.swift; sourceTree = "<group>"; };
 		0D1EAA8F1DC9B4D200789E37 /* PopupDeadlineView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PopupDeadlineView.swift; sourceTree = "<group>"; };
 		0D1EAA911DC9BB2500789E37 /* PopupDeadlineCollectionViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PopupDeadlineCollectionViewCell.swift; sourceTree = "<group>"; };
+		0D220BE31E74FE3B00DC9FBD /* UserNotifications.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = UserNotifications.framework; path = System/Library/Frameworks/UserNotifications.framework; sourceTree = SDKROOT; };
 		0D24F2FB1DCB72F300BBAC8F /* MineCollectionViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MineCollectionViewCell.swift; sourceTree = "<group>"; };
 		0D24F2FC1DCB72F300BBAC8F /* MineFooterView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MineFooterView.swift; sourceTree = "<group>"; };
 		0D24F2FD1DCB72F300BBAC8F /* MineHeaderView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MineHeaderView.swift; sourceTree = "<group>"; };
@@ -458,7 +459,6 @@
 		0DD43CBA1DAFD74400091272 /* PopupRoleView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PopupRoleView.swift; sourceTree = "<group>"; };
 		0DD99BFE1DB1E47F00342E29 /* NetworkRequest.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NetworkRequest.swift; sourceTree = "<group>"; };
 		0DDE5FD41E12A2910076CE03 /* CyclePictureView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CyclePictureView.swift; sourceTree = "<group>"; };
-		0DDE5FD61E12A2A70076CE03 /* NavigationView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NavigationView.swift; sourceTree = "<group>"; };
 		0DDE5FD81E13A4C00076CE03 /* NoNeedRepayVC.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NoNeedRepayVC.swift; sourceTree = "<group>"; };
 		0DE1E1741E4815CC009AB942 /* SchoolModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SchoolModel.swift; sourceTree = "<group>"; };
 		0DE1E1761E48169C009AB942 /* SchoolListModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SchoolListModel.swift; sourceTree = "<group>"; };
@@ -483,6 +483,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				0D220BE41E74FE3B00DC9FBD /* UserNotifications.framework in Frameworks */,
 				0D84AAD41DE1919D00957B0A /* libexidcardios.a in Frameworks */,
 				0D737C1C1DEC0E7A00700F15 /* libz.tbd in Frameworks */,
 				0D737C1A1DEC0E6400700F15 /* SystemConfiguration.framework in Frameworks */,
@@ -609,13 +610,6 @@
 			path = Extensions;
 			sourceTree = "<group>";
 		};
-		0D0E2A291DAB365A00A64F76 /* Resources */ = {
-			isa = PBXGroup;
-			children = (
-			);
-			path = Resources;
-			sourceTree = "<group>";
-		};
 		0D0E2A2A1DAB373700A64F76 /* Main */ = {
 			isa = PBXGroup;
 			children = (
@@ -644,7 +638,6 @@
 			isa = PBXGroup;
 			children = (
 				0DDE5FD31E12A27D0076CE03 /* CyclePictureView */,
-				0DDE5FD21E12A2510076CE03 /* NavigationView */,
 				0D3ADCA01DCCA33000838043 /* DefaultView */,
 				0DFFAED81DAF6F9D00819CF7 /* PopupView */,
 			);
@@ -1244,7 +1237,6 @@
 				0D0E29FF1DAA4E9000A64F76 /* Public */,
 				0D0E2A2A1DAB373700A64F76 /* Main */,
 				0DAF60621DA8ECD60009054F /* MainSystem */,
-				0D0E2A291DAB365A00A64F76 /* Resources */,
 			);
 			path = JBankRisk;
 			sourceTree = "<group>";
@@ -1319,14 +1311,6 @@
 			path = View;
 			sourceTree = "<group>";
 		};
-		0DDE5FD21E12A2510076CE03 /* NavigationView */ = {
-			isa = PBXGroup;
-			children = (
-				0DDE5FD61E12A2A70076CE03 /* NavigationView.swift */,
-			);
-			path = NavigationView;
-			sourceTree = "<group>";
-		};
 		0DDE5FD31E12A27D0076CE03 /* CyclePictureView */ = {
 			isa = PBXGroup;
 			children = (
@@ -1387,6 +1371,7 @@
 		466C00E10A39615B530B0FDE /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				0D220BE31E74FE3B00DC9FBD /* UserNotifications.framework */,
 				0D737C1B1DEC0E7A00700F15 /* libz.tbd */,
 				0D737C191DEC0E6400700F15 /* SystemConfiguration.framework */,
 				0D737C171DEC0E5800700F15 /* Security.framework */,
@@ -1490,6 +1475,12 @@
 						SystemCapabilities = {
 							com.apple.ApplePay = {
 								enabled = 0;
+							};
+							com.apple.BackgroundModes = {
+								enabled = 1;
+							};
+							com.apple.Push = {
+								enabled = 1;
 							};
 						};
 					};
@@ -1660,7 +1651,6 @@
 				0D1E825F1DE1927A0040B39E /* PhotoPreviewCell.swift in Sources */,
 				0D006DE51DC8AAFA0091CF33 /* ProductViewController.swift in Sources */,
 				0D28B26A1E13BDDD00AA8B49 /* NSData+Base64.m in Sources */,
-				0DDE5FD71E12A2A70076CE03 /* NavigationView.swift in Sources */,
 				0D28B2771E13BDDD00AA8B49 /* YHTContractPartner.m in Sources */,
 				0DDE5FD91E13A4C00076CE03 /* NoNeedRepayVC.swift in Sources */,
 				0DB36C7C1DDEE5BC0083825D /* BorrowStatusVC.swift in Sources */,
@@ -1968,6 +1958,7 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = LaunchImage;
 				CLANG_ENABLE_MODULES = YES;
+				CODE_SIGN_ENTITLEMENTS = JBankRisk/JBankRisk.entitlements;
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
 				DEVELOPMENT_TEAM = JB79VQ5W7K;
@@ -1979,6 +1970,7 @@
 					"$(PROJECT_DIR)/JBankRisk/Public/3rd/IDCardScan/libexidcard",
 					"$(PROJECT_DIR)/JBankRisk/Public/3rd/IDCardScan/libexidcard/dicts",
 					"$(PROJECT_DIR)/JBankRisk/Public/3rd/TalkingData",
+					"$(PROJECT_DIR)/JBankRisk/Public/3rd/XGPush",
 				);
 				PRODUCT_BUNDLE_IDENTIFIER = com.jingjinsuo.risk;
 				PRODUCT_NAME = "$(TARGET_NAME)";
@@ -1997,6 +1989,7 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = LaunchImage;
 				CLANG_ENABLE_MODULES = YES;
+				CODE_SIGN_ENTITLEMENTS = JBankRisk/JBankRisk.entitlements;
 				CODE_SIGN_IDENTITY = "iPhone Distribution: Jing Jin Suo Information Technology Co., Ltd. (JB79VQ5W7K)";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
@@ -2009,6 +2002,7 @@
 					"$(PROJECT_DIR)/JBankRisk/Public/3rd/IDCardScan/libexidcard",
 					"$(PROJECT_DIR)/JBankRisk/Public/3rd/IDCardScan/libexidcard/dicts",
 					"$(PROJECT_DIR)/JBankRisk/Public/3rd/TalkingData",
+					"$(PROJECT_DIR)/JBankRisk/Public/3rd/XGPush",
 				);
 				PRODUCT_BUNDLE_IDENTIFIER = com.jingjinsuo.risk;
 				PRODUCT_NAME = "$(TARGET_NAME)";

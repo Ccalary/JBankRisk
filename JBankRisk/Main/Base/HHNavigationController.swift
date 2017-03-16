@@ -25,6 +25,7 @@ class HHNavigationController: UINavigationController {
         let navBar = UINavigationBar.appearance()
         //设置navigationBar的背景色
         navBar.barTintColor = UIColor.white
+        navBar.isTranslucent = true;  //设置false之后自动下沉64
         
         //设置左右bar的颜色
         navBar.tintColor = UIColorHex("666666")

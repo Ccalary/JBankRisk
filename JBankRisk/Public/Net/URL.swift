@@ -7,14 +7,16 @@
 //
 
 import UIKit
-let LOCAL = "http://192.168.1.80:8080" //本地
+//let LOCAL = "http://192.168.1.80:8080" //本地
+
+let LOCAL = "http://192.168.1.177:8080"
 let ONLINE = "https://dev.zc-cfc.com" //线上
 let PRODUCT = "https://www.zc-cfc.com"//生产
 
 //H 测试
 //let BASR_DEV_URL = UserHelper.getRerviceUrl() ?? PRODUCT
 
-let BASR_DEV_URL = LOCAL 
+let BASR_DEV_URL = ONLINE 
 
 /// 请求地址接口
 let OTHER_SERVICE_URL = "https://www.zc-cfc.com/jinangk.xhtml?TX_CODE=490001"

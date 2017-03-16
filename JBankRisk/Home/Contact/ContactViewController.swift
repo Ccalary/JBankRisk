@@ -66,6 +66,7 @@ class ContactViewController: UIViewController, UITableViewDelegate, UITableViewD
         if UserHelper.getContactIsUpload() {
             self.requestContactInfo()
         }
+
     }
     
     override func didReceiveMemoryWarning() {
@@ -73,10 +74,10 @@ class ContactViewController: UIViewController, UITableViewDelegate, UITableViewD
     }
     
     func setupUI(){
-        self.navigationController!.navigationBar.isTranslucent = true;
-        self.automaticallyAdjustsScrollViewInsets = false;
+        self.navigationController!.navigationBar.isTranslucent = true
+        self.automaticallyAdjustsScrollViewInsets = false
         self.view.backgroundColor = defaultBackgroundColor
-        self.title = "联系信息"
+        self.navigationItem.title = "联系信息"
         
         self.navigationItem.leftBarButtonItem = UIBarButtonItem(image: UIImage(named:"navigation_left_back_13x21"), style: .plain, target: self, action: #selector(leftNavigationBarBtnAction))
         
@@ -712,13 +713,15 @@ extension ContactViewController {
     
     func uploadUserContact(){
         
-        PPGetAddressBook.requestAddressBookAuthorization()
         // MARK: - 获取原始顺序联系人的模型数组
         PPGetAddressBook.getOriginalAddressBook(addressBookArray: { (addressBookArray) in
             var contacts = [Dictionary<String,String>]()
             for dic in addressBookArray {
                 contacts.append(["phone":dic.mobileArray.first ?? "","name":dic.name])
             }
+            
+            PrintLog("联系人\(contacts)")
+            
             var params = NetConnect.getBaseRequestParams()
             params["channel"] = "3"
             params["contracts"] = toolsChangeToJson(info: contacts)

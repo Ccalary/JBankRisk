@@ -88,8 +88,7 @@ class LoginPsdOrSetPsdVC: UIViewController{
         self.view.addSubview(seePsdBtn)
         
         self.view.addSubview(loginBtn)
-       
-        
+    
         holdView.snp.makeConstraints { (make) in
             make.width.equalTo(self.view)
             make.height.equalTo(45*UIRate)

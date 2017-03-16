@@ -40,19 +40,6 @@ class SysMessageViewController: UIViewController,UITableViewDelegate, UITableVie
         }
     }
     
-    //Nav
-    func setNavUI(){
-        self.view.addSubview(navHoldView)
-        navHoldView.navTextLabel.text = self.title
-        
-        navHoldView.snp.makeConstraints { (make) in
-            make.width.equalTo(self.view)
-            make.height.equalTo(64)
-            make.centerX.equalTo(self.view)
-            make.top.equalTo(0)
-        }
-    }
-    
     func setupDefaultUI(){
         self.view.addSubview(defaultView)
         
@@ -86,7 +73,6 @@ class SysMessageViewController: UIViewController,UITableViewDelegate, UITableVie
         self.automaticallyAdjustsScrollViewInsets = false
         self.view.backgroundColor = defaultBackgroundColor
         self.title = "消息"
-        self.setNavUI()
         
         if isHaveData {
             self.setupNormalUI()
@@ -95,12 +81,6 @@ class SysMessageViewController: UIViewController,UITableViewDelegate, UITableVie
         }
         
     }
-    
-    /***Nav隐藏时使用***/
-    private lazy var navHoldView: NavigationView = {
-        let holdView = NavigationView()
-        return holdView
-    }()
     
     /**********/
     //缺省页

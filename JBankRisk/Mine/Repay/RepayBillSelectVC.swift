@@ -46,7 +46,7 @@ class RepayBillSelectVC: UIViewController, UITableViewDelegate, UITableViewDataS
     var titleText = "" {
         didSet{
             self.titleTextLabel.text = titleText
-            navHoldView.navTextLabel.text = titleText
+            
         }
     }
     
@@ -95,25 +95,10 @@ class RepayBillSelectVC: UIViewController, UITableViewDelegate, UITableViewDataS
         self.navigationItem.titleView = titleView
     }
 
-    //nav
-    func setNavUI(){
-        self.view.addSubview(navHoldView)
-        navHoldView.navTextLabel.text = self.title
-        
-        navHoldView.snp.makeConstraints { (make) in
-            make.width.equalTo(self.view)
-            make.height.equalTo(64)
-            make.centerX.equalTo(self.view)
-            make.top.equalTo(0)
-        }
-    }
-    
     func setupUI(){
         self.automaticallyAdjustsScrollViewInsets = false
-        self.title = "全部账单"
+        self.navigationItem.title = "全部账单"
         self.view.backgroundColor = defaultBackgroundColor
-        
-        self.setNavUI()
         setupNormalUI()
     }
     
@@ -236,12 +221,6 @@ class RepayBillSelectVC: UIViewController, UITableViewDelegate, UITableViewDataS
         let holdView = UIView()
         holdView.alpha = 0
         holdView.backgroundColor = UIColorHex("000000", 0.6)
-        return holdView
-    }()
-    
-    /***Nav隐藏时使用***/
-    private lazy var navHoldView: NavigationView = {
-        let holdView = NavigationView()
         return holdView
     }()
     

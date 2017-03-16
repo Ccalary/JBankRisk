@@ -37,17 +37,6 @@ class LoginViewController: UIViewController {
         }
     }
     
-    func setNavUI(){
-        self.view.addSubview(navHoldView)
-        navHoldView.navTextLabel.text = self.title
-        
-        navHoldView.snp.makeConstraints { (make) in
-            make.width.equalTo(self.view)
-            make.height.equalTo(64)
-            make.centerX.equalTo(self.view)
-            make.top.equalTo(0)
-        }
-    }
     
     //MARK: - 基本UI
     func setupUI(){
@@ -61,8 +50,6 @@ class LoginViewController: UIViewController {
             
             NotificationCenter.default.addObserver(self, selector: #selector(LoginSuccessAction), name: NSNotification.Name(rawValue: notificationLoginSuccess), object: nil)
         }
-        
-        self.setNavUI()
         
         let aTap = UITapGestureRecognizer(target: self, action: #selector(tapViewAction))
         aTap.numberOfTapsRequired = 1
@@ -139,12 +126,6 @@ class LoginViewController: UIViewController {
         }
     }
     
-    /***Nav隐藏时使用***/
-
-    private lazy var navHoldView: NavigationView = {
-        let holdView = NavigationView()
-        return holdView
-    }()
     
    /*********/
    private lazy var textLabel: UILabel = {
