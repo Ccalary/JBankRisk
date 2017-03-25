@@ -302,7 +302,7 @@ class UpLoadServiceBillVC: UIViewController,UIImagePickerControllerDelegate,UINa
         
         self.showHud(in: self.view,hint:"上传中...")
         //参数999-服务单上传
-        let params: [String: String] = ["userId":UserHelper.getUserId()!, "flag":"999"]
+        let params: [String: String] = ["userId":UserHelper.getUserId(), "flag":"999"]
         
         NetConnect.bm_upload_photo_info(params:params , data: imageDataArray, name: imageNameArray, success: { response in
             

@@ -345,7 +345,7 @@ class MineViewController: UIViewController, UIGestureRecognizerDelegate,UICollec
     func requestHomeData(){
         
         var params = NetConnect.getBaseRequestParams()
-        params["userId"] = UserHelper.getUserId()!
+        params["userId"] = UserHelper.getUserId()
         
         NetConnect.pc_home_info(parameters: params, success: { response in
             //隐藏HUD

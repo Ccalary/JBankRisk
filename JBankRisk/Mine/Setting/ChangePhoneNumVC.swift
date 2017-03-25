@@ -311,7 +311,7 @@ class ChangePhoneNumVC: UIViewController {
         let randCode = codeTextField.text!
         
         var params = NetConnect.getBaseRequestParams()
-        params["userId"] = UserHelper.getUserId()!
+        params["userId"] = UserHelper.getUserId()
         params["mobile"] = phoneNum
         params["randCode"] = randCode
         

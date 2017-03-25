@@ -436,7 +436,7 @@ class ProductViewController: UIViewController,UITableViewDelegate, UITableViewDa
         //添加HUD
         self.showHud(in: self.view, hint: "加载中...")
         
-        let params = ["userId": UserHelper.getUserId()!]
+        let params = ["userId": UserHelper.getUserId()]
         
         NetConnect.bm_get_product_info(parameters: params, success: { response in
             //隐藏HUD

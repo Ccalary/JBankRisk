@@ -170,7 +170,8 @@ class SysMessageViewController: UIViewController,UITableViewDelegate, UITableVie
         self.showHud(in: self.view, hint: "加载中...")
         
         var params = NetConnect.getBaseRequestParams()
-        params["userId"] = UserHelper.getUserId()!
+        params["userId"] = UserHelper.getUserId()
+        
         params["page"] = self.page
         
         NetConnect.pc_message_detail(parameters: params, success: { response in
@@ -197,7 +198,7 @@ class SysMessageViewController: UIViewController,UITableViewDelegate, UITableVie
     func requestReadData(){
         
         var params = NetConnect.getBaseRequestParams()
-        params["userId"] = UserHelper.getUserId()!
+        params["userId"] = UserHelper.getUserId()
         params["auditId"] = self.messageId
         
         NetConnect.pc_message_readed(parameters: params, success: { response in

@@ -17,6 +17,8 @@ class RepayPeriodDetailVC: UIViewController {
     
     //产品id
     var orderId = ""
+    ///是否从还款界面而来
+    var isFromRepayVC = false
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -138,6 +140,12 @@ class RepayPeriodDetailVC: UIViewController {
         
         detailView.onClickNextStepBtn = {[unowned self] _ in
             
+            //是从还款界面而来
+            if self.isFromRepayVC{
+               _ = self.navigationController?.popViewController(animated: true)
+                return
+            }
+            
             let repayVC = RepayBillSelectVC()
             repayVC.periodInfo = (self.orderId, self.repaymentId)
             self.navigationController?.pushViewController(repayVC, animated: true)
@@ -146,7 +154,13 @@ class RepayPeriodDetailVC: UIViewController {
     
     //后退两个界面
     func rightNavigationBarBtnAction(){
-    _ = self.navigationController?.popToViewController((self.navigationController?.viewControllers[(self.navigationController?.viewControllers.count)! - 3])! , animated: true)
+        
+      let i = self.navigationController?.viewControllers.count ?? 0
+        if i >= 3 {
+             _ = self.navigationController?.popToViewController((self.navigationController?.viewControllers[(self.navigationController?.viewControllers.count)! - 3])! , animated: true)
+        }else {
+            _ = self.navigationController?.popViewController(animated: true)
+        }
     }
     
     //MARK: - 请求数据
@@ -155,7 +169,7 @@ class RepayPeriodDetailVC: UIViewController {
         self.showHud(in: self.view, hint: "加载中...")
         
         var params = NetConnect.getBaseRequestParams()
-        params["userId"] = UserHelper.getUserId()!
+        params["userId"] = UserHelper.getUserId()
         params["repayment_id"] = self.repaymentId
         NetConnect.pc_repayment_month_detail(parameters: params, success: { response in
             //隐藏HUD

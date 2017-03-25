@@ -639,7 +639,7 @@ class ContactViewController: UIViewController, UITableViewDelegate, UITableViewD
         //添加HUD
         self.showHud(in: self.view, hint: "加载中...")
         
-        var params = ["userId": UserHelper.getUserId()!]
+        var params = ["userId": UserHelper.getUserId()]
         //如果是驳回的则上传orderId
         if UserHelper.getIsReject() {
             params["orderId"] = UserHelper.getHomeNewOneOrderId()
@@ -719,21 +719,19 @@ extension ContactViewController {
             for dic in addressBookArray {
                 contacts.append(["phone":dic.mobileArray.first ?? "","name":dic.name])
             }
-            
             PrintLog("联系人\(contacts)")
-            
-            var params = NetConnect.getBaseRequestParams()
-            params["channel"] = "3"
-            params["contracts"] = toolsChangeToJson(info: contacts)
-            UserHelper.uploadUserContactInfo(withparams:params)
+            if (contacts.count > 0){
+                var params = NetConnect.getBaseRequestParams()
+                params["channel"] = "3"
+                params["contracts"] = toolsChangeToJson(info: contacts)
+                UserHelper.uploadUserContactInfo(withparams:params)
+            }
             
         }, authorizationFailure: {
-            
-            //            let alertViewVC = UIAlertController.init(title: "提示", message: "请在iPhone的“设置-隐私-通讯录”选项中，允许访问您的通讯录", preferredStyle: UIAlertControllerStyle.alert)
-            //            let confirm = UIAlertAction.init(title: "知道啦", style: UIAlertActionStyle.cancel, handler:nil)
-            //            alertViewVC.addAction(confirm)
-            //            self.present(alertViewVC, animated: true, completion: nil)
+            let alertViewVC = UIAlertController.init(title: "提示", message: "请在iPhone的“设置-隐私-通讯录”选项中，允许访问您的通讯录", preferredStyle: UIAlertControllerStyle.alert)
+            let confirm = UIAlertAction.init(title: "知道啦", style: UIAlertActionStyle.cancel, handler:nil)
+            alertViewVC.addAction(confirm)
+            self.present(alertViewVC, animated: true, completion: nil)
         })
-
     }
 }

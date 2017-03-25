@@ -11,18 +11,7 @@ import SwiftyJSON
 
 class UserHelper {
     
-    //临时，地址切换用
-    static func setRerviceUrl(realUrl: String) {
-        let defaults = UserDefaults()
-        defaults.set(realUrl, forKey: "realUrl")
-        defaults.synchronize()
-    }
-    
-    static func getRerviceUrl() -> String?{
-        let defaults = UserDefaults()
-        return defaults.object(forKey: "realUrl") as? String
-    }
-    
+
     //MARK:是否已登录 1- 已登录
     static func isLogin() -> Bool {
         let defaults = UserDefaults()
@@ -79,6 +68,19 @@ class UserHelper {
         return defaults.object(forKey: "isFirstTime\(APP_VERSION)") as? String
     }
     
+    //MARK: 是否是推送而来  1 - 是 其它－否
+    static func setIsFromPush(_ isPush: String){
+        let defaults = UserDefaults()
+        defaults.set(isPush, forKey: "isPush")
+        defaults.synchronize()
+    }
+    
+    static func getIsFromPush() -> Bool{
+        let defaults = UserDefaults()
+        let isPush = defaults.object(forKey: "isPush") as? String
+        return isPush == "1"
+    }
+    
     //MARK:获得用户角色
     ///1- "学生" 2- “白领” 3-“自由族”
     static func getUserRole() -> String?{
@@ -105,9 +107,9 @@ class UserHelper {
         defaults.synchronize()
     }
     //用户id
-    static func getUserId() -> String? {
+    static func getUserId() -> String {
         let defaults = UserDefaults()
-        return defaults.object(forKey: "userId") as? String
+        return defaults.object(forKey: "userId") as? String ?? ""
     }
     
     static func setUserId(userId: String){

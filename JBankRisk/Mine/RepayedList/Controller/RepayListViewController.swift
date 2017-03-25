@@ -255,7 +255,7 @@ class RepayListViewController: UIViewController,UIGestureRecognizerDelegate,UITa
         self.showHud(in: self.view, hint: "加载中...")
         
         var params = NetConnect.getBaseRequestParams()
-        params["userId"] = UserHelper.getUserId()!
+        params["userId"] = UserHelper.getUserId()
         params["orderId"] = self.orderId //""获取全部  有的话－筛选
         
         NetworkTools.sharedInstance.repayListDetail(parameters: params, finished: { (response, error) in

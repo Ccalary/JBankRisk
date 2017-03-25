@@ -11,7 +11,7 @@ import SwiftyJSON
 
 class SettingViewController: UIViewController,UITableViewDelegate, UITableViewDataSource,UIImagePickerControllerDelegate,UINavigationControllerDelegate {
 
-    var leftTextInfo = ["头像","","手机号码","修改帐号密码","","关于我们","我要吐槽"]
+    var leftTextInfo = ["头像","","手机号码","修改帐号密码","","关于我们"]//,"我要吐槽"
     
     ///相机，相册
     var cameraPicker: UIImagePickerController!
@@ -211,8 +211,9 @@ class SettingViewController: UIViewController,UITableViewDelegate, UITableViewDa
            let viewController = AboutOursViewController()
            self.navigationController?.pushViewController(viewController, animated: true)
         case 6://我要吐槽
-            let viewController = SuggestViewController()
-            self.navigationController?.pushViewController(viewController, animated: true)
+//            let viewController = SuggestViewController()
+//            self.navigationController?.pushViewController(viewController, animated: true)
+            break
         default:
             break
         }
@@ -270,6 +271,7 @@ class SettingViewController: UIViewController,UITableViewDelegate, UITableViewDa
         }
         phoneCallView.onClickSure = {[unowned self] _ in
             UserHelper.setLogoutInfo()
+            JPUSHService.setTags(["user"], aliasInbackground:"")
             popupController.dismiss(animated: true)
              self.tabBarController?.selectedIndex = 0
             _ = self.navigationController?.popToRootViewController(animated: true)
@@ -288,7 +290,7 @@ class SettingViewController: UIViewController,UITableViewDelegate, UITableViewDa
         
         self.showHud(in: self.view,hint:"上传中...")
         //参数000-头像上传
-        let params: [String: String] = ["userId":UserHelper.getUserId()!, "flag":"100"]
+        let params: [String: String] = ["userId":UserHelper.getUserId(), "flag":"100"]
         
         NetConnect.bm_upload_photo_info(params:params , data: imageDataArray, name: imageNameArray, success: { response in
             

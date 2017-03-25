@@ -13,6 +13,8 @@ import SnapKit
 private let cellIdentity = "cellID"
 class RepayBillSelectVC: UIViewController, UITableViewDelegate, UITableViewDataSource, UIGestureRecognizerDelegate{
     
+    var isPush = false
+    
     //单期还款id
     var periodInfo:(orderId: String, repaymentId: String) = ("","")
     
@@ -56,6 +58,12 @@ class RepayBillSelectVC: UIViewController, UITableViewDelegate, UITableViewDataS
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        
+        //如果是从推送而来
+        if isPush {
+            self.navigationItem.leftBarButtonItem = UIBarButtonItem(title: "取消", style: .plain, target: self, action: #selector(leftBarButton))
+        }
+        
         setupUI()
     }
 
@@ -464,13 +472,18 @@ class RepayBillSelectVC: UIViewController, UITableViewDelegate, UITableViewDataS
         isTransformed = !isTransformed
     }    
     
+    /********如果是从推送而来*******/
+    func leftBarButton(){
+        self.dismiss(animated: true, completion: nil)
+    }
+    
     //MARK: - 请求数据
     func requestData(){
         //添加HUD
         self.showHud(in: self.view, hint: "加载中...")
         
         var params = NetConnect.getBaseRequestParams()
-        params["userId"] = UserHelper.getUserId()!
+        params["userId"] = UserHelper.getUserId()
         params["flag"] = 1 //1-全部应还 2-本月应还 3-近7日  4-今日
         params["orderId"] = filterOrderId
         

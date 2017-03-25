@@ -85,9 +85,7 @@ public class PPGetAddressBook : NSObject {
             DispatchQueue.main.async {
                 success(modelArray)
             }
-            
         }
-        
     }
     
     // MARK: - 获取按A~Z顺序排列的所有联系人

@@ -123,7 +123,7 @@ class HomeViewController: UIViewController, UIGestureRecognizerDelegate{
     func requestHomeData(){
        
         var params = NetConnect.getBaseRequestParams()
-        params["userId"] = UserHelper.getUserId() ?? ""
+        params["userId"] = UserHelper.getUserId()
         NetConnect.bm_home_url(parameters: params, success:
             { response in
                 //隐藏HUD
@@ -145,7 +145,7 @@ class HomeViewController: UIViewController, UIGestureRecognizerDelegate{
                 self.alertInfo = json["alertMap"]
                 self.showTips()
                 
-                if UserHelper.getUserId() != nil {
+                if UserHelper.getUserId() != "" {
                     
                      self.getTheUploadProgree(flag: json["flag"].stringValue,userType:json["userType"].stringValue)
                     
@@ -323,7 +323,7 @@ extension HomeViewController: UITableViewDelegate, UITableViewDataSource,CyclePi
         switch indexPath.row {
         case 0:
             //保证有userId 和 角色已选
-            guard (UserHelper.getUserId() != nil) && (UserHelper.getUserRole() != nil) else {
+            guard (UserHelper.getUserId() != "") && (UserHelper.getUserRole() != nil) else {
                 
                 let popupView =  PopupSelectRoleView(currentIndex: -1)
                 let popupController = CNPPopupController(contents: [popupView])!

@@ -20,7 +20,7 @@ class RepayTipsViewController: UIViewController {
     var repayResult: RepayResult = .success
 
     //支付信息
-    var repayInfo:(amount: String, way: String, repaymentId: String) = ("", "", "")
+    var repayInfo:(amount: String, way: String, repaymentId: String, repayCount: Int) = ("", "", "", 0)
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -34,6 +34,8 @@ class RepayTipsViewController: UIViewController {
             statusImageView.image = UIImage(named: "repay_success_20x20")
             statusTextLabel.text = "还款成功"
             statusTextLabel.textColor = UIColorHex("3dc133")
+//            tipsTextLabel.text = "本次账单共\(repayInfo.repayCount)笔"
+//            nextStepBtn.setTitle("查看详情", for: UIControlState.normal)
             tipsTextLabel.text = "再借一笔，下款更快，额度也可能更高呦～"
             nextStepBtn.setTitle("再借一笔", for: UIControlState.normal)
             repayWayLabel.text = "还款方式：\(repayInfo.way)"
@@ -62,7 +64,7 @@ class RepayTipsViewController: UIViewController {
         self.navigationController!.navigationBar.isTranslucent = true;
         self.automaticallyAdjustsScrollViewInsets = false;
         
-        self.title = "还款"
+        self.navigationItem.title = "还款提示"
         self.view.backgroundColor = defaultBackgroundColor
           self.navigationItem.leftBarButtonItem = UIBarButtonItem(image: UIImage(named:"navigation_left_back_13x21"), style: .plain, target: self, action: #selector(leftNavigationBarBtnAction))
         

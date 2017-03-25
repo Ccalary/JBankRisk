@@ -8,11 +8,11 @@
 
 import Foundation
 
-//版本
-let APP_VERSION = "2.0.0" //版本号
-let APP_VERSION_CODE = "200"
+//版本 H 测试 版本更新要改动
+let APP_VERSION = "2.1.0" //版本号
+let APP_VERSION_CODE = "210"
 
-let JPUSH_IS_PRO = false //H 测试 极光推送，是否是生产环境
+let JPUSH_IS_PRO = true //H 测试 极光推送，是否是生产环境
 //通知
 //登录成功
 let notificationLoginSuccess = "NoticeLoginSuccess"

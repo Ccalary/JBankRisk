@@ -24,7 +24,10 @@ enum OrderStausType {
 }
 
 class BorrowStatusVC: UIViewController {
-
+    
+    //是否是从推送而来
+    var isPush = false
+    
     var orderInfo: JSON!
     
     var isHaveData = true //是否加载缺省页
@@ -85,6 +88,12 @@ class BorrowStatusVC: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        
+        //如果是从推送而来
+        if isPush {
+            self.navigationItem.leftBarButtonItem = UIBarButtonItem(title: "取消", style: .plain, target: self, action: #selector(leftBarButton))
+        }
+        
         setupUI()
     }
 
@@ -145,7 +154,6 @@ class BorrowStatusVC: UIViewController {
             self?.requestData()
             self?.mScrollView.stopPullRefreshEver()
         })
-        
         
         //协议
         infoView.onClickProtocol = {[unowned self] in
@@ -219,6 +227,11 @@ class BorrowStatusVC: UIViewController {
         return holdView
     }()
     
+    /********如果是从推送而来*******/
+    func leftBarButton(){
+       self.dismiss(animated: true, completion: nil)
+    }
+    
     //MARK: - 请求数据
     func requestData(){
         //添加HUD
@@ -226,7 +239,7 @@ class BorrowStatusVC: UIViewController {
         
         //默认显示最近一单的
         var params = NetConnect.getBaseRequestParams()
-        params["userId"] = UserHelper.getUserId()!
+        params["userId"] = UserHelper.getUserId()
         params["orderId"] = self.orderId //产品id有得话按此ID处理，没有的话后台按最新的产品处理
         
         NetConnect.pc_borrow_status(parameters: params, success: { response in

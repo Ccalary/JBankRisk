@@ -244,4 +244,22 @@ class RepayDetailTableViewCell: UITableViewCell {
         
         moneyTextLabel.text = toolsChangeMoneyStyle(amount: dic["showMoney"].doubleValue) + "元"
     }
+    
+    //还款列表
+    func repayListCellWithData(dic: JSON){
+        
+        leftTopTextLabel.text = dic["orderName"].stringValue
+        leftTopTextLabel2.text = "第" + dic["term"].stringValue + "期"
+        leftBottomTextLabel.text = toolsChangeDateStyle(toYYYYMMDD: dic["realpay_date"].stringValue)
+//        statusTextLabel.text = "待还"
+//        let penaltyDay = dic["penalty_day"].intValue //逾期
+//        
+//        if penaltyDay > 0 {//有逾期
+//            noticeTextLabel.text = "逾期\(penaltyDay)天"
+//        }else {
+//            noticeTextLabel.text = ""
+//        }
+        
+        moneyTextLabel.text = toolsChangeMoneyStyle(amount: dic["showMoney"].doubleValue) + "元"
+    }
 }

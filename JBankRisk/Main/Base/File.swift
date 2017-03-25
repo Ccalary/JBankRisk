@@ -50,6 +50,10 @@ let defaultDivideLineColor: UIColor = UIColorHex("e1e1e1")
  UIColorHex("c5c5c5")//浅灰色
  */
 
+///字体黑色
+let colorTextBlack: UIColor = UIColorHex("666666")
+
+
 
 ///系统常规字体大小
 func UIFontSize(size: CGFloat) -> UIFont{

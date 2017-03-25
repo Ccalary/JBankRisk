@@ -15,19 +15,9 @@ class NetConnect {
     static func getBaseRequestParams() -> Dictionary<String,Any>{
         var params = [String:Any]()
         params["companyId"] = "10000101"
-        params["userId"] = UserHelper.getUserId() ?? ""
+        params["userId"] = UserHelper.getUserId()
         params["channelId"] = "3" // iOS-3,android-4
         return params
-    }
-    /*******************************/
-    //临时接口，地址转换用
-    static func other_service_url(parameters: Parameters,success:@escaping (_ response:[String:AnyObject]) -> (),failure:@escaping(_ error: Error) -> ()){
-        
-        NetworkRequest.sharedInstance.getRequest(urlString: OTHER_SERVICE_URL, params: parameters, success: { (response) in
-            success(response)
-        }, failture: { (error) in
-            failure(error)
-        })
     }
     
     /*************注册登录模块(RL)*************/

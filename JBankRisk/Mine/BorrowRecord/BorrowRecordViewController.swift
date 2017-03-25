@@ -29,7 +29,7 @@ class BorrowRecordViewController: UIViewController,UITableViewDelegate, UITableV
     func setupUI(){
         self.navigationController!.navigationBar.isTranslucent = true
         self.automaticallyAdjustsScrollViewInsets = false
-        self.title = "借款记录"
+        self.navigationItem.title = "借款记录"
         self.view.backgroundColor = defaultBackgroundColor
         
         if isHaveData {
@@ -269,7 +269,7 @@ class BorrowRecordViewController: UIViewController,UITableViewDelegate, UITableV
 //        self.showHud(in: self.view, hint: "加载中...")
         
         var params = NetConnect.getBaseRequestParams()
-        params["userId"] = UserHelper.getUserId()!
+        params["userId"] = UserHelper.getUserId()
         params["pFlag"] = "1"//固定值，用来区分返回的金额数值
         
         NetConnect.pc_borrow_record(parameters: params, success: { response in

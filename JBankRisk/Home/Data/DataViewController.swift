@@ -578,7 +578,7 @@ extension DataViewController {
             imageNameArray.append(imageName)
         }
         //参数666-多张上传
-        let params: [String: String] = ["userId":UserHelper.getUserId()!, "flag":"666"]
+        let params: [String: String] = ["userId":UserHelper.getUserId(),"flag":"666"]
         
         NetConnect.bm_upload_photo_info(params:params , data: imageDataArray, name: imageNameArray, success: { response in
             
@@ -619,7 +619,7 @@ extension DataViewController {
         //添加HUD
         self.showHud(in: self.view, hint: "加载中...")
         
-        let params = ["userId": UserHelper.getUserId()!]
+        let params = ["userId": UserHelper.getUserId()]
         
         NetConnect.bm_get_data_info(parameters: params, success: { response in
             //隐藏HUD

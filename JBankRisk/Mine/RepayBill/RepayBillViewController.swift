@@ -10,7 +10,7 @@ import UIKit
 import SwiftyJSON
 
 class RepayBillViewController: UIViewController, UITableViewDataSource, UITableViewDelegate{
-
+    
     //是否有数据
     var isHaveData = false
     //月还款状态
@@ -23,7 +23,7 @@ class RepayBillViewController: UIViewController, UITableViewDataSource, UITableV
         super.viewDidLoad()
         self.setupUI()
     }
-
+    
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
     }
@@ -39,7 +39,7 @@ class RepayBillViewController: UIViewController, UITableViewDataSource, UITableV
         self.navigationItem.title = "还款账单"
         self.view.backgroundColor = defaultBackgroundColor
     }
-
+    
     func setupDefaultUI(){
         self.view.addSubview(defaultView)
         defaultView.snp.makeConstraints { (make) in
@@ -100,7 +100,7 @@ class RepayBillViewController: UIViewController, UITableViewDataSource, UITableV
             make.centerX.equalTo(self.view)
             make.top.equalTo(80*UIRate)
         }
-
+        
         arrowImageView.snp.makeConstraints { (make) in
             make.width.equalTo(7*UIRate)
             make.height.equalTo(12*UIRate)
@@ -133,7 +133,7 @@ class RepayBillViewController: UIViewController, UITableViewDataSource, UITableV
         })
     }
     //MARK:月头部
-    func monthTableViewHeader() -> UIView { 
+    func monthTableViewHeader() -> UIView {
         let headerView = UIView(frame: CGRect(x: 0, y: 0, width: SCREEN_WIDTH, height: 50*UIRate))
         headerView.backgroundColor = UIColor.white
         
@@ -164,7 +164,7 @@ class RepayBillViewController: UIViewController, UITableViewDataSource, UITableV
             make.centerX.equalTo(headerView)
             make.bottom.equalTo(headerView)
         }
-
+        
         return headerView
     }
     //MARK:全部头部
@@ -231,7 +231,7 @@ class RepayBillViewController: UIViewController, UITableViewDataSource, UITableV
         holdView.backgroundColor = UIColor.black
         return holdView
     }()
-
+    
     //图片
     private lazy var topImageView: UIImageView = {
         let imageView = UIImageView()
@@ -263,7 +263,7 @@ class RepayBillViewController: UIViewController, UITableViewDataSource, UITableV
         label.text = "0.00"
         return label
     }()
-
+    
     //箭头
     private lazy var arrowImageView: UIImageView = {
         let imageView = UIImageView()
@@ -295,14 +295,14 @@ class RepayBillViewController: UIViewController, UITableViewDataSource, UITableV
         label.textColor = UIColorHex("666666")
         return label
     }()
-
+    
     //分割线
     private lazy var monthBilldivideLine: UIView = {
         let lineView = UIView()
         lineView.backgroundColor = defaultDivideLineColor
         return lineView
     }()
-
+    
     private lazy var aTableView: UITableView = {
         
         let tableView = UITableView()
@@ -311,7 +311,7 @@ class RepayBillViewController: UIViewController, UITableViewDataSource, UITableV
         tableView.backgroundColor = defaultBackgroundColor
         tableView.tableFooterView = UIView()
         tableView.register(BorrowRecordTableViewCell.self, forCellReuseIdentifier: "borrowCellID")
-
+        
         //tableView 单元格分割线的显示
         if tableView.responds(to:#selector(setter: UITableViewCell.separatorInset)) {
             tableView.separatorInset = .zero
@@ -329,7 +329,7 @@ class RepayBillViewController: UIViewController, UITableViewDataSource, UITableV
         holdView.backgroundColor = defaultBackgroundColor
         return holdView
     }()
- 
+    
     //分割线
     private lazy var totalBilldivideLine1: UIView = {
         let lineView = UIView()
@@ -352,7 +352,7 @@ class RepayBillViewController: UIViewController, UITableViewDataSource, UITableV
         label.text = "全部账单"
         return label
     }()
-
+    
     //分割线
     private lazy var totalBilldivideLine2: UIView = {
         let lineView = UIView()
@@ -409,7 +409,7 @@ class RepayBillViewController: UIViewController, UITableViewDataSource, UITableV
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: "borrowCellID") as! BorrowRecordTableViewCell
         
-         if indexPath.section == 0 {
+        if indexPath.section == 0 {
             
             if monthDataArray.count == 0 {
                 cell.leftTextLabel.textColor = UIColorHex("999999")
@@ -422,14 +422,14 @@ class RepayBillViewController: UIViewController, UITableViewDataSource, UITableV
                 cell.arrowImageView.isHidden = false
                 cell.cellWithMonthData(dic: monthDataArray[indexPath.row])
             }
-           
+            
         }else {
             cell.leftTextLabel.text = allDataArray[indexPath.row]["orderName"].stringValue
             cell.rightSecondTextLabel.text = "\(allDataArray[indexPath.row]["term"].stringValue)/\(allDataArray[indexPath.row]["total"].stringValue)期"
             cell.rightTextLabel.text = allDataArray[indexPath.row]["is_pay"].stringValue
-           
+            
         }
-         return cell
+        return cell
         
     }
     
@@ -457,10 +457,10 @@ class RepayBillViewController: UIViewController, UITableViewDataSource, UITableV
                     monthRepayStatus = .not
                 }
             }
-             let repayDetailVC = RepayPeriodDetailVC()
-             repayDetailVC.repaymentId = monthDataArray[indexPath.row]["repayment_id"].stringValue
+            let repayDetailVC = RepayPeriodDetailVC()
+            repayDetailVC.repaymentId = monthDataArray[indexPath.row]["repayment_id"].stringValue
             repayDetailVC.repayStatusType = monthRepayStatus //还款状态
-             self.navigationController?.pushViewController(repayDetailVC, animated: true)
+            self.navigationController?.pushViewController(repayDetailVC, animated: true)
             
         }else {
             
@@ -481,9 +481,9 @@ class RepayBillViewController: UIViewController, UITableViewDataSource, UITableV
     
     func tableView(_ tableView: UITableView, heightForHeaderInSection section: Int) -> CGFloat {
         if section == 0{
-             return 50*UIRate
+            return 50*UIRate
         }else {
-             return 60*UIRate
+            return 60*UIRate
         }
     }
     
@@ -504,8 +504,7 @@ class RepayBillViewController: UIViewController, UITableViewDataSource, UITableV
         self.showHud(in: self.view, hint: "加载中...")
         
         var params = NetConnect.getBaseRequestParams()
-        params["userId"] = UserHelper.getUserId()!
-        
+        params["userId"] = UserHelper.getUserId()
         NetConnect.pc_repayment_bill(parameters: params, success: { response in
             //隐藏HUD
             self.hideHud()
@@ -521,14 +520,14 @@ class RepayBillViewController: UIViewController, UITableViewDataSource, UITableV
             self.hideHud()
         })
     }
-
+    
     func refreshUI(json: JSON){
         //应还总额
         totalMoneyLabel.text = toolsChangeMoneyStyle(amount: json["currentPayMoney"].doubleValue)
         if json["currentPayMoney"].doubleValue > 0{
             self.recentTimeLabel.text = "最近还款日" + toolsChangeDateStyle(toMMDD: json["RecentPayDate"].stringValue)
         }else{
-             self.recentTimeLabel.text = ""
+            self.recentTimeLabel.text = ""
         }
         
         self.monthDataArray.removeAll()
@@ -568,7 +567,7 @@ extension RepayBillViewController {
         if self.monthDataArray.count > 0 {
             
             var selectInfo: [Dictionary<String,Any>] = []
-
+            
             selectInfo = monthDataArray.reduce(selectInfo) { (selectInfo, jsonObject) -> [Dictionary<String,Any>] in
                 var dic = [String:Any]()
                 dic["orderId"] = jsonObject["orderId"].stringValue
@@ -589,3 +588,4 @@ extension RepayBillViewController {
         }
     }
 }
+

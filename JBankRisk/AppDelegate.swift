@@ -21,9 +21,6 @@ class AppDelegate: UIResponder, UIApplicationDelegate,UITabBarControllerDelegate
     
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplicationLaunchOptionsKey: Any]?) -> Bool {
         
-        //临时使用，地址转换
-        requestChangeSevice()
-        
         Thread.sleep(forTimeInterval: 1.0)//启动延时1秒
         
         //访问通讯录
@@ -41,6 +38,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate,UITabBarControllerDelegate
         let entity = JPUSHRegisterEntity()
         entity.types = Int(JPAuthorizationOptions.alert.rawValue | JPAuthorizationOptions.sound.rawValue | JPAuthorizationOptions.badge.rawValue)
         
+        //H 测试 环境要改变
         JPUSHService.register(forRemoteNotificationConfig: entity, delegate: self)
         JPUSHService.setup(withOption: launchOptions, appKey: "1cbb0b714502d6add4f412ee", channel: "Publish channel", apsForProduction: JPUSH_IS_PRO) 
         
@@ -51,7 +49,6 @@ class AppDelegate: UIResponder, UIApplicationDelegate,UITabBarControllerDelegate
                 PrintLog("registrationID获取失败：\(registrationID)")
             }
         }
-        
     
         self.window = UIWindow(frame: UIScreen.main.bounds)
         self.window?.backgroundColor = UIColor.white
@@ -180,25 +177,6 @@ class AppDelegate: UIResponder, UIApplicationDelegate,UITabBarControllerDelegate
         
         Bugly.setUserIdentifier(UIDevice.current.name)
     }
-       
-    //临时使用，地址转换
-    func requestChangeSevice(){
-        
-        let params = NetConnect.getBaseRequestParams()
-        
-        NetConnect.other_service_url(parameters: params, success:
-            { response in
-                
-                let json = JSON(response)
-                
-                let realUrl = json["url"].string ?? ""
-                
-                UserHelper.setRerviceUrl(realUrl: realUrl)
-                
-        }, failure: {error in
-            
-        })
-    }
 }
 
 //MARK:-极光推送
@@ -207,7 +185,8 @@ extension AppDelegate:UNUserNotificationCenterDelegate,JPUSHRegisterDelegate
     func application(_ application: UIApplication, didRegisterForRemoteNotificationsWithDeviceToken deviceToken: Data) {
         
         JPUSHService.registerDeviceToken(deviceToken)
-        
+
+       JPUSHService.setTags(["user"], aliasInbackground: UserHelper.getUserId())
         PrintLog("deviceToken:\(deviceToken)")
     }
     
@@ -246,6 +225,8 @@ extension AppDelegate:UNUserNotificationCenterDelegate,JPUSHRegisterDelegate
 //        let subtitle = content.subtitle;  // 推送消息的副标题
 //        let title = content.title;  // 推送消息的标题
         
+         PrintLog("response:\(notification)")
+        
         if (notification.request.trigger?.isKind(of: UNPushNotificationTrigger.self))!{
             PrintLog("iOS10 前台收到远程通知:\(userInfo)")
             JPUSHService.handleRemoteNotification(userInfo)
@@ -260,11 +241,54 @@ extension AppDelegate:UNUserNotificationCenterDelegate,JPUSHRegisterDelegate
     func jpushNotificationCenter(_ center: UNUserNotificationCenter!, didReceive response: UNNotificationResponse!, withCompletionHandler completionHandler: (() -> Void)!) {
         let userInfo = response.notification.request.content.userInfo
         
+//        let request = response.notification.request; // 收到推送的请求
+//        let content = request.content; // 收到推送的消息内容
+//        let badge = content.badge;  // 推送消息的角标
+//        let body = content.body;    // 推送消息体
+//        let sound = content.sound;  // 推送消息的声音
+//        let subtitle = content.subtitle;  // 推送消息的副标题
+//        let title = content.title;  // 推送消息
+        
         if (response.notification.request.trigger?.isKind(of: UNPushNotificationTrigger.self))!{
             PrintLog("iOS10 收到远程通知:\(userInfo)")
+            let target = userInfo["target"] as? String ?? ""
+            let orderId = userInfo["orderId"] as? String ?? ""
+            
+            self.goMessageViewController(target, andOrderId: orderId)
+            
             JPUSHService.handleRemoteNotification(userInfo)
         }
         completionHandler()
+    }
+    
+    //界面跳转
+    func goMessageViewController(_ withTag: String, andOrderId orderId: String){
+        
+        switch withTag {
+        case "0"://借款状态
+            let borrowStatusVC = BorrowStatusVC()
+            borrowStatusVC.isPush = true
+            borrowStatusVC.orderId = orderId
+             let nav = HHNavigationController(rootViewController: borrowStatusVC)
+            self.window?.rootViewController?.present(nav, animated: true, completion: nil);
+            break
+        case "2"://借款详情
+            let repayVC = RepayDetailViewController()
+            repayVC.orderId = orderId
+            repayVC.isPush = true
+            let nav = HHNavigationController(rootViewController: repayVC)
+            self.window?.rootViewController?.present(nav, animated: true, completion: nil);
+            break
+        case "3"://有逾期去还款
+            let repayVC = RepayBillSelectVC()
+            repayVC.isPush = true
+            let nav = HHNavigationController(rootViewController: repayVC)
+            self.window?.rootViewController?.present(nav, animated: true, completion: nil);
+            break
+    
+        default:
+            break
+        }
     }
 }
 

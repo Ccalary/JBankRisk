@@ -11,6 +11,9 @@ import SwiftyJSON
 
 class RepayDetailViewController: UIViewController, UITableViewDelegate, UITableViewDataSource,UIGestureRecognizerDelegate {
 
+    //是否从推送而来
+    var isPush = false
+    
     //产品id
     var orderId = ""
     //筛选
@@ -20,10 +23,16 @@ class RepayDetailViewController: UIViewController, UITableViewDelegate, UITableV
     
     var alreadyDataArray: [JSON] = []
     
+    var dataArray: [[JSON]] = []
+    
     override func viewDidLoad() {
         super.viewDidLoad()
+        
+        //如果是从推送而来
+        if isPush {
+            self.navigationItem.leftBarButtonItem = UIBarButtonItem(title: "取消", style: .plain, target: self, action: #selector(leftBarButton))
+        }
         self.setupUI()
-       
     }
     
     override func didReceiveMemoryWarning() {
@@ -31,6 +40,7 @@ class RepayDetailViewController: UIViewController, UITableViewDelegate, UITableV
     }
     
     override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
          self.requestData()
     }
     
@@ -39,10 +49,10 @@ class RepayDetailViewController: UIViewController, UITableViewDelegate, UITableV
     }
     
     func setupUI(){
-        self.navigationController!.navigationBar.isTranslucent = true;
-        self.automaticallyAdjustsScrollViewInsets = false;
+        self.navigationController!.navigationBar.isTranslucent = true
+        self.automaticallyAdjustsScrollViewInsets = false
         
-        self.title = "还款详情"
+        self.navigationItem.title = "还款详情"
         self.view.backgroundColor = defaultBackgroundColor
         self.navigationItem.rightBarButtonItem = UIBarButtonItem(title: "筛选", style: UIBarButtonItemStyle.plain, target: self, action: #selector(rightNavigationBarBtnAction))
         self.navigationItem.rightBarButtonItem?.tintColor = UIColorHex("00b2ff")
@@ -149,87 +159,48 @@ class RepayDetailViewController: UIViewController, UITableViewDelegate, UITableV
     
     //MARK: - UITableView Delegate&&DataSource
     func numberOfSections(in tableView: UITableView) -> Int {
-        return 2
+        return self.dataArray.count
     }
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        if section == 0 {
-            return waitDataArray.count
-        }else {
-            return alreadyDataArray.count
-        }
+        
+      return self.dataArray[section].count
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: "repayDetailCellID") as! RepayDetailTableViewCell
-        //去除选择效果
-        cell.selectionStyle = .none
         
         if indexPath.section == 0{
             cell.textColorTheme = .light
-            cell.waitCellWithData(dic: waitDataArray[indexPath.row])
+            cell.waitCellWithData(dic: self.dataArray[indexPath.section][indexPath.row])
             
         }else {
             cell.textColorTheme = .dark
-            cell.alreadyCellWithData(dic:alreadyDataArray[indexPath.row])
+            cell.alreadyCellWithData(dic:self.dataArray[indexPath.section][indexPath.row])
         }
         return cell
     }
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        tableView.deselectRow(at: indexPath, animated: true)
         
-        if indexPath.section ==  0 {
-            var monthRepayStatus: RepayStatusType = .finish
-            //0-已支付 1-未支付 2-提前支付 3-逾期未支付 4-逾期已支付
-            let repayStatus = (waitDataArray[indexPath.row].dictionary?["is_pay"]?.stringValue)!
-            if repayStatus == "0" ||  repayStatus == "2" || repayStatus == "4"{
-                monthRepayStatus = .finish
-            }else  {//有逾期
-                if let penaltyDay = waitDataArray[indexPath.row].dictionary?["penalty_day"]?.intValue {
-                    
-                    if penaltyDay > 0 {
-                        monthRepayStatus = .overdue
-                    }else {
-                        monthRepayStatus = .not
-                    }
-                    
-                }else {
-                    monthRepayStatus = .not
+        var monthRepayStatus: RepayStatusType = .finish
+        //0-已支付 1-未支付 2-提前支付 3-逾期未支付 4-逾期已支付
+        let repayStatus = self.dataArray[indexPath.section][indexPath.row]["is_pay"].stringValue
+        if repayStatus == "0" ||  repayStatus == "2" || repayStatus == "4"{
+            monthRepayStatus = .finish
+        }else  {//有逾期
+            let penaltyDay = self.dataArray[indexPath.section][indexPath.row]["penalty_day"].intValue
+             if penaltyDay > 0 {
+                 monthRepayStatus = .overdue
+             }else {
+                 monthRepayStatus = .not
             }
-        }
-            let repayDetailVC = RepayPeriodDetailVC()
-            repayDetailVC.repaymentId = (waitDataArray[indexPath.row].dictionary?["repayment_id"]?.stringValue)!
-            repayDetailVC.repayStatusType = monthRepayStatus //还款状态
-            self.navigationController?.pushViewController(repayDetailVC, animated: true)
-
-        }else {
-            
-            var monthRepayStatus: RepayStatusType = .finish
-            //0-已支付 1-未支付 2-提前支付 3-逾期未支付 4-逾期已支付
-            let repayStatus = (alreadyDataArray[indexPath.row].dictionary?["is_pay"]?.stringValue)!
-            if repayStatus == "0" ||  repayStatus == "2" || repayStatus == "4"{
-                monthRepayStatus = .finish
-            }else {
-                //有逾期
-                
-                 if let penaltyDay = alreadyDataArray[indexPath.row].dictionary?["penalty_day"]?.intValue {
-                    
-                    if penaltyDay > 0 {
-                         monthRepayStatus = .overdue
-                    }else {
-                        monthRepayStatus = .not
-                    }
-                   
-                }else {
-                    monthRepayStatus = .not
-                }
-            }
-
-            let repayDetailVC = RepayPeriodDetailVC()
-            repayDetailVC.repaymentId = (alreadyDataArray[indexPath.row].dictionary?["repayment_id"]?.stringValue)!
-            repayDetailVC.repayStatusType = monthRepayStatus //还款状态
-            self.navigationController?.pushViewController(repayDetailVC, animated: true)
-        }
+         }
+        let repayDetailVC = RepayPeriodDetailVC()
+        repayDetailVC.repaymentId = self.dataArray[indexPath.section][indexPath.row]["repayment_id"].stringValue
+        repayDetailVC.repayStatusType = monthRepayStatus //还款状态
+        self.navigationController?.pushViewController(repayDetailVC, animated: true)
     }
     
     func tableView(_ tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
@@ -316,13 +287,18 @@ class RepayDetailViewController: UIViewController, UITableViewDelegate, UITableV
         }
     }
     
+    /********如果是从推送而来*******/
+    func leftBarButton(){
+        self.dismiss(animated: true, completion: nil)
+    }
+    
     //MARK: - 请求数据
     func requestData(){
         //添加HUD
         self.showHud(in: self.view, hint: "加载中...")
         
         var params = NetConnect.getBaseRequestParams()
-        params["userId"] = UserHelper.getUserId()!
+        params["userId"] = UserHelper.getUserId()
         params["orderId"] = self.orderId//产品id
         params["flag"] = selectIndex //1-全部 2-待还 3-完成
         
@@ -334,11 +310,7 @@ class RepayDetailViewController: UIViewController, UITableViewDelegate, UITableV
                 return self.showHint(in: self.view, hint: json["RET_DESC"].stringValue)
             }
             
-            self.refreshUI(json: json["back"])
-            self.refreshWaitUI(json: json["waitPay"])
-            self.refreshAlreadyUI(json: json["alreayPay"])
-            
-            self.aTableView.reloadData()
+             self.refreshUI(json: json)
             
         }, failure:{ error in
             //隐藏HUD
@@ -347,18 +319,13 @@ class RepayDetailViewController: UIViewController, UITableViewDelegate, UITableV
     }
 
     func refreshUI(json: JSON){
-        nameTextLabel.text = json["orderName"].stringValue
+        nameTextLabel.text = json["back"]["orderName"].stringValue
+        waitDataArray = json["waitPay"].arrayValue
+        alreadyDataArray = json["alreayPay"].arrayValue
+        dataArray.removeAll()
+        dataArray.append(waitDataArray)
+        dataArray.append(alreadyDataArray)
+        self.aTableView.reloadData()
     }
-    
-    func refreshAlreadyUI(json: JSON){
-        alreadyDataArray.removeAll()
-        alreadyDataArray = json.arrayValue
-    }
-    
-    func refreshWaitUI(json: JSON){
-        waitDataArray.removeAll()
-        waitDataArray = json.arrayValue
-    }
-    
 }
 

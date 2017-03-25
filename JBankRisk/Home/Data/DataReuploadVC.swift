@@ -450,7 +450,7 @@ extension DataReuploadVC {
             imageNameArray.append(imageName)
         }
         //参数666-多张上传
-        let params: [String: String] = ["userId":UserHelper.getUserId()!, "flag":"999"]
+        let params: [String: String] = ["userId":UserHelper.getUserId(), "flag":"999"]
         
         NetConnect.bm_upload_photo_info(params:params , data: imageDataArray, name: imageNameArray, success: { response in
             

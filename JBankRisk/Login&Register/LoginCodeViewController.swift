@@ -289,7 +289,7 @@ class LoginCodeViewController: UIViewController {
                 //0-登录成功 1-去注册
                 if json["flag"] == "0" {
                     UserHelper.setLoginInfo(dic: json)
-                    
+                    JPUSHService.setTags(["user"], aliasInbackground: UserHelper.getUserId())
                     if !self.isPush{
                         NotificationCenter.default.post(name: NSNotification.Name(rawValue: notificationLoginSuccess), object: self)
                     }

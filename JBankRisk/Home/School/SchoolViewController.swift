@@ -385,7 +385,7 @@ class SchoolViewController:  UIViewController,UITableViewDelegate, UITableViewDa
         //添加HUD
         self.showHud(in: self.view, hint: "加载中...")
         
-        var params = ["userId": UserHelper.getUserId()!]
+        var params = ["userId": UserHelper.getUserId()]
         //如果是驳回的则上传orderId
         if UserHelper.getIsReject() {
             params["orderId"] = UserHelper.getHomeNewOneOrderId()

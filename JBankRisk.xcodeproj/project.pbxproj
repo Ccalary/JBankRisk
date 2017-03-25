@@ -22,6 +22,7 @@
 		0D0E2A3B1DAB40DB00A64F76 /* HomeViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0D0E2A3A1DAB40DB00A64F76 /* HomeViewController.swift */; };
 		0D0E2A451DABB86E00A64F76 /* BaseWebViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0D0E2A441DABB86E00A64F76 /* BaseWebViewController.swift */; };
 		0D1070C21DAE297E00F9591C /* LoginPsdOrSetPsdVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0D1070C11DAE297E00F9591C /* LoginPsdOrSetPsdVC.swift */; };
+		0D1BA5AE1E7EC66300021627 /* PopupRepayWayView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0D1BA5AD1E7EC66300021627 /* PopupRepayWayView.swift */; };
 		0D1D62591E123A9D00C64748 /* GuideViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0D1D62581E123A9D00C64748 /* GuideViewController.swift */; };
 		0D1E82511DE1927A0040B39E /* AlbumToolbarView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0D1E823E1DE1927A0040B39E /* AlbumToolbarView.swift */; };
 		0D1E82521DE1927A0040B39E /* ImageModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0D1E823F1DE1927A0040B39E /* ImageModel.swift */; };
@@ -243,6 +244,7 @@
 		0D0E2A3A1DAB40DB00A64F76 /* HomeViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = HomeViewController.swift; sourceTree = "<group>"; };
 		0D0E2A441DABB86E00A64F76 /* BaseWebViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BaseWebViewController.swift; sourceTree = "<group>"; };
 		0D1070C11DAE297E00F9591C /* LoginPsdOrSetPsdVC.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LoginPsdOrSetPsdVC.swift; sourceTree = "<group>"; };
+		0D1BA5AD1E7EC66300021627 /* PopupRepayWayView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PopupRepayWayView.swift; sourceTree = "<group>"; };
 		0D1D62581E123A9D00C64748 /* GuideViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = GuideViewController.swift; sourceTree = "<group>"; };
 		0D1E823E1DE1927A0040B39E /* AlbumToolbarView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AlbumToolbarView.swift; sourceTree = "<group>"; };
 		0D1E823F1DE1927A0040B39E /* ImageModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ImageModel.swift; sourceTree = "<group>"; };
@@ -673,6 +675,14 @@
 			path = View;
 			sourceTree = "<group>";
 		};
+		0D1BA5AB1E7EC61000021627 /* RepayWay */ = {
+			isa = PBXGroup;
+			children = (
+				0D1BA5AD1E7EC66300021627 /* PopupRepayWayView.swift */,
+			);
+			path = RepayWay;
+			sourceTree = "<group>";
+		};
 		0D1D62571E123A7600C64748 /* GuideViewController */ = {
 			isa = PBXGroup;
 			children = (
@@ -967,8 +977,8 @@
 			isa = PBXGroup;
 			children = (
 				0D3712231E1140FC007DA3C2 /* View */,
-				0DF312BC1E20A58F000BEE9A /* SelectedBillViewController.swift */,
 				0D3712221E1140FC007DA3C2 /* RepayViewController.swift */,
+				0DF312BC1E20A58F000BEE9A /* SelectedBillViewController.swift */,
 				0D37122C1E114154007DA3C2 /* RepayTipsViewController.swift */,
 				0DDE5FD81E13A4C00076CE03 /* NoNeedRepayVC.swift */,
 				0D3712211E1140FC007DA3C2 /* RepayBillSelectVC.swift */,
@@ -1347,6 +1357,7 @@
 		0DFFAED81DAF6F9D00819CF7 /* PopupView */ = {
 			isa = PBXGroup;
 			children = (
+				0D1BA5AB1E7EC61000021627 /* RepayWay */,
 				0DFFAED91DAF6FB100819CF7 /* PopupPhoneCallView.swift */,
 				0DFFAEDB1DAF707900819CF7 /* PopupRepaymentTipView.swift */,
 				0DD43CBA1DAFD74400091272 /* PopupRoleView.swift */,
@@ -1679,6 +1690,7 @@
 				0D0A6ED61DD6FB51006B54DD /* FilterRepayView.swift in Sources */,
 				0D3ADC901DCC455800838043 /* PopupLogoutView.swift in Sources */,
 				0D84AACE1DE1919D00957B0A /* CNPPopupController.m in Sources */,
+				0D1BA5AE1E7EC66300021627 /* PopupRepayWayView.swift in Sources */,
 				0D3ADCB01DCCF5BD00838043 /* RepayDetailTableViewCell.swift in Sources */,
 				0D28B2A01E14FF6500AA8B49 /* RepayPeriodDetailVC.swift in Sources */,
 				0D28B26B1E13BDDD00AA8B49 /* NSNumber+Wqz.m in Sources */,
@@ -1894,7 +1906,7 @@
 				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
 				MTL_ENABLE_DEBUG_INFO = YES;
 				ONLY_ACTIVE_ARCH = YES;
-				PROVISIONING_PROFILE = "";
+				PROVISIONING_PROFILE = "8b1d3fca-c48f-4819-8b24-b79a5ae0364d";
 				SDKROOT = iphoneos;
 				SWIFT_ACTIVE_COMPILATION_CONDITIONS = DEBUG;
 				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
@@ -1943,7 +1955,7 @@
 				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
 				MTL_ENABLE_DEBUG_INFO = NO;
 				ONLY_ACTIVE_ARCH = YES;
-				PROVISIONING_PROFILE = "";
+				PROVISIONING_PROFILE = "8b1d3fca-c48f-4819-8b24-b79a5ae0364d";
 				SDKROOT = iphoneos;
 				SWIFT_OPTIMIZATION_LEVEL = "-Owholemodule";
 				VALIDATE_PRODUCT = YES;

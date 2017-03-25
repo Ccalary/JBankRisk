@@ -455,7 +455,7 @@ class ResetPsdViewController: UIViewController {
         self.showHud(in: self.view, hint: "加载中...")
         
         var params = NetConnect.getBaseRequestParams()
-        params["userId"] = UserHelper.getUserId()!
+        params["userId"] = UserHelper.getUserId()
         params["old_password"] = oldTextField.text
         params["new_password"] = newTextField.text
         params["reset_password"] = againTextField.text

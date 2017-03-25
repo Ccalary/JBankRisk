@@ -31,7 +31,7 @@ class BorrowStatusView: UIView {
              case defaultStatus //缺省
              */
             tipsBtn.isHidden = true
-            
+            divideLine1.isHidden = false
             switch statusType {
             case .finish://订单完结
                 self.bgImageView.isHidden = false
@@ -222,6 +222,7 @@ class BorrowStatusView: UIView {
     //分割线
     private lazy var divideLine1: UIView = {
         let lineView = UIView()
+        lineView.isHidden = true
         lineView.backgroundColor = defaultDivideLineColor
         return lineView
     }()

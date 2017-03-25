@@ -434,6 +434,7 @@ class RegisterOrResetPsdVC: UIViewController {
                         return self.showHint(in: self.view, hint: json["RET_DESC"].stringValue)
                     }
                     UserHelper.setLoginInfo(dic: json)
+                    JPUSHService.setTags(["user"], aliasInbackground: UserHelper.getUserId())
                     if !self.isPush{
                         NotificationCenter.default.post(name: NSNotification.Name(rawValue: notificationLoginSuccess), object: self)
                     }
@@ -458,6 +459,7 @@ class RegisterOrResetPsdVC: UIViewController {
                         return self.showHint(in: self.view, hint: json["RET_DESC"].stringValue)
                     }
                     UserHelper.setLoginInfo(dic: json)
+                     JPUSHService.setTags(["user"], aliasInbackground: UserHelper.getUserId())
                     if !self.isPush{
                         NotificationCenter.default.post(name: NSNotification.Name(rawValue: notificationLoginSuccess), object: self)
                     }

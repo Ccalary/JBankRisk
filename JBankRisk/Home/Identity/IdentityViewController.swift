@@ -756,6 +756,7 @@ class IdentityViewController: UIViewController {
                 if json["mflag"].stringValue == "1" {
                     self.registerSuccessView()
                     UserHelper.setLoginInfo(dic: json)
+                    JPUSHService.setTags(["user"], aliasInbackground: UserHelper.getUserId())
                     
                 }else {
                     
@@ -763,6 +764,7 @@ class IdentityViewController: UIViewController {
                    
                     self.showHintInKeywindow(hint: "身份信息上传完成！",yOffset: SCREEN_HEIGHT/2 - 100*UIRate)
                     UserHelper.setLoginInfo(dic: json)
+                    JPUSHService.setTags(["user"], aliasInbackground: UserHelper.getUserId())
                     //进入下一步
                     let idVC = ProductViewController()
                     self.navigationController?.pushViewController(idVC, animated: true)
@@ -853,7 +855,7 @@ class IdentityViewController: UIViewController {
     //添加HUD
     self.showHud(in: self.view, hint: "加载中...")
     
-    let params = ["userId": UserHelper.getUserId()!]
+    let params = ["userId": UserHelper.getUserId()]
     
     NetConnect.bm_get_identity_info(parameters: params, success: { response in
         //隐藏HUD

@@ -39,10 +39,10 @@ class NoNeedRepayVC: UIViewController {
         self.bottomHoldView.addSubview(divideLine4)
         self.bottomHoldView.addSubview(imageView1)
         self.bottomHoldView.addSubview(imageView2)
-        self.bottomHoldView.addSubview(imageView3)
+//        self.bottomHoldView.addSubview(imageView3)
         self.bottomHoldView.addSubview(textLabel1)
         self.bottomHoldView.addSubview(textLabel2)
-        self.bottomHoldView.addSubview(textLabel3)
+//        self.bottomHoldView.addSubview(textLabel3)
         
         topHoldView.snp.makeConstraints { (make) in
             make.width.equalTo(self.view)
@@ -108,21 +108,21 @@ class NoNeedRepayVC: UIViewController {
         
         imageView2.snp.makeConstraints { (make) in
             make.width.height.equalTo(44*UIRate)
-            make.centerX.equalTo(bottomHoldView)
+            make.centerX.equalTo(bottomHoldView).offset(65*UIRate)
             make.top.equalTo(divideLine3).offset(10*UIRate)
         }
         
         imageView1.snp.makeConstraints { (make) in
             make.size.equalTo(imageView2)
-            make.centerX.equalTo(imageView2).offset(-120*UIRate)
+            make.centerX.equalTo(bottomHoldView).offset(-65*UIRate)
             make.top.equalTo(imageView2)
         }
         
-        imageView3.snp.makeConstraints { (make) in
-            make.size.equalTo(imageView2)
-            make.centerX.equalTo(imageView2).offset(120*UIRate)
-            make.top.equalTo(imageView2)
-        }
+//        imageView3.snp.makeConstraints { (make) in
+//            make.size.equalTo(imageView2)
+//            make.centerX.equalTo(imageView2).offset(120*UIRate)
+//            make.top.equalTo(imageView2)
+//        }
 
         textLabel2.snp.makeConstraints { (make) in
             make.centerX.equalTo(imageView2)
@@ -133,11 +133,11 @@ class NoNeedRepayVC: UIViewController {
             make.centerX.equalTo(imageView1)
             make.top.equalTo(imageView1.snp.bottom).offset(5*UIRate)
         }
-        
-        textLabel3.snp.makeConstraints { (make) in
-            make.centerX.equalTo(imageView3)
-            make.top.equalTo(imageView3.snp.bottom).offset(5*UIRate)
-        }
+//        
+//        textLabel3.snp.makeConstraints { (make) in
+//            make.centerX.equalTo(imageView3)
+//            make.top.equalTo(imageView3.snp.bottom).offset(5*UIRate)
+//        }
     }
     
     
@@ -219,12 +219,12 @@ class NoNeedRepayVC: UIViewController {
         return imageView
     }()
     
-    //图片
-    private lazy var imageView3: UIImageView = {
-        let imageView = UIImageView()
-        imageView.image = UIImage(named: "r_ebank_44x44")
-        return imageView
-    }()
+//    //图片
+//    private lazy var imageView3: UIImageView = {
+//        let imageView = UIImageView()
+//        imageView.image = UIImage(named: "r_ebank_44x44")
+//        return imageView
+//    }()
     
     private lazy var textLabel1: UILabel = {
         let label = UILabel()
@@ -244,14 +244,14 @@ class NoNeedRepayVC: UIViewController {
         return label
     }()
     
-    private lazy var textLabel3: UILabel = {
-        let label = UILabel()
-        label.font = UIFontSize(size: 15*UIRate)
-        label.textAlignment = .center
-        label.textColor = UIColorHex("666666")
-        label.text = "网银"
-        return label
-    }()
+//    private lazy var textLabel3: UILabel = {
+//        let label = UILabel()
+//        label.font = UIFontSize(size: 15*UIRate)
+//        label.textAlignment = .center
+//        label.textColor = UIColorHex("666666")
+//        label.text = "网银"
+//        return label
+//    }()
 
     //分割线
     private lazy var divideLine4: UIView = {

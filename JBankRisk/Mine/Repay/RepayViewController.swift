@@ -18,11 +18,7 @@ class RepayViewController: UIViewController, UITableViewDelegate, UITableViewDat
     var selectBillInfo: [JSON] = []
     
     //支付方式
-    var selectWay = "" {
-        didSet{
-            self.aTableView.reloadData()
-        }
-    }
+    var selectWay = ""
     
     var selectInfo: [Dictionary<String,Any>] = []
     
@@ -50,17 +46,16 @@ class RepayViewController: UIViewController, UITableViewDelegate, UITableViewDat
         
         self.title = "还款"
         self.view.backgroundColor = defaultBackgroundColor
-        self.navigationItem.rightBarButtonItem = UIBarButtonItem(title: "账单", style: UIBarButtonItemStyle.plain, target: self, action: #selector(rightNavigationBarBtnAction))
-        self.navigationItem.rightBarButtonItem?.tintColor = UIColorHex("00b2ff")
-        
+//        self.navigationItem.rightBarButtonItem = UIBarButtonItem(title: "账单", style: UIBarButtonItemStyle.plain, target: self, action: #selector(rightNavigationBarBtnAction))
+//        self.navigationItem.rightBarButtonItem?.tintColor = UIColorHex("00b2ff")
         self.initHeader()
     }
 
     //header
     func initHeader(){
         
-        let headerHoldView = UIView(frame: CGRect(x: 0, y: 0, width: SCREEN_WIDTH, height: 196*UIRate))
-        headerHoldView.backgroundColor = defaultBackgroundColor
+        let headerHoldView = UIView(frame: CGRect(x: 0, y: 0, width: SCREEN_WIDTH, height: 156*UIRate + 45*UIRate))
+        headerHoldView.backgroundColor = UIColor.white;
         let footerHoldView = UIView(frame: CGRect(x: 0, y: SCREEN_HEIGHT - 64*UIRate, width: SCREEN_WIDTH, height: 64*UIRate))
         
         self.view.addSubview(aTableView)
@@ -102,7 +97,9 @@ class RepayViewController: UIViewController, UITableViewDelegate, UITableViewDat
         
         nameTextLabel.snp.makeConstraints { (make) in
             make.left.equalTo(15*UIRate)
-            make.centerY.equalTo(headerHoldView.snp.bottom).offset(-20*UIRate)
+            make.top.equalTo(topImageView.snp.bottom)
+            make.centerX.equalTo(headerHoldView)
+            make.height.equalTo(45*UIRate)
         }
 
         divideLine1.snp.makeConstraints { (make) in
@@ -154,10 +151,10 @@ class RepayViewController: UIViewController, UITableViewDelegate, UITableViewDat
     
     private lazy var nameTextLabel: UILabel = {
         let label = UILabel()
-        label.font = UIFontSize(size: 12*UIRate)
+        label.font = UIFontSize(size: 15*UIRate)
         label.textAlignment = .center
-        label.textColor = UIColorHex("a1a1a1")
-        label.text = "选择支付方式"
+        label.textColor = colorTextBlack
+        label.text = "本次账单共\(self.selectBillInfo.count)笔"
         return label
     }()
     
@@ -193,7 +190,7 @@ class RepayViewController: UIViewController, UITableViewDelegate, UITableViewDat
         tableView.dataSource = self
         tableView.backgroundColor = defaultBackgroundColor
         tableView.tableFooterView = UIView()
-        tableView.register(RepayTableViewCell.self, forCellReuseIdentifier:cellIdentity)
+        tableView.register(RepayDetailTableViewCell.self, forCellReuseIdentifier:cellIdentity)
         
         //tableView 单元格分割线的显示
         if tableView.responds(to:#selector(setter: UITableViewCell.separatorInset)) {
@@ -212,36 +209,15 @@ class RepayViewController: UIViewController, UITableViewDelegate, UITableViewDat
     }
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return 3
+        return self.selectBillInfo.count
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        let cell = tableView.dequeueReusableCell(withIdentifier: cellIdentity) as! RepayTableViewCell
-        cell.rightArrowImageView.isHidden = true
-        cell.selectImageView.isHidden = false
+        let cell = tableView.dequeueReusableCell(withIdentifier: "cellID") as! RepayDetailTableViewCell
         
-        if selectArray[indexPath.row] == 1 {
-            cell.selectImageView.image = UIImage(named: "repay_selected_circle_20x20")
-        }else {
-            cell.selectImageView.image = UIImage(named: "repay_unselect_circle_20x20")
-        }
-        
-        switch indexPath.row {
-        case 0:
-            cell.topImageView.image = UIImage(named: "r_wechat_25x25")
-            cell.leftTextLabel.text = "微信支付"
-        case 1:
-            cell.topImageView.image = UIImage(named: "r_alipay_25x25")
-            cell.leftTextLabel.text = "支付宝支付"
-        case 2:
-            cell.topImageView.image = UIImage(named: "r_ebank_25x25")
-            cell.leftTextLabel.text = "网银支付"
-            cell.rightArrowImageView.isHidden = false
-            cell.selectImageView.isHidden = true
-        default:
-            break
-        }
-        
+        cell.textColorTheme = .needReDark
+        cell.repayListCellWithData(dic: self.selectBillInfo[indexPath.row])
+
         return cell
     }
     
@@ -252,31 +228,26 @@ class RepayViewController: UIViewController, UITableViewDelegate, UITableViewDat
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         tableView.deselectRow(at: indexPath, animated: true)
         
-        selectArray = selectArray.map{$0 * 0}
-        selectArray[indexPath.row] = 1
-        
-        switch indexPath.row {
-        case 0:
-          selectWay = "wx"
-        case 1:
-           selectWay = "alipay"
-        case 2:
-            selectWay = ""
-            let popView = PopupEbankRepayView()
-            let popupController = CNPPopupController(contents: [popView])!
-            popupController.present(animated: true)
-            
-            popView.onClickSure = {_ in
-                popupController.dismiss(animated:true)
+        var monthRepayStatus: RepayStatusType = .finish
+        //0-已支付 1-未支付 2-提前支付 3-逾期未支付 4-逾期已支付
+        let repayStatus = self.selectBillInfo[indexPath.row]["is_pay"].stringValue
+        if repayStatus == "0" ||  repayStatus == "2" || repayStatus == "4"{
+            monthRepayStatus = .finish
+        }else  {//有逾期
+            let penaltyDay = self.selectBillInfo[indexPath.row]["penalty_day"].intValue
+                
+            if penaltyDay > 0 {
+                monthRepayStatus = .overdue
+            }else {
+                monthRepayStatus = .not
             }
-            
-            popView.onClickCopy = {[unowned self] _ in
-                popupController.dismiss(animated:true)
-                self.showHint(in: self.view, hint: "帐号已复制到剪切板")
-            }
-        default:
-            break
         }
+        let repayDetailVC = RepayPeriodDetailVC()
+        repayDetailVC.repaymentId = self.selectBillInfo[indexPath.row]["repayment_id"].stringValue
+        repayDetailVC.isFromRepayVC = true
+        repayDetailVC.repayStatusType = monthRepayStatus //还款状态
+        self.navigationController?.pushViewController(repayDetailVC, animated: true)
+        
     }
     
     //设置分割线
@@ -298,8 +269,29 @@ class RepayViewController: UIViewController, UITableViewDelegate, UITableViewDat
         self.navigationController?.present(billVCNav, animated: true, completion: nil)
     }
     
+    
     func nextStepBtnAction(){
-        repayRequest()
+        
+        let popupView =  PopupRepayWayView()
+        let popupController = CNPPopupController(contents: [popupView])!
+       
+        popupController.present(animated: true)
+        popupView.onClickCloseBtn = { _ in
+            popupController.dismiss(animated: true)
+        }
+        popupView.onClickSelect = {[unowned self] row in
+            popupController.dismiss(animated: true)
+            switch row {
+            case 0:
+                self.selectWay = "wx"
+            case 1:
+                self.selectWay = "alipay"
+            default:
+                self.selectWay = ""
+        }
+            //请求支付接口
+            self.repayRequest()
+      }
     }
     
     //NotificationCenter
@@ -309,10 +301,6 @@ class RepayViewController: UIViewController, UITableViewDelegate, UITableViewDat
     
     //MARK:请求支付接口
     func repayRequest(){
-        guard !selectWay.isEmpty else {
-            self.showHint(in: self.view, hint: "请选择支付方式")
-            return
-        }
         
         //添加HUD
         self.showHud(in: self.view, hint: "加载中...")
@@ -341,7 +329,7 @@ class RepayViewController: UIViewController, UITableViewDelegate, UITableViewDat
                     let repayResultVC = RepayTipsViewController()
                     repayResultVC.repayResult = .success
                     
-                    repayResultVC.repayInfo = (self.moneyLabel.text!, repayWay, repaymentId as! String)
+                    repayResultVC.repayInfo = (self.moneyLabel.text!, repayWay, repaymentId as! String , self.selectBillInfo.count)
                     self.navigationController?.pushViewController(repayResultVC, animated: true)
                 }else {
                     //支付失败或取消
@@ -352,7 +340,7 @@ class RepayViewController: UIViewController, UITableViewDelegate, UITableViewDat
                 
                     let repayResultVC = RepayTipsViewController()
                     repayResultVC.repayResult = .fail
-                    repayResultVC.repayInfo = (self.moneyLabel.text!, repayWay, "")
+                    repayResultVC.repayInfo = (self.moneyLabel.text!, repayWay, "",self.selectBillInfo.count)
                     self.navigationController?.pushViewController(repayResultVC, animated: true)
                 }
             })
