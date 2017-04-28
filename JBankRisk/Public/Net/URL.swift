@@ -164,6 +164,9 @@ let PC_REPAY_REQUEST = BASR_DEV_URL + "/jinangk.xhtml?TX_CODE=900099"
 ///3.14支付成功回调结果
 let PC_REPAY_SUCCESS_RESULT = BASR_DEV_URL + "/jinangk.xhtml?TX_CODE=900091"
 
+///3.15我要吐槽信息上传
+let PC_UPLOAD_SUGGEST_INFO = BASR_DEV_URL + "/jinangk.xhtml?TX_CODE=490445"
+
 /****************其他(other)******************/
 ///4.1修改密码
 let OT_CHANGE_PSD_URL = BASR_DEV_URL + "/jinangk.xhtml?TX_CODE=490385"

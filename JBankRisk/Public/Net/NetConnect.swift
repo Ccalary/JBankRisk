@@ -16,7 +16,7 @@ class NetConnect {
         var params = [String:Any]()
         params["companyId"] = "10000101"
         params["userId"] = UserHelper.getUserId()
-        params["channelId"] = "3" // iOS-3,android-4
+        params["channel"] = "3" // iOS-3,android-4
         return params
     }
     
@@ -389,7 +389,17 @@ class NetConnect {
         })
     }
 
-    
+    ///3.14我要吐槽信息上传
+
+    static func pc_upload_suggest_info(params:[String: String], data: [Data], name: [String],success:@escaping (_ response:[String:AnyObject]) -> (),failure:@escaping(_ error: Error) -> ()){
+        
+        NetworkRequest.sharedInstance.upLoadImageRequest(urlString: PC_UPLOAD_SUGGEST_INFO,params:params, data: data, name: name, success: { (response) in
+            success(response)
+        }, failture: { (error) in
+            failure(error)
+        })
+    }
+
     /******************其他******************/
     //4.1 修改密码
     static func other_change_psd(parameters: Parameters,success:@escaping (_ response:[String:AnyObject]) -> (),failure:@escaping(_ error: Error) -> ()){
@@ -414,6 +424,7 @@ class NetConnect {
     //4.3 版本升级
     static func other_updata_version(parameters: Parameters,success:@escaping (_ response:[String:AnyObject]) -> (),failure:@escaping(_ error: Error) -> ()){
         NetworkRequest.sharedInstance.getRequest(urlString: OT_UPDATA_VERSION_URL, params: parameters, success: { (response) in
+            
             success(response)
         }, failture: { (error) in
             failure(error)

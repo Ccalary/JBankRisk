@@ -15,7 +15,8 @@ struct UserInfoCellModel {
         case work
         case school
         case income
-        case contact
+        case contact1
+        case contact2
         case dataReupload //重新上传
         case dataWorker30000 //小于30000
         case dataWorker50000
@@ -65,21 +66,24 @@ struct UserInfoCellModel {
          CellDataInfo(leftText: "收入来源", holdText: "请填写收入来源", content: "", cellType: .clearType),
          CellDataInfo(leftText: "结算方式", holdText: "请选择结算方式", content: "", cellType: .arrowType)]
    
-   private var contactCellData:[CellDataInfo] = [
+   private var contactCellData1:[CellDataInfo] = [
           CellDataInfo(leftText: "家庭地址", holdText: "请选择所属地区", content: "", cellType: .arrowType),
           CellDataInfo(leftText: "", holdText: "详细街道地址", content: "", cellType: .clearType),
           CellDataInfo(leftText: "常住地址", holdText: "请选择所属地区", content: "", cellType: .arrowType),
           CellDataInfo(leftText: "", holdText: "详细街道地址", content: "", cellType: .clearType),
-          CellDataInfo(leftText: "住房情况", holdText: "请选择住房情况", content: "", cellType: .arrowType),
-          CellDataInfo(leftText: "居住时间", holdText: "请选择居住时间", content: "", cellType: .arrowType),
-          CellDataInfo(leftText: "婚姻状况", holdText: "请选择婚姻状况", content: "", cellType: .arrowType),
-          CellDataInfo(leftText: "直系亲属", holdText: "请选择直系亲属关系", content: "", cellType: .arrowType),
-          CellDataInfo(leftText: "", holdText: "联系人姓名，可从通讯录中选择", content: "", cellType: .arrowType),
-          CellDataInfo(leftText: "", holdText: "请填写手机号", content: "", cellType: .clearType),
-          CellDataInfo(leftText: "", holdText: "", content: "", cellType: .defaultType),
-          CellDataInfo(leftText: "紧急联系人", holdText: "选择紧急联系人关系", content: "", cellType: .arrowType),
-          CellDataInfo(leftText: "", holdText: "联系人姓名，可从通讯录中选择", content: "", cellType: .arrowType),
-          CellDataInfo(leftText: "", holdText: "填写手机号码", content: "", cellType: .clearType)]
+          CellDataInfo(leftText: "住房情况", holdText: "请选择住房情况", content: "", cellType: .arrowType)]
+    
+    private var contactCellData2:[CellDataInfo] = [
+        CellDataInfo(leftText: "居住时间", holdText: "请选择居住时间", content: "", cellType: .arrowType),
+        CellDataInfo(leftText: "婚姻状况", holdText: "请选择婚姻状况", content: "", cellType: .arrowType),
+        CellDataInfo(leftText: "直系亲属", holdText: "请选择直系亲属关系", content: "", cellType: .arrowType),
+        CellDataInfo(leftText: "", holdText: "联系人姓名，可从通讯录中选择", content: "", cellType: .arrowType),
+        CellDataInfo(leftText: "", holdText: "请填写手机号", content: "", cellType: .clearType),
+        CellDataInfo(leftText: "", holdText: "", content: "", cellType: .defaultType),
+        CellDataInfo(leftText: "紧急联系人", holdText: "选择紧急联系人关系", content: "", cellType: .arrowType),
+        CellDataInfo(leftText: "", holdText: "联系人姓名，可从通讯录中选择", content: "", cellType: .arrowType),
+        CellDataInfo(leftText: "", holdText: "填写手机号码", content: "", cellType: .clearType)]
+
     
     //MARK:Data上传
    private var dataReuploadCellData:[CellDataInfo] = [
@@ -151,8 +155,10 @@ struct UserInfoCellModel {
             cellData = schoolCellData
         case .income:
             cellData = incomeCellData
-        case .contact:
-            cellData = contactCellData
+        case .contact1:
+            cellData = contactCellData1
+        case .contact2:
+            cellData = contactCellData2
         case .dataReupload:
             cellData = dataReuploadCellData
         case .dataWorker30000:

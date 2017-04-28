@@ -7,6 +7,7 @@
 //
 
 import UIKit
+import SwiftyJSON
 
 class SuggestViewController: UIViewController,UITextViewDelegate, UICollectionViewDelegate,UICollectionViewDataSource,UICollectionViewDelegateFlowLayout,UIImagePickerControllerDelegate,UINavigationControllerDelegate,UIGestureRecognizerDelegate {
 
@@ -26,6 +27,13 @@ class SuggestViewController: UIViewController,UITextViewDelegate, UICollectionVi
     var textNum = 0 {
         didSet {
             numTextLabel.text = "(\(textNum)/\(TOTAL_NUM))"
+            if textNum > 0{
+                sureBtn.isUserInteractionEnabled = true
+                sureBtn.setBackgroundImage(UIImage(named: "login_btn_red_345x44"), for: .normal)
+            }else {
+                sureBtn.isUserInteractionEnabled = false
+                sureBtn.setBackgroundImage(UIImage(named: "login_btn_grayred_345x44"), for: .normal)
+            }
         }
     }
     
@@ -177,12 +185,14 @@ class SuggestViewController: UIViewController,UITextViewDelegate, UICollectionVi
         if indexPath.row == photoArray.count - 1{
             cell.cameraImageView.isHidden = false
             cell.deleteBtn.isHidden = true
+            cell.deleteImageView.isHidden = true
             cell.holdView.isHidden = false
             cell.textLabel.text = "上传资料"
         }else {
             cell.imageView.image = photoArray[indexPath.row]
             cell.cameraImageView.isHidden = true
             cell.deleteBtn.isHidden = false
+            cell.deleteImageView.isHidden = false
             cell.holdView.isHidden = true
             cell.textLabel.text = ""
         }
@@ -196,6 +206,7 @@ class SuggestViewController: UIViewController,UITextViewDelegate, UICollectionVi
     
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath)
       {
+        self.view.endEditing(true)
         if indexPath.row == photoArray.count - 1 {
             
             
@@ -237,10 +248,11 @@ class SuggestViewController: UIViewController,UITextViewDelegate, UICollectionVi
     func imagePickerController(_ picker: UIImagePickerController, didFinishPickingMediaWithInfo info: [String : Any]) {
         self.dismiss(animated: true, completion: nil)
         let image = info[UIImagePickerControllerOriginalImage] as! UIImage
-        if photoArray.count < 6 {
+        if photoArray.count < 7 {
             photoArray.insert(image, at: 0)
         }else {
-            //最多上传6张
+            //最多上传5张
+             self.showHint(in: self.view, hint: "最多上传6张")
         }
      }
     
@@ -313,7 +325,38 @@ class SuggestViewController: UIViewController,UITextViewDelegate, UICollectionVi
 
     //提交
     func sureBtnAction() {
+            
+        //添加HUD
+        self.showHud(in: self.view, hint:"上传中...")
         
+        var imageDataArray:[Data] = []
+        var imageNameArray:[String] = []
+        
+        for i in 0..<photoArray.count - 1 {
+            imageDataArray.append(UIImageJPEGRepresentation(photoArray[i], 0.2)!)
+            let imageName = String(describing: NSDate()) + "\(i).png"
+            imageNameArray.append(imageName)
+        }
+        //参数777-多张上传
+        var params: [String: String] = ["userId":UserHelper.getUserId(),"flag":"777"]
+        params["content"] = mTextView.text ?? ""
+        params["channel"] = "3"
+        
+        NetConnect.pc_upload_suggest_info(params:params , data: imageDataArray, name: imageNameArray, success: { response in
+            
+            //隐藏HUD
+            self.hideHud()
+            
+            let json = JSON(response)
+            guard json["RET_CODE"] == "000000" else{
+                return self.showHint(in: self.view, hint: json["RET_DESC"].stringValue)
+            }
+            self.showHintInKeywindow(hint: "吐槽成功！")
+            _ = self.navigationController?.popViewController(animated: true)
+            
+        }, failure: { error in
+            //隐藏HUD
+            self.hideHud()
+        })
     }
-
 }

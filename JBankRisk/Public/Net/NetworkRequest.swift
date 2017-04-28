@@ -88,6 +88,17 @@ extension NetworkRequest {
                 multipartFormData.append((flag?.data(using: String.Encoding.utf8)!)!, withName: "flag")
                 multipartFormData.append( (userId?.data(using: String.Encoding.utf8)!)!, withName: "userId")
                
+                let channel = params["channel"]
+                let content = params["content"]
+                if let channel = channel {
+                     multipartFormData.append((channel.data(using: String.Encoding.utf8)!), withName: "channel")
+                }
+                
+                if let content = content {
+                    multipartFormData.append((content.data(using: String.Encoding.utf8)!), withName: "content")
+                }
+               
+                
                 for i in 0..<data.count {
                     multipartFormData.append(data[i], withName: "appPhoto", fileName: name[i], mimeType: "image/png")
                 }

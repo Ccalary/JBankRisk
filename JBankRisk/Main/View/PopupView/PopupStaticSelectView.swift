@@ -9,7 +9,7 @@
 import UIKit
 
     let workYearData = ["3个月内","6个月内","1年","2年","3年","4年","5年","5年以上"]
-    let relativeData = ["父亲","母亲","子女","配偶"]
+    let relativeData = ["父亲","母亲","子女"]
     let houseData = ["自置按揭","自置无按揭","租用","宿舍","父母同住","其他"]
     let eduDegreeData = ["大专","本科","硕士","博士"]
     let eduSystemData = ["全日制","非全日制"]
@@ -19,7 +19,7 @@ import UIKit
     let liveTimeData = ["3个月内","6个月内","1年","3年","3年以上"]
     let incomePayWayData = ["打卡","现金"]
     let marryData = ["未婚","已婚","其他"]
-    let linkmanData = ["亲戚", "朋友", "同学", "同事", "配偶"] //从3开始
+    let linkmanData = ["亲戚", "朋友", "同学", "同事"] //从3开始
 
 class PopupStaticSelectView: UIView, UITableViewDelegate, UITableViewDataSource {
 

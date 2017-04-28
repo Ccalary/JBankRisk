@@ -185,8 +185,7 @@ extension AppDelegate:UNUserNotificationCenterDelegate,JPUSHRegisterDelegate
     func application(_ application: UIApplication, didRegisterForRemoteNotificationsWithDeviceToken deviceToken: Data) {
         
         JPUSHService.registerDeviceToken(deviceToken)
-
-       JPUSHService.setTags(["user"], aliasInbackground: UserHelper.getUserId())
+        JPUSHService.setTags(["user"], aliasInbackground: UserHelper.getUserId())
         PrintLog("deviceToken:\(deviceToken)")
     }
     

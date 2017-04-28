@@ -15,7 +15,20 @@ import AddressBook
 
 class ContactViewController: UIViewController, UITableViewDelegate, UITableViewDataSource,ABPeoplePickerNavigationControllerDelegate,CNContactPickerDelegate {
     
-    var contactCellData = UserInfoCellModel(dataType: UserInfoCellModel.CellModelType.contact)
+    var contactCellData1 = UserInfoCellModel(dataType: UserInfoCellModel.CellModelType.contact1){
+        didSet{
+            contactCellArrayData = [contactCellData1,contactCellData2];
+        }
+    }
+    var contactCellData2 = UserInfoCellModel(dataType: UserInfoCellModel.CellModelType.contact2)
+    {
+        didSet{
+            contactCellArrayData = [contactCellData1,contactCellData2];
+        }
+    }
+    
+    //创建一个组合数组
+    var contactCellArrayData = [UserInfoCellModel]();
     
     weak var uploadSucDelegate:UploadSuccessDelegate?
     
@@ -48,12 +61,17 @@ class ContactViewController: UIViewController, UITableViewDelegate, UITableViewD
     ///紧急关系
     var linkmanInfo: (row: Int, text: String) = (0,"")
     
+    ///配偶联系信息
+    var marriageContactInfo: (name: String, number:String) = ("","")
+    
     var urgentContactInfo: (name: String, number:String) = ("","")
     var contactType:Int = 0
     
     override func viewDidLoad() {
         super.viewDidLoad()
 
+        contactCellArrayData = [contactCellData1,contactCellData2]
+        
         homeDetail = UserHelper.getUserHomeAddress() ?? ""
         
         self.setupUI()
@@ -66,7 +84,6 @@ class ContactViewController: UIViewController, UITableViewDelegate, UITableViewD
         if UserHelper.getContactIsUpload() {
             self.requestContactInfo()
         }
-
     }
     
     override func didReceiveMemoryWarning() {
@@ -171,160 +188,210 @@ class ContactViewController: UIViewController, UITableViewDelegate, UITableViewD
     
     //MARK: - UITableViewDelegate&&DataSource
     func numberOfSections(in tableView: UITableView) -> Int {
-        return 1
+        return contactCellArrayData.count
     }
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+        let contactCellData = contactCellArrayData[section]
         return contactCellData.cellData.count
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
+        let contactCellData = contactCellArrayData[indexPath.section]
         let cell = tableView.dequeueReusableCell(withIdentifier: "ContactCellID") as! BMTableViewCell
         //去除选择效果
         cell.selectionStyle = .none
         cell.backgroundColor = UIColor.white
         cell.cellDataInfo = contactCellData.cellData[indexPath.row]
         
-        switch indexPath.row {
-        case 0://家庭地址
-            cell.centerTextField.text = self.homeInfo.pro + self.homeInfo.city + self.homeInfo.county
-            cell.centerTextField.isEnabled = false
-        case 1://家庭详细地址
-            cell.centerTextField.text = self.homeDetail
-            cell.centerTextField.tag = 20000
-            cell.centerTextField.addTarget(self, action: #selector(textFieldAction(_:)), for: UIControlEvents.editingChanged)
-            cell.centerTextField.isEnabled = true
-        case 2://常住地区
-            cell.centerTextField.text = self.areaInfo.pro + self.areaInfo.city + self.areaInfo.county
-            cell.centerTextField.isEnabled = false
-        case 3://详细地址
-            cell.centerTextField.text = self.areaDetail
-            cell.centerTextField.tag = 10000
-            cell.centerTextField.addTarget(self, action: #selector(textFieldAction(_:)), for: UIControlEvents.editingChanged)
-            cell.centerTextField.isEnabled = true
-        case 4://住房情况
-            cell.centerTextField.text = self.houseInfo.text
-            cell.centerTextField.isEnabled = false
-        case self.contactCellData.cellData.count - 10://（若有）月供
-            cell.centerTextField.text = self.monthRent
-            cell.centerTextField.keyboardType = .numberPad
-            cell.centerTextField.tag = 10001
-            cell.centerTextField.addTarget(self, action: #selector(textFieldAction(_:)), for: UIControlEvents.editingChanged)
-            cell.centerTextField.isEnabled = true
-        case self.contactCellData.cellData.count - 9://居住时间
-            cell.centerTextField.isEnabled = false
-            cell.centerTextField.text = self.liveTimeInfo.text
-        case self.contactCellData.cellData.count - 8://婚姻状况
-            cell.centerTextField.isEnabled = false
-            cell.centerTextField.text = self.marryInfo.text
-        case self.contactCellData.cellData.count - 7: //亲属关系
-            cell.centerTextField.isEnabled = false
-            cell.centerTextField.text = self.relativeInfo.text
-        case self.contactCellData.cellData.count - 6: //亲属姓名
-            cell.centerTextField.isEnabled = true
-            cell.centerTextField.text = self.relativeContactInfo.name
-            cell.centerTextField.keyboardType = .default
-            cell.centerTextField.tag = 10002
-            cell.centerTextField.addTarget(self, action: #selector(textFieldAction(_:)), for: UIControlEvents.editingChanged)
-        case self.contactCellData.cellData.count - 5: //亲属电话
-            cell.centerTextField.isEnabled = true
-            cell.centerTextField.text = self.relativeContactInfo.number
-            cell.centerTextField.keyboardType = .numberPad
-            cell.centerTextField.tag = 10003
-            cell.centerTextField.addTarget(self, action: #selector(textFieldAction(_:)), for: UIControlEvents.editingChanged)
-        case self.contactCellData.cellData.count - 3: //联系人关系
-            cell.centerTextField.isEnabled = false
-            cell.centerTextField.text = self.linkmanInfo.text
-        case self.contactCellData.cellData.count - 2: //紧急联系人姓名
-            cell.centerTextField.isEnabled = true
-            cell.centerTextField.text = self.urgentContactInfo.name
-            cell.centerTextField.keyboardType = .default
-            cell.centerTextField.tag = 10004
-            cell.centerTextField.addTarget(self, action: #selector(textFieldAction(_:)), for: UIControlEvents.editingChanged)
-        case self.contactCellData.cellData.count - 1: //紧急联系人电话
-            cell.centerTextField.isEnabled = true
-            cell.centerTextField.text = self.urgentContactInfo.number
-            cell.centerTextField.keyboardType = .numberPad
-            cell.centerTextField.tag = 10005
-            cell.centerTextField.addTarget(self, action: #selector(textFieldAction(_:)), for: UIControlEvents.editingChanged)
-        default:
-            break
-        }
-        
-        if indexPath.row == contactCellData.cellData.count - 4 {
-            cell.backgroundColor = defaultBackgroundColor
+        if indexPath.section == 0{
+            switch indexPath.row {
+            case 0://家庭地址
+                cell.centerTextField.text = self.homeInfo.pro + self.homeInfo.city + self.homeInfo.county
+                cell.centerTextField.isEnabled = false
+            case 1://家庭详细地址
+                cell.centerTextField.text = self.homeDetail
+                cell.centerTextField.tag = 20000
+                cell.centerTextField.addTarget(self, action: #selector(textFieldAction(_:)), for: UIControlEvents.editingChanged)
+                cell.centerTextField.isEnabled = true
+            case 2://常住地区
+                cell.centerTextField.text = self.areaInfo.pro + self.areaInfo.city + self.areaInfo.county
+                cell.centerTextField.isEnabled = false
+            case 3://详细地址
+                cell.centerTextField.text = self.areaDetail
+                cell.centerTextField.tag = 10000
+                cell.centerTextField.addTarget(self, action: #selector(textFieldAction(_:)), for: UIControlEvents.editingChanged)
+                cell.centerTextField.isEnabled = true
+            case 4://住房情况
+                cell.centerTextField.text = self.houseInfo.text
+                cell.centerTextField.isEnabled = false
+            case 5://（若有）月供
+                cell.centerTextField.text = self.monthRent
+                cell.centerTextField.keyboardType = .numberPad
+                cell.centerTextField.tag = 10001
+                cell.centerTextField.addTarget(self, action: #selector(textFieldAction(_:)), for: UIControlEvents.editingChanged)
+                cell.centerTextField.isEnabled = true
+            default:
+                break
+            }
+        }else if (indexPath.section == 1){
+            
+            switch indexPath.row {
+            
+            case 0://居住时间
+                 cell.centerTextField.isEnabled = false
+                 cell.centerTextField.text = self.liveTimeInfo.text
+            case 1://婚姻状况
+                 cell.centerTextField.isEnabled = false
+                 cell.centerTextField.text = self.marryInfo.text
+            //没有那么多cell走不到这一行
+            case contactCellData.cellData.count - 9: //配偶姓名
+                cell.centerTextField.isEnabled = true
+                cell.centerTextField.text = self.marriageContactInfo.name
+                cell.centerTextField.keyboardType = .default
+                cell.centerTextField.tag = 10009
+                cell.centerTextField.addTarget(self, action: #selector(textFieldAction(_:)), for: UIControlEvents.editingChanged)
+            case contactCellData.cellData.count - 8: //配偶电话
+                cell.centerTextField.isEnabled = true
+                cell.centerTextField.text = self.marriageContactInfo.number
+                cell.centerTextField.keyboardType = .numberPad
+                cell.centerTextField.tag = 10008
+                cell.centerTextField.addTarget(self, action: #selector(textFieldAction(_:)), for: UIControlEvents.editingChanged)
+            case contactCellData.cellData.count - 7: //亲属关系
+                 cell.centerTextField.isEnabled = false
+                 cell.centerTextField.text = self.relativeInfo.text
+            case contactCellData.cellData.count - 6: //亲属姓名
+                 cell.centerTextField.isEnabled = true
+                 cell.centerTextField.text = self.relativeContactInfo.name
+                 cell.centerTextField.keyboardType = .default
+                 cell.centerTextField.tag = 10002
+                 cell.centerTextField.addTarget(self, action: #selector(textFieldAction(_:)), for: UIControlEvents.editingChanged)
+            case contactCellData.cellData.count - 5: //亲属电话
+                 cell.centerTextField.isEnabled = true
+                 cell.centerTextField.text = self.relativeContactInfo.number
+                 cell.centerTextField.keyboardType = .numberPad
+                 cell.centerTextField.tag = 10003
+                 cell.centerTextField.addTarget(self, action: #selector(textFieldAction(_:)), for: UIControlEvents.editingChanged)
+            case contactCellData.cellData.count - 3: //联系人关系
+                 cell.centerTextField.isEnabled = false
+                 cell.centerTextField.text = self.linkmanInfo.text
+            case contactCellData.cellData.count - 2: //紧急联系人姓名
+                 cell.centerTextField.isEnabled = true
+                 cell.centerTextField.text = self.urgentContactInfo.name
+                 cell.centerTextField.keyboardType = .default
+                 cell.centerTextField.tag = 10004
+                 cell.centerTextField.addTarget(self, action: #selector(textFieldAction(_:)), for: UIControlEvents.editingChanged)
+            case contactCellData.cellData.count - 1: //紧急联系人电话
+                 cell.centerTextField.isEnabled = true
+                 cell.centerTextField.text = self.urgentContactInfo.number
+                 cell.centerTextField.keyboardType = .numberPad
+                 cell.centerTextField.tag = 10005
+                 cell.centerTextField.addTarget(self, action: #selector(textFieldAction(_:)), for: UIControlEvents.editingChanged)
+            default:
+                break
+            
+            }
+            if indexPath.row == contactCellData.cellData.count - 4 {
+                cell.backgroundColor = defaultBackgroundColor
+            }
+
         }
         return cell
     }
     
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
         
-        let row = indexPath.row
-        let count = contactCellData.cellData.count - 1
+        let contactCellData = contactCellArrayData[indexPath.section]
         
-        if row == 1 || row == 3 || row == count || row == count-1 || row == count-4 || row == count-5 {
-            return 40*UIRate
-        }else if row == count - 3{
-            return 10*UIRate
-        }else {
-            return 50*UIRate
+        if indexPath.section == 0 {
+            if indexPath.row == 1 || indexPath.row == 3 {
+                return 40*UIRate
+            }else {
+                return 50*UIRate
+            }
+
+        }else if indexPath.section == 1{
+            let row = indexPath.row
+            let count = contactCellData.cellData.count - 1
+            
+            if  row == count || row == count-1 || row == count-4 || row == count-5 {
+                return 40*UIRate
+            }else if row == count - 3{
+                return 10*UIRate
+            }else {
+                if count > 9{//如果是已婚
+                    if row == count-7 || row == count-8 {
+                        return 40*UIRate;
+                    }
+                }
+                return 50*UIRate
+            }
         }
+        return 0
     }
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         
         self.view.endEditing(true)
+        let contactCellData = contactCellArrayData[indexPath.section]
         
-        switch indexPath.row {
-        case 0://家庭地址
-            let popupView = PopupAreaView(proRow: self.homeRow.proRow, cityRow: self.homeRow.cityRow, countyRow: self.homeRow.countyRow)
-            let popupController = CNPPopupController(contents: [popupView])!
-            popupController.present(animated: true)
-            
-            popupView.onClickSelect = {[unowned self] (pro,city,county) in
-                self.homeInfo = (pro.pro + " ",city.city + " ",county.county)
-                self.homeRow = (pro.proRow, city.cityRow, county.countyRow)
-                //局部刷新cell
-                self.reloadOneCell(at: indexPath.row)
-                popupController.dismiss(animated: true)
-            }
-            popupView.onClickClose = { _ in
-                popupController.dismiss(animated: true)
-            }
-        case 2://选择地区
-            let popupView = PopupAreaView(proRow: self.areaRow.proRow, cityRow: self.areaRow.cityRow, countyRow: self.areaRow.countyRow)
-            let popupController = CNPPopupController(contents: [popupView])!
-            popupController.present(animated: true)
-            
-            popupView.onClickSelect = {[unowned self] (pro,city,county) in
-                self.areaInfo = (pro.pro + " ",city.city + " ",county.county)
-                self.areaRow = (pro.proRow, city.cityRow, county.countyRow)
-                //局部刷新cell
-                self.reloadOneCell(at: indexPath.row)
-                popupController.dismiss(animated: true)
-            }
-            popupView.onClickClose = { _ in
-                popupController.dismiss(animated: true)
-            }
-        case 4://住房情况（有按揭多出一个cell显示月供）
-            let popupView = PopupStaticSelectView(cellType: .house, selectRow: self.houseInfo.row)
-            let popupController = CNPPopupController(contents: [popupView])!
-            popupController.present(animated: true)
-            popupView.onClickSelect = {[unowned self] (row, text) in
-                self.houseInfo = (row,text)
-                if row == 0 || row == 2 || row == 5 {
-                    if self.contactCellData.cellData.count == 14 {
-                        self.contactCellData.cellData.insert( CellDataInfo(leftText: "房租月供", holdText: "请填写每月供款金额", content: "", cellType: .textType), at: 5)
-                    }
-                }else {
-                    if self.contactCellData.cellData.count == 15 {
-                        self.contactCellData.cellData.remove(at: 5)
-                    }
+        if indexPath.section == 0 {
+            switch indexPath.row {
+            case 0://家庭地址
+                let popupView = PopupAreaView(proRow: self.homeRow.proRow, cityRow: self.homeRow.cityRow, countyRow: self.homeRow.countyRow)
+                let popupController = CNPPopupController(contents: [popupView])!
+                popupController.present(animated: true)
+                
+                popupView.onClickSelect = {[unowned self] (pro,city,county) in
+                    self.homeInfo = (pro.pro + " ",city.city + " ",county.county)
+                    self.homeRow = (pro.proRow, city.cityRow, county.countyRow)
+                    //局部刷新cell
+                    self.reloadOneCell(at: indexPath.row, section: 0)
+                    popupController.dismiss(animated: true)
                 }
-                self.aTableView.reloadData()
-                popupController.dismiss(animated: true)
-            }
-        case self.contactCellData.cellData.count - 9://居住时间
+                popupView.onClickClose = { _ in
+                    popupController.dismiss(animated: true)
+                }
+            case 2://选择地区
+                let popupView = PopupAreaView(proRow: self.areaRow.proRow, cityRow: self.areaRow.cityRow, countyRow: self.areaRow.countyRow)
+                let popupController = CNPPopupController(contents: [popupView])!
+                popupController.present(animated: true)
+                
+                popupView.onClickSelect = {[unowned self] (pro,city,county) in
+                    self.areaInfo = (pro.pro + " ",city.city + " ",county.county)
+                    self.areaRow = (pro.proRow, city.cityRow, county.countyRow)
+                    //局部刷新cell
+                    self.reloadOneCell(at: indexPath.row, section: 0)
+                    popupController.dismiss(animated: true)
+                }
+                popupView.onClickClose = { _ in
+                    popupController.dismiss(animated: true)
+                }
+            case 4://住房情况（有按揭多出一个cell显示月供）
+                let popupView = PopupStaticSelectView(cellType: .house, selectRow: self.houseInfo.row)
+                let popupController = CNPPopupController(contents: [popupView])!
+                popupController.present(animated: true)
+                popupView.onClickSelect = {[unowned self] (row, text) in
+                    self.houseInfo = (row,text)
+                    if row == 0 || row == 2 || row == 5 {
+                        if contactCellData.cellData.count == 5 {
+                            self.contactCellData1.cellData.insert( CellDataInfo(leftText: "房租月供", holdText: "请填写每月供款金额", content: "", cellType: .textType), at: 5)
+                        }
+                    }else {
+                        if contactCellData.cellData.count == 6 {
+                            self.contactCellData1.cellData.remove(at: 5)
+                        }
+                    }
+                    self.aTableView.reloadData()
+                    popupController.dismiss(animated: true)
+                }
+            default:
+                break
+          }
+        }else if indexPath.section == 1{
+           switch indexPath.row {
+            
+           case 0://居住时间
             let popupView =  PopupStaticSelectView(cellType: PopupStaticSelectView.PopupCellType.liveTime, selectRow: self.liveTimeInfo.row)
             let popupController = CNPPopupController(contents: [popupView])!
             popupController.present(animated: true)
@@ -332,10 +399,10 @@ class ContactViewController: UIViewController, UITableViewDelegate, UITableViewD
             popupView.onClickSelect = {[unowned self] (row, text) in
                 self.liveTimeInfo = (row,text)
                 //局部刷新cell
-                self.reloadOneCell(at: indexPath.row)
+                self.reloadOneCell(at: indexPath.row, section: 1)
                 popupController.dismiss(animated: true)
             }
-        case self.contactCellData.cellData.count - 8://婚姻状况
+           case 1://婚姻状况
             let popupView =  PopupStaticSelectView(cellType: PopupStaticSelectView.PopupCellType.marry, selectRow: self.marryInfo.row)
             let popupController = CNPPopupController(contents: [popupView])!
             popupController.present(animated: true)
@@ -343,10 +410,36 @@ class ContactViewController: UIViewController, UITableViewDelegate, UITableViewD
             popupView.onClickSelect = {[unowned self] (row, text) in
                 self.marryInfo = (row,text)
                 //局部刷新cell
-                self.reloadOneCell(at: indexPath.row)
+                if row == 1 {
+                    if contactCellData.cellData.count == 9 {
+                    self.contactCellData2.cellData.insert( CellDataInfo(leftText: "", holdText: "联系人姓名，可从通讯录中选择", content: "", cellType: .arrowType), at: 2)
+                    self.contactCellData2.cellData.insert( CellDataInfo(leftText: "", holdText: "请填写手机号", content: "", cellType: .clearType), at: 3)
+                    }
+                    
+                }else {
+                    if contactCellData.cellData.count == 11 {
+                        self.contactCellData2.cellData.remove(at: 3)
+                        self.contactCellData2.cellData.remove(at: 2)
+                    }
+                }
+                self.aTableView.reloadData()
                 popupController.dismiss(animated: true)
             }
-        case self.contactCellData.cellData.count - 7://直系亲属关系
+           case contactCellData.cellData.count - 9://配偶联系人姓名
+            contactType = 3
+            
+            if #available(iOS 9.0, *) {
+                let pickerVC = CNContactPickerViewController()
+                pickerVC.delegate = self
+                self.present(pickerVC, animated: true, completion: nil)
+                
+            }else {
+                let pickerVC = ABPeoplePickerNavigationController()
+                pickerVC.peoplePickerDelegate = self
+                self.present(pickerVC, animated: true, completion: nil)
+            }
+            
+           case contactCellData.cellData.count - 7://直系亲属关系
             let popupView =  PopupStaticSelectView(cellType: PopupStaticSelectView.PopupCellType.relative, selectRow: self.relativeInfo.row)
             let popupController = CNPPopupController(contents: [popupView])!
             popupController.present(animated: true)
@@ -354,10 +447,10 @@ class ContactViewController: UIViewController, UITableViewDelegate, UITableViewD
             popupView.onClickSelect = {[unowned self] (row, text) in
                 self.relativeInfo = (row,text)
                 //局部刷新cell
-                self.reloadOneCell(at: indexPath.row)
+                self.reloadOneCell(at: indexPath.row, section: 1)
                 popupController.dismiss(animated: true)
             }
-        case self.contactCellData.cellData.count - 6://亲属联系人姓名
+           case contactCellData.cellData.count - 6://亲属联系人姓名
             contactType = 0
             
             if #available(iOS 9.0, *) {
@@ -370,7 +463,7 @@ class ContactViewController: UIViewController, UITableViewDelegate, UITableViewD
                 pickerVC.peoplePickerDelegate = self
                 self.present(pickerVC, animated: true, completion: nil)
             }
-        case self.contactCellData.cellData.count - 3://紧急联系人关系
+           case contactCellData.cellData.count - 3://紧急联系人关系
             let popupView =  PopupStaticSelectView(cellType: PopupStaticSelectView.PopupCellType.linkman, selectRow: self.linkmanInfo.row)
             let popupController = CNPPopupController(contents: [popupView])!
             popupController.present(animated: true)
@@ -378,11 +471,11 @@ class ContactViewController: UIViewController, UITableViewDelegate, UITableViewD
             popupView.onClickSelect = {[unowned self] (row, text) in
                 self.linkmanInfo = (row,text)
                 //局部刷新cell
-                self.reloadOneCell(at: indexPath.row)
+                self.reloadOneCell(at: indexPath.row, section: 1)
                 popupController.dismiss(animated: true)
             }
             
-        case self.contactCellData.cellData.count - 2:  //紧急联系人姓名
+           case contactCellData.cellData.count - 2:  //紧急联系人姓名
             contactType = 1
             if #available(iOS 9.0, *) {
                 let pickerVC = CNContactPickerViewController()
@@ -393,33 +486,69 @@ class ContactViewController: UIViewController, UITableViewDelegate, UITableViewD
                 pickerVC.peoplePickerDelegate = self
                 self.present(pickerVC, animated: true, completion: nil)
             }
-        default:
-           break
+           default:
+            break
+            
+            }
         }
+ 
     }
     
     //设置分割线
     func tableView(_ tableView: UITableView, willDisplay cell: UITableViewCell, forRowAt indexPath: IndexPath) {
-        
+        let contactCellData = contactCellArrayData[indexPath.section]
         let row = indexPath.row
         let count = contactCellData.cellData.count - 1
         
-        if (row == 0 || row == 2 || row == count-1 || row == count-2 || row == count-5 || row == count-6){
-            
-            if cell.responds(to: #selector(setter: UITableViewCell.separatorInset)) {
-                cell.separatorInset = UIEdgeInsets(top: 0, left: 100*UIRate, bottom: 0, right: 0)
-            }
-            if cell.responds(to: #selector(setter: UITableViewCell.layoutMargins)) {
-                cell.layoutMargins = UIEdgeInsets(top: 0, left: 100*UIRate, bottom: 0, right: 0)
+        if indexPath.section == 0 {
+            if (row == 0 || row == 2 ){
+                
+                if cell.responds(to: #selector(setter: UITableViewCell.separatorInset)) {
+                    cell.separatorInset = UIEdgeInsets(top: 0, left: 100*UIRate, bottom: 0, right: 0)
+                }
+                if cell.responds(to: #selector(setter: UITableViewCell.layoutMargins)) {
+                    cell.layoutMargins = UIEdgeInsets(top: 0, left: 100*UIRate, bottom: 0, right: 0)
+                }
+            }else {
+                if cell.responds(to: #selector(setter: UITableViewCell.separatorInset)) {
+                    cell.separatorInset = .zero
+                }
+                if cell.responds(to: #selector(setter: UITableViewCell.layoutMargins)) {
+                    cell.layoutMargins = .zero
+                }
+                
             }
         }else {
-            if cell.responds(to: #selector(setter: UITableViewCell.separatorInset)) {
-                cell.separatorInset = .zero
+            if ( row == count-1 || row == count-2 || row == count-5 || row == count-6){
+                
+                if cell.responds(to: #selector(setter: UITableViewCell.separatorInset)) {
+                    cell.separatorInset = UIEdgeInsets(top: 0, left: 100*UIRate, bottom: 0, right: 0)
+                }
+                if cell.responds(to: #selector(setter: UITableViewCell.layoutMargins)) {
+                    cell.layoutMargins = UIEdgeInsets(top: 0, left: 100*UIRate, bottom: 0, right: 0)
+                }
+            }else {
+                
+                if cell.responds(to: #selector(setter: UITableViewCell.separatorInset)) {
+                    cell.separatorInset = .zero
+                }
+                if cell.responds(to: #selector(setter: UITableViewCell.layoutMargins)) {
+                    cell.layoutMargins = .zero
+                }
+                
+                if count > 9{
+                    if row == count-8 || row == count-9 {
+                        if cell.responds(to: #selector(setter: UITableViewCell.separatorInset)) {
+                            cell.separatorInset = UIEdgeInsets(top: 0, left: 100*UIRate, bottom: 0, right: 0)
+                        }
+                        if cell.responds(to: #selector(setter: UITableViewCell.layoutMargins)) {
+                            cell.layoutMargins = UIEdgeInsets(top: 0, left: 100*UIRate, bottom: 0, right: 0)
+                        }
+                    }
+                }
+
             }
-            if cell.responds(to: #selector(setter: UITableViewCell.layoutMargins)) {
-                cell.layoutMargins = .zero
-            }
-            
+
         }
     }
     
@@ -437,6 +566,8 @@ class ContactViewController: UIViewController, UITableViewDelegate, UITableViewD
              self.relativeContactInfo = ((contact.familyName + contact.givenName),phoneNum)
         }else if contactType == 1{
             self.urgentContactInfo = ((contact.familyName + contact.givenName),phoneNum)
+        }else if contactType == 3{//配偶
+            self.marriageContactInfo = ((contact.familyName + contact.givenName),phoneNum)
         }
         //刷新
         self.aTableView.reloadData()
@@ -465,22 +596,23 @@ class ContactViewController: UIViewController, UITableViewDelegate, UITableViewD
             self.relativeContactInfo = ((lastName + firstName),phoneValues as! String)
         }else if contactType == 1{
             self.urgentContactInfo = ((lastName + firstName),phoneValues as! String)
+        }else if contactType == 3{//配偶
+            self.marriageContactInfo = ((lastName + firstName),phoneValues as! String)
         }
         //刷新
         self.aTableView.reloadData()
-        
     }
     
     //MARK: - Method
     //局部刷新cell
-    func reloadOneCell(at row: Int){
-        let position = IndexPath(row: row, section: 0)
+    func reloadOneCell(at row: Int ,section: Int){
+        let position = IndexPath(row: row, section: section)
         self.aTableView.reloadRows(at: [position], with: UITableViewRowAnimation.none)
     }
     
     //MARK: - Action
     func textFieldAction(_ textField: UITextField){
-        // 20000-家庭详细地址 10000-详细地址 10001-月供 10002-亲属名 10003-电话 10004-紧急名 10005-电话
+        // 20000-家庭详细地址 10000-详细地址 10001-月供 10002-亲属名 10003-电话 10004-紧急名 10005-电话 10008-配偶电话 10009-配偶姓名
         if textField.tag == 20000 {
             self.homeDetail = textField.text!
         }else if textField.tag == 10000{
@@ -505,6 +637,15 @@ class ContactViewController: UIViewController, UITableViewDelegate, UITableViewD
                 textField.text = textField.text?.substring(to: index!)
             }
             self.urgentContactInfo.number = textField.text!
+        }else if textField.tag == 10008{
+            //限制输入的长度，最长为11位
+            if (textField.text?.characters.count)! > 11{
+                let index = textField.text?.index((textField.text?.startIndex)!, offsetBy: 11)//到offsetBy的前一位
+                textField.text = textField.text?.substring(to: index!)
+            }
+            self.marriageContactInfo.number = textField.text!
+        }else if textField.tag == 10009{
+            self.marriageContactInfo.name = textField.text!
         }
     }
     
@@ -552,9 +693,22 @@ class ContactViewController: UIViewController, UITableViewDelegate, UITableViewD
                 return
         }
         
-        guard self.relativeContactInfo.number != self.urgentContactInfo.number else{
+        guard self.relativeContactInfo.number != self.urgentContactInfo.number,
+              self.relativeContactInfo.number != self.marriageContactInfo.number,
+              self.urgentContactInfo.number != self.marriageContactInfo.number
+            else{
             self.showHint(in: self.view, hint: "不可使用同一联系人")
             return
+        }
+        
+        if self.marryInfo.text == "已婚"{
+            guard
+                self.marriageContactInfo.name.characters.count > 0,
+                self.marriageContactInfo.number.characters.count > 0
+            else {
+                self.showHint(in: self.view, hint: "请完善信息再上传!")
+                return
+            }
         }
         
         //添加HUD
@@ -584,6 +738,10 @@ class ContactViewController: UIViewController, UITableViewDelegate, UITableViewD
         }else {
             params["isMarried"] = self.marryInfo.row + 1
         }
+        
+        params["spouseRealName"] = self.marriageContactInfo.name//配偶姓名
+        params["spouseMobile"] = self.marriageContactInfo.number//配偶电话
+        
         params["contactsType1"] = "1"//固定
         params["contactsType2"] = "2"
         params["relation1"] = self.relativeInfo.row//亲属关系  /*神奇的从0开始*/
@@ -653,7 +811,7 @@ class ContactViewController: UIViewController, UITableViewDelegate, UITableViewD
                 return self.showHint(in: self.view, hint: json["RET_DESC"].stringValue)
             }
             
-            self.refreshUI(homeJson: json["ContractAddr"], normalJson: json["ComAddr"], contact: json["contacts"])
+            self.refreshUI(allJosn: json, homeJson: json["ContractAddr"], normalJson: json["ComAddr"], contact: json["contacts"])
             
         }, failure:{ error in
             //隐藏HUD
@@ -661,7 +819,7 @@ class ContactViewController: UIViewController, UITableViewDelegate, UITableViewD
         })
     }
     //填充信息
-    func refreshUI(homeJson: JSON, normalJson:JSON, contact: JSON){
+    func refreshUI(allJosn:JSON, homeJson: JSON, normalJson:JSON, contact: JSON){
         self.homeInfo.pro = homeJson["province"].stringValue + " "
         self.homeInfo.city = homeJson["county"].stringValue + " "
         self.homeInfo.county = homeJson["AREA"].stringValue
@@ -678,6 +836,7 @@ class ContactViewController: UIViewController, UITableViewDelegate, UITableViewD
         
         if self.marryInfo.row == 6 - 1 { //如果是其它则回传6
             self.marryInfo.text = marryData[2]
+            self.marryInfo.row = 2
         }else {
             self.marryInfo.text = marryData[self.marryInfo.row]
         }
@@ -687,32 +846,54 @@ class ContactViewController: UIViewController, UITableViewDelegate, UITableViewD
         self.areaInfo.county = normalJson["AREA"].stringValue
         self.areaDetail = normalJson["address"].stringValue
         
-        self.relativeInfo.row = contact[0]["relation"].intValue
-        self.relativeInfo.text = relativeData[self.relativeInfo.row]
+        //直系亲属 返回信息  BY HONG 17.4.12 去掉配偶选项只剩3项
+        let relationRow = contact[0]["relation"].intValue
+        
+        if (relationRow > 2){
+            self.relativeInfo.row = 0
+            self.relativeInfo.text = ""
+        }else {
+            self.relativeInfo.row = relationRow
+            self.relativeInfo.text = relativeData[self.relativeInfo.row]
+        }
+       
         self.relativeContactInfo.name = contact[0]["NAME"].stringValue
         self.relativeContactInfo.number = contact[0]["mobile"].stringValue
         
+        //直系亲属 返回信息  BY HONG 17.4.12 去掉配偶选项只剩4项
         let linkmanRow = contact[1]["relation"].intValue - 3
-        self.linkmanInfo.row = linkmanRow < 0 ? 0 : linkmanRow
-        self.linkmanInfo.text = linkmanData[self.linkmanInfo.row]
+        if (linkmanRow > 3){
+            self.linkmanInfo.row = 0
+            self.linkmanInfo.text = ""
+        }else {
+            self.linkmanInfo.row = linkmanRow < 0 ? 0 : linkmanRow
+            self.linkmanInfo.text = linkmanData[self.linkmanInfo.row]
+        }
+    
         self.urgentContactInfo.name = contact[1]["NAME"].stringValue
         self.urgentContactInfo.number = contact[1]["mobile"].stringValue
         
         //如果有月租则显示
         if self.houseInfo.row == 0 || self.houseInfo.row == 2 || self.houseInfo.row == 5 {
-         self.contactCellData.cellData.insert( CellDataInfo(leftText: "房租月供", holdText: "请填写每月供款金额", content: self.monthRent, cellType: .textType), at: 5)
+         self.contactCellData1.cellData.insert( CellDataInfo(leftText: "房租月供", holdText: "请填写每月供款金额", content: self.monthRent, cellType: .textType), at: 5)
         }
+        
+        if self.marryInfo.text == "已婚" {
+            self.marriageContactInfo.name = allJosn["spouseRealName"].stringValue
+            self.marriageContactInfo.number = allJosn["spouseMobile"].stringValue
+            self.contactCellData2.cellData.insert( CellDataInfo(leftText: "", holdText: "联系人姓名，可从通讯录中选择", content: self.marriageContactInfo.name, cellType: .arrowType), at: 2)
+            self.contactCellData2.cellData.insert( CellDataInfo(leftText: "", holdText: "请填写手机号", content: self.marriageContactInfo.number, cellType: .clearType), at: 3)
+        }
+    
         self.aTableView.reloadData()
     }
-    
-    
 }
 
 //MARK: 上传用户通讯录
 extension ContactViewController {
     
     func uploadUserContact(){
-        
+       
         // MARK: - 获取原始顺序联系人的模型数组
         PPGetAddressBook.getOriginalAddressBook(addressBookArray: { (addressBookArray) in
             var contacts = [Dictionary<String,String>]()
