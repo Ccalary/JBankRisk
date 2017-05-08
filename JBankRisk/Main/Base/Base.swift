@@ -20,3 +20,6 @@ let notificationLoginSuccess = "NoticeLoginSuccess"
 let noticeRepayFailAndTryAgain = "noticeRepayFailAndTryAgain"
 
 let noticeBorrowAgainAction = "noticeBorrowAgainAction"
+
+//app回到前台
+let noticeAppWillEnterForeground = "noticeAppWillEnterForeground"

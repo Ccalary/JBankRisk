@@ -81,6 +81,19 @@ class UserHelper {
         return isPush == "1"
     }
     
+    //MARK: 是否弹出过芝麻信用授权
+    static func setIsShowedZhiMa(_ isShowed: Bool){
+        let defaults = UserDefaults()
+        defaults.set(isShowed, forKey: "isShowedZhiMa\(self.getUserId())")
+        defaults.synchronize()
+    }
+    
+    static func getIsShowedZhiMa() -> Bool{
+        let defaults = UserDefaults()
+        return defaults.object(forKey: "isShowedZhiMa\(self.getUserId())") as? Bool ?? false
+    }
+
+    
     //MARK:获得用户角色
     ///1- "学生" 2- “白领” 3-“自由族”
     static func getUserRole() -> String?{

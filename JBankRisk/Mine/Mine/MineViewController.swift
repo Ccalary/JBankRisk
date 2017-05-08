@@ -46,6 +46,8 @@ class MineViewController: UIViewController, UIGestureRecognizerDelegate,UICollec
     //借款状态码
     var moneyStatus = ""
     
+    //芝麻授权状态
+    var authorized = ""
     //未读信息个数
     var messageCount = 0 {
         didSet{
@@ -66,6 +68,9 @@ class MineViewController: UIViewController, UIGestureRecognizerDelegate,UICollec
         self.navigationController!.navigationBar.isTranslucent = true
         self.automaticallyAdjustsScrollViewInsets = false
 
+        //app回到前台通知
+        NotificationCenter.default.addObserver(self, selector: #selector(appEnterForeground), name: NSNotification.Name(rawValue: noticeAppWillEnterForeground), object: nil)
+        
         //启动滑动返回（swipe back）
         self.navigationController?.interactivePopGestureRecognizer?.delegate = self
         //加载UI
@@ -78,9 +83,6 @@ class MineViewController: UIViewController, UIGestureRecognizerDelegate,UICollec
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         self.navigationController?.setNavigationBarHidden(true, animated: animated)
-    }
-    
-    override func viewDidAppear(_ animated: Bool) {
         self.requestHomeData()
     }
     
@@ -172,7 +174,7 @@ class MineViewController: UIViewController, UIGestureRecognizerDelegate,UICollec
     }
     
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        return 5
+        return 6
     }
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
@@ -192,6 +194,9 @@ class MineViewController: UIViewController, UIGestureRecognizerDelegate,UICollec
             cell.imageView.image = UIImage(named: "m_pr_repay_28x28")
             cell.textLabel.text = "提前还款"
         case 4:
+            cell.imageView.image = UIImage(named: "m_zhima_25x25")
+            cell.textLabel.text = "芝麻信用"
+        case 5:
             cell.imageView.image = UIImage(named: "m_waiting_28x28")
             cell.textLabel.text = "敬请期待"
         default:
@@ -226,7 +231,18 @@ class MineViewController: UIViewController, UIGestureRecognizerDelegate,UICollec
             }else {
                  self.navigationController?.pushViewController(NoNeedRepayVC(), animated: true)
             }
+        case 4://芝麻信用
             
+            //认证失败则直接去认证
+            if (authorized == "false" && UserHelper.getIsShowedZhiMa()){
+                self.requestZhiMaUrl()
+                return
+            }
+            let zmVC =  ZMAlipayViewController()
+            zmVC.authorized = authorized
+            self.navigationController?.pushViewController(zmVC, animated: true)
+            
+            break
         default:
             break
         }
@@ -341,6 +357,12 @@ class MineViewController: UIViewController, UIGestureRecognizerDelegate,UICollec
         }
     }
     
+    //MARK: - 通知
+    func appEnterForeground(){
+        //刷新数据
+        self.viewWillAppear(true)
+    }
+    
     //MARK: - 个人中心数据请求
     func requestHomeData(){
         
@@ -371,6 +393,8 @@ class MineViewController: UIViewController, UIGestureRecognizerDelegate,UICollec
     
     //问候语
     func refreshNameUI(json: JSON){
+        
+        authorized = json["authorized"].stringValue
         
         let realName = json["realName"].stringValue
         let sex = json["sex"].stringValue
@@ -521,4 +545,58 @@ extension MineViewController {
         self.momAnimation.isRemovedOnCompletion = false
         self.mineTopView.messageBtn.layer.add(momAnimation, forKey: "centerLayer")
     }
+    
+    //MARK: - 芝麻信用授权数据请求
+    func requestZhiMaUrl(){
+        
+        let params = NetConnect.getBaseRequestParams()
+        
+        NetConnect.bm_income_get_zhima_url(parameters: params, success: { response in
+            //隐藏HUD
+            self.hideHud()
+            let json = JSON(response)
+            guard json["RET_CODE"] == "000000" else{
+                return self.showHint(in: self.view, hint: json["RET_DESC"].stringValue)
+            }
+            let url = json["zmxyUrl"].stringValue
+            self.doVerify(url)
+            
+        }, failure:{ error in
+            //隐藏HUD
+            self.hideHud()
+            self.showHint(in: self.view, hint: "网络请求失败")
+        })
+    }
+    
+    //MARK: - 芝麻信用授权
+    func doVerify(_ url: String){
+        // 这里使用固定appid 20000067
+        let urlEncode = OCTools.urlEncodedString(withUrl: url);
+        var alipayUrl = "alipays://platformapi/startapp?appId=20000067&url=";
+        if let urlEncode = urlEncode {
+            alipayUrl = alipayUrl + urlEncode
+        }
+        
+        if self.canOpenAlipay(){
+            UIApplication.shared.openURL(URL(string: alipayUrl)!)
+        }else {
+            let alertViewVC = UIAlertController(title: "", message: "是否下载并安装支付宝完成认证?", preferredStyle: UIAlertControllerStyle.alert)
+            
+            let cancel = UIAlertAction(title: "取消", style: UIAlertActionStyle.cancel, handler:nil)
+            let confirm = UIAlertAction(title: "好的", style: .default, handler: { _ in
+                let appstoreUrl = "itms-apps://itunes.apple.com/app/id333206289";
+                UIApplication.shared.openURL(URL(string: appstoreUrl)!)
+            })
+            alertViewVC.addAction(cancel)
+            alertViewVC.addAction(confirm)
+            self.present(alertViewVC, animated: true, completion: nil)
+        }
+    }
+    
+    
+    func canOpenAlipay() -> Bool{
+        return UIApplication.shared.canOpenURL(URL(string: "alipays://")!)
+    }
+    
+
  }

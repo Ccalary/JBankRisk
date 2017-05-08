@@ -25,8 +25,6 @@ class HomeViewController: UIViewController, UIGestureRecognizerDelegate{
     //cell数据
     var cellDataArray: [Dictionary<String,String>]? = [["":""],["":""],["":""]]
 
-    //判断进行到哪一步
-    var flagIndex = 0
     //目前的步数
     var currentStep = 0
     //最新产品的orderId
@@ -134,8 +132,15 @@ class HomeViewController: UIViewController, UIGestureRecognizerDelegate{
                     return self.showHint(in: self.view, hint: json["RET_DESC"].stringValue)
                 }
                 //第一个为1，依次类推
-                self.flagIndex = json["flag"].intValue
-                self.currentStep = self.flagIndex
+                self.currentStep = json["flag"].intValue
+                
+                //如果录入大于1，则表明展示过芝麻信用授权界面
+                if (self.currentStep > 1) {
+                    UserHelper.setIsShowedZhiMa(true)
+                }else {
+                    UserHelper.setIsShowedZhiMa(false)
+                }
+                
                 //还款状态
                 self.mJstatus = json["jstatus"].stringValue
                 //最新一单的id

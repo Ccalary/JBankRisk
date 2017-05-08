@@ -13,7 +13,7 @@ let LOCAL = "http://192.168.1.80:8080"
 let ONLINE = "https://dev.zc-cfc.com" //线上
 let PRODUCT = "https://www.zc-cfc.com"//生产
 
-let BASR_DEV_URL = PRODUCT
+let BASR_DEV_URL = ONLINE
 
 /// 请求地址接口
 //let OTHER_SERVICE_URL = "https://www.zc-cfc.com/jinangk.xhtml?TX_CODE=490001"
@@ -119,6 +119,9 @@ let BM_INCOME_STATUS = BASR_DEV_URL + "/jinangk.xhtml?TX_CODE=490413"
 
 /// 2.20.1自由族收入信息上传(驳回)
 let BM_INCOME_STATUS_REJECT = BASR_DEV_URL + "/jinangk.xhtml?TX_CODE=490414"
+
+/// 2.21 获取芝麻信用授权地址
+let BM_INCOME_GET_ZHIMA_URL = BASR_DEV_URL + "/jinangk.xhtml?TX_CODE=900019"
 
 /***************************个人中心(PC)****************************/
 

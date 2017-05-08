@@ -76,4 +76,9 @@
     return str;
 }
 
++ (NSString *)URLEncodedStringWithUrl:(NSString *)url {
+    NSString *encodedString = (NSString *)CFBridgingRelease(CFURLCreateStringByAddingPercentEscapes(NULL,(CFStringRef)url,NULL,(CFStringRef) @"!'();:@&=+$,%#[]|",kCFStringEncodingUTF8));
+    return encodedString;
+}
+
 @end

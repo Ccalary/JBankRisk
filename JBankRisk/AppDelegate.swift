@@ -87,6 +87,9 @@ class AppDelegate: UIResponder, UIApplicationDelegate,UITabBarControllerDelegate
         // Called as part of the transition from the background to the active state; here you can undo many of the changes made on entering the background.
         application.applicationIconBadgeNumber = 0
         application.cancelAllLocalNotifications()
+        
+        //发通知回到前台
+        NotificationCenter.default.post(name: NSNotification.Name(rawValue: noticeAppWillEnterForeground), object: self)
     }
 
     func applicationDidBecomeActive(_ application: UIApplication) {

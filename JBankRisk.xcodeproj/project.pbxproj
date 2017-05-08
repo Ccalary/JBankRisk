@@ -200,10 +200,12 @@
 		0DE7871B1DF9905600F175DB /* MJCustomRefreshHeader.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0DE7871A1DF9905600F175DB /* MJCustomRefreshHeader.swift */; };
 		0DECC8711DCAEB130022D3F6 /* AreaTableView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0DECC8701DCAEB130022D3F6 /* AreaTableView.swift */; };
 		0DECC8751DCB07D30022D3F6 /* DataCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0DECC8741DCB07D30022D3F6 /* DataCollectionViewCell.swift */; };
+		0DF09CC21EB8D5D4008CF8D6 /* PopupAuthorityView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0DF09CC11EB8D5D4008CF8D6 /* PopupAuthorityView.swift */; };
 		0DF312BD1E20A58F000BEE9A /* SelectedBillViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0DF312BC1E20A58F000BEE9A /* SelectedBillViewController.swift */; };
 		0DF312C11E20F4A7000BEE9A /* ContractViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0DF312C01E20F4A7000BEE9A /* ContractViewController.swift */; };
 		0DF312C31E20F738000BEE9A /* ContractTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0DF312C21E20F738000BEE9A /* ContractTableViewCell.swift */; };
 		0DF312C61E20FD39000BEE9A /* ContractModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0DF312C51E20FD39000BEE9A /* ContractModel.swift */; };
+		0DF5FA0B1EBB4E06006DEC9B /* ZMAlipayViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0DF5FA0A1EBB4E06006DEC9B /* ZMAlipayViewController.swift */; };
 		0DFFAECF1DAF218C00819CF7 /* LoginCodeViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0DFFAECE1DAF218C00819CF7 /* LoginCodeViewController.swift */; };
 		0DFFAEDA1DAF6FB100819CF7 /* PopupPhoneCallView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0DFFAED91DAF6FB100819CF7 /* PopupPhoneCallView.swift */; };
 		0DFFAEDC1DAF707900819CF7 /* PopupRepaymentTipView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0DFFAEDB1DAF707900819CF7 /* PopupRepaymentTipView.swift */; };
@@ -468,10 +470,12 @@
 		0DE7871A1DF9905600F175DB /* MJCustomRefreshHeader.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MJCustomRefreshHeader.swift; sourceTree = "<group>"; };
 		0DECC8701DCAEB130022D3F6 /* AreaTableView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AreaTableView.swift; sourceTree = "<group>"; };
 		0DECC8741DCB07D30022D3F6 /* DataCollectionViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DataCollectionViewCell.swift; sourceTree = "<group>"; };
+		0DF09CC11EB8D5D4008CF8D6 /* PopupAuthorityView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PopupAuthorityView.swift; sourceTree = "<group>"; };
 		0DF312BC1E20A58F000BEE9A /* SelectedBillViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SelectedBillViewController.swift; sourceTree = "<group>"; };
 		0DF312C01E20F4A7000BEE9A /* ContractViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ContractViewController.swift; sourceTree = "<group>"; };
 		0DF312C21E20F738000BEE9A /* ContractTableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ContractTableViewCell.swift; sourceTree = "<group>"; };
 		0DF312C51E20FD39000BEE9A /* ContractModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ContractModel.swift; sourceTree = "<group>"; };
+		0DF5FA0A1EBB4E06006DEC9B /* ZMAlipayViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ZMAlipayViewController.swift; sourceTree = "<group>"; };
 		0DFFAECE1DAF218C00819CF7 /* LoginCodeViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LoginCodeViewController.swift; sourceTree = "<group>"; };
 		0DFFAED91DAF6FB100819CF7 /* PopupPhoneCallView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PopupPhoneCallView.swift; sourceTree = "<group>"; };
 		0DFFAEDB1DAF707900819CF7 /* PopupRepaymentTipView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PopupRepaymentTipView.swift; sourceTree = "<group>"; };
@@ -959,6 +963,7 @@
 		0D29681C1DA9F772002FBB4C /* Mine */ = {
 			isa = PBXGroup;
 			children = (
+				0DF5FA061EBB4D82006DEC9B /* ZMAlipay */,
 				0D3ADC971DCC838000838043 /* SystemMessage */,
 				0D3ADC7D1DCC1D0500838043 /* Setting */,
 				0DB36C681DDEABAA0083825D /* BorrowStatus */,
@@ -1354,11 +1359,20 @@
 			path = Model;
 			sourceTree = "<group>";
 		};
+		0DF5FA061EBB4D82006DEC9B /* ZMAlipay */ = {
+			isa = PBXGroup;
+			children = (
+				0DF5FA0A1EBB4E06006DEC9B /* ZMAlipayViewController.swift */,
+			);
+			path = ZMAlipay;
+			sourceTree = "<group>";
+		};
 		0DFFAED81DAF6F9D00819CF7 /* PopupView */ = {
 			isa = PBXGroup;
 			children = (
 				0D1BA5AB1E7EC61000021627 /* RepayWay */,
 				0DFFAED91DAF6FB100819CF7 /* PopupPhoneCallView.swift */,
+				0DF09CC11EB8D5D4008CF8D6 /* PopupAuthorityView.swift */,
 				0DFFAEDB1DAF707900819CF7 /* PopupRepaymentTipView.swift */,
 				0DD43CBA1DAFD74400091272 /* PopupRoleView.swift */,
 				0D61C4271DB08ECE00C2BC23 /* PopupSelectRoleView.swift */,
@@ -1656,6 +1670,7 @@
 				0D28B29B1E14FD3500AA8B49 /* RepayBillViewController.swift in Sources */,
 				0DE1E1771E48169C009AB942 /* SchoolListModel.swift in Sources */,
 				0D3712281E1140FC007DA3C2 /* BillSelectTableViewCell.swift in Sources */,
+				0DF09CC21EB8D5D4008CF8D6 /* PopupAuthorityView.swift in Sources */,
 				0D1E82531DE1927A0040B39E /* PhotoAlbumsTableViewController.swift in Sources */,
 				0D61C42E1DB0CE0000C2BC23 /* BorrowMoneyView.swift in Sources */,
 				0D0E2A321DAB377E00A64F76 /* HHTabBarController.swift in Sources */,
@@ -1784,6 +1799,7 @@
 				0D28B2821E13BDDD00AA8B49 /* YHTSignViewController.m in Sources */,
 				0D1E82511DE1927A0040B39E /* AlbumToolbarView.swift in Sources */,
 				0DF312C61E20FD39000BEE9A /* ContractModel.swift in Sources */,
+				0DF5FA0B1EBB4E06006DEC9B /* ZMAlipayViewController.swift in Sources */,
 				0DFFAECF1DAF218C00819CF7 /* LoginCodeViewController.swift in Sources */,
 				0DC8B15B1DD8B0ED001323D3 /* RepayPeriodDetailView.swift in Sources */,
 				0D28B26E1E13BDDD00AA8B49 /* UIImage+Wqz.m in Sources */,

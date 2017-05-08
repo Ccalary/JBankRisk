@@ -19,6 +19,9 @@ class IdentityViewController: UIViewController {
     var seconds: Int = 60
     var currentIndex: Int = 0
     
+    //芝麻信用授权地址
+    var zmUrl: String = ""
+    
     weak var delegate: ReselectRoleDelegate?
     weak var uploadSucDelegate: UploadSuccessDelegate?
     
@@ -744,6 +747,8 @@ class IdentityViewController: UIViewController {
                 UserHelper.setIdentity(isUpload: true)
                 UserHelper.setUserMobile(mobile: self.phoneNumField.text!)
                 
+                self.zmUrl = json["zmxyUrl"].stringValue
+                
                 if self.uploadSucDelegate != nil {
                     self.uploadSucDelegate?.upLoadInfoSuccess()
                 }
@@ -767,6 +772,7 @@ class IdentityViewController: UIViewController {
                     JPUSHService.setTags(["user"], aliasInbackground: UserHelper.getUserId())
                     //进入下一步
                     let idVC = ProductViewController()
+                    idVC.zmUrl = self.zmUrl
                     self.navigationController?.pushViewController(idVC, animated: true)
                 }
                 
@@ -787,6 +793,7 @@ class IdentityViewController: UIViewController {
             popupController.dismiss(animated: true)
             //进入下一步
             let idVC = ProductViewController()
+            idVC.zmUrl = self.zmUrl
             self.navigationController?.pushViewController(idVC, animated: true)
         }
     }

@@ -82,7 +82,7 @@ class PopupRepayWayView: UIView,  UITableViewDelegate, UITableViewDataSource {
         let label = UILabel()
         label.font = UIFontSize(size: 18*UIRate)
         label.textAlignment = .center
-        label.textColor = colorTextBlack
+        label.textColor = ColorTextBlack
         label.text = "选择支付方式"
         return label
     }()

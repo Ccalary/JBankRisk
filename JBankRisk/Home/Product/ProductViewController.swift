@@ -14,6 +14,9 @@ class ProductViewController: UIViewController,UITableViewDelegate, UITableViewDa
     var productCellData = UserInfoCellModel(dataType: UserInfoCellModel.CellModelType.product)
     var uploadSucDelegate: UploadSuccessDelegate?
     
+    //芝麻信用授权地址
+    var zmUrl = ""
+    
     //商户名称
     var saleName = ""
     //产品名称
@@ -50,6 +53,15 @@ class ProductViewController: UIViewController,UITableViewDelegate, UITableViewDa
 
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
+    }
+    
+    override func viewDidAppear(_ animated: Bool) {
+        super.viewDidAppear(animated)
+        //如果没有进行过授权则展示
+        if !UserHelper.getIsShowedZhiMa(){
+            self.authorityAction()
+            UserHelper.setIsShowedZhiMa(true)
+        }
     }
     
     func setupUI(){
@@ -263,6 +275,37 @@ class ProductViewController: UIViewController,UITableViewDelegate, UITableViewDa
         }
     }
     
+    //MARK: - 芝麻信用授权
+    func doVerify(_ url: String){
+        // 这里使用固定appid 20000067
+        let urlEncode = OCTools.urlEncodedString(withUrl: url);
+        var alipayUrl = "alipays://platformapi/startapp?appId=20000067&url=";
+        if let urlEncode = urlEncode {
+            alipayUrl = alipayUrl + urlEncode
+        }
+        
+        if self.canOpenAlipay(){
+            UIApplication.shared.openURL(URL(string: alipayUrl)!)
+        }else {
+            let alertViewVC = UIAlertController(title: "", message: "是否下载并安装支付宝完成认证?", preferredStyle: UIAlertControllerStyle.alert)
+            
+            let cancel = UIAlertAction(title: "取消", style: UIAlertActionStyle.cancel, handler:nil)
+            let confirm = UIAlertAction(title: "好的", style: .default, handler: { _ in
+                let appstoreUrl = "itms-apps://itunes.apple.com/app/id333206289";
+                UIApplication.shared.openURL(URL(string: appstoreUrl)!)
+            })
+            alertViewVC.addAction(cancel)
+            alertViewVC.addAction(confirm)
+            self.present(alertViewVC, animated: true, completion: nil)
+        }
+    }
+    
+    
+    func canOpenAlipay() -> Bool{
+        return UIApplication.shared.canOpenURL(URL(string: "alipays://com.jjs.zmAlipay")!)
+    }
+
+    
     //MARK: - 高德地图定位
     //初始化定位
     func initLocation(){
@@ -331,6 +374,25 @@ class ProductViewController: UIViewController,UITableViewDelegate, UITableViewDa
             self.workerName = textField.text!
         }else if textField.tag == 20000 {
             self.proName = textField.text!
+        }
+    }
+    
+    //MARK:芝麻信用
+    func authorityAction(){
+        let authorityView = PopupAuthorityView()
+        let popupController = CNPPopupController(contents: [authorityView])!
+        popupController.present(animated: true)
+        
+        authorityView.onClickCancel = {_ in
+            popupController.dismiss(animated:true)
+        }
+        
+        authorityView.onClickSure = {[weak self] in
+            popupController.dismiss(animated: true)
+            //延时执行
+            DispatchQueue.main.asyncAfter(deadline: DispatchTime.now() + 0.5){
+                self?.doVerify((self?.zmUrl)!)
+            }
         }
     }
     
@@ -502,3 +564,5 @@ extension ProductViewController {
         })
     }
 }
+
+

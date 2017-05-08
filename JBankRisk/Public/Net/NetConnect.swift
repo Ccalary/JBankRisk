@@ -256,6 +256,16 @@ class NetConnect {
         })
     }
     
+    /// 2.19获取芝麻信用授权地址
+    static func bm_income_get_zhima_url(parameters: Parameters,success:@escaping (_ response:[String:AnyObject]) -> (),failure:@escaping(_ error: Error) -> ()){
+        
+        NetworkRequest.sharedInstance.postRequest(urlString: BM_INCOME_GET_ZHIMA_URL, params: parameters, success: { (response) in
+            success(response)
+        }, failture: { (error) in
+            failure(error)
+        })
+    }
+    
     /***********************个人中心（PC）**************************/
     
     //3.1 个人中心首页

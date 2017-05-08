@@ -153,7 +153,7 @@ class RepayViewController: UIViewController, UITableViewDelegate, UITableViewDat
         let label = UILabel()
         label.font = UIFontSize(size: 15*UIRate)
         label.textAlignment = .center
-        label.textColor = colorTextBlack
+        label.textColor = ColorTextBlack
         label.text = "本次账单共\(self.selectBillInfo.count)笔"
         return label
     }()

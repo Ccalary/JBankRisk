@@ -13,4 +13,6 @@
 +(NSString *)getIPAddress;
 //Log打印显示更改
 + (NSString *)logDic:(NSDictionary *)dic;
+//芝麻信用url转换
++ (NSString *)URLEncodedStringWithUrl:(NSString *)url;
 @end

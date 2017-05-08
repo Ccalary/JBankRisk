@@ -46,6 +46,7 @@ class MineTopView: UIView {
         self.addSubview(messageBtn)
         self.messageBtn.addSubview(messageRedDot)
         self.addSubview(settingBtn)
+        self.addSubview(headerHolderView)
         self.addSubview(headerImageView)
         self.addSubview(headerButton)
         self.addSubview(sayHelloTextLabel)
@@ -90,11 +91,16 @@ class MineTopView: UIView {
         make.right.equalTo(topImageView.snp.right).offset(-10*UIRate)
         make.top.equalTo(30*UIRate)
         }
-        
+    
+       headerHolderView.snp.makeConstraints { (make) in
+        make.width.height.equalTo(96*UIRate)
+        make.centerX.equalTo(self)
+        make.top.equalTo(62*UIRate)
+       }
+    
         headerImageView.snp.makeConstraints { (make) in
         make.width.height.equalTo(90*UIRate)
-        make.centerX.equalTo(self)
-        make.top.equalTo(65*UIRate)
+        make.center.equalTo(headerHolderView)
         }
     
         headerButton.snp.makeConstraints { (make) in
@@ -215,6 +221,15 @@ class MineTopView: UIView {
         button.setBackgroundImage(UIImage(named: "m_setting_25x25"), for: .normal)
         button.addTarget(self, action: #selector(buttonAction(_:)), for: .touchUpInside)
         return button
+    }()
+    
+    //头像
+    lazy var headerHolderView: UIImageView = {
+        let imageView = UIImageView()
+        imageView.layer.masksToBounds = true
+        imageView.layer.cornerRadius = 48*UIRate
+        imageView.image = UIImage(named: "m_header_round_96x96")
+        return imageView
     }()
     
     //头像

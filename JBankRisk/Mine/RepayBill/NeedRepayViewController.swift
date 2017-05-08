@@ -69,8 +69,8 @@ class NeedRepayViewController: UIViewController,UITableViewDelegate, UITableView
     //MARK: - 基本UI
     func setupUI(){
         self.view.backgroundColor = defaultBackgroundColor
-        self.navigationController!.navigationBar.isTranslucent = true;
-        self.automaticallyAdjustsScrollViewInsets = false;
+        self.navigationController!.navigationBar.isTranslucent = true
+        self.automaticallyAdjustsScrollViewInsets = false
         
         let aTap = UITapGestureRecognizer(target: self, action: #selector(tapViewAction))
         aTap.numberOfTapsRequired = 1
