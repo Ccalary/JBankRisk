@@ -311,8 +311,6 @@ class LoginPsdOrSetPsdVC: UIViewController{
         let registerVC = RegisterOrResetPsdVC(viewType: .resetPsd, phoneNum: self.phoneNum)
         registerVC.isPush = self.isPush
         self.navigationController?.pushViewController(registerVC, animated: true)
-        
-        self.sendRandomCodeTo(number: self.phoneNum)
     }
     
     func mTextFieldAction(_ textField: UITextField){
@@ -341,21 +339,5 @@ class LoginPsdOrSetPsdVC: UIViewController{
             textField.text = textField.text?.substring(to: index!)
         }
     }
-    
-    ///发送验证码
-    func sendRandomCodeTo(number: String){
-        var params = NetConnect.getBaseRequestParams()
-        params["mobile"] = number
-        NetConnect.rl_randomCode(parameters: params, success:
-            { response in
-                let json = JSON(response)
-                guard json["RET_CODE"] == "000000" else{
-                    return self.showHint(in: self.view, hint: json["RET_DESC"].stringValue)
-                }
-                PrintLog("验证码发送成功")
-        }, failure: {error in
-        })
-    }
-
 }
 

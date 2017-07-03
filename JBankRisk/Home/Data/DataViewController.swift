@@ -479,8 +479,7 @@ class DataViewController: UIViewController,UITableViewDelegate, UITableViewDataS
         let image = info[UIImagePickerControllerOriginalImage] as! UIImage
         //主线程刷新
         DispatchQueue.main.async {
-        
-            self.photoArray.append((image,self.dataArray[self.selectCell].leftText,self.selectCell))
+           self.photoArray.append((image,self.dataArray[self.selectCell].leftText,self.selectCell))
             self.numArray[self.selectCell] += 1
             self.dataArray[self.selectCell].content = "已上传\(self.numArray[self.selectCell])张"
             self.reloadOneTabelViewCell(at: self.selectCell)
@@ -541,15 +540,10 @@ extension DataViewController {
         for i in 0..<numArray.count {
             if dataArray[i].holdText.contains("选填") {
                 break
-            }else if dataArray[i].leftText.contains("身份证") {
-                if numArray[i] < 2{
-                    self.showHint(in: self.view, hint: "身份证信息至少上传两张照片")
-                    return
-                }
             }else if numArray[i] == 0{
-                    self.showHint(in: self.view, hint: "每条信息至少上传一张照片")
-                    return
-                }
+                self.showHint(in: self.view, hint: "每条信息至少上传一张照片")
+                return
+            }
           }
             let popupView = PopupSubmitTipsView()
             let popupController = CNPPopupController(contents: [popupView])!
@@ -573,8 +567,19 @@ extension DataViewController {
         var imageNameArray:[String] = []
         
         for i in 0..<photoArray.count {
-            imageDataArray.append(UIImageJPEGRepresentation(photoArray[i].image, 0.2)!)
-            let imageName = String(describing: NSDate()) + "\(i).png"
+            let dataImage = toolsZipImage(photoArray[i].image)
+            imageDataArray.append(dataImage)
+            var imageName = ""
+            //2017.6.15  三种照片命名区分，闪银的数据要求分开
+            if (photoArray[i].dis == "身份证正面"){
+                imageName = "sfzzm.jpg"
+            }else if (photoArray[i].dis == "身份证反面"){
+                imageName = "sfzfm.jpg"
+            }else if (photoArray[i].dis == "亲签照"){
+                imageName = "qqz.jpg"
+            }else {
+                 imageName = String(describing: NSDate()) + "\(i).jpg"
+            }
             imageNameArray.append(imageName)
         }
         //参数666-多张上传
@@ -709,6 +714,7 @@ extension DataViewController {
                 PHImageManager.default().requestImage(for: asset, targetSize: CGSize(width: pixWidthSize, height: pixHeightSize), contentMode: PHImageContentMode.aspectFill, options: imageOptions, resultHandler: { (image, info) -> Void in
                     
                     if image != nil {
+                       
                     //主线程刷新
                     DispatchQueue.main.async {
                     self.photoArray.append((image!,self.dataArray[self.selectCell].leftText,self.selectCell))

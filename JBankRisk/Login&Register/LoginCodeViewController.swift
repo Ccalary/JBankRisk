@@ -10,13 +10,9 @@ import UIKit
 import Alamofire
 import SwiftyJSON
 
-//默认倒计时时间
-private var defaultSeconds: Int = 60
-
 class LoginCodeViewController: UIViewController {
-
-    var mTimer: Timer!
-    var seconds: Int = defaultSeconds
+    
+    var timerHelper: TimerHelper?
     
     var isPush: Bool = true
     
@@ -24,6 +20,8 @@ class LoginCodeViewController: UIViewController {
         super.viewDidLoad()
         
         self.setupUI()
+        
+        timerHelper = TimerHelper(button: sendCodeBtn);
     }
 
     override func viewDidAppear(_ animated: Bool) {
@@ -35,8 +33,19 @@ class LoginCodeViewController: UIViewController {
       
     }
     
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        timerHelper?.isTimerGoOn()
+    }
+    
+    override func viewDidDisappear(_ animated: Bool) {
+        super.viewDidDisappear(animated)
+        
+        timerHelper?.invalidateTimer()
+    }
+    
     func setupUI(){
-        self.title = "短信验证码登录"
+        self.navigationItem.title = "短信验证码登录"
         self.view.backgroundColor = defaultBackgroundColor
         self.navigationItem.rightBarButtonItem = UIBarButtonItem(image: UIImage(named:"navigation_right_phone_18x21"), style: .plain, target: self, action: #selector(rightNavigationBarBtnAction))
         
@@ -219,29 +228,7 @@ class LoginCodeViewController: UIViewController {
         return button
     }()
 
-    //MARK: - Timer
-    func startCount(){
-        seconds = defaultSeconds
-        sendCodeBtn.isUserInteractionEnabled = false
-        mTimer = Timer.scheduledTimer(timeInterval: 1, target: self, selector: #selector(countDown(_:)), userInfo: nil, repeats: true)
-    }
-    
-    //时间倒计时
-    func countDown(_ timer: Timer){
-        if seconds > 0{
-            seconds -= 1
-            sendCodeBtn.setTitle("\(seconds)s后重发", for: .normal)
-            sendCodeBtn.setTitleColor(UIColorHex("666666"), for: .normal)
-        }else if seconds == 0{
-            timer.invalidate()
-            sendCodeBtn.isUserInteractionEnabled = true
-            sendCodeBtn.setTitle("重新发送", for: UIControlState.normal)
-            sendCodeBtn.setTitleColor(UIColorHex("00b2ff"), for: .normal)
-        }
-        
-    }
     //MARK: - action
-    
     //电话按钮点击
     func rightNavigationBarBtnAction(){
      
@@ -315,9 +302,11 @@ class LoginCodeViewController: UIViewController {
             self.showHint(in: self.view, hint: "请输入正确的手机号码")
             return
         }
-        self.startCount()
-        self.sendRandomCodeTo(number: phoneNum)
+        timerHelper?.startCount()
         
+        NetSendCodeHelper.sendCodeToNumber(phoneNum, {[weak self] (descStr) in
+            self?.showHint(in: (self?.view)!, hint: descStr)
+        })
     }
     func textFieldAction(_ textField: UITextField){
         
@@ -357,21 +346,4 @@ class LoginCodeViewController: UIViewController {
             sureBtn.setBackgroundImage(UIImage(named:"login_btn_grayred_345x44"), for: .normal)
         }
     }
-    
-    ///发送验证码
-    func sendRandomCodeTo(number: String){
-        var params = NetConnect.getBaseRequestParams()
-        params["mobile"] = number
-        
-        NetConnect.rl_randomCode(parameters: params, success:
-            { response in
-                let json = JSON(response)
-                guard json["RET_CODE"] == "000000" else{
-                    return self.showHint(in: self.view, hint: json["RET_DESC"].stringValue)
-                }
-        }, failure: {error in
-        })
-    }
-
-
 }

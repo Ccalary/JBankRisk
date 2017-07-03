@@ -27,6 +27,7 @@ class ContactViewController: UIViewController, UITableViewDelegate, UITableViewD
         }
     }
     
+    
     //创建一个组合数组
     var contactCellArrayData = [UserInfoCellModel]();
     
@@ -103,7 +104,8 @@ class ContactViewController: UIViewController, UITableViewDelegate, UITableViewD
         
         self.view.addSubview(aTableView)
         self.aTableView.tableHeaderView = headerView
-       
+        self.aTableView.tableFooterView = footerView
+        
         headerView.addSubview(divideLine1)
         self.view.addSubview(lastStepBtn)
         self.view.addSubview(nextStepBtn)
@@ -142,7 +144,6 @@ class ContactViewController: UIViewController, UITableViewDelegate, UITableViewD
         let tableView = UITableView()
         tableView.delegate = self
         tableView.dataSource = self
-        tableView.tableFooterView = UIView()
         tableView.backgroundColor = defaultBackgroundColor
         tableView.showsVerticalScrollIndicator = false
         tableView.register(BMTableViewCell.self, forCellReuseIdentifier: "ContactCellID")
@@ -157,6 +158,11 @@ class ContactViewController: UIViewController, UITableViewDelegate, UITableViewD
         }
         return tableView
         
+    }()
+    
+    private lazy var footerView: ContactFooterView = {
+        let footView = ContactFooterView()
+        return footView
     }()
     
     //分割线
@@ -751,6 +757,7 @@ class ContactViewController: UIViewController, UITableViewDelegate, UITableViewD
         params["name2"] = self.urgentContactInfo.name
         params["mobile2"] = self.urgentContactInfo.number
         
+        params["remarks"] = self.footerView.mTextView.text
         //如果是驳回的则上传orderId
         if UserHelper.getIsReject() {
             params["orderId"] = UserHelper.getHomeNewOneOrderId()

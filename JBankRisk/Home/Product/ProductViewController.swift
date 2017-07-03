@@ -17,8 +17,10 @@ class ProductViewController: UIViewController,UITableViewDelegate, UITableViewDa
     //芝麻信用授权地址
     var zmUrl = ""
     
-    //商户名称
-    var saleName = ""
+    //商户列表
+    var saleList: [String] = []
+    //商户选择情况
+    var saleInfo: (row: Int, text: String) = (0,"")
     //产品名称
     var proName = ""
     //选择的期限
@@ -177,7 +179,7 @@ class ProductViewController: UIViewController,UITableViewDelegate, UITableViewDa
 
         switch indexPath.row {
         case 0://商户名称
-            cell.centerTextField.text = self.saleName
+            cell.centerTextField.text = self.saleInfo.text
         case 1://产品名称
             cell.centerTextField.text = self.proName
             cell.centerTextField.tag = 20000
@@ -217,7 +219,26 @@ class ProductViewController: UIViewController,UITableViewDelegate, UITableViewDa
         self.view.endEditing(true)
         
         if indexPath.row == 0 { //获取商户名称
-            self.getAddress()
+            guard !UserHelper.getProductIsUpload() else {
+                return
+            }
+            
+            if self.saleList.count > 0{
+                let popupView =  PopupStaticSelectView(mDataArray: self.saleList, selectRow: self.saleInfo.row, title: "商户名称")
+                let popupController = CNPPopupController(contents: [popupView])!
+                popupController.present(animated: true)
+                
+                popupView.onClickSelect = {[unowned self] (row, text) in
+                    self.saleInfo = (row,text)
+                    //局部刷新cell
+                    let position = IndexPath(row: indexPath.row, section: 0)
+                    self.aTableView.reloadRows(at: [position], with: UITableViewRowAnimation.none)
+                     popupController.dismiss(animated: true)
+                }
+
+            }else {
+                self.getAddress()
+            }
         }
         
         if indexPath.row == 4 { //申请期限
@@ -425,7 +446,7 @@ class ProductViewController: UIViewController,UITableViewDelegate, UITableViewDa
         
         //判断是否可以上传
         guard self.proName.characters.count > 0,
-             self.saleName.characters.count > 0,
+             self.saleInfo.text.characters.count > 0,
              self.borrowMoney.characters.count > 0,
              self.selectPeriodInfo.text.characters.count > 0,
              self.workerName.characters.count > 0
@@ -442,7 +463,7 @@ class ProductViewController: UIViewController,UITableViewDelegate, UITableViewDa
         let total = Int(totalStr)
         
         var params = NetConnect.getBaseRequestParams()
-        params["saleName"] = self.saleName
+        params["saleName"] = self.saleInfo.text
         params["orderName"] = self.proName
         params["amt"] = self.borrowMoney
         params["employeeId"] = self.workerName
@@ -518,7 +539,7 @@ class ProductViewController: UIViewController,UITableViewDelegate, UITableViewDa
     //填充信息
     func refreshUI(json: JSON){
        
-        self.saleName = json["sale_name"].stringValue
+        self.saleInfo.text = json["sale_name"].stringValue
         self.proName = json["orderName"].stringValue
         self.borrowMoney = json["amt"].stringValue
         self.selectPeriodInfo.text = json["total"].stringValue + "期"
@@ -546,13 +567,20 @@ extension ProductViewController {
                 guard json["RET_CODE"] == "000000" else{
                     return self.showHint(in: self.view, hint: json["RET_DESC"].stringValue)
                 }
+                self.saleList.removeAll()
+                if let namelist = json["saleList"].arrayObject{
+                    for name in namelist{
+                        if let name = name as? String{
+                            self.saleList.append(name)
+                        }
+                    }
+                }
                 
-                let nameStr = json["saleName"].stringValue
-                guard nameStr.characters.count > 0  else {
+                guard self.saleList.count > 0  else {
                     self.showHint(in: self.view, hint: "未能获取商户名称！")
                     return
                 }
-                self.saleName = nameStr
+                self.saleInfo.text = self.saleList.first!
                 //刷新tableView
                 let position1 = IndexPath(row: 0, section: 0)
                 self.aTableView.reloadRows(at: [position1], with: UITableViewRowAnimation.none)

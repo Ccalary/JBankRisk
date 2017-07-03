@@ -7,6 +7,7 @@
 //
 
 #import <Foundation/Foundation.h>
+#import <UIKit/UIKit.h>
 
 @interface OCTools : NSObject
 //获取设备IP
@@ -15,4 +16,6 @@
 + (NSString *)logDic:(NSDictionary *)dic;
 //芝麻信用url转换
 + (NSString *)URLEncodedStringWithUrl:(NSString *)url;
+
++(BOOL)textField:(UITextField *)textField shouldChangeCharactersInRange:(NSRange)range replacementString:(NSString *)string;
 @end

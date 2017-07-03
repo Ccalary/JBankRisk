@@ -31,7 +31,7 @@ struct UserInfoCellModel {
     var cellData: [CellDataInfo] = [CellDataInfo]()
     
    private var productCellData:[CellDataInfo] = [
-        CellDataInfo(leftText: "所属商户", holdText: "商户名称", content: "", cellType: .defaultType),
+        CellDataInfo(leftText: "所属商户", holdText: "商户名称", content: "", cellType: .locationType),
        CellDataInfo(leftText: "产品名称", holdText: "请输入产品名称", content: "", cellType: .clearType),
        CellDataInfo(leftText: "", holdText: "", content: "", cellType: .defaultType),
        CellDataInfo(leftText: "借款金额", holdText: "请输入借款金额", content: "", cellType: .textType),
@@ -94,7 +94,8 @@ struct UserInfoCellModel {
 
  
    private var workerAllCellData:[CellDataInfo] = [
-         CellDataInfo(leftText: "身份证", holdText: "上传身份证正反面", content: "", cellType: .cameraType),
+         CellDataInfo(leftText: "身份证正面", holdText: "上传身份证正面", content: "", cellType: .cameraType),
+         CellDataInfo(leftText: "身份证反面", holdText: "上传身份证反面", content: "", cellType: .cameraType),
          CellDataInfo(leftText: "亲签照", holdText: "上传手持身份证照片", content: "", cellType: .cameraType),
          CellDataInfo(leftText: "征信报告", holdText: "上传人民银行征信报告", content:   "", cellType: .cameraType),
          CellDataInfo(leftText: "收入流水", holdText: "上传银行卡6个月收入流水", content: "", cellType: .cameraType),
@@ -103,11 +104,13 @@ struct UserInfoCellModel {
          CellDataInfo(leftText: "财力证明", holdText: "上传可证明财力的文件（选填）", content: "", cellType: .cameraType)]
     
    private var worker30000CellData = [
-        CellDataInfo(leftText: "身份证", holdText: "上传身份证正反面", content: "", cellType: .cameraType),
+        CellDataInfo(leftText: "身份证正面", holdText: "上传身份证正面", content: "", cellType: .cameraType),
+        CellDataInfo(leftText: "身份证反面", holdText: "上传身份证反面", content: "", cellType: .cameraType),
         CellDataInfo(leftText: "亲签照", holdText: "上传手持身份证照片", content: "", cellType: .cameraType), CellDataInfo(leftText: "社保", holdText: "社保公积金缴纳信息（选填）", content: "", cellType: .cameraType)]
     
    private var worker50000CellData = [
-        CellDataInfo(leftText: "身份证", holdText: "上传身份证正反面", content: "", cellType: .cameraType),
+        CellDataInfo(leftText: "身份证正面", holdText: "上传身份证正面", content: "", cellType: .cameraType),
+        CellDataInfo(leftText: "身份证反面", holdText: "上传身份证反面", content: "", cellType: .cameraType),
         CellDataInfo(leftText: "亲签照", holdText: "上传手持身份证照片", content: "", cellType: .cameraType),
         CellDataInfo(leftText: "收入流水", holdText: "上传银行卡6个月收入流水", content: "", cellType: .cameraType),
         CellDataInfo(leftText: "居住证明", holdText: "上传居住证明文件照片", content: "", cellType: .cameraType),
@@ -115,12 +118,14 @@ struct UserInfoCellModel {
     
     
    private var studentAllCellData:[CellDataInfo] = [
-        CellDataInfo(leftText: "身份证", holdText: "上传身份证正反面", content: "", cellType: .cameraType),
+        CellDataInfo(leftText: "身份证正面", holdText: "上传身份证正面", content: "", cellType: .cameraType),
+        CellDataInfo(leftText: "身份证反面", holdText: "上传身份证反面", content: "", cellType: .cameraType),
         CellDataInfo(leftText: "亲签照", holdText: "上传手持身份证照片", content: "", cellType: .cameraType),
         CellDataInfo(leftText: "在读证明", holdText: "上传学信网个人信息或校园卡", content: "", cellType: .cameraType)]
     
     private var freedomAllCellData:[CellDataInfo] = [
-        CellDataInfo(leftText: "身份证", holdText: "上传身份证正反面", content: "", cellType: .cameraType),
+        CellDataInfo(leftText: "身份证正面", holdText: "上传身份证正面", content: "", cellType: .cameraType),
+        CellDataInfo(leftText: "身份证反面", holdText: "上传身份证反面", content: "", cellType: .cameraType),
         CellDataInfo(leftText: "亲签照", holdText: "上传手持身份证照片", content: "", cellType: .cameraType),
         CellDataInfo(leftText: "征信报告", holdText: "上传人民银行征信报告", content: "", cellType: .cameraType),
         CellDataInfo(leftText: "收入流水", holdText: "上传银行卡6个月收入流水", content: "", cellType: .cameraType),
@@ -129,16 +134,19 @@ struct UserInfoCellModel {
         CellDataInfo(leftText: "财力证明", holdText: "上传可证明财力的文件（选填）", content: "", cellType: .cameraType)]
     
     private var freedom10000CellData = [
-        CellDataInfo(leftText: "身份证", holdText: "上传身份证正反面", content: "", cellType: .cameraType),
+        CellDataInfo(leftText: "身份证正面", holdText: "上传身份证正面", content: "", cellType: .cameraType),
+        CellDataInfo(leftText: "身份证反面", holdText: "上传身份证反面", content: "", cellType: .cameraType),
         CellDataInfo(leftText: "亲签照", holdText: "上传手持身份证照片", content: "", cellType: .cameraType)]
     
     private var freedom30000CellData = [
-        CellDataInfo(leftText: "身份证", holdText: "上传身份证正反面", content: "", cellType: .cameraType),
+        CellDataInfo(leftText: "身份证正面", holdText: "上传身份证正面", content: "", cellType: .cameraType),
+        CellDataInfo(leftText: "身份证反面", holdText: "上传身份证反面", content: "", cellType: .cameraType),
         CellDataInfo(leftText: "亲签照", holdText: "上传手持身份证照片", content: "", cellType: .cameraType),
         CellDataInfo(leftText: "收入流水", holdText: "上传银行卡6个月收入流水", content: "", cellType: .cameraType)]
     
     private var freedom50000CellData = [
-        CellDataInfo(leftText: "身份证", holdText: "上传身份证正反面", content: "", cellType: .cameraType),
+        CellDataInfo(leftText: "身份证正面", holdText: "上传身份证正面", content: "", cellType: .cameraType),
+        CellDataInfo(leftText: "身份证反面", holdText: "上传身份证反面", content: "", cellType: .cameraType),
         CellDataInfo(leftText: "亲签照", holdText: "上传手持身份证照片", content: "", cellType: .cameraType),
         CellDataInfo(leftText: "收入流水", holdText: "上传银行卡6个月收入流水", content: "", cellType: .cameraType),
         CellDataInfo(leftText: "居住证明", holdText: "上传居住证明文件照片", content: "", cellType: .cameraType)]

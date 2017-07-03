@@ -122,12 +122,13 @@ class SettingViewController: UIViewController,UITableViewDelegate, UITableViewDa
     
     
     //／按钮
-    private lazy var exitBtn: UIButton = {
-        let button = UIButton()
+    private lazy var exitBtn: HHPopButton = {
+        let button = HHPopButton()
         button.setBackgroundImage(UIImage(named: "login_btn_red_345x44"), for: .normal)
         button.setTitle("退出登录", for: UIControlState.normal)
         button.titleLabel?.font = UIFontBoldSize(size: 18*UIRate)
         button.addTarget(self, action: #selector(exitBtnAction), for: .touchUpInside)
+        
         return button
     }()
     
@@ -281,8 +282,9 @@ class SettingViewController: UIViewController,UITableViewDelegate, UITableViewDa
         
         var imageDataArray:[Data] = []
         var imageNameArray:[String] = []
-        
-        imageDataArray.append(UIImageJPEGRepresentation(image, 0.1)!)
+        let imageData = toolsZipImage(image)
+        imageDataArray.append(imageData)
+       
         let imageName = String(describing: NSDate()) + ".png"
         imageNameArray.append(imageName)
         

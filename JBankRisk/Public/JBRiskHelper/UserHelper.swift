@@ -417,5 +417,34 @@ class UserHelper {
         defaults.set(getTodayTime(), forKey: "repayNotice\(self.getUserId())")
         defaults.synchronize()
     }
+    
+    //MARK: - 发送验证码时的时间戳
+    static func setRandomCodeTimeStamp(){
+        let defaults = UserDefaults()
+        let timestamp = Date().timeIntervalSince1970
+        let times = Int(timestamp)
+        defaults.set(times, forKey: "RandomCodeTimeStamp")
+        defaults.synchronize()
+
+    }
+    
+    static func getRandomCodeTimeStamp() -> Int{
+        let defaults = UserDefaults()
+        let timeStamp = defaults.object(forKey: "RandomCodeTimeStamp") as? Int
+        return timeStamp ?? 0
+    }
+    
+    //退出时的剩余时间
+    static func setRandomCodeRestTime(_ time: Int){
+        let defaults = UserDefaults()
+        defaults.set(time, forKey: "RandomCodeRestTime")
+        defaults.synchronize()
+    }
+    
+    static func getRandomCodeRestTime() -> Int{
+        let defaults = UserDefaults()
+        let timeStamp = defaults.object(forKey: "RandomCodeRestTime") as? Int
+        return timeStamp ?? 0
+    }
 }
 

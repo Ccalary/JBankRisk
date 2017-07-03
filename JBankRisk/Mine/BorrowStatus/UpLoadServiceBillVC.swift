@@ -12,7 +12,8 @@ import SwiftyJSON
 class UpLoadServiceBillVC: UIViewController,UIImagePickerControllerDelegate,UINavigationControllerDelegate {
 
     var orderId = ""
-    
+    //合同id
+    var contractId = ""
     //是否进入了签字界面
     var isSign = false
     
@@ -31,6 +32,7 @@ class UpLoadServiceBillVC: UIViewController,UIImagePickerControllerDelegate,UINa
         self.initPhotoPicker()
         self.initCameraPicker()
         self.requestListData()
+        self.onClickConstractAction()
     }
 
     override func didReceiveMemoryWarning() {
@@ -46,8 +48,13 @@ class UpLoadServiceBillVC: UIViewController,UIImagePickerControllerDelegate,UINa
     
     func setupUI(){
         self.view.backgroundColor = defaultBackgroundColor
-        self.title  = "服务使用"
+        self.navigationItem.title  = "服务使用"
         
+        let aTap = UITapGestureRecognizer(target: self, action: #selector(tapViewAction))
+        aTap.numberOfTapsRequired = 1
+        self.view.addGestureRecognizer(aTap)
+        
+        self.view.addSubview(headerView)
         self.view.addSubview(holdView)
         self.holdView.addSubview(divideLine1)
         self.holdView.addSubview(divideLine2)
@@ -58,11 +65,18 @@ class UpLoadServiceBillVC: UIViewController,UIImagePickerControllerDelegate,UINa
         
         self.view.addSubview(nextStepBtn)
         
+        headerView.snp.makeConstraints { (make) in
+            make.top.equalTo(64 + 10*UIRate)
+            make.width.equalTo(self.view)
+            make.height.equalTo(100*UIRate)
+            make.centerX.equalTo(self.view)
+        }
+        
         holdView.snp.makeConstraints { (make) in
             make.width.equalTo(300*UIRate)
             make.height.equalTo(180*UIRate)
             make.centerX.equalTo(self.view)
-            make.top.equalTo(64 + 30*UIRate)
+            make.top.equalTo(headerView.snp.bottom).offset(10*UIRate)
         }
         
         divideLine1.snp.makeConstraints { (make) in
@@ -99,8 +113,13 @@ class UpLoadServiceBillVC: UIViewController,UIImagePickerControllerDelegate,UINa
             make.centerX.equalTo(self.view)
             make.top.equalTo(holdView.snp.bottom).offset(45*UIRate)
         }
+   }
+    
+    private lazy var headerView: ServiceBillHeaderView = {
+        let headerView = ServiceBillHeaderView()
         
-    }
+        return headerView
+    }()
     
     private lazy var holdView: UIView = {
         let holdView = UIView()
@@ -157,6 +176,9 @@ class UpLoadServiceBillVC: UIViewController,UIImagePickerControllerDelegate,UINa
         return button
     }()
     
+    func tapViewAction(){
+        self.view.endEditing(true)
+    }
     
     //MARK: - Method
     func initCameraPicker(){
@@ -181,6 +203,7 @@ class UpLoadServiceBillVC: UIViewController,UIImagePickerControllerDelegate,UINa
 
     //拍照
     func photoBtnAction(){
+        self.view.endEditing(true)
         let popupView = PopupPhotoSelectView()
         let popupController = CNPPopupController(contents: [popupView])!
         popupController.present(animated: true)
@@ -225,6 +248,21 @@ class UpLoadServiceBillVC: UIViewController,UIImagePickerControllerDelegate,UINa
         }
     }
     
+    //MARK:- 点击了电子合同
+    func onClickConstractAction(){
+        //回调
+        headerView.onClick = {[weak self] _ in
+            self?.view.endEditing(true)
+            if UserHelper.getContractIsSigned(){
+                //查看
+                self?.seeContract(contractId: self?.contractId)
+            }else {
+                //签约
+                self?.signContract(flag: self?.contractListArray[0]["flag"].stringValue)
+            }
+        }
+    }
+    
     //MARK:- 合同 请求数据
     func requestListData(){
         //添加HUD
@@ -244,15 +282,17 @@ class UpLoadServiceBillVC: UIViewController,UIImagePickerControllerDelegate,UINa
                 self.contractListArray.removeAll()
                 self.contractListArray = json["backList"].arrayValue
                 
-                for dic in self.contractListArray {
+                if let dic = self.contractListArray.first{
                     //0- 未签署  1- 已签署
                     if dic["jstatus"].stringValue == "1" {
                         //是否签完合同
                         UserHelper.setContract(isSigned: true)
                         self.showHint(in: self.view, hint: "合同已签约完成，请上传服务单")
+                        self.contractId = dic["contractId"].stringValue
                     }else {
-                         UserHelper.setContract(isSigned: false)
+                        UserHelper.setContract(isSigned: false)
                     }
+                    self.headerView.isSigned = UserHelper.getContractIsSigned()
                 }
                 
         }, failure: {error in
@@ -262,13 +302,13 @@ class UpLoadServiceBillVC: UIViewController,UIImagePickerControllerDelegate,UINa
     }
     
     //MARK: - 合同签约
-    func signContract(flag: String){
+    func signContract(flag: String?){
         
         //添加HUD
         self.showHud(in: self.view)
         var params = NetConnect.getBaseRequestParams()
         params["orderId"] = self.orderId
-        params["flag"] = flag
+        params["flag"] = flag ?? ""
         
         NetConnect.other_contract_sign(parameters: params, success:
             { response in
@@ -289,6 +329,31 @@ class UpLoadServiceBillVC: UIViewController,UIImagePickerControllerDelegate,UINa
         })
     }
 
+    //合同查看
+    func seeContract(contractId: String?){
+        var params = NetConnect.getBaseRequestParams()
+        params["orderId"] = self.orderId
+        params["contractId"] = contractId ?? ""
+        
+        NetConnect.other_contract_search(parameters: params, success:
+            { response in
+                //隐藏HUD
+                self.hideHud()
+                let json = JSON(response)
+                guard json["RET_CODE"] == "000000" else{
+                    return self.showHint(in: self.view, hint: json["RET_DESC"].stringValue)
+                }
+                YHTSdk.setToken(json["backInfo"]["token"].stringValue)
+                let YHTVC = YHTContractContentViewController.instance(withContractID: json["backInfo"]["contractId"].numberValue)
+                YHTVC?.titleStr = "合同查看"
+                self.navigationController?.pushViewController(YHTVC!, animated: true)
+                
+        }, failure: {error in
+            //隐藏HUD
+            self.hideHud()
+        })
+    }
+
     
     //MARK: 上传服务单
     func uploadBillImage(image:UIImage){
@@ -300,9 +365,12 @@ class UpLoadServiceBillVC: UIViewController,UIImagePickerControllerDelegate,UINa
         let imageName = String(describing: NSDate()) + ".png"
         imageNameArray.append(imageName)
         
+        //卡号去除空格
+        let cardNum = headerView.numTextField.text?.replacingOccurrences(of: " ", with: "")
+        
         self.showHud(in: self.view,hint:"上传中...")
-        //参数999-服务单上传
-        let params: [String: String] = ["userId":UserHelper.getUserId(), "flag":"999"]
+        //参数999-服务单上传, 2017.6.17 加传身份证验证
+        let params: [String: String] = ["userId":UserHelper.getUserId(), "flag":"999","bankcard":cardNum ?? ""]
         
         NetConnect.bm_upload_photo_info(params:params , data: imageDataArray, name: imageNameArray, success: { response in
             

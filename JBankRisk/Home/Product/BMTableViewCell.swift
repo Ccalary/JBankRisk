@@ -15,6 +15,7 @@ enum CellType {
     case textType //右侧文字
     case clearType //右侧清除键
     case cameraType //右侧相机
+    case locationType //右侧定位图标
     case defaultType //默认右侧什么都没有
 }
 
@@ -50,6 +51,9 @@ class BMTableViewCell: UITableViewCell {
                       self.rightClearButton.isHidden = false
                 case .cameraType:
                      self.rightCameraImageView.isHidden = false
+                     self.centerTextField.isEnabled = false
+                case .locationType:
+                    self.rightLocationImageView.isHidden = false
                     self.centerTextField.isEnabled = false
                 case .defaultType:
                     self.centerTextField.isEnabled = false
@@ -71,6 +75,7 @@ class BMTableViewCell: UITableViewCell {
         self.rightClearButton.isHidden = true
         self.rightArrowImageView.isHidden = true
         self.rightCameraImageView.isHidden = true
+        self.rightLocationImageView.isHidden = true
     }
     
     override init(style: UITableViewCellStyle, reuseIdentifier: String?) {
@@ -92,6 +97,7 @@ class BMTableViewCell: UITableViewCell {
         self.addSubview(rightClearImageView)
         self.addSubview(rightClearButton)
         self.addSubview(rightCameraImageView)
+        self.addSubview(rightLocationImageView)
         
         leftTextLabel.snp.makeConstraints { (make) in
             make.left.equalTo(15*UIRate)
@@ -131,6 +137,13 @@ class BMTableViewCell: UITableViewCell {
         rightCameraImageView.snp.makeConstraints { (make) in
             make.width.equalTo(20*UIRate)
             make.height.equalTo(16*UIRate)
+            make.right.equalTo(self).offset(-15*UIRate)
+            make.centerY.equalTo(self)
+        }
+        
+        rightLocationImageView.snp.makeConstraints { (make) in
+            make.width.equalTo(14*UIRate)
+            make.height.equalTo(21*UIRate)
             make.right.equalTo(self).offset(-15*UIRate)
             make.centerY.equalTo(self)
         }
@@ -190,6 +203,14 @@ class BMTableViewCell: UITableViewCell {
         imageView.isHidden = true
         return imageView
     }()
+    
+    private lazy var rightLocationImageView: UIImageView = {
+        let imageView = UIImageView()
+        imageView.image = UIImage(named: "bm_location_14x21")
+        imageView.isHidden = true
+        return imageView
+    }()
+
     
     func centerTextFieldAction(_ textField: UITextField){
         

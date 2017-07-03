@@ -43,8 +43,6 @@ class PopupStaticSelectView: UIView, UITableViewDelegate, UITableViewDataSource 
     
     var selectedCellInfo:(row: Int, text: String) = (0, "")
     
-    var schoolCellInfo:(row: Int, name: String, code: String) = (0,"","")
-    
     override init(frame: CGRect ) {
         super.init(frame: frame)
     }
@@ -86,6 +84,19 @@ class PopupStaticSelectView: UIView, UITableViewDelegate, UITableViewDataSource 
         
         self.titleLabel.text = self.cellType.rawValue
         self.selectedCellInfo = (selectRow, self.dataArray[selectRow])
+        setupUI()
+    }
+    
+    //加载动态的数据
+    convenience init(mDataArray: [String], selectRow: Int, title: String){
+        let frame = CGRect()
+        self.init(frame: frame)
+        dataArray = mDataArray
+        self.frame = CGRect(x: 0, y: 0, width: SCREEN_WIDTH - 40*UIRate, height: 50*UIRate + 5*45*UIRate)
+        self.titleLabel.text = title
+        if selectRow < self.dataArray.count{
+          self.selectedCellInfo = (selectRow, self.dataArray[selectRow])
+        }
         setupUI()
     }
     

@@ -133,7 +133,11 @@ class BorrowMoneyView: UIView {
             make.left.equalTo(lockImageView.snp.right).offset(7*UIRate)
             make.centerY.equalTo(lockImageView)
         }
-
+        
+        //按钮点击
+        writeBtn.clickActionBlock = {[weak self] _ in
+            self?.writeBtnAction()
+        }
     }
     
     private lazy var holdImageView: UIImageView = {
@@ -156,11 +160,11 @@ class BorrowMoneyView: UIView {
     }()
 
     //按钮
-    lazy var writeBtn: UIButton = {
-        let button = UIButton()
+    lazy var writeBtn: HHPopButton = {
+        let button = HHPopButton()
         button.setBackgroundImage(UIImage(named:"btn_green_150x44"), for: .normal)
         button.titleLabel?.font = UIFontBoldSize(size: 18*UIRate)
-        button.addTarget(self, action: #selector(writeBtnAction), for: .touchUpInside)
+//        button.addTarget(self, action: #selector(writeBtnAction), for: .touchUpInside)
         button.isHidden = true
         return button
     }()

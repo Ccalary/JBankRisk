@@ -302,9 +302,6 @@ class LoginViewController: UIViewController {
                     registerVC.isPush = self.isPush
                     registerVC.viewType = .register
                     self.navigationController?.pushViewController(registerVC, animated: true)
-                    
-                    //发送验证码
-                    self.sendRandomCodeTo(number: phoneNum)
                 }
         }, failure: {error in
         })
@@ -346,21 +343,6 @@ class LoginViewController: UIViewController {
             self.hideErrorTips()
         }
  
-    }
-    
-    ///发送验证码
-    func sendRandomCodeTo(number: String){
-        var params = NetConnect.getBaseRequestParams()
-        params["mobile"] = number
-        NetConnect.rl_randomCode(parameters: params, success:
-            { response in
-                let json = JSON(response)
-                guard json["RET_CODE"] == "000000" else{
-                    return self.showHint(in: self.view, hint: json["RET_DESC"].stringValue)
-                }
-                PrintLog("验证码发送成功")
-            }, failure: {error in
-        })
     }
     
     //MARK: Noticifation

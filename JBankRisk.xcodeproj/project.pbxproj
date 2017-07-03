@@ -148,6 +148,7 @@
 		0D7BBB881DE316480071B84E /* RepayedNameView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0D7BBB871DE316480071B84E /* RepayedNameView.swift */; };
 		0D7EEF861DE8988400DBF0D4 /* AddressBookUI.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 0D7EEF851DE8988400DBF0D4 /* AddressBookUI.framework */; };
 		0D7EEF881DE8988A00DBF0D4 /* AddressBook.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 0D7EEF871DE8988A00DBF0D4 /* AddressBook.framework */; };
+		0D7FBBBF1F06432600FCD626 /* ContactFooterView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0D7FBBBE1F06432600FCD626 /* ContactFooterView.swift */; };
 		0D84AACE1DE1919D00957B0A /* CNPPopupController.m in Sources */ = {isa = PBXBuildFile; fileRef = 0D84AAB81DE1919D00957B0A /* CNPPopupController.m */; };
 		0D84AACF1DE1919D00957B0A /* iCarousel.m in Sources */ = {isa = PBXBuildFile; fileRef = 0D84AABB1DE1919D00957B0A /* iCarousel.m */; };
 		0D84AAD01DE1919D00957B0A /* Capture.m in Sources */ = {isa = PBXBuildFile; fileRef = 0D84AABE1DE1919D00957B0A /* Capture.m */; };
@@ -165,6 +166,8 @@
 		0D8EB75B1DE5C0400002BF08 /* BorrowStatusDefaultVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0D8EB75A1DE5C0400002BF08 /* BorrowStatusDefaultVC.swift */; };
 		0D9290C61DDD9FA000DB77FD /* PopupRegisterTipsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0D9290C51DDD9FA000DB77FD /* PopupRegisterTipsView.swift */; };
 		0D93A1611E1CE05F0055E58B /* UserInfoCellModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0D93A1601E1CE05F0055E58B /* UserInfoCellModel.swift */; };
+		0D9F4FB61EF23442002B3F5A /* TimerHelper.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0D9F4FB51EF23442002B3F5A /* TimerHelper.swift */; };
+		0D9F4FBA1EF2557F002B3F5A /* NetSendCodeHelper.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0D9F4FB91EF2557F002B3F5A /* NetSendCodeHelper.swift */; };
 		0DA87B3A1E2731B000C1FBB7 /* PPAddressBookHandle.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0DA87B371E2731B000C1FBB7 /* PPAddressBookHandle.swift */; };
 		0DA87B3B1E2731B000C1FBB7 /* PPGetAddressBook.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0DA87B381E2731B000C1FBB7 /* PPGetAddressBook.swift */; };
 		0DA87B3C1E2731B000C1FBB7 /* PPPersonModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0DA87B391E2731B000C1FBB7 /* PPPersonModel.swift */; };
@@ -183,6 +186,7 @@
 		0DB36C851DDF61D50083825D /* BorrowStatusView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0DB36C831DDF61D50083825D /* BorrowStatusView.swift */; };
 		0DB44FB41DE35204004E1695 /* PopupNewVersionView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0DB44FB31DE35204004E1695 /* PopupNewVersionView.swift */; };
 		0DB44FB61DE40576004E1695 /* UpLoadServiceBillVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0DB44FB51DE40576004E1695 /* UpLoadServiceBillVC.swift */; };
+		0DB591E11EE15A18009E4449 /* HHPopButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0DB591E01EE15A17009E4449 /* HHPopButton.swift */; };
 		0DC4C5AD1DD6CF5F007FDBDD /* CoreGraphics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 0DC4C5AC1DD6CF5F007FDBDD /* CoreGraphics.framework */; };
 		0DC4C5AF1DD6CF70007FDBDD /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 0DC4C5AE1DD6CF70007FDBDD /* UIKit.framework */; };
 		0DC4C5B11DD6CF79007FDBDD /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 0DC4C5B01DD6CF79007FDBDD /* Foundation.framework */; };
@@ -190,6 +194,7 @@
 		0DC8B15B1DD8B0ED001323D3 /* RepayPeriodDetailView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0DC8B15A1DD8B0ED001323D3 /* RepayPeriodDetailView.swift */; };
 		0DCACBE41DADC9D300AFD3E9 /* RegisterOrResetPsdVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0DCACBE31DADC9D300AFD3E9 /* RegisterOrResetPsdVC.swift */; };
 		0DD43CBB1DAFD74400091272 /* PopupRoleView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0DD43CBA1DAFD74400091272 /* PopupRoleView.swift */; };
+		0DD9059A1EE13D890011CC20 /* ServiceBillHeaderView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0DD905991EE13D890011CC20 /* ServiceBillHeaderView.swift */; };
 		0DD99BFF1DB1E47F00342E29 /* NetworkRequest.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0DD99BFE1DB1E47F00342E29 /* NetworkRequest.swift */; };
 		0DDE5FD51E12A2910076CE03 /* CyclePictureView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0DDE5FD41E12A2910076CE03 /* CyclePictureView.swift */; };
 		0DDE5FD91E13A4C00076CE03 /* NoNeedRepayVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0DDE5FD81E13A4C00076CE03 /* NoNeedRepayVC.swift */; };
@@ -406,6 +411,7 @@
 		0D7BBB871DE316480071B84E /* RepayedNameView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RepayedNameView.swift; sourceTree = "<group>"; };
 		0D7EEF851DE8988400DBF0D4 /* AddressBookUI.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AddressBookUI.framework; path = System/Library/Frameworks/AddressBookUI.framework; sourceTree = SDKROOT; };
 		0D7EEF871DE8988A00DBF0D4 /* AddressBook.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AddressBook.framework; path = System/Library/Frameworks/AddressBook.framework; sourceTree = SDKROOT; };
+		0D7FBBBE1F06432600FCD626 /* ContactFooterView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ContactFooterView.swift; sourceTree = "<group>"; };
 		0D84AAB71DE1919D00957B0A /* CNPPopupController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CNPPopupController.h; sourceTree = "<group>"; };
 		0D84AAB81DE1919D00957B0A /* CNPPopupController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CNPPopupController.m; sourceTree = "<group>"; };
 		0D84AABA1DE1919D00957B0A /* iCarousel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = iCarousel.h; sourceTree = "<group>"; };
@@ -430,6 +436,8 @@
 		0D8EB75A1DE5C0400002BF08 /* BorrowStatusDefaultVC.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BorrowStatusDefaultVC.swift; sourceTree = "<group>"; };
 		0D9290C51DDD9FA000DB77FD /* PopupRegisterTipsView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PopupRegisterTipsView.swift; sourceTree = "<group>"; };
 		0D93A1601E1CE05F0055E58B /* UserInfoCellModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = UserInfoCellModel.swift; sourceTree = "<group>"; };
+		0D9F4FB51EF23442002B3F5A /* TimerHelper.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TimerHelper.swift; sourceTree = "<group>"; };
+		0D9F4FB91EF2557F002B3F5A /* NetSendCodeHelper.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NetSendCodeHelper.swift; sourceTree = "<group>"; };
 		0DA87B371E2731B000C1FBB7 /* PPAddressBookHandle.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PPAddressBookHandle.swift; sourceTree = "<group>"; };
 		0DA87B381E2731B000C1FBB7 /* PPGetAddressBook.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PPGetAddressBook.swift; sourceTree = "<group>"; };
 		0DA87B391E2731B000C1FBB7 /* PPPersonModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PPPersonModel.swift; sourceTree = "<group>"; };
@@ -454,6 +462,7 @@
 		0DB36C831DDF61D50083825D /* BorrowStatusView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BorrowStatusView.swift; sourceTree = "<group>"; };
 		0DB44FB31DE35204004E1695 /* PopupNewVersionView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PopupNewVersionView.swift; sourceTree = "<group>"; };
 		0DB44FB51DE40576004E1695 /* UpLoadServiceBillVC.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = UpLoadServiceBillVC.swift; sourceTree = "<group>"; };
+		0DB591E01EE15A17009E4449 /* HHPopButton.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = HHPopButton.swift; sourceTree = "<group>"; };
 		0DC4C5AC1DD6CF5F007FDBDD /* CoreGraphics.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreGraphics.framework; path = System/Library/Frameworks/CoreGraphics.framework; sourceTree = SDKROOT; };
 		0DC4C5AE1DD6CF70007FDBDD /* UIKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = UIKit.framework; path = System/Library/Frameworks/UIKit.framework; sourceTree = SDKROOT; };
 		0DC4C5B01DD6CF79007FDBDD /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
@@ -461,6 +470,7 @@
 		0DC8B15A1DD8B0ED001323D3 /* RepayPeriodDetailView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RepayPeriodDetailView.swift; sourceTree = "<group>"; };
 		0DCACBE31DADC9D300AFD3E9 /* RegisterOrResetPsdVC.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RegisterOrResetPsdVC.swift; sourceTree = "<group>"; };
 		0DD43CBA1DAFD74400091272 /* PopupRoleView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PopupRoleView.swift; sourceTree = "<group>"; };
+		0DD905991EE13D890011CC20 /* ServiceBillHeaderView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ServiceBillHeaderView.swift; sourceTree = "<group>"; };
 		0DD99BFE1DB1E47F00342E29 /* NetworkRequest.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NetworkRequest.swift; sourceTree = "<group>"; };
 		0DDE5FD41E12A2910076CE03 /* CyclePictureView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CyclePictureView.swift; sourceTree = "<group>"; };
 		0DDE5FD81E13A4C00076CE03 /* NoNeedRepayVC.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NoNeedRepayVC.swift; sourceTree = "<group>"; };
@@ -565,6 +575,7 @@
 			isa = PBXGroup;
 			children = (
 				0D1EAA831DC8CC4900789E37 /* ContactViewController.swift */,
+				0D7FBBBE1F06432600FCD626 /* ContactFooterView.swift */,
 			);
 			path = Contact;
 			sourceTree = "<group>";
@@ -581,6 +592,8 @@
 			isa = PBXGroup;
 			children = (
 				0D006DDC1DC7810D0091CF33 /* UserHelper.swift */,
+				0D9F4FB51EF23442002B3F5A /* TimerHelper.swift */,
+				0D9F4FB91EF2557F002B3F5A /* NetSendCodeHelper.swift */,
 			);
 			path = JBRiskHelper;
 			sourceTree = "<group>";
@@ -636,6 +649,7 @@
 				0D0E2A2D1DAB377D00A64F76 /* HHNavigationController.swift */,
 				0D0E2A2E1DAB377D00A64F76 /* HHTabBarController.swift */,
 				0D0E2A441DABB86E00A64F76 /* BaseWebViewController.swift */,
+				0DB591E01EE15A17009E4449 /* HHPopButton.swift */,
 			);
 			path = Base;
 			sourceTree = "<group>";
@@ -1322,6 +1336,7 @@
 				0DB36C831DDF61D50083825D /* BorrowStatusView.swift */,
 				0D536EDF1DE4347A008B3BC3 /* BorrowProgressView.swift */,
 				0DF312C21E20F738000BEE9A /* ContractTableViewCell.swift */,
+				0DD905991EE13D890011CC20 /* ServiceBillHeaderView.swift */,
 			);
 			path = View;
 			sourceTree = "<group>";
@@ -1494,7 +1509,7 @@
 				TargetAttributes = {
 					0DAF602D1DA8DFAD0009054F = {
 						CreatedOnToolsVersion = 8.0;
-						DevelopmentTeam = JB79VQ5W7K;
+						DevelopmentTeam = 2M227336GQ;
 						LastSwiftMigration = 0800;
 						ProvisioningStyle = Automatic;
 						SystemCapabilities = {
@@ -1664,6 +1679,7 @@
 				0D006DDF1DC7A0A90091CF33 /* IdentityViewController.swift in Sources */,
 				0D1EAA8A1DC97E8000789E37 /* PopupStaticTableViewCell.swift in Sources */,
 				0D84AAD71DE1919D00957B0A /* PullToRefreshView.swift in Sources */,
+				0D9F4FB61EF23442002B3F5A /* TimerHelper.swift in Sources */,
 				0D3712271E1140FC007DA3C2 /* RepayViewController.swift in Sources */,
 				0DDE5FD51E12A2910076CE03 /* CyclePictureView.swift in Sources */,
 				0D28B27F1E13BDDD00AA8B49 /* YHTSdk.m in Sources */,
@@ -1694,6 +1710,7 @@
 				0DCACBE41DADC9D300AFD3E9 /* RegisterOrResetPsdVC.swift in Sources */,
 				0D1D62591E123A9D00C64748 /* GuideViewController.swift in Sources */,
 				0D28B27C1E13BDDD00AA8B49 /* YHTError.m in Sources */,
+				0D7FBBBF1F06432600FCD626 /* ContactFooterView.swift in Sources */,
 				0D3712291E1140FC007DA3C2 /* RepayTableViewCell.swift in Sources */,
 				0DB44FB41DE35204004E1695 /* PopupNewVersionView.swift in Sources */,
 				0D37549C1E2DC8E900045809 /* RepayedListTopView.swift in Sources */,
@@ -1735,6 +1752,7 @@
 				0D3754A11E2DE52200045809 /* RepayListViewController.swift in Sources */,
 				0D28B2721E13BDDD00AA8B49 /* YHT_NJKWebViewProgress.m in Sources */,
 				0D3ADC991DCC839500838043 /* SysMessageViewController.swift in Sources */,
+				0DB591E11EE15A18009E4449 /* HHPopButton.swift in Sources */,
 				0D1E82561DE1927A0040B39E /* photoCollectionViewCell.swift in Sources */,
 				0D3ADC8A1DCC31DA00838043 /* AboutOursViewController.swift in Sources */,
 				0D24F3001DCB72F300BBAC8F /* MineHeaderView.swift in Sources */,
@@ -1788,6 +1806,7 @@
 				0D37549E1E2DCD2200045809 /* TitleSelectView.swift in Sources */,
 				0D28B2671E13BDDD00AA8B49 /* BasePopMenu.m in Sources */,
 				0D28B27B1E13BDDD00AA8B49 /* YHTConstants.m in Sources */,
+				0D9F4FBA1EF2557F002B3F5A /* NetSendCodeHelper.swift in Sources */,
 				0DDF09CA1DD4DDB900E8946E /* ContactViewController.swift in Sources */,
 				0D1E825E1DE1927A0040B39E /* PhotoPreviewBottomBarView.swift in Sources */,
 				0D006DE71DC8AB5B0091CF33 /* BMTableViewCell.swift in Sources */,
@@ -1795,6 +1814,7 @@
 				0DD99BFF1DB1E47F00342E29 /* NetworkRequest.swift in Sources */,
 				0D28B2851E13BDDD00AA8B49 /* YHTTokenManager.m in Sources */,
 				0DB44FB61DE40576004E1695 /* UpLoadServiceBillVC.swift in Sources */,
+				0DD9059A1EE13D890011CC20 /* ServiceBillHeaderView.swift in Sources */,
 				0D3ADC941DCC54BB00838043 /* SuggestViewController.swift in Sources */,
 				0D28B2821E13BDDD00AA8B49 /* YHTSignViewController.m in Sources */,
 				0D1E82511DE1927A0040B39E /* AlbumToolbarView.swift in Sources */,
@@ -1989,7 +2009,7 @@
 				CODE_SIGN_ENTITLEMENTS = JBankRisk/JBankRisk.entitlements;
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
-				DEVELOPMENT_TEAM = JB79VQ5W7K;
+				DEVELOPMENT_TEAM = 2M227336GQ;
 				ENABLE_BITCODE = NO;
 				INFOPLIST_FILE = JBankRisk/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
@@ -2021,7 +2041,7 @@
 				CODE_SIGN_IDENTITY = "iPhone Distribution: Jing Jin Suo Information Technology Co., Ltd. (JB79VQ5W7K)";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
-				DEVELOPMENT_TEAM = JB79VQ5W7K;
+				DEVELOPMENT_TEAM = 2M227336GQ;
 				ENABLE_BITCODE = NO;
 				INFOPLIST_FILE = JBankRisk/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";

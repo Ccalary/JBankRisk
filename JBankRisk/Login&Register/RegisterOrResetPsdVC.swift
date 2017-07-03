@@ -9,9 +9,8 @@
 
 import UIKit
 import SwiftyJSON
-//默认倒计时时间
-private var defaultSeconds: Int = 60
 
+private var defaultSeconds: Int = 60
 class RegisterOrResetPsdVC: UIViewController {
 
     ///注册与重置密码
@@ -25,8 +24,8 @@ class RegisterOrResetPsdVC: UIViewController {
     var isPush: Bool = true
     
     var viewType: RegisterOrResetPsdViewType = .register
-    var mTimer: Timer!
-    var seconds: Int = defaultSeconds
+    
+    var timerHelper: TimerHelper?
     
     var phoneNum: String = ""
     
@@ -43,14 +42,28 @@ class RegisterOrResetPsdVC: UIViewController {
         super.didReceiveMemoryWarning()
     }
     
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        timerHelper?.isTimerGoOn()
+    }
+    
+    override func viewDidDisappear(_ animated: Bool) {
+        super.viewDidDisappear(animated)
+        
+        timerHelper?.invalidateTimer()
+    }
+    
     init(viewType:RegisterOrResetPsdViewType, phoneNum: String) {
         super.init(nibName: nil, bundle: nil)
         self.viewType = viewType
         self.phoneNum = phoneNum
         
         self.setupUI()
+        timerHelper = TimerHelper(button: sendCodeBtn);
         self.showView()
-        self.startCount()
+        if (timerHelper?.isNeedStartCount())!{
+            self.sendCodeBtnAction()
+        }
     }
     
     required init?(coder aDecoder: NSCoder) {
@@ -272,7 +285,7 @@ class RegisterOrResetPsdVC: UIViewController {
     ///发送验证码按钮
     private lazy var sendCodeBtn: UIButton = {
         let button = UIButton()
-        button.setTitle("\(defaultSeconds)s后重发", for: UIControlState.normal)
+        button.setTitle("60s后重发", for: UIControlState.normal)
         button.titleLabel?.font = UIFontSize(size: 15*UIRate)
         button.setTitleColor(UIColorHex("666666"), for: .normal)
         button.addTarget(self, action: #selector(sendCodeBtnAction), for: .touchUpInside)
@@ -349,29 +362,7 @@ class RegisterOrResetPsdVC: UIViewController {
         return button
     }()
 
-    //MARK: - Timer
-    func startCount(){
-        seconds = defaultSeconds
-        sendCodeBtn.isUserInteractionEnabled = false
-        mTimer = Timer.scheduledTimer(timeInterval: 1, target: self, selector: #selector(countDown(_:)), userInfo: nil, repeats: true)
-    }
-    
-    //时间倒计时
-    func countDown(_ timer: Timer){
-        if seconds > 0{
-        seconds -= 1
-        sendCodeBtn.setTitle("\(seconds)s后重发", for: .normal)
-        sendCodeBtn.setTitleColor(UIColorHex("666666"), for: .normal)
-        }else if seconds == 0{
-            timer.invalidate()
-            sendCodeBtn.isUserInteractionEnabled = true
-            sendCodeBtn.setTitle("重新发送", for: UIControlState.normal)
-            sendCodeBtn.setTitleColor(UIColorHex("00b2ff"), for: .normal)
-        }
-        
-    }
     //MARK: - action
-    
     //电话按钮点击
     func rightNavigationBarBtnAction(){
         
@@ -473,8 +464,10 @@ class RegisterOrResetPsdVC: UIViewController {
     }
     ///发送短信验证码
     func sendCodeBtnAction(){
-        self.startCount()
-        self.sendRandomCodeTo(number: phoneNum)
+        timerHelper?.startCount()
+        NetSendCodeHelper.sendCodeToNumber(phoneNum, {[weak self] (descStr) in
+            self?.showHint(in: (self?.view)!, hint: descStr)
+        })
     }
     
     //消费协议
@@ -528,22 +521,5 @@ class RegisterOrResetPsdVC: UIViewController {
             registerBtn.isUserInteractionEnabled = false
             registerBtn.setBackgroundImage(UIImage(named:"login_btn_grayred_345x44"), for: .normal)
         }
-        
     }
-    
-    ///发送验证码
-    func sendRandomCodeTo(number: String){
-        var params = NetConnect.getBaseRequestParams()
-        params["mobile"] = number
-        NetConnect.rl_randomCode(parameters: params, success:
-            { response in
-                let json = JSON(response)
-                guard json["RET_CODE"] == "000000" else{
-                return self.showHint(in: self.view, hint: json["RET_DESC"].stringValue)
-                }
-                PrintLog("验证码发送成功")
-        }, failure: {error in
-        })
-    }
-
 }

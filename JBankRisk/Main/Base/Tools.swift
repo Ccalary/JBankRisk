@@ -163,4 +163,32 @@ func toolsChangeToJson(info: Any) -> String{
     }
 }
 
+//图片压缩
+func toolsZipImage(_ image: UIImage) -> Data{
+    
+    var imageData = UIImageJPEGRepresentation(image, 1)
+    var dataSize = imageData!.count/1024
+    PrintLog("\(dataSize)")
+    
+    if dataSize > 1600{
+        imageData = UIImageJPEGRepresentation(image, 0.1)
+        
+    }else if dataSize > 600{
+        imageData = UIImageJPEGRepresentation(image, 0.2)
+    }else if dataSize > 400{
+        imageData = UIImageJPEGRepresentation(image, 0.3)
+    }else if dataSize > 300{
+        imageData = UIImageJPEGRepresentation(image, 0.4)
+    }else if dataSize > 200{
+        imageData = UIImageJPEGRepresentation(image, 0.5)
+    }
+    
+    dataSize = imageData!.count/1024
+    
+    PrintLog("\(dataSize)")
+    
+    return imageData!
+}
+
+
 

@@ -31,7 +31,7 @@ class BorrowMoneyViewController: UIViewController,iCarouselDelegate, iCarouselDa
     
     //角色类型
     var roleType: RoleType = .worker
-    
+
     //当前位置
     var currentIndex = 0
     

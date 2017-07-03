@@ -85,9 +85,11 @@ extension NetworkRequest {
                 let flag = params["flag"]
                 let userId = params["userId"]
                 
+                //添加参数
                 multipartFormData.append((flag?.data(using: String.Encoding.utf8)!)!, withName: "flag")
                 multipartFormData.append( (userId?.data(using: String.Encoding.utf8)!)!, withName: "userId")
                
+                //意见反馈使用
                 let channel = params["channel"]
                 let content = params["content"]
                 if let channel = channel {
@@ -98,6 +100,11 @@ extension NetworkRequest {
                     multipartFormData.append((content.data(using: String.Encoding.utf8)!), withName: "content")
                 }
                
+                //服务单使用
+                let bankCard = params["bankcard"]
+                if let bankCard = bankCard {
+                    multipartFormData.append((bankCard.data(using: String.Encoding.utf8)!), withName: "bankcard")
+                }
                 
                 for i in 0..<data.count {
                     multipartFormData.append(data[i], withName: "appPhoto", fileName: name[i], mimeType: "image/png")

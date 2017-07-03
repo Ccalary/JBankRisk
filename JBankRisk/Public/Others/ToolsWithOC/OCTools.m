@@ -10,6 +10,7 @@
 #include <ifaddrs.h>
 #include <arpa/inet.h>
 
+
 @implementation OCTools
 
 // Get IP Address
@@ -80,5 +81,41 @@
     NSString *encodedString = (NSString *)CFBridgingRelease(CFURLCreateStringByAddingPercentEscapes(NULL,(CFStringRef)url,NULL,(CFStringRef) @"!'();:@&=+$,%#[]|",kCFStringEncodingUTF8));
     return encodedString;
 }
+
+//银行卡号格式
++(BOOL)textField:(UITextField *)textField shouldChangeCharactersInRange:(NSRange)range replacementString:(NSString *)string {
+    
+    NSString *text = [textField text];
+    
+    NSCharacterSet *characterSet = [NSCharacterSet characterSetWithCharactersInString:@"0123456789\b"];
+    string = [string stringByReplacingOccurrencesOfString:@" " withString:@""];
+    if ([string rangeOfCharacterFromSet:[characterSet invertedSet]].location != NSNotFound) {
+        return NO;
+    }
+    
+    text = [text stringByReplacingCharactersInRange:range withString:string];
+    text = [text stringByReplacingOccurrencesOfString:@" " withString:@""];
+    
+    NSString *newString = @"";
+    while (text.length > 0) {
+        NSString *subString = [text substringToIndex:MIN(text.length, 4)];
+        newString = [newString stringByAppendingString:subString];
+        if (subString.length == 4) {
+            newString = [newString stringByAppendingString:@" "];
+        }
+        text = [text substringFromIndex:MIN(text.length, 4)];
+    }
+    
+    newString = [newString stringByTrimmingCharactersInSet:[characterSet invertedSet]];
+    
+    if (newString.length >= 24) {
+        return NO;
+    }
+    
+    [textField setText:newString];
+    
+    return NO;
+}  
+
 
 @end

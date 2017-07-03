@@ -15,8 +15,9 @@ protocol ReselectRoleDelegate: class {
 
 class IdentityViewController: UIViewController {
 
-    var mTimer: Timer!
-    var seconds: Int = 60
+    //倒计时
+    var timerHelper: TimerHelper?
+    
     var currentIndex: Int = 0
     
     //芝麻信用授权地址
@@ -28,11 +29,11 @@ class IdentityViewController: UIViewController {
     var roleType:RoleType = RoleType(rawValue: UserHelper.getUserRole() ?? "白领")!
     
     override func viewDidLoad() {
-        super.viewDidLoad()
+       super.viewDidLoad()
 
        self.setupUI()
+       timerHelper = TimerHelper(button: sendCodeBtn)
        getCurrentIndex()
-       
        if UserHelper.getIdentityIsUpload() {
             self.requestIdentityInfo()
         }
@@ -41,6 +42,16 @@ class IdentityViewController: UIViewController {
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
        
+    }
+
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        timerHelper?.isTimerGoOn()
+    }
+    
+    override func viewDidDisappear(_ animated: Bool) {
+        super.viewDidDisappear(animated)
+        timerHelper?.invalidateTimer()
     }
     
     func getCurrentIndex(){
@@ -594,42 +605,7 @@ class IdentityViewController: UIViewController {
         return button
     }()
     
-     //MARK: - Timer
-    func startCount(){
-        seconds = 60
-        sendCodeBtn.isUserInteractionEnabled = false
-        mTimer = Timer.scheduledTimer(timeInterval: 1, target: self, selector: #selector(countDown(_:)), userInfo: nil, repeats: true)
-    }
-    
-    //时间倒计时
-    func countDown(_ timer: Timer){
-        if seconds > 0{
-            seconds -= 1
-            sendCodeBtn.setTitle("\(seconds)s后重发", for: .normal)
-            sendCodeBtn.setTitleColor(UIColorHex("666666"), for: .normal)
-        }else if seconds == 0{
-            timer.invalidate()
-            sendCodeBtn.isUserInteractionEnabled = true
-            sendCodeBtn.setTitle("重新发送", for: UIControlState.normal)
-            sendCodeBtn.setTitleColor(UIColorHex("00b2ff"), for: .normal)
-        }
-    }
-    
-    ///发送验证码
-    func sendRandomCodeTo(number: String){
-        var params = NetConnect.getBaseRequestParams()
-        params["mobile"] = number
-        NetConnect.rl_randomCode(parameters: params, success:
-            { response in
-                let json = JSON(response)
-                guard json["RET_CODE"] == "000000" else{
-                    return self.showHint(in: self.view, hint: json["RET_DESC"].stringValue)
-                }
-                PrintLog("验证码发送成功")
-        }, failure: {error in
-        })
-    }
-    
+
     //MARK: - Action
     func textFieldAction(_ textField: UITextField){
         //tag: 10000手机号  10001:验证码  10002:身份证号
@@ -695,8 +671,10 @@ class IdentityViewController: UIViewController {
             self.showHint(in: self.view, hint: "请输入正确的手机号码")
             return
         }
-        self.startCount()
-        self.sendRandomCodeTo(number: phoneNum)
+        timerHelper?.startCount()
+        NetSendCodeHelper.sendCodeToNumber(phoneNum, {[weak self] (descStr) in
+            self?.showHint(in: (self?.view)!, hint: descStr)
+        })
     }
     
     //身份证识别
