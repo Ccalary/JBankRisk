@@ -159,7 +159,7 @@ class SettingViewController: UIViewController,UITableViewDelegate, UITableViewDa
             cell.headerImageView.isHidden = false
             cell.headerImageView.kf_setImage(with: URL(string: UserHelper.getUserHeaderUrl() ?? ""), placeholder: UIImage(named: "s_header_icon_45x45"), options: nil, progressBlock: nil, completionHandler: nil)
         }else if indexPath.row == 2 {
-            cell.rightTextLabel.text = UserHelper.getUserMobile()!
+            cell.rightTextLabel.text = UserHelper.getUserMobile()
             cell.rightTextLabel.isHidden = false
         }
         

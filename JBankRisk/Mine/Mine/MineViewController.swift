@@ -361,8 +361,7 @@ class MineViewController: UIViewController, UIGestureRecognizerDelegate,UICollec
     //MARK: - 个人中心数据请求
     func requestHomeData(){
         
-        var params = NetConnect.getBaseRequestParams()
-        params["userId"] = UserHelper.getUserId()
+        let params = NetConnect.getBaseRequestParams()
         
         NetConnect.pc_home_info(parameters: params, success: { response in
             //隐藏HUD
@@ -409,7 +408,7 @@ class MineViewController: UIViewController, UIGestureRecognizerDelegate,UICollec
             self.mineTopView.sayHelloTextLabel.text = "您好： \(firstName + sexName)"
         }else {
             //用户名
-            self.mineTopView.sayHelloTextLabel.text = "您好： \(toolsChangePhoneNumStyle(mobile: UserHelper.getUserMobile()!))"
+            self.mineTopView.sayHelloTextLabel.text = "您好： \(toolsChangePhoneNumStyle(mobile: UserHelper.getUserMobile()))"
         }
     }
     
@@ -466,7 +465,6 @@ class MineViewController: UIViewController, UIGestureRecognizerDelegate,UICollec
         }
         self.mineTopConstrain.update(offset: topHeight)
     
-        //H 未完成
         listArray = json["jstatusList"].arrayValue
         //数字显示全置为0
         statusNumber = (0, 0, 0, 0)

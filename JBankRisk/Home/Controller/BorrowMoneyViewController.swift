@@ -46,7 +46,6 @@ class BorrowMoneyViewController: UIViewController,iCarouselDelegate, iCarouselDa
        self.changeViewWithRoleTypeAndInfo()
        //当前所选中的View
        self.carousel.currentItemIndex = currentIndex
-       self.carouselCurrentItemIndexDidChange(carousel)
     }
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()

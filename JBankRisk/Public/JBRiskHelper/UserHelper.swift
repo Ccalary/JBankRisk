@@ -109,9 +109,9 @@ class UserHelper {
     }
 
     //获取用户电话
-    static func getUserMobile() -> String? {
+    static func getUserMobile() -> String {
         let defaults = UserDefaults()
-        return defaults.object(forKey: "mobile") as? String
+        return defaults.object(forKey: "mobile") as? String ?? ""
     }
     
     static func setUserMobile(mobile: String){

@@ -445,10 +445,15 @@ extension DataReuploadVC {
         var imageNameArray:[String] = []
         
         for i in 0..<photoArray.count {
-            imageDataArray.append(UIImageJPEGRepresentation(photoArray[i].image, 0.1)!)
+            
+            //2017.7.21 更改
+            let dataImage = toolsZipImage(photoArray[i].image)
+            imageDataArray.append(dataImage)
+            
             let imageName = String(describing: NSDate()) + "\(i).png"
             imageNameArray.append(imageName)
         }
+        
         //参数666-多张上传
         let params: [String: String] = ["userId":UserHelper.getUserId(), "flag":"999"]
         

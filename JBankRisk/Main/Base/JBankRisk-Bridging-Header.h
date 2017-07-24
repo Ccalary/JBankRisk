@@ -42,7 +42,8 @@
 #import <AdSupport/AdSupport.h>
 //pop动画
 #import <pop/POP.h>
-
+//听云检测
+#import <tingyunApp/NBSAppAgent.h>
 
 
 

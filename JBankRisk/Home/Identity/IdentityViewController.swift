@@ -57,7 +57,7 @@ class IdentityViewController: UIViewController {
     func getCurrentIndex(){
         
         phoneNumField.text = UserHelper.getUserMobile()//如果已注册则获得注册电话
-        if UserHelper.getUserMobile() != nil {
+        if UserHelper.getUserMobile().characters.count != 0 {
             phoneNumField.isUserInteractionEnabled = false
         }else {
             phoneNumField.isUserInteractionEnabled = true

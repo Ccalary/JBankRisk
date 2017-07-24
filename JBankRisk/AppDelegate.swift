@@ -29,7 +29,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate,UITabBarControllerDelegate
         //解决键盘遮挡问题
         IQKeyboardManager.sharedManager().enable = true
         
-        //H 测试  开启ping++ 的调试打印log
+        //开启ping++ 的调试打印log
         Pingpp.setDebugMode(true)
         //2.2.8 及以上版本，可选择是否在 WAP 渠道中支付完成后，点击“返回商户”按钮，直接关闭支付页面
         Pingpp.ignoreResultUrl(true)
@@ -69,6 +69,8 @@ class AppDelegate: UIResponder, UIApplicationDelegate,UITabBarControllerDelegate
         self.listeningNetStatus()
         self.doWithTalkingData()
         self.doWithTencentBugly()
+        //2017.7.22 听云检测
+        self.doWithTingYunTest()
         
         return true
     }
@@ -179,6 +181,11 @@ class AppDelegate: UIResponder, UIApplicationDelegate,UITabBarControllerDelegate
         Bugly.setTag(1799);
         
         Bugly.setUserIdentifier(UIDevice.current.name)
+    }
+    
+    //MARK: - 听云检测
+    func doWithTingYunTest(){
+        NBSAppAgent.start(withAppID: "341a90a029884db59a4af41da702294e");
     }
 }
 

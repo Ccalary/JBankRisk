@@ -239,7 +239,6 @@ class BorrowStatusVC: UIViewController {
         
         //默认显示最近一单的
         var params = NetConnect.getBaseRequestParams()
-        params["userId"] = UserHelper.getUserId()
         params["orderId"] = self.orderId //产品id有得话按此ID处理，没有的话后台按最新的产品处理
         
         NetConnect.pc_borrow_status(parameters: params, success: { response in

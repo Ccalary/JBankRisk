@@ -134,6 +134,7 @@ class BorrowStatusView: UIView {
         }
         
         disTextLabel.snp.makeConstraints { (make) in
+            make.width.equalTo(SCREEN_WIDTH - 20)
             make.centerX.equalTo(self)
             make.top.equalTo(bgImageView.snp.bottom).offset(10*UIRate)
         }

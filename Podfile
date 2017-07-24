@@ -19,6 +19,7 @@ target ‘JBankRisk’ do
    pod 'AlamofireObjectMapper', '~> 4.0'
    pod 'JPush'
    pod 'pop', '~> 1.0'
+   pod 'tingyunApp'
 
 post_install do |installer|
   installer.pods_project.targets.each do |target|
