@@ -98,8 +98,6 @@ class BillSelectTableViewCell: UITableViewCell {
         return label
     }()
     
-    
-    
     func cellWithDate(dic: JSON){
         leftTopTextLabel.text = dic["orderName"].stringValue + " 第\(dic["term"].stringValue)期"
         leftBottomTextLabel.text = toolsChangeDateStyle(toYYYYMMDD: dic["realpay_date"].stringValue)

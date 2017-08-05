@@ -25,32 +25,6 @@ extension UIViewController
         }
     }
     
-    //动态图
-    func showGifHud(in view: UIView, yOffset: CGFloat = 0){
-        let HUD = MBProgressHUD(view: view)
-        HUD.mode = .customView
-      
-        let centerView = UIImageView(image: UIImage(named: "info_data_image_250x350"))
-        
-        let rorateView = UIImageView(frame: CGRect(x: 0, y: 0, width: 35, height: 35))
-        rorateView.image = UIImage(named: "home_rotate_image_35x35")
-        
-        centerView.addSubview(rorateView)
-        
-//        let holdView = UIView(frame: CGRect(x: 0, y: 0, width: 100, height: 100))
-//        holdView.backgroundColor = UIColor.green
-//        holdView.addSubview(rorateView)
-//        holdView.addSubview(centerView)
-//        
-//        rorateAnimation(holdView: rorateView)
-        HUD.customView = centerView
-       
-        view.addSubview(HUD)
-        HUD.show(animated: true)
-        hud = HUD
-    }
-    
-    
     /**
      显示提示信息(有菊花, 一直显示, 不消失)，默认文字“加载中”，默认偏移量0
      
@@ -59,6 +33,7 @@ extension UIViewController
      - parameter yOffset: y上的偏移量
      */
     func showHud(in view: UIView, hint: String = "加载中...", yOffset:CGFloat? = 0){
+        hideHud()
         let HUD = MBProgressHUD(view: view)
         HUD.label.text = hint
         HUD.label.font = UIFontSize(size: 15*UIRate)
@@ -86,6 +61,7 @@ extension UIViewController
      - parameter yOffset: y上的偏移量
      */
     func showHintInKeywindow(hint: String, duration: Double = 2.0, yOffset:CGFloat? = 0) {
+        hideHud()
         let view = KeyWindow
         let HUD = MBProgressHUD(view: view)
         view.addSubview(HUD)
@@ -112,6 +88,7 @@ extension UIViewController
      - parameter yOffset: y上的偏移量
      */
     func showHint(in view: UIView, hint: String, duration: Double = 1.5, yOffset:CGFloat? = 0) {
+        hideHud()
         let HUD = MBProgressHUD(view: view)
         view.addSubview(HUD)
         HUD.animationType = .zoomOut
@@ -134,20 +111,5 @@ extension UIViewController
         if let hud = hud {
             hud.hide(animated: true)
         }
-    }
-    
-    //旋转动画
-    func rorateAnimation(holdView: UIView){
-       
-        let momAnimation = CABasicAnimation(keyPath: "transform.rotation.z")
-        momAnimation.fromValue = NSNumber(value: 0) //左幅度
-        momAnimation.toValue = NSNumber(value: M_PI*2) //右幅度
-        momAnimation.duration = 1
-        momAnimation.repeatCount = HUGE //无限重复
-//        momAnimation.autoreverses = true //动画结束时执行逆动画
-//        self.momAnimation.isRemovedOnCompletion = false //切出此界面再回来动画不会停止
-//        
-//        self.momAnimation.delegate = self//CAAnimationDelegate 代理中有动画的开始和结束
-        holdView.layer.add(momAnimation, forKey: "centerLayer")
     }
 }

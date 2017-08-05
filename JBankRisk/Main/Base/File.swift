@@ -79,6 +79,16 @@ func changeTextColor(text: String, color: UIColor, range: NSRange) -> NSAttribut
     
     return attributeStr
 }
+
+///富文本，根据文字改变字体颜色
+func changeSomeTextColor(text: String, inText result: String, color: UIColor) -> NSAttributedString {
+    let attributeStr = NSMutableAttributedString(string: result)
+    let colorRange = NSMakeRange(attributeStr.mutableString.range(of: text).location, attributeStr.mutableString.range(of: text).length)
+    attributeStr.addAttribute(NSForegroundColorAttributeName, value:color , range: colorRange)
+    
+    return attributeStr
+}
+
 //富文本，改变字体大小
 func changeTextSize(text: String, size: CGFloat, range: NSRange) -> NSAttributedString{
     let attributeStr = NSMutableAttributedString(string: text)

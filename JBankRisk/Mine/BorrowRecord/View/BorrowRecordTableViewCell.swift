@@ -49,6 +49,7 @@ class BorrowRecordTableViewCell: UITableViewCell {
             make.right.equalTo(self.snp.right).offset(-15*UIRate)
             make.centerY.equalTo(self)
         }
+
     }
     
     lazy var leftTextLabel: UILabel = {
@@ -80,7 +81,6 @@ class BorrowRecordTableViewCell: UITableViewCell {
         imageView.image = UIImage(named: "home_right_arrow_7x12")
         return imageView
     }()
-
     
     ///还款账单月数据
     func cellWithMonthData(dic: JSON){

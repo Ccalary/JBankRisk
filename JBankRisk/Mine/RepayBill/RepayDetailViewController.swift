@@ -41,7 +41,7 @@ class RepayDetailViewController: UIViewController, UITableViewDelegate, UITableV
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
-         self.requestData()
+         self.aTableView.startPullRefresh()
     }
     
     deinit {
@@ -66,19 +66,13 @@ class RepayDetailViewController: UIViewController, UITableViewDelegate, UITableV
         
         self.view.addSubview(aTableView)
         
-        self.aTableView.tableHeaderView = self.topImageView
-        self.topImageView.addSubview(nameTextLabel)
+        self.aTableView.tableHeaderView = self.headerView
         
         aTableView.snp.makeConstraints { (make) in
             make.width.equalTo(self.view)
             make.height.equalTo(SCREEN_HEIGHT - 64)
             make.centerX.equalTo(self.view)
             make.top.equalTo(64)
-        }
-        
-        nameTextLabel.snp.makeConstraints { (make) in
-            make.centerX.equalTo(self.view)
-            make.centerY.equalTo(0)
         }
         
         popView.snp.makeConstraints { (make) in
@@ -90,9 +84,13 @@ class RepayDetailViewController: UIViewController, UITableViewDelegate, UITableV
         
         self.aTableView.addPullRefreshHandler({ [weak self] in
             self?.requestData()
-            self?.aTableView.stopPullRefreshEver()
         })
         
+        //头部按钮点击回调
+        self.headerView.onClickNextStepBtn = {[weak self] in
+            let vc = RepayFinalVC()
+            self?.navigationController?.pushViewController(vc, animated: true)
+        }
   }
     
     private lazy var aTableView: UITableView = {
@@ -114,18 +112,9 @@ class RepayDetailViewController: UIViewController, UITableViewDelegate, UITableV
     }()
     
     //图片
-    private lazy var topImageView: UIImageView = {
-        let imageView = UIImageView(frame: CGRect(x: 0, y: 0, width: SCREEN_WIDTH, height: 50*UIRate))
-        imageView.image = UIImage(named: "m_banner_small_375x50")
-        return imageView
-    }()
-    
-    private lazy var nameTextLabel: UILabel = {
-        let label = UILabel()
-        label.font = UIFontSize(size: 18*UIRate)
-        label.textAlignment = .center
-        label.textColor = UIColor.white
-        return label
+    private lazy var headerView: RepayDetailHeaderView = {
+        let headerView = RepayDetailHeaderView()
+        return headerView
     }()
     
     //section分割线
@@ -294,8 +283,6 @@ class RepayDetailViewController: UIViewController, UITableViewDelegate, UITableV
     
     //MARK: - 请求数据
     func requestData(){
-        //添加HUD
-        self.showHud(in: self.view, hint: "加载中...")
         
         var params = NetConnect.getBaseRequestParams()
         params["userId"] = UserHelper.getUserId()
@@ -303,23 +290,26 @@ class RepayDetailViewController: UIViewController, UITableViewDelegate, UITableV
         params["flag"] = selectIndex //1-全部 2-待还 3-完成
         
         NetConnect.pc_repayment_all_detail(parameters: params, success: { response in
-            //隐藏HUD
-            self.hideHud()
             let json = JSON(response)
             guard json["RET_CODE"] == "000000" else{
                 return self.showHint(in: self.view, hint: json["RET_DESC"].stringValue)
             }
             
              self.refreshUI(json: json)
+             self.aTableView.stopPullRefreshEver()
             
         }, failure:{ error in
-            //隐藏HUD
-            self.hideHud()
+            self.aTableView.stopPullRefreshEver()
         })
     }
 
     func refreshUI(json: JSON){
-        nameTextLabel.text = json["back"]["orderName"].stringValue
+        //重设标题
+        self.navigationItem.title = json["back"]["orderName"].stringValue
+    
+        //H 测试  申请状态
+//        headerView.stateLabel.text = 
+        
         waitDataArray = json["waitPay"].arrayValue
         alreadyDataArray = json["alreayPay"].arrayValue
         dataArray.removeAll()

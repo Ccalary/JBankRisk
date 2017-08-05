@@ -46,39 +46,34 @@ class BorrowStatusVC: UIViewController {
     
     var status = "" {
         didSet{
+            
+            infoView.isHidden = false
             switch self.status {
             case "0"://订单完结
                 statusType = .finish
-                infoView.isHidden = false
                 topHeight = 280*UIRate
             case "2": //审核中
                 statusType = .examing
-                infoView.isHidden = false
                 topHeight = 200*UIRate
             case "3"://满额通过
                 statusType = .fullSuccess
-                infoView.isHidden = false
                 topHeight = 280*UIRate
             case "4"://校验中
                 statusType = .checking
-                infoView.isHidden = false
                 topHeight = 200*UIRate
             case "5"://还款中
                 statusType = .repaying
                 topHeight = 280*UIRate
-                infoView.isHidden = false
             case "7"://审核未通过
                 statusType = .fail
                 topHeight = 200*UIRate
-                infoView.isHidden = false
             case "8": //上传服务单
                 statusType = .upLoadBill
                 topHeight = 280*UIRate
-                infoView.isHidden = false
             case "9": //补交材料
                 statusType = .reUploadData
                 topHeight = 300*UIRate
-                infoView.isHidden = false
+                
             default:
                 statusType = .defaultStatus
                 infoView.isHidden = true
@@ -152,7 +147,6 @@ class BorrowStatusVC: UIViewController {
         
         self.mScrollView.addPullRefreshHandler({ [weak self] in
             self?.requestData()
-            self?.mScrollView.stopPullRefreshEver()
         })
         
         //协议
@@ -234,16 +228,13 @@ class BorrowStatusVC: UIViewController {
     
     //MARK: - 请求数据
     func requestData(){
-        //添加HUD
-//        self.showHud(in: self.view, hint: "加载中...")
         
         //默认显示最近一单的
         var params = NetConnect.getBaseRequestParams()
         params["orderId"] = self.orderId //产品id有得话按此ID处理，没有的话后台按最新的产品处理
         
         NetConnect.pc_borrow_status(parameters: params, success: { response in
-            //隐藏HUD
-            self.hideHud()
+    
             let json = JSON(response)
             guard json["RET_CODE"] == "000000" else{
                 return self.showHint(in: self.view, hint: json["RET_DESC"].stringValue)
@@ -255,9 +246,12 @@ class BorrowStatusVC: UIViewController {
             self.statusView.statusType = self.statusType
             self.refreshOrderUI(json: json["Infos"])
             
+            self.mScrollView.stopPullRefreshEver()
+            
         }, failure:{ error in
-            //隐藏HUD
-            self.hideHud()
+            
+            self.mScrollView.stopPullRefreshEver()
+            self.showHint(in: self.view, hint: "网络请求失败")
         })
     }
 

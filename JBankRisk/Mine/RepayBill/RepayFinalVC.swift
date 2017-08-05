@@ -1,17 +1,27 @@
 //
-//  RepayPeriodDetailVC.swift
+//  RepayFinalVC.swift
 //  JBankRisk
 //
-//  Created by caohouhong on 16/11/13.
-//  Copyright © 2016年 jingjinsuo. All rights reserved.
-//  还款账单（还款明细）
+//  Created by caohouhong on 17/7/27.
+//  Copyright © 2017年 jingjinsuo. All rights reserved.
+//  账单清算
 
 import UIKit
 import SwiftyJSON
 
-class RepayPeriodDetailVC: UIViewController {
+enum RepayFinalType { //账单清算状态
+    case cannotApply  //不可申请
+    case canApply     // 可申请
+    case applying     //申请中
+    case success      //通过
+    case sucRepaying  //通过－未还款、还款中
+    case sucRepayed   //通过－已还清、已结束
+}
 
-    var repayStatusType: RepayStatusType = .finish
+
+class RepayFinalVC: UIViewController {
+
+    var repayFinalType: RepayFinalType = .canApply
     //还款id(需要从前一个界面传过来)
     var repaymentId = ""
     
@@ -25,18 +35,20 @@ class RepayPeriodDetailVC: UIViewController {
         self.setupUI()
         self.gotoRepay()
     }
-
+    
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
-
+        
     }
     
     override func viewWillAppear(_ animated: Bool) {
-         self.requestData()
+//        self.requestData()
+        self.refreshUI(json:JSON("ss"))
+
     }
     
     func setupUI(){
-        self.navigationItem.title = "还款明细"
+        self.navigationItem.title = "账单清算"
         self.view.backgroundColor = defaultBackgroundColor
         self.navigationController!.navigationBar.isTranslucent = true
         self.automaticallyAdjustsScrollViewInsets = false
@@ -45,8 +57,6 @@ class RepayPeriodDetailVC: UIViewController {
         self.navigationItem.rightBarButtonItem?.tintColor = UIColorHex("666666")
         
         self.view.addSubview(topImageView)
-        self.topImageView.addSubview(titleTextLabel)
-        self.topImageView.addSubview(divideLine1)
         self.topImageView.addSubview(moneyTextLabel)
         self.topImageView.addSubview(moneyLabel)
         
@@ -59,27 +69,14 @@ class RepayPeriodDetailVC: UIViewController {
             make.top.equalTo(64)
         }
         
-        titleTextLabel.snp.makeConstraints { (make) in
-            make.height.equalTo(35*UIRate)
-            make.centerX.equalTo(self.view)
-            make.top.equalTo(0)
-        }
-        
-        divideLine1.snp.makeConstraints { (make) in
-            make.width.equalTo(self.view)
-            make.height.equalTo(0.5*UIRate)
-            make.centerX.equalTo(self.view)
-            make.top.equalTo(35*UIRate)
-        }
-
         moneyTextLabel.snp.makeConstraints { (make) in
             make.centerX.equalTo(self.view)
-            make.centerY.equalTo(topImageView.snp.top).offset(70*UIRate)
+            make.top.equalTo(topImageView).offset(40*UIRate)
         }
         
         moneyLabel.snp.makeConstraints { (make) in
             make.centerX.equalTo(self.view)
-            make.centerY.equalTo(topImageView.snp.top).offset(110*UIRate)
+            make.top.equalTo(moneyTextLabel.snp.bottom).offset(25*UIRate)
         }
         
         detailView.snp.makeConstraints { (make) in
@@ -97,30 +94,15 @@ class RepayPeriodDetailVC: UIViewController {
         return imageView
     }()
     
-    private lazy var titleTextLabel: UILabel = {
-        let label = UILabel()
-        label.font = UIFontSize(size: 15*UIRate)
-        label.textAlignment = .center
-        label.textColor = UIColor.white
-        return label
-    }()
-    
-    //分割线
-    private lazy var divideLine1: UIView = {
-        let lineView = UIView()
-        lineView.backgroundColor = UIColor.white
-        return lineView
-    }()
-    
     private lazy var moneyTextLabel: UILabel = {
         let label = UILabel()
         label.font = UIFontSize(size: 15*UIRate)
         label.textAlignment = .center
         label.textColor = UIColor.white
-        label.text = "已还款(元)"
+        label.text = "清算后需支付(元)"
         return label
     }()
-
+    
     private lazy var moneyLabel: UILabel = {
         let label = UILabel()
         label.font = UIFontSize(size: 36*UIRate)
@@ -129,9 +111,9 @@ class RepayPeriodDetailVC: UIViewController {
         label.text = "0.00"
         return label
     }()
-
-    private lazy var detailView: RepayPeriodDetailView = {
-        let holdView = RepayPeriodDetailView(viewType: self.repayStatusType)
+    
+    private lazy var detailView: RepayFinalDetailView = {
+        let holdView = RepayFinalDetailView(viewType: self.repayFinalType)
         return holdView
     }()
     
@@ -142,7 +124,7 @@ class RepayPeriodDetailVC: UIViewController {
             
             //是从还款界面而来
             if self.isFromRepayVC{
-               _ = self.navigationController?.popViewController(animated: true)
+                _ = self.navigationController?.popViewController(animated: true)
                 return
             }
             
@@ -150,14 +132,19 @@ class RepayPeriodDetailVC: UIViewController {
             repayVC.periodInfo = (self.orderId, self.repaymentId)
             self.navigationController?.pushViewController(repayVC, animated: true)
         }
+        
+        detailView.onClickNoticeBtn = {[unowned self] _ in
+        
+            self.navigationController?.pushViewController(RepayFinalNoticeVC(), animated: true)
+        }
     }
     
     //后退两个界面
     func rightNavigationBarBtnAction(){
         
-      let i = self.navigationController?.viewControllers.count ?? 0
+        let i = self.navigationController?.viewControllers.count ?? 0
         if i >= 3 {
-             _ = self.navigationController?.popToViewController((self.navigationController?.viewControllers[(self.navigationController?.viewControllers.count)! - 3])! , animated: true)
+            _ = self.navigationController?.popToViewController((self.navigationController?.viewControllers[(self.navigationController?.viewControllers.count)! - 3])! , animated: true)
         }else {
             _ = self.navigationController?.popViewController(animated: true)
         }
@@ -191,7 +178,6 @@ class RepayPeriodDetailVC: UIViewController {
         
         orderId = json["orderId"].stringValue
         
-        titleTextLabel.text = json["orderName"].stringValue + "第" + json["term"].stringValue + "期"
         moneyLabel.text =  toolsChangeMoneyStyle(amount: json["pay_amt_total"].doubleValue)
         
         //应还本息
@@ -207,8 +193,8 @@ class RepayPeriodDetailVC: UIViewController {
         
         let backTime = json["back_stamp"].stringValue
         
-        switch self.repayStatusType {
-        case .finish://完成
+        switch self.repayFinalType {
+        case .cannotApply:
             if backTime.characters.count > 0 {
                 let backDate = "还款时间:    " + toolsChangeDataStyle(toDateStyle: json["back_stamp"].stringValue)
                 self.detailView.dataArray = [shouldRepay, repayTime, backDate]
@@ -216,14 +202,13 @@ class RepayPeriodDetailVC: UIViewController {
                 self.detailView.dataArray = [shouldRepay, repayTime, ""]
             }
             
-        case .overdue://逾期
-            self.detailView.dataArray = [shouldRepay, restRepay, repayTime, overDay, overFee]
-        case .not://未还
+        case .canApply:
+            self.detailView.dataArray = [shouldRepay, restRepay, repayTime, overDay]
+        case .applying:
             self.detailView.dataArray = [shouldRepay, restRepay, repayTime]
         default:
             break
         }
         
     }
-
 }

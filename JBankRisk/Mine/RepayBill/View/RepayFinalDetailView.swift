@@ -1,54 +1,56 @@
 //
-//  RepayPeriodDetailView.swift
+//  RepayFinalDetailView.swift
 //  JBankRisk
 //
-//  Created by caohouhong on 16/11/13.
-//  Copyright © 2016年 jingjinsuo. All rights reserved.
+//  Created by caohouhong on 17/7/30.
+//  Copyright © 2017年 jingjinsuo. All rights reserved.
 //
 
 import UIKit
 
-enum RepayStatusType {
-    case finish  //还款完成
-    case overdue // 逾期
-    case advance //提前
-    case not //未还
-}
-
-class RepayPeriodDetailView: UIView, UITableViewDelegate, UITableViewDataSource {
+class RepayFinalDetailView: UIView, UITableViewDelegate, UITableViewDataSource {
     
     //行数
     var cellNum = 0
+    
+    var totalHeight:CGFloat = 0.00
     
     var dataArray = [String]() {
         didSet{
             self.aTableView.reloadData()
         }
     }
-    var viewType: RepayStatusType = .finish
+    var viewType: RepayFinalType = .cannotApply
+    
+    var onClickNextStepBtn:(()->())?
+    var onClickNoticeBtn:(()->())?
     
     override init(frame: CGRect ) {
         super.init(frame: frame)
     }
     
     ///初始化默认frame
-    convenience init(viewType: RepayStatusType) {
+    convenience init(viewType: RepayFinalType) {
         let frame = CGRect()
         self.init(frame: frame)
         self.viewType = viewType
+        var extraHeight:CGFloat = 0.00;
         switch self.viewType {
-        case .finish:
+        case .cannotApply:
             cellNum = 3
-        case .overdue:
-            cellNum = 5
-        case .advance:
+        case .canApply:
+            cellNum = 4
+            extraHeight = 30*UIRate
+        case .success:
             cellNum = 3
-        case .not:
+        case .sucRepaying:
+            cellNum = 3
+        default:
             cellNum = 3
         }
         
-        let height = CGFloat(cellNum)*30*UIRate + 85*UIRate
-        self.frame = CGRect(x: 0, y: 0, width: SCREEN_WIDTH, height: height)
+        totalHeight = CGFloat(cellNum)*30*UIRate + 85*UIRate + extraHeight
+        self.frame = CGRect(x: 0, y: 0, width: SCREEN_WIDTH, height: totalHeight)
         
         self.setupUI()
     }
@@ -56,7 +58,7 @@ class RepayPeriodDetailView: UIView, UITableViewDelegate, UITableViewDataSource 
     required init?(coder aDecoder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
-
+    
     func setupUI(){
         self.backgroundColor = defaultBackgroundColor
         
@@ -64,10 +66,11 @@ class RepayPeriodDetailView: UIView, UITableViewDelegate, UITableViewDataSource 
         self.holdView.addSubview(aTableView)
         self.holdView.addSubview(nextStepBtn)
         self.holdView.addSubview(divideLine1)
+        self.holdView.addSubview(noticeBtn)
         
         holdView.snp.makeConstraints { (make) in
             make.width.equalTo(self)
-            make.height.equalTo(CGFloat(cellNum)*30*UIRate + 85*UIRate)
+            make.height.equalTo(totalHeight)
             make.centerX.equalTo(self)
             make.top.equalTo(0)
         }
@@ -86,6 +89,13 @@ class RepayPeriodDetailView: UIView, UITableViewDelegate, UITableViewDataSource 
             make.top.equalTo(aTableView.snp.bottom).offset(10*UIRate)
         }
         
+        noticeBtn.snp.makeConstraints { (make) in
+            make.width.equalTo(254*UIRate)
+            make.height.equalTo(44*UIRate)
+            make.centerX.equalTo(self)
+            make.top.equalTo(nextStepBtn.snp.bottom)
+        }
+        
         divideLine1.snp.makeConstraints { (make) in
             make.width.equalTo(self)
             make.height.equalTo(0.5*UIRate)
@@ -93,11 +103,11 @@ class RepayPeriodDetailView: UIView, UITableViewDelegate, UITableViewDataSource 
             make.bottom.equalTo(holdView)
         }
         
-        if viewType == .finish {
-        self.nextStepBtn.setBackgroundImage(UIImage(named:"but_gray_254x44"), for: .normal)
-            self.nextStepBtn.setTitle("还款完成", for: .normal)
-            self.nextStepBtn.isUserInteractionEnabled = false
-        }
+//        if viewType == .applying {
+//            self.nextStepBtn.setBackgroundImage(UIImage(named:"but_gray_254x44"), for: .normal)
+//            self.nextStepBtn.setTitle("还款完成", for: .normal)
+//            self.nextStepBtn.isUserInteractionEnabled = false
+//        }
     }
     
     private lazy var holdView: UIView = {
@@ -113,7 +123,7 @@ class RepayPeriodDetailView: UIView, UITableViewDelegate, UITableViewDataSource 
         return lineView
     }()
     
-   lazy var aTableView: UITableView = {
+    lazy var aTableView: UITableView = {
         
         let tableView = UITableView()
         tableView.delegate = self
@@ -130,9 +140,19 @@ class RepayPeriodDetailView: UIView, UITableViewDelegate, UITableViewDataSource 
     private lazy var nextStepBtn: UIButton = {
         let button = UIButton()
         button.setBackgroundImage(UIImage(named: "btn_red_254x44"), for: .normal)
-        button.setTitle("去还款", for: UIControlState.normal)
+        button.setTitle("申请结算", for: UIControlState.normal)
         button.titleLabel?.font = UIFontSize(size: 18*UIRate)
         button.addTarget(self, action: #selector(nextStepBtnAction), for: .touchUpInside)
+        return button
+    }()
+    
+    //按钮
+    private lazy var noticeBtn: UIButton = {
+        let button = UIButton()
+        button.setTitle("注意事项(必看)", for: UIControlState.normal)
+        button.titleLabel?.font = UIFontSize(size: 15*UIRate)
+        button.setTitleColor(ColorTextBlue, for: .normal)
+        button.addTarget(self, action: #selector(noticeBtnAction), for: .touchUpInside)
         return button
     }()
     
@@ -148,7 +168,7 @@ class RepayPeriodDetailView: UIView, UITableViewDelegate, UITableViewDataSource 
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: "CellID") as!
         RepayDetailTableViewCell
-  
+        
         cell.selectionStyle = .none
         cell.arrowImageView.isHidden = true
         cell.centerLabel.text = dataArray[indexPath.row]
@@ -166,18 +186,20 @@ class RepayPeriodDetailView: UIView, UITableViewDelegate, UITableViewDataSource 
         return 30*UIRate
     }
     
-    
-    var onClickNextStepBtn:(()->())?
+   
     
     //MARK: - Action
     func nextStepBtnAction(){
-        
         //去还款
         if let onClickNextStepBtn = onClickNextStepBtn{
             onClickNextStepBtn()
         }
-        
     }
     
-    
+    //注意事项
+    func noticeBtnAction(){
+        if let onClickNoticeBtn = onClickNoticeBtn{
+            onClickNoticeBtn()
+        }
+    }
 }

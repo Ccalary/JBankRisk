@@ -265,16 +265,11 @@ class BorrowRecordViewController: UIViewController,UITableViewDelegate, UITableV
 
     //MARK: - 请求数据
     func requestData(){
-        //添加HUD
-//        self.showHud(in: self.view, hint: "加载中...")
-        
         var params = NetConnect.getBaseRequestParams()
         params["userId"] = UserHelper.getUserId()
         params["pFlag"] = "1"//固定值，用来区分返回的金额数值
         
         NetConnect.pc_borrow_record(parameters: params, success: { response in
-            //隐藏HUD
-//            self.hideHud()
             let json = JSON(response)
             guard json["RET_CODE"] == "000000" else{
                 return self.showHint(in: self.view, hint: json["RET_DESC"].stringValue)
@@ -285,8 +280,6 @@ class BorrowRecordViewController: UIViewController,UITableViewDelegate, UITableV
             self.aTableView.stopPullRefreshEver()
             
         }, failure:{ error in
-//            //隐藏HUD
-//            self.hideHud()
             self.aTableView.stopPullRefreshEver()
             self.showHint(in: self.view, hint: "网络请求失败")
         })
