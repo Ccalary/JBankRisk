@@ -154,11 +154,23 @@ class BorrowStatusVC: UIViewController {
             
             //如果是还款中加载已签署的合同
             if  self.statusType == .repaying || self.statusType == .checking {
-                 self.requestListData()
+//                 self.requestListData()
 //                let contractVC = ContractViewController()
 //                contractVC.viewType = .search
 //                contractVC.orderId = self.orderId
 //                self.navigationController?.pushViewController(contractVC, animated: true)
+                //2017.8.13 弹窗显示，不可以直接看合同
+                let popView = PopupProtocalDetailView()
+                let popupController = CNPPopupController(contents: [popView])!
+                popupController.present(animated: true)
+                
+                popView.onClickCopy = {_ in
+                    popupController.dismiss(animated:true)
+                    self.showHint(in: self.view, hint: "复制成功")
+                }
+                popView.onClickKnow = {_ in
+                    popupController.dismiss(animated: true)
+                }
 
             }else {
                 let webView = BaseWebViewController()
@@ -304,6 +316,7 @@ class BorrowStatusVC: UIViewController {
         }
     }
     
+    /* 2017.8.13 弃用
     //MARK:- 合同 请求数据
     func requestListData(){
         //添加HUD
@@ -326,7 +339,7 @@ class BorrowStatusVC: UIViewController {
             self.hideHud()
         })
     }
-    
+    */
     //合同查看
     func seeContract(contractId: String){
         var params = NetConnect.getBaseRequestParams()

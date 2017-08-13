@@ -66,7 +66,7 @@ class RepayDetailViewController: UIViewController, UITableViewDelegate, UITableV
         
         self.view.addSubview(aTableView)
         
-        self.aTableView.tableHeaderView = self.headerView
+//        self.aTableView.tableHeaderView = self.headerView
         
         aTableView.snp.makeConstraints { (make) in
             make.width.equalTo(self.view)
@@ -89,6 +89,7 @@ class RepayDetailViewController: UIViewController, UITableViewDelegate, UITableV
         //头部按钮点击回调
         self.headerView.onClickNextStepBtn = {[weak self] in
             let vc = RepayFinalVC()
+            vc.orderId = self?.orderId ?? ""
             self?.navigationController?.pushViewController(vc, animated: true)
         }
   }
@@ -307,8 +308,11 @@ class RepayDetailViewController: UIViewController, UITableViewDelegate, UITableV
         //重设标题
         self.navigationItem.title = json["back"]["orderName"].stringValue
     
+        
+        
         //H 测试  申请状态
 //        headerView.stateLabel.text = 
+        self.aTableView.tableHeaderView = self.headerView
         
         waitDataArray = json["waitPay"].arrayValue
         alreadyDataArray = json["alreayPay"].arrayValue

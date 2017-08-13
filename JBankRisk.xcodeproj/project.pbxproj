@@ -177,6 +177,7 @@
 		0DAF603C1DA8DFAD0009054F /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 0DAF603A1DA8DFAD0009054F /* LaunchScreen.storyboard */; };
 		0DAF60471DA8DFAD0009054F /* JBankRiskTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0DAF60461DA8DFAD0009054F /* JBankRiskTests.swift */; };
 		0DAF60521DA8DFAD0009054F /* JBankRiskUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0DAF60511DA8DFAD0009054F /* JBankRiskUITests.swift */; };
+		0DB0318C1F407ECB000B97FE /* PopupProtocalDetailView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0DB0318B1F407ECB000B97FE /* PopupProtocalDetailView.swift */; };
 		0DB36C611DDE138E0083825D /* MineTopView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0DB36C601DDE138E0083825D /* MineTopView.swift */; };
 		0DB36C671DDE99290083825D /* BorrowDefaultView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0DB36C661DDE99290083825D /* BorrowDefaultView.swift */; };
 		0DB36C761DDECFB30083825D /* RepayListTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0DB36C751DDECFB30083825D /* RepayListTableViewCell.swift */; };
@@ -460,6 +461,7 @@
 		0DAF604D1DA8DFAD0009054F /* JBankRiskUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = JBankRiskUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		0DAF60511DA8DFAD0009054F /* JBankRiskUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = JBankRiskUITests.swift; sourceTree = "<group>"; };
 		0DAF60531DA8DFAD0009054F /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		0DB0318B1F407ECB000B97FE /* PopupProtocalDetailView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PopupProtocalDetailView.swift; sourceTree = "<group>"; };
 		0DB36C601DDE138E0083825D /* MineTopView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MineTopView.swift; sourceTree = "<group>"; };
 		0DB36C661DDE99290083825D /* BorrowDefaultView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BorrowDefaultView.swift; sourceTree = "<group>"; };
 		0DB36C751DDECFB30083825D /* RepayListTableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RepayListTableViewCell.swift; sourceTree = "<group>"; };
@@ -1441,6 +1443,7 @@
 				0DB44FB31DE35204004E1695 /* PopupNewVersionView.swift */,
 				0D8EB7561DE5B0190002BF08 /* PopupProgressView.swift */,
 				0D37121E1E11213C007DA3C2 /* PopupEbankRepayView.swift */,
+				0DB0318B1F407ECB000B97FE /* PopupProtocalDetailView.swift */,
 			);
 			path = PopupView;
 			sourceTree = "<group>";
@@ -1767,6 +1770,7 @@
 				0DB36C841DDF61D50083825D /* BorrowInfoView.swift in Sources */,
 				0D28B2831E13BDDD00AA8B49 /* YHTContractManager.m in Sources */,
 				0D3ADCA21DCCA35600838043 /* NothingDefaultView.swift in Sources */,
+				0DB0318C1F407ECB000B97FE /* PopupProtocalDetailView.swift in Sources */,
 				0D536EE41DE47D95008B3BC3 /* JulixinWebViewController.swift in Sources */,
 				0D84AACF1DE1919D00957B0A /* iCarousel.m in Sources */,
 				0D28B2701E13BDDD00AA8B49 /* YHT_MBProgressHUD.m in Sources */,

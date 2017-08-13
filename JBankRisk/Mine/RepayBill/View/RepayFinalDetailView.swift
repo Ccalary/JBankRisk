@@ -23,7 +23,6 @@ class RepayFinalDetailView: UIView, UITableViewDelegate, UITableViewDataSource {
     var viewType: RepayFinalType = .cannotApply
     
     var onClickNextStepBtn:(()->())?
-    var onClickNoticeBtn:(()->())?
     
     override init(frame: CGRect ) {
         super.init(frame: frame)
@@ -49,7 +48,7 @@ class RepayFinalDetailView: UIView, UITableViewDelegate, UITableViewDataSource {
             cellNum = 3
         }
         
-        totalHeight = CGFloat(cellNum)*30*UIRate + 85*UIRate + extraHeight
+        totalHeight = CGFloat(cellNum)*30*UIRate + 65*UIRate + extraHeight
         self.frame = CGRect(x: 0, y: 0, width: SCREEN_WIDTH, height: totalHeight)
         
         self.setupUI()
@@ -66,7 +65,6 @@ class RepayFinalDetailView: UIView, UITableViewDelegate, UITableViewDataSource {
         self.holdView.addSubview(aTableView)
         self.holdView.addSubview(nextStepBtn)
         self.holdView.addSubview(divideLine1)
-        self.holdView.addSubview(noticeBtn)
         
         holdView.snp.makeConstraints { (make) in
             make.width.equalTo(self)
@@ -87,13 +85,6 @@ class RepayFinalDetailView: UIView, UITableViewDelegate, UITableViewDataSource {
             make.height.equalTo(44*UIRate)
             make.centerX.equalTo(self)
             make.top.equalTo(aTableView.snp.bottom).offset(10*UIRate)
-        }
-        
-        noticeBtn.snp.makeConstraints { (make) in
-            make.width.equalTo(254*UIRate)
-            make.height.equalTo(44*UIRate)
-            make.centerX.equalTo(self)
-            make.top.equalTo(nextStepBtn.snp.bottom)
         }
         
         divideLine1.snp.makeConstraints { (make) in
@@ -146,15 +137,6 @@ class RepayFinalDetailView: UIView, UITableViewDelegate, UITableViewDataSource {
         return button
     }()
     
-    //按钮
-    private lazy var noticeBtn: UIButton = {
-        let button = UIButton()
-        button.setTitle("注意事项(必看)", for: UIControlState.normal)
-        button.titleLabel?.font = UIFontSize(size: 15*UIRate)
-        button.setTitleColor(ColorTextBlue, for: .normal)
-        button.addTarget(self, action: #selector(noticeBtnAction), for: .touchUpInside)
-        return button
-    }()
     
     //MARK: - UITableView Delegate&&DataSource
     func numberOfSections(in tableView: UITableView) -> Int {
@@ -193,13 +175,6 @@ class RepayFinalDetailView: UIView, UITableViewDelegate, UITableViewDataSource {
         //去还款
         if let onClickNextStepBtn = onClickNextStepBtn{
             onClickNextStepBtn()
-        }
-    }
-    
-    //注意事项
-    func noticeBtnAction(){
-        if let onClickNoticeBtn = onClickNoticeBtn{
-            onClickNoticeBtn()
         }
     }
 }

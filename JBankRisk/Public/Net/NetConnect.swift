@@ -409,6 +409,15 @@ class NetConnect {
             failure(error)
         })
     }
+    
+    ///3.16 提前还款
+    static func pc_repay_final(parameters: Parameters,success:@escaping (_ response:[String:AnyObject]) -> (),failure:@escaping(_ error: Error) -> ()){
+        NetworkRequest.sharedInstance.getRequest(urlString: PC_REPAY_FINAN, params: parameters, success: { (response) in
+            success(response)
+        }, failture: { (error) in
+            failure(error)
+        })
+    }
 
     /******************其他******************/
     //4.1 修改密码

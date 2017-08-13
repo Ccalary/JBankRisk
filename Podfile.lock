@@ -28,7 +28,6 @@ PODS:
   - pop (1.0.9)
   - SnapKit (3.0.1)
   - SwiftyJSON (3.1.0)
-  - tingyunApp (2.5.4)
 
 DEPENDENCIES:
   - Alamofire (~> 4.2.0)
@@ -47,7 +46,6 @@ DEPENDENCIES:
   - pop (~> 1.0)
   - SnapKit (~> 3.0.0)
   - SwiftyJSON
-  - tingyunApp
 
 SPEC CHECKSUMS:
   Alamofire: aa2e09d871c9160ac53c90e83c68064a94e3dfbe
@@ -67,8 +65,7 @@ SPEC CHECKSUMS:
   pop: f667631a5108a2e60d9e8797c9b32ddaf2080bce
   SnapKit: f818b8326d45b4e1c777d0ab27b5c0a3624bfdeb
   SwiftyJSON: 29b9f2a64f118c07e691667c2ba1efe536acfe0b
-  tingyunApp: 0b40b74f1325fad5557f47c842416bf7ce0de123
 
-PODFILE CHECKSUM: 2b371c7fefb56d97ae27483fcf0894a6df54078a
+PODFILE CHECKSUM: 9dd0a21c85d6eff52fda8046a09aeb71b6d0001e
 
 COCOAPODS: 1.2.0

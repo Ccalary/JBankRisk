@@ -44,9 +44,9 @@ class AppDelegate: UIResponder, UIApplicationDelegate,UITabBarControllerDelegate
         
         JPUSHService.registrationIDCompletionHandler { (resCode, registrationID) in
             if resCode == 0{
-                PrintLog("registrationID获取成功：\(registrationID)")
+//                PrintLog("registrationID获取成功：\(registrationID)")
             }else {
-                PrintLog("registrationID获取失败：\(registrationID)")
+//                PrintLog("registrationID获取失败：\(registrationID)")
             }
         }
     
@@ -69,8 +69,6 @@ class AppDelegate: UIResponder, UIApplicationDelegate,UITabBarControllerDelegate
         self.listeningNetStatus()
         self.doWithTalkingData()
         self.doWithTencentBugly()
-        //2017.7.22 听云检测
-        self.doWithTingYunTest()
         
         return true
     }
@@ -183,10 +181,6 @@ class AppDelegate: UIResponder, UIApplicationDelegate,UITabBarControllerDelegate
         Bugly.setUserIdentifier(UIDevice.current.name)
     }
     
-    //MARK: - 听云检测
-    func doWithTingYunTest(){
-        NBSAppAgent.start(withAppID: "341a90a029884db59a4af41da702294e");
-    }
 }
 
 //MARK:-极光推送

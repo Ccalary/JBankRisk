@@ -422,7 +422,7 @@ class DataViewController: UIViewController,UITableViewDelegate, UITableViewDataS
         
     
         if isdownLoad {
-            let imageUrl = URL(string: BASR_DEV_URL + downloadPhoto[indexPath.row])
+            let imageUrl = URL(string: BASE_DEV_URL + downloadPhoto[indexPath.row])
             
             cell.imageView.kf_setImage(with: imageUrl as Resource? )
         }else {
@@ -451,7 +451,7 @@ class DataViewController: UIViewController,UITableViewDelegate, UITableViewDataS
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
         
         if isdownLoad {
-            let imageUrl = URL(string: BASR_DEV_URL + downloadPhoto[indexPath.row])
+            let imageUrl = URL(string: BASE_DEV_URL + downloadPhoto[indexPath.row])
             bigImageView.kf_setImage(with: imageUrl  as Resource? )
         }else {
             bigImageView.image = photoArray[indexPath.row].image

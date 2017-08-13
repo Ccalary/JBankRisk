@@ -42,9 +42,7 @@ class RepayFinalVC: UIViewController {
     }
     
     override func viewWillAppear(_ animated: Bool) {
-//        self.requestData()
-        self.refreshUI(json:JSON("ss"))
-
+        self.requestData()
     }
     
     func setupUI(){
@@ -53,7 +51,7 @@ class RepayFinalVC: UIViewController {
         self.navigationController!.navigationBar.isTranslucent = true
         self.automaticallyAdjustsScrollViewInsets = false
         
-        self.navigationItem.rightBarButtonItem = UIBarButtonItem(title: "关闭", style: UIBarButtonItemStyle.plain, target: self, action: #selector(rightNavigationBarBtnAction))
+        self.navigationItem.rightBarButtonItem = UIBarButtonItem(image: UIImage(named:"nav_notice_20x20"), style: .plain, target: self, action: #selector(rightNavigationBarBtnAction))
         self.navigationItem.rightBarButtonItem?.tintColor = UIColorHex("666666")
         
         self.view.addSubview(topImageView)
@@ -90,7 +88,7 @@ class RepayFinalVC: UIViewController {
     //图片
     private lazy var topImageView: UIImageView = {
         let imageView = UIImageView()
-        imageView.image = UIImage(named: "m_banner_image3_375x156")
+        imageView.image = UIImage(named: "m_banner_image4_375x156")
         return imageView
     }()
     
@@ -132,22 +130,11 @@ class RepayFinalVC: UIViewController {
             repayVC.periodInfo = (self.orderId, self.repaymentId)
             self.navigationController?.pushViewController(repayVC, animated: true)
         }
-        
-        detailView.onClickNoticeBtn = {[unowned self] _ in
-        
-            self.navigationController?.pushViewController(RepayFinalNoticeVC(), animated: true)
-        }
     }
     
-    //后退两个界面
+    //注意事项
     func rightNavigationBarBtnAction(){
-        
-        let i = self.navigationController?.viewControllers.count ?? 0
-        if i >= 3 {
-            _ = self.navigationController?.popToViewController((self.navigationController?.viewControllers[(self.navigationController?.viewControllers.count)! - 3])! , animated: true)
-        }else {
-            _ = self.navigationController?.popViewController(animated: true)
-        }
+         self.navigationController?.pushViewController(RepayFinalNoticeVC(), animated: true)
     }
     
     //MARK: - 请求数据
@@ -156,9 +143,8 @@ class RepayFinalVC: UIViewController {
         self.showHud(in: self.view, hint: "加载中...")
         
         var params = NetConnect.getBaseRequestParams()
-        params["userId"] = UserHelper.getUserId()
-        params["repayment_id"] = self.repaymentId
-        NetConnect.pc_repayment_month_detail(parameters: params, success: { response in
+        params["orderId"] = self.orderId//产品id
+        NetConnect.pc_repay_final(parameters: params, success: { response in
             //隐藏HUD
             self.hideHud()
             let json = JSON(response)

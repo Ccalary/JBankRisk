@@ -300,7 +300,7 @@ class SettingViewController: UIViewController,UITableViewDelegate, UITableViewDa
             guard json["RET_CODE"] == "000000" else{
                 return self.showHint(in: self.view, hint: json["RET_DESC"].stringValue)
             }
-            let headerUrl = BASR_DEV_URL + json["requestMap"]["appPhoto"].stringValue
+            let headerUrl = BASE_DEV_URL + json["requestMap"]["appPhoto"].stringValue
             //保存头像地址
             UserHelper.setUserHeader(headerUrl: headerUrl)
             let position = IndexPath(row: 0, section: 0)
