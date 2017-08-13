@@ -172,9 +172,6 @@
 		0DA87B3A1E2731B000C1FBB7 /* PPAddressBookHandle.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0DA87B371E2731B000C1FBB7 /* PPAddressBookHandle.swift */; };
 		0DA87B3B1E2731B000C1FBB7 /* PPGetAddressBook.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0DA87B381E2731B000C1FBB7 /* PPGetAddressBook.swift */; };
 		0DA87B3C1E2731B000C1FBB7 /* PPPersonModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0DA87B391E2731B000C1FBB7 /* PPPersonModel.swift */; };
-		0DAF60321DA8DFAD0009054F /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0DAF60311DA8DFAD0009054F /* AppDelegate.swift */; };
-		0DAF60371DA8DFAD0009054F /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 0DAF60351DA8DFAD0009054F /* Main.storyboard */; };
-		0DAF603C1DA8DFAD0009054F /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 0DAF603A1DA8DFAD0009054F /* LaunchScreen.storyboard */; };
 		0DAF60471DA8DFAD0009054F /* JBankRiskTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0DAF60461DA8DFAD0009054F /* JBankRiskTests.swift */; };
 		0DAF60521DA8DFAD0009054F /* JBankRiskUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0DAF60511DA8DFAD0009054F /* JBankRiskUITests.swift */; };
 		0DB0318C1F407ECB000B97FE /* PopupProtocalDetailView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0DB0318B1F407ECB000B97FE /* PopupProtocalDetailView.swift */; };
@@ -210,6 +207,10 @@
 		0DE1E1751E4815CC009AB942 /* SchoolModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0DE1E1741E4815CC009AB942 /* SchoolModel.swift */; };
 		0DE1E1771E48169C009AB942 /* SchoolListModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0DE1E1761E48169C009AB942 /* SchoolListModel.swift */; };
 		0DE1E1791E481745009AB942 /* SchoolListVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0DE1E1781E481745009AB942 /* SchoolListVC.swift */; };
+		0DE322981F40A6C70036A404 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0DE322961F40A6C70036A404 /* AppDelegate.swift */; };
+		0DE322991F40A6C70036A404 /* Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 0DE322971F40A6C70036A404 /* Info.plist */; };
+		0DE3229C1F40A6EC0036A404 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 0DE3229A1F40A6EC0036A404 /* LaunchScreen.storyboard */; };
+		0DE3229D1F40A6EC0036A404 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 0DE3229B1F40A6EC0036A404 /* Main.storyboard */; };
 		0DE7871B1DF9905600F175DB /* MJCustomRefreshHeader.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0DE7871A1DF9905600F175DB /* MJCustomRefreshHeader.swift */; };
 		0DECC8711DCAEB130022D3F6 /* AreaTableView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0DECC8701DCAEB130022D3F6 /* AreaTableView.swift */; };
 		0DECC8751DCB07D30022D3F6 /* DataCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0DECC8741DCB07D30022D3F6 /* DataCollectionViewCell.swift */; };
@@ -451,10 +452,6 @@
 		0DA87B381E2731B000C1FBB7 /* PPGetAddressBook.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PPGetAddressBook.swift; sourceTree = "<group>"; };
 		0DA87B391E2731B000C1FBB7 /* PPPersonModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PPPersonModel.swift; sourceTree = "<group>"; };
 		0DAF602E1DA8DFAD0009054F /* JBankRisk.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = JBankRisk.app; sourceTree = BUILT_PRODUCTS_DIR; };
-		0DAF60311DA8DFAD0009054F /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = AppDelegate.swift; path = ../AppDelegate.swift; sourceTree = "<group>"; };
-		0DAF60361DA8DFAD0009054F /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
-		0DAF603B1DA8DFAD0009054F /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
-		0DAF603D1DA8DFAD0009054F /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; name = Info.plist; path = ../Info.plist; sourceTree = "<group>"; };
 		0DAF60421DA8DFAD0009054F /* JBankRiskTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = JBankRiskTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		0DAF60461DA8DFAD0009054F /* JBankRiskTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = JBankRiskTests.swift; sourceTree = "<group>"; };
 		0DAF60481DA8DFAD0009054F /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
@@ -493,6 +490,10 @@
 		0DE1E1741E4815CC009AB942 /* SchoolModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SchoolModel.swift; sourceTree = "<group>"; };
 		0DE1E1761E48169C009AB942 /* SchoolListModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SchoolListModel.swift; sourceTree = "<group>"; };
 		0DE1E1781E481745009AB942 /* SchoolListVC.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SchoolListVC.swift; sourceTree = "<group>"; };
+		0DE322961F40A6C70036A404 /* AppDelegate.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
+		0DE322971F40A6C70036A404 /* Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		0DE3229A1F40A6EC0036A404 /* LaunchScreen.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; path = LaunchScreen.storyboard; sourceTree = "<group>"; };
+		0DE3229B1F40A6EC0036A404 /* Main.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; path = Main.storyboard; sourceTree = "<group>"; };
 		0DE7871A1DF9905600F175DB /* MJCustomRefreshHeader.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MJCustomRefreshHeader.swift; sourceTree = "<group>"; };
 		0DECC8701DCAEB130022D3F6 /* AreaTableView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AreaTableView.swift; sourceTree = "<group>"; };
 		0DECC8741DCB07D30022D3F6 /* DataCollectionViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DataCollectionViewCell.swift; sourceTree = "<group>"; };
@@ -1325,10 +1326,10 @@
 		0DAF60621DA8ECD60009054F /* MainSystem */ = {
 			isa = PBXGroup;
 			children = (
-				0DAF60311DA8DFAD0009054F /* AppDelegate.swift */,
-				0DAF60351DA8DFAD0009054F /* Main.storyboard */,
-				0DAF603A1DA8DFAD0009054F /* LaunchScreen.storyboard */,
-				0DAF603D1DA8DFAD0009054F /* Info.plist */,
+				0DE3229A1F40A6EC0036A404 /* LaunchScreen.storyboard */,
+				0DE3229B1F40A6EC0036A404 /* Main.storyboard */,
+				0DE322961F40A6C70036A404 /* AppDelegate.swift */,
+				0DE322971F40A6C70036A404 /* Info.plist */,
 			);
 			path = MainSystem;
 			sourceTree = "<group>";
@@ -1605,13 +1606,14 @@
 			buildActionMask = 2147483647;
 			files = (
 				0D1E82551DE1927A0040B39E /* PhotoAlbumTableViewCell.xib in Resources */,
-				0DAF603C1DA8DFAD0009054F /* LaunchScreen.storyboard in Resources */,
-				0DAF60371DA8DFAD0009054F /* Main.storyboard in Resources */,
+				0DE3229D1F40A6EC0036A404 /* Main.storyboard in Resources */,
 				0D8C33EF1DCA27E800F33F0C /* chinaarea.plist in Resources */,
 				0D84AAD51DE1919D00957B0A /* pulltorefresharrow.png in Resources */,
 				0D1E82571DE1927A0040B39E /* photoCollectionViewCell.xib in Resources */,
 				0D84AAD31DE1919D00957B0A /* zocr0.lib in Resources */,
 				0D2747DA1DADE9840060E221 /* Assets.xcassets in Resources */,
+				0DE322991F40A6C70036A404 /* Info.plist in Resources */,
+				0DE3229C1F40A6EC0036A404 /* LaunchScreen.storyboard in Resources */,
 				0D28B27E1E13BDDD00AA8B49 /* YHTSdk.bundle in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -1728,6 +1730,7 @@
 				0D3712281E1140FC007DA3C2 /* BillSelectTableViewCell.swift in Sources */,
 				0DF09CC21EB8D5D4008CF8D6 /* PopupAuthorityView.swift in Sources */,
 				0D1E82531DE1927A0040B39E /* PhotoAlbumsTableViewController.swift in Sources */,
+				0DE322981F40A6C70036A404 /* AppDelegate.swift in Sources */,
 				0D61C42E1DB0CE0000C2BC23 /* BorrowMoneyView.swift in Sources */,
 				0D0E2A321DAB377E00A64F76 /* HHTabBarController.swift in Sources */,
 				0D1E825F1DE1927A0040B39E /* PhotoPreviewCell.swift in Sources */,
@@ -1757,7 +1760,6 @@
 				0D37549C1E2DC8E900045809 /* RepayedListTopView.swift in Sources */,
 				0D61C42C1DB0C2CB00C2BC23 /* BorrowMoneyViewController.swift in Sources */,
 				0D1E82521DE1927A0040B39E /* ImageModel.swift in Sources */,
-				0DAF60321DA8DFAD0009054F /* AppDelegate.swift in Sources */,
 				0DA87B3A1E2731B000C1FBB7 /* PPAddressBookHandle.swift in Sources */,
 				0D84AAD11DE1919D00957B0A /* IDCardViewController.m in Sources */,
 				0D0A6ED61DD6FB51006B54DD /* FilterRepayView.swift in Sources */,
@@ -1922,27 +1924,6 @@
 		};
 /* End PBXTargetDependency section */
 
-/* Begin PBXVariantGroup section */
-		0DAF60351DA8DFAD0009054F /* Main.storyboard */ = {
-			isa = PBXVariantGroup;
-			children = (
-				0DAF60361DA8DFAD0009054F /* Base */,
-			);
-			name = Main.storyboard;
-			path = ..;
-			sourceTree = "<group>";
-		};
-		0DAF603A1DA8DFAD0009054F /* LaunchScreen.storyboard */ = {
-			isa = PBXVariantGroup;
-			children = (
-				0DAF603B1DA8DFAD0009054F /* Base */,
-			);
-			name = LaunchScreen.storyboard;
-			path = ..;
-			sourceTree = "<group>";
-		};
-/* End PBXVariantGroup section */
-
 /* Begin XCBuildConfiguration section */
 		0DAF60541DA8DFAD0009054F /* Debug */ = {
 			isa = XCBuildConfiguration;
@@ -2059,7 +2040,7 @@
 				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
 				DEVELOPMENT_TEAM = 2M227336GQ;
 				ENABLE_BITCODE = NO;
-				INFOPLIST_FILE = JBankRisk/Info.plist;
+				INFOPLIST_FILE = "$(SRCROOT)/JBankRisk/MainSystem/Info.plist";
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				LIBRARY_SEARCH_PATHS = (
 					"$(inherited)",
@@ -2091,7 +2072,7 @@
 				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
 				DEVELOPMENT_TEAM = 2M227336GQ;
 				ENABLE_BITCODE = NO;
-				INFOPLIST_FILE = JBankRisk/Info.plist;
+				INFOPLIST_FILE = "$(SRCROOT)/JBankRisk/MainSystem/Info.plist";
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				LIBRARY_SEARCH_PATHS = (
 					"$(inherited)",
