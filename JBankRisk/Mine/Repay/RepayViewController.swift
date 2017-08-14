@@ -15,10 +15,12 @@ private let kAppURLScheme = "riskPayUrlSchemes"
 class RepayViewController: UIViewController, UITableViewDelegate, UITableViewDataSource {
 
     //账单数据
-    var selectBillInfo: [JSON] = []
+    private var selectBillInfo: [JSON] = []
     
     //支付方式
     var selectWay = ""
+    //还款方式， 0 正常还款 1七日内还款 2账单清算
+    var flag = 0
     
     var selectInfo: [Dictionary<String,Any>] = []
     
@@ -46,8 +48,6 @@ class RepayViewController: UIViewController, UITableViewDelegate, UITableViewDat
         
         self.title = "还款"
         self.view.backgroundColor = defaultBackgroundColor
-//        self.navigationItem.rightBarButtonItem = UIBarButtonItem(title: "账单", style: UIBarButtonItemStyle.plain, target: self, action: #selector(rightNavigationBarBtnAction))
-//        self.navigationItem.rightBarButtonItem?.tintColor = UIColorHex("00b2ff")
         self.initHeader()
     }
 
@@ -154,7 +154,7 @@ class RepayViewController: UIViewController, UITableViewDelegate, UITableViewDat
         label.font = UIFontSize(size: 15*UIRate)
         label.textAlignment = .center
         label.textColor = ColorTextBlack
-        label.text = "本次账单共\(self.selectBillInfo.count)笔"
+        label.text = "本次账单共0笔"
         return label
     }()
     
@@ -261,15 +261,6 @@ class RepayViewController: UIViewController, UITableViewDelegate, UITableViewDat
         }
     }
     
-    //MARK: - Action
-    func rightNavigationBarBtnAction(){
-        let billVC = SelectedBillViewController()
-        billVC.dataArray = selectBillInfo
-        let billVCNav = HHNavigationController(rootViewController: billVC)
-        self.navigationController?.present(billVCNav, animated: true, completion: nil)
-    }
-    
-    
     func nextStepBtnAction(){
         
         let popupView =  PopupRepayWayView()
@@ -345,16 +336,6 @@ class RepayViewController: UIViewController, UITableViewDelegate, UITableViewDat
                 }
             })
             
-//            Pingpp.createPayment(charge as NSObject!, appURLScheme: kAppURLScheme) { (result, error) -> Void in
-//                
-//                PrintLog(result)
-//                
-//                if error != nil {
-//                    PrintLog(error?.code.rawValue)
-//                    PrintLog(error?.getMsg())
-//                }
-//            }
-            
         }, failure:{ error in
             //隐藏HUD
             self.hideHud()
@@ -368,6 +349,7 @@ class RepayViewController: UIViewController, UITableViewDelegate, UITableViewDat
         var params = NetConnect.getBaseRequestParams()
         params["channel"] = "3"
         params["repaymentList"] = toolsChangeToJson(info: self.selectInfo)
+        params["flag"] = self.flag
         
         NetConnect.pc_repay_amount(parameters: params, success: { response in
             //隐藏HUD
@@ -377,12 +359,35 @@ class RepayViewController: UIViewController, UITableViewDelegate, UITableViewDat
                 return self.showHint(in: self.view, hint: json["RET_DESC"].stringValue)
             }
             
-            self.moneyLabel.text = toolsChangeMoneyStyle(amount: json["showMoney"].doubleValue)
+           self.refreshUI(json)
             
         }, failure:{ error in
             //隐藏HUD
             self.hideHud()
         })
-   }
+    }
+    
+    func refreshUI(_ json:JSON){
+        self.moneyLabel.text = toolsChangeMoneyStyle(amount: json["showMoney"].doubleValue)
+        self.selectBillInfo = json["payInfoList"].arrayValue
+        
+        //重新添加selectInfo，因为从账单清算过来不传selectInfo
+        var selectInfoTemp: [Dictionary<String,Any>] = []
+        
+        selectInfoTemp = selectBillInfo.reduce(selectInfoTemp) { (selectInfoTemp, jsonObject) -> [Dictionary<String,Any>] in
+            var dic = [String:Any]()
+            dic["orderId"] = jsonObject["orderId"].stringValue
+            dic["repayment_id"] = jsonObject["repayment_id"].stringValue
+            
+            var dicArray = selectInfoTemp
+            dicArray.append(dic)
+            return dicArray
+        }
+        selectInfo.removeAll()
+        selectInfo = selectInfoTemp
+       
+        nameTextLabel.text = "本次账单共\(self.selectBillInfo.count)笔"
+        self.aTableView.reloadData()
+    }
     
 }

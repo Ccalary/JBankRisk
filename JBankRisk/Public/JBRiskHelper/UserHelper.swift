@@ -344,12 +344,12 @@ class UserHelper {
     //合同是否签署完毕
     static func getContractIsSigned() -> Bool {
         let defaults = UserDefaults()
-        return (defaults.object(forKey: "ContractIsSigned\(self.getUserNewOrderId())") as? Bool) ?? false
+        return (defaults.object(forKey: "ContractIsSigned\(self.getUserNewOrderId() as Optional)") as? Bool) ?? false
     }
     
     static func setContract(isSigned: Bool){
         let defaults = UserDefaults()
-        defaults.set(isSigned, forKey: "ContractIsSigned\(self.getUserNewOrderId())")
+        defaults.set(isSigned, forKey: "ContractIsSigned\(self.getUserNewOrderId() as Optional)")
         defaults.synchronize()
     }
 

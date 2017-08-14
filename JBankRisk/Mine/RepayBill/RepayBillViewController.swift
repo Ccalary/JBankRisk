@@ -351,21 +351,20 @@ class RepayBillViewController: UIViewController, UITableViewDataSource, UITableV
         }else {
             
             let cell = tableView.dequeueReusableCell(withIdentifier: "repayCellID") as! RepayBillTableVeiwCell
-            
-            cell.leftTextLabel.text = allDataArray[indexPath.row]["orderName"].stringValue
-            cell.rightSecondTextLabel.text = "\(allDataArray[indexPath.row]["term"].stringValue)/\(allDataArray[indexPath.row]["total"].stringValue)期"
-            cell.rightTextLabel.text = allDataArray[indexPath.row]["is_pay"].stringValue
-            
-            cell.blLabel.isHidden = false
-            cell.brLabel.isHidden = false
-            
+            //填充数据
+            cell.refreshWithAllDataArray(allDataArray[indexPath.row])
             return cell
         }
     }
     
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
-        //H 测试 差个参数判断高度
-        return indexPath.section == 0 ? 45*UIRate : 60*UIRate
+        if indexPath.section == 1 {
+            let payFlag = allDataArray[indexPath.row]["pay_flag"].intValue
+            if payFlag == 1 || payFlag == 2 {
+                return 68*UIRate
+            }
+        }
+        return 45*UIRate
     }
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
@@ -499,7 +498,6 @@ extension RepayBillViewController:RepayBillHeaderViewDelegate {
             }
             
             let repayVC = RepayViewController()
-            repayVC.selectBillInfo = monthDataArray
             repayVC.selectInfo = selectInfo
             self.navigationController?.pushViewController(repayVC, animated: true)
             

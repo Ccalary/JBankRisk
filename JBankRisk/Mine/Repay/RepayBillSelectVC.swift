@@ -401,7 +401,7 @@ class RepayBillSelectVC: UIViewController, UITableViewDelegate, UITableViewDataS
         
        let repayVC = RepayViewController()
         repayVC.selectInfo = self.selectInfo
-        repayVC.selectBillInfo = selectInfotemp
+        repayVC.flag = 0
        self.navigationController?.pushViewController(repayVC, animated: true)
     }
     
@@ -449,7 +449,7 @@ class RepayBillSelectVC: UIViewController, UITableViewDelegate, UITableViewDataS
         if !isTransformed {
             //打开
             UIView.animate(withDuration: 0.6, animations: {
-                self.titleArrowImgView.transform = CGAffineTransform(rotationAngle: CGFloat(M_PI))
+                self.titleArrowImgView.transform = CGAffineTransform(rotationAngle: CGFloat(Double.pi))
                 self.selectViewConstraint?.update(offset: 64)
                 self.view.layoutIfNeeded()//一定要加上这句话才会有动画效果
                 self.selectBgView.alpha = 1

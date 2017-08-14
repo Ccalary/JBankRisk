@@ -152,7 +152,7 @@ class RepayFinalVC: UIViewController {
                 return self.showHint(in: self.view, hint: json["RET_DESC"].stringValue)
             }
             
-            self.refreshUI(json: json["detail"])
+            self.refreshUI(json: json["backMap"])
             
         }, failure:{ error in
             //隐藏HUD
@@ -162,18 +162,16 @@ class RepayFinalVC: UIViewController {
     
     func refreshUI(json: JSON){
         
-        orderId = json["orderId"].stringValue
+        moneyLabel.text =  toolsChangeMoneyStyle(amount: json["payTotal"].doubleValue)
         
-        moneyLabel.text =  toolsChangeMoneyStyle(amount: json["pay_amt_total"].doubleValue)
-        
-        //应还本息
-        let shouldRepay = "应还本息:    " + toolsChangeMoneyStyle(amount: json["amt_total"].doubleValue) + "元"
-        //剩余未还 = 应还本息 ＋ 逾期罚金 ＋ 滞纳金 － 已还
-        let restRepay = "剩余未还:    " + toolsChangeMoneyStyle(amount: json["amt_total"].doubleValue + json["penalty_amt"].doubleValue + json["demurrage"].doubleValue - json["pay_amt_total"].doubleValue) + "元"
-        //到期时间
-        let repayTime = "到期时间:    " + toolsChangeDateStyle(toYYYYMMDD: json["realpay_date"].stringValue)
-        //逾期天数
-        let overDay = "逾期天数:    " + json["penalty_day"].stringValue + "天"
+        //清算期数
+        let repayTerm = "清算期数:    \(json["restTerm"].intValue)期"
+        //清算本金
+        let restRepay = "清算本金:    " + toolsChangeMoneyStyle(amount: json["needPay"].doubleValue) + "元"
+        //违约金
+        let penalty = "违约金:     " + toolsChangeMoneyStyle(amount: json["penalty"].doubleValue) + "元"
+        //审核时间
+        let overDay = "审核时间:    " + json["penalty_day"].stringValue + "天"
         //逾期罚金
         let overFee = "逾期罚金:    " + toolsChangeMoneyStyle(amount: json["penalty_amt"].doubleValue + json["demurrage"].doubleValue) + "元"
         
@@ -183,15 +181,15 @@ class RepayFinalVC: UIViewController {
         case .cannotApply:
             if backTime.characters.count > 0 {
                 let backDate = "还款时间:    " + toolsChangeDataStyle(toDateStyle: json["back_stamp"].stringValue)
-                self.detailView.dataArray = [shouldRepay, repayTime, backDate]
+                self.detailView.dataArray = [repayTerm, restRepay, penalty]
             }else {
-                self.detailView.dataArray = [shouldRepay, repayTime, ""]
+                self.detailView.dataArray = [repayTerm, restRepay, ""]
             }
             
         case .canApply:
-            self.detailView.dataArray = [shouldRepay, restRepay, repayTime, overDay]
+            self.detailView.dataArray = [repayTerm, restRepay, penalty,overDay]
         case .applying:
-            self.detailView.dataArray = [shouldRepay, restRepay, repayTime]
+            self.detailView.dataArray = [repayTerm, restRepay, penalty]
         default:
             break
         }

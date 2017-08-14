@@ -91,7 +91,7 @@ class BaseWebViewController: UIViewController, UIWebViewDelegate, NJKWebViewProg
     func webView(_ webView: UIWebView, shouldStartLoadWith request: URLRequest, navigationType: UIWebViewNavigationType) -> Bool {
         
         let url = request.url?.absoluteString
-        print("加载地址：\(url)")
+        print("加载地址：\(url as Optional)")
         return true
     }
     

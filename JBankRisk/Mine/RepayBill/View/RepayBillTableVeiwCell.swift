@@ -7,6 +7,7 @@
 //
 
 import UIKit
+import SwiftyJSON
 
 class RepayBillTableVeiwCell: UITableViewCell {
 
@@ -31,7 +32,7 @@ class RepayBillTableVeiwCell: UITableViewCell {
         
         leftTextLabel.snp.makeConstraints { (make) in
             make.left.equalTo(30*UIRate)
-            make.top.equalTo(10*UIRate)
+            make.top.equalTo(15*UIRate)
         }
         
         rightTextLabel.snp.makeConstraints { (make) in
@@ -53,7 +54,7 @@ class RepayBillTableVeiwCell: UITableViewCell {
         
         blLabel.snp.makeConstraints { (make) in
             make.left.equalTo(leftTextLabel)
-            make.bottom.equalTo(-10*UIRate)
+            make.bottom.equalTo(-15*UIRate)
         }
         
         brLabel.snp.makeConstraints { (make) in
@@ -111,7 +112,27 @@ class RepayBillTableVeiwCell: UITableViewCell {
         label.isHidden = true
         return label
     }()
-    
 
-
+    func refreshWithAllDataArray(_ array:JSON){
+        
+        leftTextLabel.text = array["orderName"].stringValue
+        rightSecondTextLabel.text = "\(array["term"].stringValue)/\(array["total"].stringValue)期"
+        rightTextLabel.text = array["is_pay"].stringValue
+        
+        let payFlag = array["pay_flag"].intValue
+        //0 可申请 隐藏  1 申请中 2 申请成功
+        switch payFlag {
+        case 1:
+            blLabel.isHidden = false
+            brLabel.isHidden = false
+            brLabel.text = "申请中"
+        case 2:
+            blLabel.isHidden = false
+            brLabel.isHidden = false
+            brLabel.text = "申请成功"
+        default:
+            blLabel.isHidden = true
+            brLabel.isHidden = true
+        }
+    }
 }

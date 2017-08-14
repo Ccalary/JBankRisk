@@ -224,6 +224,7 @@
 		0DFFAEDA1DAF6FB100819CF7 /* PopupPhoneCallView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0DFFAED91DAF6FB100819CF7 /* PopupPhoneCallView.swift */; };
 		0DFFAEDC1DAF707900819CF7 /* PopupRepaymentTipView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0DFFAEDB1DAF707900819CF7 /* PopupRepaymentTipView.swift */; };
 		2B1BB083F4340482D7181477 /* Pods_JBankRisk.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 6C59881BA6AE868EF7C84EBD /* Pods_JBankRisk.framework */; };
+		FE5500C61F413E6200D8B488 /* PopupRepayFinalTipsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = FE5500C51F413E6200D8B488 /* PopupRepayFinalTipsView.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -509,6 +510,7 @@
 		6C59881BA6AE868EF7C84EBD /* Pods_JBankRisk.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_JBankRisk.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		73D1869A2BB9AB50BB8C7317 /* Pods-JBankRisk.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-JBankRisk.debug.xcconfig"; path = "Pods/Target Support Files/Pods-JBankRisk/Pods-JBankRisk.debug.xcconfig"; sourceTree = "<group>"; };
 		91BCC3D8B544C1AFEB18B90C /* Pods-JBankRisk.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-JBankRisk.release.xcconfig"; path = "Pods/Target Support Files/Pods-JBankRisk/Pods-JBankRisk.release.xcconfig"; sourceTree = "<group>"; };
+		FE5500C51F413E6200D8B488 /* PopupRepayFinalTipsView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PopupRepayFinalTipsView.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -1445,6 +1447,7 @@
 				0D8EB7561DE5B0190002BF08 /* PopupProgressView.swift */,
 				0D37121E1E11213C007DA3C2 /* PopupEbankRepayView.swift */,
 				0DB0318B1F407ECB000B97FE /* PopupProtocalDetailView.swift */,
+				FE5500C51F413E6200D8B488 /* PopupRepayFinalTipsView.swift */,
 			);
 			path = PopupView;
 			sourceTree = "<group>";
@@ -1767,6 +1770,7 @@
 				0D84AACE1DE1919D00957B0A /* CNPPopupController.m in Sources */,
 				0D1BA5AE1E7EC66300021627 /* PopupRepayWayView.swift in Sources */,
 				0D28B2A01E14FF6500AA8B49 /* RepayPeriodDetailVC.swift in Sources */,
+				FE5500C61F413E6200D8B488 /* PopupRepayFinalTipsView.swift in Sources */,
 				0D28B26B1E13BDDD00AA8B49 /* NSNumber+Wqz.m in Sources */,
 				0D006DE11DC7A5410091CF33 /* LoginViewController.swift in Sources */,
 				0DB36C841DDF61D50083825D /* BorrowInfoView.swift in Sources */,

@@ -9,6 +9,7 @@
 import UIKit
 import SwiftyJSON
 
+
 class RepayDetailViewController: UIViewController, UITableViewDelegate, UITableViewDataSource,UIGestureRecognizerDelegate {
 
     //是否从推送而来
@@ -24,6 +25,11 @@ class RepayDetailViewController: UIViewController, UITableViewDelegate, UITableV
     var alreadyDataArray: [JSON] = []
     
     var dataArray: [[JSON]] = []
+    
+    //账单清算状态
+    var repayFinalType: RepayFinalType = .cannotApply
+    //7日内是否有还款, 0 没有
+    var weekPay:Int = 0
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -66,8 +72,6 @@ class RepayDetailViewController: UIViewController, UITableViewDelegate, UITableV
         
         self.view.addSubview(aTableView)
         
-//        self.aTableView.tableHeaderView = self.headerView
-        
         aTableView.snp.makeConstraints { (make) in
             make.width.equalTo(self.view)
             make.height.equalTo(SCREEN_HEIGHT - 64)
@@ -85,14 +89,9 @@ class RepayDetailViewController: UIViewController, UITableViewDelegate, UITableV
         self.aTableView.addPullRefreshHandler({ [weak self] in
             self?.requestData()
         })
-        
         //头部按钮点击回调
-        self.headerView.onClickNextStepBtn = {[weak self] in
-            let vc = RepayFinalVC()
-            vc.orderId = self?.orderId ?? ""
-            self?.navigationController?.pushViewController(vc, animated: true)
-        }
-  }
+        self.headerViewClick()
+}
     
     private lazy var aTableView: UITableView = {
         
@@ -277,6 +276,51 @@ class RepayDetailViewController: UIViewController, UITableViewDelegate, UITableV
         }
     }
     
+    //头部点击回调
+    func headerViewClick(){
+        self.headerView.onClickNextStepBtn = {[unowned self] in
+            
+            switch self.repayFinalType {
+            case .canApply://可申请
+                
+                if self.weekPay == 0 {
+                    let vc = RepayFinalVC()
+                    vc.orderId = self.orderId
+                    self.navigationController?.pushViewController(vc, animated: true)
+                }else {
+                    self.showPopupView()
+  
+                }
+            case .applying://申请中
+                break
+            case .success://申请成功
+                break
+            default:
+                break
+            }
+
+        }
+
+    }
+    
+    func showPopupView(){
+        let popupView =  PopupRepayFinalTipsView()
+        let popupController = CNPPopupController(contents: [popupView])!
+        popupController.present(animated: true)
+        popupView.onClickSure = { [weak self] _ in
+            popupController.dismiss(animated: true)
+            
+            let repayVC = RepayViewController()
+            repayVC.selectInfo = []
+            repayVC.flag = 1
+            self?.navigationController?.pushViewController(repayVC, animated: true)
+            
+        }
+        popupView.onClickKnow = { _ in
+            popupController.dismiss(animated: true)
+        }
+    }
+    
     /********如果是从推送而来*******/
     func leftBarButton(){
         self.dismiss(animated: true, completion: nil)
@@ -308,11 +352,31 @@ class RepayDetailViewController: UIViewController, UITableViewDelegate, UITableV
         //重设标题
         self.navigationItem.title = json["back"]["orderName"].stringValue
     
-        
-        
-        //H 测试  申请状态
-//        headerView.stateLabel.text = 
-        self.aTableView.tableHeaderView = self.headerView
+        weekPay = json["weekPay"].intValue
+        //term大于6才可以申请
+        let term = json["term"].intValue
+        if term > 6 {
+             self.aTableView.tableHeaderView = self.headerView
+            //0 可申请 1 申请中 2 申请成功
+             let payFlag = json["back"]["pay_flag"].intValue
+            
+            switch payFlag {
+            case 0:
+                repayFinalType = .canApply
+                headerView.stateLabel.text = "可申请"
+            case 1:
+                repayFinalType = .applying
+                headerView.stateLabel.text = "申请中"
+            case 2:
+                repayFinalType = .success
+                headerView.stateLabel.text = "申请成功"
+            default:
+                break
+            }
+        }else{
+            repayFinalType = .cannotApply
+            self.aTableView.tableHeaderView = nil
+        }
         
         waitDataArray = json["waitPay"].arrayValue
         alreadyDataArray = json["alreayPay"].arrayValue
