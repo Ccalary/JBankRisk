@@ -14,21 +14,21 @@ enum RepayFinalType { //账单清算状态
     case canApply     // 可申请
     case applying     //申请中
     case success      //通过
-    case sucRepaying  //通过－未还款、还款中
-    case sucRepayed   //通过－已还清、已结束
+//    case sucRepaying  //通过－未还款、还款中
+//    case sucRepayed   //通过－已还清、已结束
 }
 
 
 class RepayFinalVC: UIViewController {
 
     var repayFinalType: RepayFinalType = .canApply
-    //还款id(需要从前一个界面传过来)
-    var repaymentId = ""
-    
     //产品id
     var orderId = ""
     ///是否从还款界面而来
     var isFromRepayVC = false
+    
+    //立即支付传值
+    private var selectInfo: [Dictionary<String,Any>] = []
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -115,26 +115,54 @@ class RepayFinalVC: UIViewController {
         return holdView
     }()
     
-    //去还款
+    //按钮点击
     func gotoRepay(){
         
         detailView.onClickNextStepBtn = {[unowned self] _ in
-            
-            //是从还款界面而来
-            if self.isFromRepayVC{
-                _ = self.navigationController?.popViewController(animated: true)
-                return
+         
+            switch self.repayFinalType {
+            case .canApply:
+                self.repayFinalApplyWithFlag(0)
+            case .applying:
+                self.repayFinalApplyWithFlag(1)
+            case .success:
+                let vc = RepayViewController()
+                vc.selectInfo = self.selectInfo
+                vc.flag = 2
+                self.navigationController?.pushViewController(vc, animated: true)
+                break
+            default:
+                break
             }
-            
-            let repayVC = RepayBillSelectVC()
-            repayVC.periodInfo = (self.orderId, self.repaymentId)
-            self.navigationController?.pushViewController(repayVC, animated: true)
         }
     }
     
     //注意事项
     func rightNavigationBarBtnAction(){
          self.navigationController?.pushViewController(RepayFinalNoticeVC(), animated: true)
+    }
+    
+    //MARK: - 申请（取消）结算
+    func repayFinalApplyWithFlag(_ payFlag:Int){
+     
+        var params = NetConnect.getBaseRequestParams()
+        params["orderId"] = self.orderId//产品id
+        params["pay_flag"] = payFlag //可申请传0， 取消申请传1
+        NetConnect.pc_repay_final_apply(parameters: params, success: { (response) in
+            
+            //隐藏HUD
+            self.hideHud()
+            let json = JSON(response)
+            guard json["RET_CODE"] == "000000" else{
+                return self.showHint(in: self.view, hint: json["RET_DESC"].stringValue)
+            }
+            
+            self.requestData()
+            
+        }) { (error) in
+            //隐藏HUD
+            self.hideHud()
+        }
     }
     
     //MARK: - 请求数据
@@ -169,30 +197,45 @@ class RepayFinalVC: UIViewController {
         //清算本金
         let restRepay = "清算本金:    " + toolsChangeMoneyStyle(amount: json["needPay"].doubleValue) + "元"
         //违约金
-        let penalty = "违约金:     " + toolsChangeMoneyStyle(amount: json["penalty"].doubleValue) + "元"
+        let penalty = "违约金:        " + toolsChangeMoneyStyle(amount: json["penalty"].doubleValue) + "元"
         //审核时间
-        let overDay = "审核时间:    " + json["penalty_day"].stringValue + "天"
-        //逾期罚金
-        let overFee = "逾期罚金:    " + toolsChangeMoneyStyle(amount: json["penalty_amt"].doubleValue + json["demurrage"].doubleValue) + "元"
+        let auditTime = "审核时间:    3日内"
         
-        let backTime = json["back_stamp"].stringValue
-        
-        switch self.repayFinalType {
-        case .cannotApply:
-            if backTime.characters.count > 0 {
-                let backDate = "还款时间:    " + toolsChangeDataStyle(toDateStyle: json["back_stamp"].stringValue)
-                self.detailView.dataArray = [repayTerm, restRepay, penalty]
-            }else {
-                self.detailView.dataArray = [repayTerm, restRepay, ""]
-            }
-            
-        case .canApply:
-            self.detailView.dataArray = [repayTerm, restRepay, penalty,overDay]
-        case .applying:
-            self.detailView.dataArray = [repayTerm, restRepay, penalty]
+        let endTime = "还款截止:    \(toolsChangeDateStyle(toYYYYMMDD: json["cutOffTime"].stringValue))"
+        //审核状态
+        let payFlag = json["pay_flag"].intValue
+        var payState = ""
+        switch payFlag {
+        case 0:
+            self.repayFinalType = .canApply
+        case 1:
+            payState = "结算申请中"
+            self.repayFinalType = .applying
+        case 2:
+            self.repayFinalType = .success
+            payState = "支付结算金额"
+            selectInfo.removeAll()
+            var dic = [String:Any]()
+            dic["orderId"] = self.orderId
+            dic["repayment_id"] = json["repayment_id"].stringValue
+            selectInfo.append(dic)
         default:
             break
         }
+        let auditState = "订单状态:    \(payState)"
+        
+        switch self.repayFinalType {
+        case .canApply:
+            self.detailView.dataArray = [repayTerm, restRepay, penalty, auditTime]
+        case .applying:
+            self.detailView.dataArray = [repayTerm, restRepay, penalty, auditTime, auditState]
+        case .success:
+            self.detailView.dataArray = [repayTerm, restRepay, penalty, endTime, auditState]
+        default:
+            break
+        }
+        //设置状态更改按钮
+        self.detailView.viewType = self.repayFinalType
         
     }
 }

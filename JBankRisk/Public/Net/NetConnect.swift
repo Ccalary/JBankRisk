@@ -419,6 +419,15 @@ class NetConnect {
         })
     }
 
+    ///3.17申请(取消)结算
+    static func pc_repay_final_apply(parameters: Parameters,success:@escaping (_ response:[String:AnyObject]) -> (),failure:@escaping(_ error: Error) -> ()){
+        NetworkRequest.sharedInstance.getRequest(urlString: PC_REPAY_FINAN_APPLY, params: parameters, success: { (response) in
+            success(response)
+        }, failture: { (error) in
+            failure(error)
+        })
+    }
+    
     /******************其他******************/
     //4.1 修改密码
     static func other_change_psd(parameters: Parameters,success:@escaping (_ response:[String:AnyObject]) -> (),failure:@escaping(_ error: Error) -> ()){

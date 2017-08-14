@@ -17,6 +17,9 @@ class BorrowStatusView: UIView {
         super.init(frame: frame)
     }
     
+    //账单清算状态
+    var repayFinalType: RepayFinalType = .cannotApply
+    
     var statusType: OrderStausType = .defaultStatus {
         didSet{
             /*
@@ -32,6 +35,7 @@ class BorrowStatusView: UIView {
              */
             tipsBtn.isHidden = true
             divideLine1.isHidden = false
+             repayDetailBtn.isHidden = true
             switch statusType {
             case .finish://订单完结
                 self.bgImageView.isHidden = false
@@ -59,8 +63,20 @@ class BorrowStatusView: UIView {
                 self.bgImageView.isHidden = false
                 self.statusImageView.image = UIImage(named:"bs_repaying_110x90")
                 nextStepBtn.isHidden = false
+                repayDetailBtn.isHidden = false
                 disTextLabel.text = "         "//改变还款详情布局
-                nextStepBtn.setTitle("还款详情", for: UIControlState.normal)
+                switch repayFinalType {
+                case .cannotApply:
+                    nextStepBtn.setTitle("还款详情", for: UIControlState.normal)
+                    repayDetailBtn.isHidden = true
+                case .canApply:
+                    nextStepBtn.setTitle("申请结算账单", for: UIControlState.normal)
+                case .applying:
+                    nextStepBtn.setTitle("结算账单申请中", for: UIControlState.normal)
+                case .success:
+                    nextStepBtn.setTitle("支付结算金额", for: UIControlState.normal)
+                }
+                
             case .fail://审核未通过
                 self.bgImageView.isHidden = false
                 self.statusImageView.image = UIImage(named:"bs_fail_110x90")
@@ -119,6 +135,7 @@ class BorrowStatusView: UIView {
         self.addSubview(tipsTextLabel)
         self.addSubview(tipsBtn)
         self.addSubview(divideLine1)
+        self.addSubview(repayDetailBtn)
         
         bgImageView.snp.makeConstraints { (make) in
             make.width.height.equalTo(132*UIRate)
@@ -156,6 +173,13 @@ class BorrowStatusView: UIView {
             make.height.equalTo(20*UIRate)
             make.centerX.equalTo(self)
             make.top.equalTo(nextStepBtn.snp.bottom).offset(10*UIRate)
+        }
+        
+        repayDetailBtn.snp.makeConstraints { (make) in
+            make.width.equalTo(150*UIRate)
+            make.height.equalTo(20*UIRate)
+            make.centerX.equalTo(self)
+            make.top.equalTo(nextStepBtn.snp.top).offset(-30*UIRate)
         }
         
         divideLine1.snp.makeConstraints { (make) in
@@ -219,6 +243,17 @@ class BorrowStatusView: UIView {
         button.addTarget(self, action: #selector(tipsBtnAction), for: .touchUpInside)
         return button
     }()
+    
+    //／按钮
+    private lazy var repayDetailBtn: UIButton = {
+        let button = UIButton()
+        button.isHidden = true
+        button.titleLabel?.font = UIFontSize(size: 15*UIRate)
+        button.setTitle("还款详情>", for: .normal)
+        button.setTitleColor(UIColorHex("3caafa"), for: .normal)
+        button.addTarget(self, action: #selector(repayDetailBtnAction), for: .touchUpInside)
+        return button
+    }()
 
     //分割线
     private lazy var divideLine1: UIView = {
@@ -230,6 +265,7 @@ class BorrowStatusView: UIView {
 
     var onClickButton:(()->())?
     var onClickTipsButton:(()->())?
+    var onClickRepayDetailBtn:(()->())?
     
     func nextStepBtnAction(){
         if let onClickButton = onClickButton {
@@ -241,6 +277,13 @@ class BorrowStatusView: UIView {
     func tipsBtnAction(){
         if let onClickTipsButton = onClickTipsButton {
             onClickTipsButton()
+        }
+    }
+    
+    //还款详情
+    func repayDetailBtnAction(){
+        if let onClickRepayDetailBtn = onClickRepayDetailBtn{
+            onClickRepayDetailBtn()
         }
     }
 }

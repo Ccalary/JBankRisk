@@ -282,25 +282,28 @@ class RepayDetailViewController: UIViewController, UITableViewDelegate, UITableV
             
             switch self.repayFinalType {
             case .canApply://可申请
-                
                 if self.weekPay == 0 {
-                    let vc = RepayFinalVC()
-                    vc.orderId = self.orderId
-                    self.navigationController?.pushViewController(vc, animated: true)
+                    self.pushToFinalVC()
                 }else {
                     self.showPopupView()
-  
                 }
             case .applying://申请中
-                break
+                self.pushToFinalVC()
             case .success://申请成功
-                break
+               self.pushToFinalVC()
             default:
                 break
             }
 
         }
 
+    }
+    
+    func pushToFinalVC(){
+        let vc = RepayFinalVC()
+        vc.orderId = self.orderId
+        vc.repayFinalType = self.repayFinalType
+        self.navigationController?.pushViewController(vc, animated: true)
     }
     
     func showPopupView(){

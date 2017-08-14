@@ -18,13 +18,11 @@ class RepayViewController: UIViewController, UITableViewDelegate, UITableViewDat
     private var selectBillInfo: [JSON] = []
     
     //支付方式
-    var selectWay = ""
+    private var selectWay = ""
     //还款方式， 0 正常还款 1七日内还款 2账单清算
     var flag = 0
     
     var selectInfo: [Dictionary<String,Any>] = []
-    
-    var selectArray = [0, 0, 0]
     
     override func viewDidLoad() {
         super.viewDidLoad()

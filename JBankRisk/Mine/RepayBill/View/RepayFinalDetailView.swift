@@ -11,16 +11,31 @@ import UIKit
 class RepayFinalDetailView: UIView, UITableViewDelegate, UITableViewDataSource {
     
     //行数
-    var cellNum = 0
+    private var cellNum = 5
     
-    var totalHeight:CGFloat = 0.00
+    private var totalHeight:CGFloat = 0.00
     
     var dataArray = [String]() {
         didSet{
             self.aTableView.reloadData()
         }
     }
-    var viewType: RepayFinalType = .cannotApply
+    
+    //根据状态更改按钮title
+    var viewType: RepayFinalType = .cannotApply{
+        didSet{
+            switch viewType {
+            case .canApply:
+                nextStepBtn.setTitle("申请结算", for: .normal)
+            case .applying:
+                nextStepBtn.setTitle("取消申请", for: .normal)
+            case .success:
+                nextStepBtn.setTitle("立即支付", for: .normal)
+            default:
+                break
+            }
+        }
+    }
     
     var onClickNextStepBtn:(()->())?
     
@@ -32,23 +47,8 @@ class RepayFinalDetailView: UIView, UITableViewDelegate, UITableViewDataSource {
     convenience init(viewType: RepayFinalType) {
         let frame = CGRect()
         self.init(frame: frame)
-        self.viewType = viewType
-        var extraHeight:CGFloat = 0.00;
-        switch self.viewType {
-        case .cannotApply:
-            cellNum = 3
-        case .canApply:
-            cellNum = 4
-            extraHeight = 30*UIRate
-        case .success:
-            cellNum = 3
-        case .sucRepaying:
-            cellNum = 3
-        default:
-            cellNum = 3
-        }
-        
-        totalHeight = CGFloat(cellNum)*30*UIRate + 65*UIRate + extraHeight
+    
+        totalHeight = CGFloat(cellNum)*30*UIRate + 75*UIRate
         self.frame = CGRect(x: 0, y: 0, width: SCREEN_WIDTH, height: totalHeight)
         
         self.setupUI()
@@ -154,8 +154,8 @@ class RepayFinalDetailView: UIView, UITableViewDelegate, UITableViewDataSource {
         cell.selectionStyle = .none
         cell.arrowImageView.isHidden = true
         cell.centerLabel.text = dataArray[indexPath.row]
-        if dataArray[indexPath.row].contains("逾期"){
-            cell.centerLabel.textColor = UIColorHex("e9342d")
+        if dataArray[indexPath.row].contains("订单状态"){
+            cell.centerLabel.textColor = ColorTextBlue
             cell.centerLabel.attributedText = changeTextColor(text: dataArray[indexPath.row], color: UIColorHex("666666"), range: NSRange(location: 0, length: 5))
         }else{
             cell.centerLabel.textColor = UIColorHex("666666")
@@ -167,8 +167,6 @@ class RepayFinalDetailView: UIView, UITableViewDelegate, UITableViewDataSource {
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
         return 30*UIRate
     }
-    
-   
     
     //MARK: - Action
     func nextStepBtnAction(){

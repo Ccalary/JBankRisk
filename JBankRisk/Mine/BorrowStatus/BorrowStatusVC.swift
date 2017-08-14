@@ -28,15 +28,34 @@ class BorrowStatusVC: UIViewController {
     //是否是从推送而来
     var isPush = false
     
-    var orderInfo: JSON!
-    
     var isHaveData = true //是否加载缺省页
     
     var statusType: OrderStausType = .defaultStatus
     
     var orderId = ""
     
-    var topViewConstraint: Constraint!
+    private var topViewConstraint: Constraint!
+    
+    private var repayFinalType:RepayFinalType = .cannotApply
+    //7天内是否有还款
+    private var weekPay = 0
+    //还款状态0可申请 1申请中 2成功
+    private var payFlag = 0{
+        didSet{
+            switch payFlag {
+            case 0:
+                repayFinalType = .canApply
+            case 1:
+                repayFinalType = .applying
+            case 2:
+                repayFinalType = .success
+            default:
+                repayFinalType = .cannotApply
+            }
+            
+            statusView.repayFinalType = repayFinalType
+        }
+    }
     
     var topHeight: CGFloat = 0 {
         didSet{
@@ -46,7 +65,6 @@ class BorrowStatusVC: UIViewController {
     
     var status = "" {
         didSet{
-            
             infoView.isHidden = false
             switch self.status {
             case "0"://订单完结
@@ -252,8 +270,13 @@ class BorrowStatusVC: UIViewController {
                 return self.showHint(in: self.view, hint: json["RET_DESC"].stringValue)
             }
             
-            self.orderInfo = json["Infos"]
             self.status = json["jstatus"].stringValue
+            self.weekPay = json["weekPay"].intValue
+            //大于6期才可以申请清算
+            if json["term"].intValue > 6{
+                 self.payFlag = json["pay_flag"].intValue
+            }
+            
             self.statusView.failDis = json["descrption"].stringValue
             self.statusView.statusType = self.statusType
             self.refreshOrderUI(json: json["Infos"])
@@ -287,9 +310,22 @@ class BorrowStatusVC: UIViewController {
                 serviceVC.orderId = self.orderId//产品id
                 self.navigationController?.pushViewController(serviceVC, animated: true)
             case .repaying://还款中
-                let repayDetailVC = RepayDetailViewController()
-                repayDetailVC.orderId = self.orderId//产品id
-                self.navigationController?.pushViewController(repayDetailVC, animated: true)
+                
+                switch self.repayFinalType {
+                case .cannotApply:
+                    self.popToRepayDetailVC()
+                case .canApply:
+                    
+                    //七日内有还款
+                    if self.weekPay > 0 {
+                        self.showPopupView()
+                    }else {
+                       self.popToRepayFinalVC()
+                    }
+                case .applying, .success:
+                    self.popToRepayFinalVC()
+                }
+               
             case .fail://重新申请
                 //下版本开启
                 /*
@@ -314,6 +350,44 @@ class BorrowStatusVC: UIViewController {
         statusView.onClickTipsButton = { [unowned self] in
             self.navigationController?.pushViewController(BorrowMoneyViewController(), animated: true)
         }
+
+        //还款详情
+        statusView.onClickRepayDetailBtn = { [unowned self] in
+           self.popToRepayDetailVC()
+        }
+    }
+    
+    func showPopupView(){
+        let popupView =  PopupRepayFinalTipsView()
+        let popupController = CNPPopupController(contents: [popupView])!
+        popupController.present(animated: true)
+        popupView.onClickSure = { [weak self] _ in
+            popupController.dismiss(animated: true)
+            
+            let repayVC = RepayViewController()
+            repayVC.selectInfo = []
+            repayVC.flag = 1
+            self?.navigationController?.pushViewController(repayVC, animated: true)
+            
+        }
+        popupView.onClickKnow = { _ in
+            popupController.dismiss(animated: true)
+        }
+    }
+
+    //跳转还款详情界面
+    func popToRepayDetailVC(){
+        let repayDetailVC = RepayDetailViewController()
+        repayDetailVC.orderId = self.orderId//产品id
+        self.navigationController?.pushViewController(repayDetailVC, animated: true)
+    }
+    
+    //跳转到清算界面
+    func popToRepayFinalVC(){
+        let vc = RepayFinalVC()
+        vc.orderId = self.orderId
+        vc.repayFinalType = self.repayFinalType
+        self.navigationController?.pushViewController(vc, animated: true)
     }
     
     /* 2017.8.13 弃用
