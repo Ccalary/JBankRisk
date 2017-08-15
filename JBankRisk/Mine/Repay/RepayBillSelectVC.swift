@@ -18,9 +18,42 @@ class RepayBillSelectVC: UIViewController, UITableViewDelegate, UITableViewDataS
     //单期还款id
     var periodInfo:(orderId: String, repaymentId: String) = ("","")
     
-    var dataArray:[JSON] = []
+    private var dataArray:[JSON] = []
     
-    var selectInfo: [Dictionary<String,Any>] = []
+    private var selectInfo: [Dictionary<String,Any>] = []
+
+    //有清单结算
+    private var isHavePayOrder = false
+    
+    
+    var repayFinalType: RepayFinalType = .cannotApply
+    
+    //还款id
+    var payOrderId = ""{
+        didSet{
+            if payOrderId.characters.count > 0 {
+                isHavePayOrder = true
+                self.titleButton.isUserInteractionEnabled = false
+                self.titleText = "清算账单"
+            }else {
+                isHavePayOrder = false
+                self.titleButton.isUserInteractionEnabled = true
+            }
+        }
+    }
+    //筛选的id
+    private var filterOrderId = ""
+    //标题
+    var titleText = "" {
+        didSet{
+            self.titleTextLabel.text = titleText
+            
+        }
+    }
+    
+    //是否打开了下拉框
+    var isTransformed: Bool = false
+    var selectViewConstraint: Constraint?
     
     //还款总额
     var repayAmount = "0.00" {
@@ -39,22 +72,6 @@ class RepayBillSelectVC: UIViewController, UITableViewDelegate, UITableViewDataS
             self.selectView.dataArray = nameArray
         }
     }
-    
-    var orderId = ""
-    
-    //筛选的id
-    var filterOrderId = ""
-    //标题
-    var titleText = "" {
-        didSet{
-            self.titleTextLabel.text = titleText
-            
-        }
-    }
-    
-    //是否打开了下拉框
-    var isTransformed: Bool = false
-    var selectViewConstraint: Constraint?
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -315,6 +332,11 @@ class RepayBillSelectVC: UIViewController, UITableViewDelegate, UITableViewDataS
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         tableView.deselectRow(at: indexPath, animated: true)
+        
+        if isHavePayOrder{
+            self.showHint(in: self.view, hint: "账单结算，不可选择")
+            return
+        }
         if dataArray[indexPath.row]["selected"] == 1{
             dataArray[indexPath.row]["selected"] = 0
         }else {
@@ -338,6 +360,11 @@ class RepayBillSelectVC: UIViewController, UITableViewDelegate, UITableViewDataS
     
     //MARK: Action
     func rightNavigationBarBtnAction(){
+        
+        guard !isHavePayOrder else {
+            return
+        }
+        
         if isSelectAll { //取消选中
             self.navigationItem.rightBarButtonItem?.title = "全选"
             isSelectAll = !isSelectAll
@@ -362,6 +389,11 @@ class RepayBillSelectVC: UIViewController, UITableViewDelegate, UITableViewDataS
     //MARK: 确认
     func nextStepBtnAction(){
     
+        if self.repayFinalType == .applying {
+            self.showHint(in: self.view, hint: "结算申请中，账单已冻结")
+            return
+        }
+        
         //选中的
         let selectInfotemp = dataArray.filter({ (json) -> Bool in
             return json["selected"] == 1
@@ -472,6 +504,16 @@ class RepayBillSelectVC: UIViewController, UITableViewDelegate, UITableViewDataS
         isTransformed = !isTransformed
     }    
     
+    //默认全选并且不可取消
+    func selectAllTermWithNoCancel(){
+        for i in 0..<dataArray.count {
+            dataArray[i]["selected"] = 1
+        }
+        self.aTableView.reloadData()
+        //计算钱数
+        self.calculateRepayAmount()
+    }
+
     /********如果是从推送而来*******/
     func leftBarButton(){
         self.dismiss(animated: true, completion: nil)
@@ -484,7 +526,8 @@ class RepayBillSelectVC: UIViewController, UITableViewDelegate, UITableViewDataS
         
         var params = NetConnect.getBaseRequestParams()
         params["flag"] = 1 //1-全部应还 2-本月应还 3-近7日  4-今日
-        params["orderId"] = filterOrderId
+        //如果payOrderId 有值这是有清算账单
+        params["orderId"] = isHavePayOrder ? payOrderId : filterOrderId
         
         NetConnect.pc_need_repayment_detail(parameters: params, success: { response in
             //隐藏HUD
@@ -498,6 +541,7 @@ class RepayBillSelectVC: UIViewController, UITableViewDelegate, UITableViewDataS
             self.repayAmount = "0.00"
             self.dataArray = json["backList"].arrayValue
             self.nameArray = json["orderInfoList"].arrayValue
+            
             //设置是否选中
             for i in 0..<self.dataArray.count {
                 
@@ -509,6 +553,25 @@ class RepayBillSelectVC: UIViewController, UITableViewDelegate, UITableViewDataS
                      self.dataArray[i]["selected"] = 0
                 }
             }
+            //清算的单子全选
+            if self.isHavePayOrder {
+                self.selectAllTermWithNoCancel()
+                
+                for i in 0..<self.nameArray.count{
+                    if self.payOrderId == self.nameArray[i]["orderId"].stringValue{
+                        switch self.nameArray[i]["pay_flag"].intValue{
+                        case 0:
+                            self.repayFinalType = .canApply
+                        case 1:
+                            self.repayFinalType = .applying
+                        case 2:
+                            self.repayFinalType = .success
+                        default:
+                            break
+                        }
+                    }
+                }
+            }
             
             self.aTableView.reloadData()
             
@@ -517,4 +580,6 @@ class RepayBillSelectVC: UIViewController, UITableViewDelegate, UITableViewDataS
             self.hideHud()
         })
     }
+    
+    
 }

@@ -46,6 +46,9 @@ class MineViewController: UIViewController, UIGestureRecognizerDelegate,UICollec
     //借款状态码
     var moneyStatus = ""
     
+    //还款界面id
+    var payOrderId = ""
+    
     //芝麻授权状态
     var authorized = ""
     //未读信息个数
@@ -227,6 +230,9 @@ class MineViewController: UIViewController, UIGestureRecognizerDelegate,UICollec
             
             if isHaveBill {
                 let repayBillVC = RepayBillSelectVC()
+                if payOrderId.characters.count > 0 {
+                     repayBillVC.payOrderId = payOrderId
+                }
                 self.navigationController?.pushViewController(repayBillVC, animated: true)
             }else {
                  self.navigationController?.pushViewController(NoNeedRepayVC(), animated: true)
@@ -414,6 +420,10 @@ class MineViewController: UIViewController, UIGestureRecognizerDelegate,UICollec
     
     
     func refreshUI(json:JSON){
+        
+        //提前还款界面需要
+        payOrderId = json["payOrderId"].stringValue
+        
         //重置高度
         topHeight = topImageHeight
         

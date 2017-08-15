@@ -19,6 +19,9 @@ class RepayBillViewController: UIViewController, UITableViewDataSource, UITableV
     var monthDataArray = [JSON]()
     var allDataArray = [JSON]()
     
+    //清算id
+    fileprivate var payOrderId = ""
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         self.setupUI()
@@ -450,6 +453,8 @@ class RepayBillViewController: UIViewController, UITableViewDataSource, UITableV
         }else{
             self.recentTimeLabel.text = ""
         }
+        //是否有清算的id
+        payOrderId = json["payOrderId"].stringValue
         
         self.monthDataArray.removeAll()
         self.allDataArray.removeAll()
@@ -479,7 +484,12 @@ extension RepayBillViewController:RepayBillHeaderViewDelegate {
     
     //提前还款
     func preRepayBtnAction(){
-        self.navigationController?.pushViewController(RepayBillSelectVC(), animated: true)
+        
+        let repayBillVC = RepayBillSelectVC()
+        if self.payOrderId.characters.count > 0 {
+            repayBillVC.payOrderId = self.payOrderId
+        }
+        self.navigationController?.pushViewController(repayBillVC, animated: true)
     }
     //本月还款
     func monthRepayBtnAction(){
