@@ -190,8 +190,13 @@ class RepayPeriodDetailVC: UIViewController {
     func refreshUI(json: JSON){
         
         orderId = json["orderId"].stringValue
-        
-        titleTextLabel.text = json["orderName"].stringValue + "第" + json["term"].stringValue + "期"
+        //清算
+        if json["term"].intValue == 100 {
+            titleTextLabel.text = json["orderName"].stringValue + "账单清算"
+        }else{
+            titleTextLabel.text = json["orderName"].stringValue + "第" + json["term"].stringValue + "期"
+        }
+       
         moneyLabel.text =  toolsChangeMoneyStyle(amount: json["pay_amt_total"].doubleValue)
         
         //应还本息

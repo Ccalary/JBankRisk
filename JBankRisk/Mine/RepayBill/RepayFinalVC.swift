@@ -169,8 +169,9 @@ class RepayFinalVC: UIViewController {
     func requestData(){
         //添加HUD
         self.showHud(in: self.view, hint: "加载中...")
-        
-        var params = NetConnect.getBaseRequestParams()
+        var params = [String:Any]()
+        params["companyId"] = "10000101"
+        params["channel"] = "3" // iOS-3,android-4
         params["orderId"] = self.orderId//产品id
         NetConnect.pc_repay_final(parameters: params, success: { response in
             //隐藏HUD

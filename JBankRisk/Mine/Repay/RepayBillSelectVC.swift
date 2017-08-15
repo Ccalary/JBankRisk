@@ -483,7 +483,6 @@ class RepayBillSelectVC: UIViewController, UITableViewDelegate, UITableViewDataS
         self.showHud(in: self.view, hint: "加载中...")
         
         var params = NetConnect.getBaseRequestParams()
-        params["userId"] = UserHelper.getUserId()
         params["flag"] = 1 //1-全部应还 2-本月应还 3-近7日  4-今日
         params["orderId"] = filterOrderId
         
