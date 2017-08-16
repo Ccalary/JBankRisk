@@ -364,7 +364,7 @@ class RepayBillViewController: UIViewController, UITableViewDataSource, UITableV
         if indexPath.section == 1 {
             let payFlag = allDataArray[indexPath.row]["pay_flag"].intValue
             if payFlag == 1 || payFlag == 2 {
-                return 68*UIRate
+                return 70*UIRate
             }
         }
         return 45*UIRate

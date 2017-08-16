@@ -147,6 +147,7 @@ class RepayPeriodDetailVC: UIViewController {
             }
             
             let repayVC = RepayBillSelectVC()
+            repayVC.payOrderId = self.orderId
             repayVC.periodInfo = (self.orderId, self.repaymentId)
             self.navigationController?.pushViewController(repayVC, animated: true)
         }
@@ -228,7 +229,5 @@ class RepayPeriodDetailVC: UIViewController {
         default:
             break
         }
-        
     }
-
 }

@@ -22,7 +22,7 @@ class RepayBillSelectVC: UIViewController, UITableViewDelegate, UITableViewDataS
     
     private var selectInfo: [Dictionary<String,Any>] = []
 
-    //有清单结算
+    //有id传过来，进行判断还款状态，确定是否可选可还
     private var isHavePayOrder = false
     
     
@@ -33,16 +33,18 @@ class RepayBillSelectVC: UIViewController, UITableViewDelegate, UITableViewDataS
         didSet{
             if payOrderId.characters.count > 0 {
                 isHavePayOrder = true
-                self.titleButton.isUserInteractionEnabled = false
-                self.titleText = "清算账单"
             }else {
                 isHavePayOrder = false
-                self.titleButton.isUserInteractionEnabled = true
             }
         }
     }
     //筛选的id
-    private var filterOrderId = ""
+    private var filterOrderId = ""{
+        
+        didSet{
+            isHavePayOrder = false
+        }
+    }
     //标题
     var titleText = "" {
         didSet{
@@ -333,7 +335,7 @@ class RepayBillSelectVC: UIViewController, UITableViewDelegate, UITableViewDataS
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         tableView.deselectRow(at: indexPath, animated: true)
         
-        if isHavePayOrder{
+        if self.repayFinalType == .applying || self.repayFinalType == .success{
             self.showHint(in: self.view, hint: "账单结算，不可选择")
             return
         }
@@ -361,7 +363,7 @@ class RepayBillSelectVC: UIViewController, UITableViewDelegate, UITableViewDataS
     //MARK: Action
     func rightNavigationBarBtnAction(){
         
-        guard !isHavePayOrder else {
+        if self.repayFinalType == .applying || self.repayFinalType == .success {
             return
         }
         
@@ -409,6 +411,17 @@ class RepayBillSelectVC: UIViewController, UITableViewDelegate, UITableViewDataS
         })
         
         for i in 0..<selectInfotemp.count{
+            
+            for j in 0..<nameArray.count{
+                
+                if selectInfotemp[i]["orderId"] == nameArray[j]["orderId"] {
+                    if nameArray[j]["pay_flag"].intValue == 1 {
+                        self.showHint(in: self.view, hint: "有结算申请中账单，取消后可还款")
+                        return
+                    }
+                }
+            }
+            
             for j in 0..<unselectInfoTemp.count {
                 //是同一个单号进行比较
                 if selectInfotemp[i]["orderId"] == unselectInfoTemp[j]["orderId"]{
@@ -433,6 +446,7 @@ class RepayBillSelectVC: UIViewController, UITableViewDelegate, UITableViewDataS
         
        let repayVC = RepayViewController()
         repayVC.selectInfo = self.selectInfo
+        //还款方式， 0 正常还款 1七日内还款 2账单清算
         repayVC.flag = 0
        self.navigationController?.pushViewController(repayVC, animated: true)
     }
@@ -553,21 +567,32 @@ class RepayBillSelectVC: UIViewController, UITableViewDelegate, UITableViewDataS
                      self.dataArray[i]["selected"] = 0
                 }
             }
-            //清算的单子全选
+        
             if self.isHavePayOrder {
-                self.selectAllTermWithNoCancel()
                 
                 for i in 0..<self.nameArray.count{
                     if self.payOrderId == self.nameArray[i]["orderId"].stringValue{
                         switch self.nameArray[i]["pay_flag"].intValue{
                         case 0:
                             self.repayFinalType = .canApply
+                            self.titleButton.isUserInteractionEnabled = true
+                            self.titleText = self.nameArray[i]["orderName"].stringValue
                         case 1:
                             self.repayFinalType = .applying
+                            self.titleButton.isUserInteractionEnabled = false
+                            self.titleText = "清算账单"
+                            self.selectAllTermWithNoCancel()
+
                         case 2:
                             self.repayFinalType = .success
+                            self.titleButton.isUserInteractionEnabled = false
+                            self.titleText = "清算账单"
+                            self.selectAllTermWithNoCancel()
+
                         default:
-                            break
+                            self.titleButton.isUserInteractionEnabled = true
+                            self.titleText = self.nameArray[i]["orderName"].stringValue
+                            self.repayFinalType = .cannotApply
                         }
                     }
                 }

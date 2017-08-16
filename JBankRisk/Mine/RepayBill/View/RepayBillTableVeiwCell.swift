@@ -32,7 +32,7 @@ class RepayBillTableVeiwCell: UITableViewCell {
         
         leftTextLabel.snp.makeConstraints { (make) in
             make.left.equalTo(30*UIRate)
-            make.top.equalTo(15*UIRate)
+            make.top.equalTo(14*UIRate)
         }
         
         rightTextLabel.snp.makeConstraints { (make) in
@@ -54,7 +54,7 @@ class RepayBillTableVeiwCell: UITableViewCell {
         
         blLabel.snp.makeConstraints { (make) in
             make.left.equalTo(leftTextLabel)
-            make.bottom.equalTo(-15*UIRate)
+            make.bottom.equalTo(-14*UIRate)
         }
         
         brLabel.snp.makeConstraints { (make) in

@@ -99,7 +99,13 @@ class BillSelectTableViewCell: UITableViewCell {
     }()
     
     func cellWithDate(dic: JSON){
-        leftTopTextLabel.text = dic["orderName"].stringValue + " 第\(dic["term"].stringValue)期"
+        //100为清算的
+        if dic["term"].intValue == 100 {
+            leftTopTextLabel.text = dic["orderName"].stringValue + " 结算金额"
+        }else {
+           leftTopTextLabel.text = dic["orderName"].stringValue + " 第\(dic["term"].stringValue)期"
+        }
+        
         leftBottomTextLabel.text = toolsChangeDateStyle(toYYYYMMDD: dic["realpay_date"].stringValue)
         let penaltyDay = dic["penalty_day"].intValue
         if penaltyDay > 0 { //有逾期
