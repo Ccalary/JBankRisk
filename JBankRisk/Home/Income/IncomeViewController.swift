@@ -99,13 +99,7 @@ class IncomeViewController:  UIViewController,UITableViewDelegate, UITableViewDa
         tableView.register(BMTableViewCell.self, forCellReuseIdentifier: "IncomeCellID")
         
         //tableView 单元格分割线的显示
-        if tableView.responds(to:#selector(setter: UITableViewCell.separatorInset)) {
-            tableView.separatorInset = .zero
-        }
-        
-        if tableView.responds(to: #selector(setter: UITableViewCell.layoutMargins)) {
-            tableView.layoutMargins = .zero
-        }
+        tableView.separatorInset = UIEdgeInsets.zero
         return tableView
     }()
     
@@ -192,18 +186,6 @@ class IncomeViewController:  UIViewController,UITableViewDelegate, UITableViewDa
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
         return 50*UIRate
     }
-    
-    //设置分割线
-    func tableView(_ tableView: UITableView, willDisplay cell: UITableViewCell, forRowAt indexPath: IndexPath) {
-        
-        if cell.responds(to: #selector(setter: UITableViewCell.separatorInset)) {
-            cell.separatorInset = .zero
-        }
-        if cell.responds(to: #selector(setter: UITableViewCell.layoutMargins)) {
-            cell.layoutMargins = .zero
-        }
-    }
-    
     //MARK: - Method
     //局部刷新cell
     func reloadOneCell(at row: Int){

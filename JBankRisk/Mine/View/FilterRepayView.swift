@@ -67,13 +67,7 @@ class FilterRepayView: UIView,UITableViewDelegate, UITableViewDataSource {
         tableView.register(UITableViewCell.self, forCellReuseIdentifier: "cellID")
         
         //tableView 单元格分割线的显示
-        if tableView.responds(to:#selector(setter: UITableViewCell.separatorInset)) {
-            tableView.separatorInset = .zero
-        }
-        
-        if tableView.responds(to: #selector(setter: UITableViewCell.layoutMargins)) {
-            tableView.layoutMargins = .zero
-        }
+        tableView.separatorInset = UIEdgeInsets.zero
         return tableView
         
     }()
@@ -116,16 +110,4 @@ class FilterRepayView: UIView,UITableViewDelegate, UITableViewDataSource {
             onClickCell(indexPath.row + 1)
         }
     }
-    
-    //设置分割线
-    func tableView(_ tableView: UITableView, willDisplay cell: UITableViewCell, forRowAt indexPath: IndexPath) {
-        
-        if cell.responds(to: #selector(setter: UITableViewCell.separatorInset)) {
-            cell.separatorInset = .zero
-        }
-        if cell.responds(to: #selector(setter: UITableViewCell.layoutMargins)) {
-            cell.layoutMargins = .zero
-        }
-    }
-
 }

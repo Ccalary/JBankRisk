@@ -153,13 +153,7 @@ class NeedRepayViewController: UIViewController,UITableViewDelegate, UITableView
         tableView.tableFooterView = UIView()
         tableView.register(RepayDetailTableViewCell.self, forCellReuseIdentifier: "cellID")
         //tableView 单元格分割线的显示
-        if tableView.responds(to:#selector(setter: UITableViewCell.separatorInset)) {
-            tableView.separatorInset = .zero
-        }
-        
-        if tableView.responds(to: #selector(setter: UITableViewCell.layoutMargins)) {
-            tableView.layoutMargins = .zero
-        }
+        tableView.separatorInset = UIEdgeInsets.zero
         return tableView
         
     }()
@@ -228,17 +222,6 @@ class NeedRepayViewController: UIViewController,UITableViewDelegate, UITableView
         repayDetailVC.repaymentId = dataArray[indexPath.row]["repayment_id"].stringValue
         repayDetailVC.repayStatusType = monthRepayStatus //还款状态
         self.navigationController?.pushViewController(repayDetailVC, animated: true)
-    }
-    
-    //设置分割线
-    func tableView(_ tableView: UITableView, willDisplay cell: UITableViewCell, forRowAt indexPath: IndexPath) {
-        
-        if cell.responds(to: #selector(setter: UITableViewCell.separatorInset)) {
-            cell.separatorInset = .zero
-        }
-        if cell.responds(to: #selector(setter: UITableViewCell.layoutMargins)) {
-            cell.layoutMargins = .zero
-        }
     }
 
     ///消除手势与TableView的冲突

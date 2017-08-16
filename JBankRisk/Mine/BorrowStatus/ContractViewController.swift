@@ -76,13 +76,7 @@ class ContractViewController: UIViewController, UITableViewDataSource, UITableVi
         tableView.backgroundColor = defaultBackgroundColor
         tableView.register(ContractTableViewCell.self, forCellReuseIdentifier: cellID)
         //tableView 单元格分割线的显示
-        if tableView.responds(to:#selector(setter: UITableViewCell.separatorInset)) {
-            tableView.separatorInset = .zero
-        }
-        
-        if tableView.responds(to: #selector(setter: UITableViewCell.layoutMargins)) {
-            tableView.layoutMargins = .zero
-        }
+        tableView.separatorInset = UIEdgeInsets.zero
         return tableView
         
     }()
@@ -132,17 +126,6 @@ class ContractViewController: UIViewController, UITableViewDataSource, UITableVi
             
         case .search:
             self.seeContract(contractId: dataArray[indexPath.row]["contractId"].stringValue)
-        }
-    }
-    
-    //设置分割线
-    func tableView(_ tableView: UITableView, willDisplay cell: UITableViewCell, forRowAt indexPath: IndexPath) {
-        
-        if cell.responds(to: #selector(setter: UITableViewCell.separatorInset)) {
-            cell.separatorInset = .zero
-        }
-        if cell.responds(to: #selector(setter: UITableViewCell.layoutMargins)) {
-            cell.layoutMargins = .zero
         }
     }
 

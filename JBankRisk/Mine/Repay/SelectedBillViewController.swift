@@ -50,13 +50,7 @@ class SelectedBillViewController: UIViewController, UITableViewDelegate, UITable
         tableView.register(BillSelectTableViewCell.self, forCellReuseIdentifier: cellIdentity)
         
         //tableView 单元格分割线的显示
-        if tableView.responds(to:#selector(setter: UITableViewCell.separatorInset)) {
-            tableView.separatorInset = .zero
-        }
-        
-        if tableView.responds(to: #selector(setter: UITableViewCell.layoutMargins)) {
-            tableView.layoutMargins = .zero
-        }
+        tableView.separatorInset = UIEdgeInsets.zero
         return tableView
         
     }()
@@ -84,18 +78,6 @@ class SelectedBillViewController: UIViewController, UITableViewDelegate, UITable
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
         return 60*UIRate
     }
-    
-    //设置分割线
-    func tableView(_ tableView: UITableView, willDisplay cell: UITableViewCell, forRowAt indexPath: IndexPath) {
-        
-        if cell.responds(to: #selector(setter: UITableViewCell.separatorInset)) {
-            cell.separatorInset = .zero
-        }
-        if cell.responds(to: #selector(setter: UITableViewCell.layoutMargins)) {
-            cell.layoutMargins = .zero
-        }
-    }
-    
     
     //MARK: Action
     func rightNavigationBarBtnAction(){

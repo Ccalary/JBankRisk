@@ -101,12 +101,7 @@ class SysMessageViewController: UIViewController,UITableViewDelegate, UITableVie
         tableView.register(SysMessageTableViewCell.self, forCellReuseIdentifier: "messageCellID")
         
         //tableView 单元格分割线的显示
-        if tableView.responds(to:#selector(setter: UITableViewCell.separatorInset)) {
-            tableView.separatorInset = .zero
-        }
-        if tableView.responds(to: #selector(setter: UITableViewCell.layoutMargins)) {
-            tableView.layoutMargins = .zero
-        }
+        tableView.separatorInset = UIEdgeInsets.zero
         return tableView
     }()
     //MARK: - UITableView Delegate&&DataSource
@@ -151,18 +146,6 @@ class SysMessageViewController: UIViewController,UITableViewDelegate, UITableVie
         
         self.requestReadData()
     }
-    
-    //设置分割线
-    func tableView(_ tableView: UITableView, willDisplay cell: UITableViewCell, forRowAt indexPath: IndexPath) {
-        
-        if cell.responds(to: #selector(setter: UITableViewCell.separatorInset)) {
-            cell.separatorInset = .zero
-        }
-        if cell.responds(to: #selector(setter: UITableViewCell.layoutMargins)) {
-            cell.layoutMargins = .zero
-        }
-    }
-    
     
     //MARK: - 请求数据
     func requestData(){

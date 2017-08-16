@@ -273,13 +273,7 @@ class DataViewController: UIViewController,UITableViewDelegate, UITableViewDataS
         tableView.register(BMTableViewCell.self, forCellReuseIdentifier: "DataCellID")
         
         //tableView 单元格分割线的显示
-        if tableView.responds(to:#selector(setter: UITableViewCell.separatorInset)) {
-            tableView.separatorInset = .zero
-        }
-        
-        if tableView.responds(to: #selector(setter: UITableViewCell.layoutMargins)) {
-            tableView.layoutMargins = .zero
-        }
+        tableView.separatorInset = UIEdgeInsets.zero
         return tableView
         
     }()
@@ -390,17 +384,6 @@ class DataViewController: UIViewController,UITableViewDelegate, UITableViewDataS
         popupView.onClickClose = { _ in //关闭
             popupController.dismiss(animated: true)
         }
-    }
-    
-    //设置分割线
-    func tableView(_ tableView: UITableView, willDisplay cell: UITableViewCell, forRowAt indexPath: IndexPath) {
-        
-            if cell.responds(to: #selector(setter: UITableViewCell.separatorInset)) {
-                cell.separatorInset = .zero
-            }
-            if cell.responds(to: #selector(setter: UITableViewCell.layoutMargins)) {
-                cell.layoutMargins = .zero
-            }
     }
     
     /******************/

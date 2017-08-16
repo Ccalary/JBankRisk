@@ -10,7 +10,7 @@ import UIKit
 
 class PopupProtocalDetailView: UIView {
 
-    let noticeStr = "如需电子合同，请发送邮箱至postmaster@zc-cfc.com申请，邮件中注明您的姓名、手机号码、身份证号码，邮件主题请标明“申请电子合同”字样。"
+    let noticeStr = "如需电子合同，请发送邮箱至postmaster@zc-cfc.com申请，邮件中注明您的姓名、手机号码、身份证号码、借款编号，邮件主题请标明“申请电子合同”字样。"
     let addressStr = "postmaster@zc-cfc.com"
     
     override init(frame: CGRect ) {
@@ -20,7 +20,7 @@ class PopupProtocalDetailView: UIView {
     
     ///初始化默认frame
     convenience init() {
-        let frame = CGRect(x: 0, y: 0, width: SCREEN_WIDTH - 40*UIRate, height: 220*UIRate)
+        let frame = CGRect(x: 0, y: 0, width: SCREEN_WIDTH - 40*UIRate, height: 235*UIRate)
         self.init(frame: frame)
     }
     

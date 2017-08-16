@@ -59,13 +59,11 @@ class RepayViewController: UIViewController, UITableViewDelegate, UITableViewDat
         self.view.addSubview(aTableView)
         self.view.addSubview(footerHoldView)
         self.aTableView.tableHeaderView = headerHoldView
-        self.aTableView.tableFooterView = divideLine2
         
         headerHoldView.addSubview(topImageView)
         self.topImageView.addSubview(totalTextLabel)
         self.topImageView.addSubview(moneyLabel)
         headerHoldView.addSubview(nameTextLabel)
-        headerHoldView.addSubview(divideLine1)
 
         footerHoldView.addSubview(nextStepBtn)
         
@@ -100,20 +98,6 @@ class RepayViewController: UIViewController, UITableViewDelegate, UITableViewDat
             make.height.equalTo(45*UIRate)
         }
 
-        divideLine1.snp.makeConstraints { (make) in
-            make.width.equalTo(self.view)
-            make.height.equalTo(0.5*UIRate)
-            make.centerX.equalTo(self.view)
-            make.bottom.equalTo(0)
-        }
-        
-        divideLine2.snp.makeConstraints { (make) in
-            make.width.equalTo(self.view)
-            make.height.equalTo(0.5*UIRate)
-            make.centerX.equalTo(self.view)
-            make.top.equalTo(0)
-        }
-        
         nextStepBtn.snp.makeConstraints { (make) in
             make.width.equalTo(345*UIRate)
             make.height.equalTo(44*UIRate)
@@ -156,20 +140,6 @@ class RepayViewController: UIViewController, UITableViewDelegate, UITableViewDat
         return label
     }()
     
-    //分割线
-    private lazy var divideLine1: UIView = {
-        let lineView = UIView()
-        lineView.backgroundColor = defaultDivideLineColor
-        return lineView
-    }()
-    
-    //分割线
-    private lazy var divideLine2: UIView = {
-        let lineView = UIView()
-        lineView.backgroundColor = defaultDivideLineColor
-        return lineView
-    }()
-    
     //／按钮
     private lazy var nextStepBtn: UIButton = {
         let button = UIButton()
@@ -183,7 +153,7 @@ class RepayViewController: UIViewController, UITableViewDelegate, UITableViewDat
     
     private lazy var aTableView: UITableView = {
         
-        let tableView = UITableView()
+        let tableView = UITableView(frame: CGRect.zero, style: .grouped)
         tableView.delegate = self
         tableView.dataSource = self
         tableView.backgroundColor = defaultBackgroundColor
@@ -191,13 +161,7 @@ class RepayViewController: UIViewController, UITableViewDelegate, UITableViewDat
         tableView.register(RepayDetailTableViewCell.self, forCellReuseIdentifier:cellIdentity)
         
         //tableView 单元格分割线的显示
-        if tableView.responds(to:#selector(setter: UITableViewCell.separatorInset)) {
-            tableView.separatorInset = .zero
-        }
-        
-        if tableView.responds(to: #selector(setter: UITableViewCell.layoutMargins)) {
-            tableView.layoutMargins = .zero
-        }
+        tableView.separatorInset = UIEdgeInsets.zero
         return tableView
         
     }()
@@ -246,17 +210,6 @@ class RepayViewController: UIViewController, UITableViewDelegate, UITableViewDat
         repayDetailVC.repayStatusType = monthRepayStatus //还款状态
         self.navigationController?.pushViewController(repayDetailVC, animated: true)
         
-    }
-    
-    //设置分割线
-    func tableView(_ tableView: UITableView, willDisplay cell: UITableViewCell, forRowAt indexPath: IndexPath) {
-        
-        if cell.responds(to: #selector(setter: UITableViewCell.separatorInset)) {
-            cell.separatorInset = .zero
-        }
-        if cell.responds(to: #selector(setter: UITableViewCell.layoutMargins)) {
-            cell.layoutMargins = .zero
-        }
     }
     
     func nextStepBtnAction(){

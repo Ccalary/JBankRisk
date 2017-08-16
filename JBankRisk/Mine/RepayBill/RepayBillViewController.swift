@@ -19,9 +19,6 @@ class RepayBillViewController: UIViewController, UITableViewDataSource, UITableV
     var monthDataArray = [JSON]()
     var allDataArray = [JSON]()
     
-    //清算id
-    fileprivate var payOrderId = ""
-    
     override func viewDidLoad() {
         super.viewDidLoad()
         self.setupUI()
@@ -243,13 +240,7 @@ class RepayBillViewController: UIViewController, UITableViewDataSource, UITableV
         tableView.register(RepayBillTableVeiwCell.self, forCellReuseIdentifier: "repayCellID")
         
         //tableView 单元格分割线的显示
-        if tableView.responds(to:#selector(setter: UITableViewCell.separatorInset)) {
-            tableView.separatorInset = .zero
-        }
-        
-        if tableView.responds(to: #selector(setter: UITableViewCell.layoutMargins)) {
-            tableView.layoutMargins = .zero
-        }
+        tableView.separatorInset = UIEdgeInsets.zero
         return tableView
     }()
     
@@ -412,17 +403,6 @@ class RepayBillViewController: UIViewController, UITableViewDataSource, UITableV
         return section == 0 ? 50*UIRate : 60*UIRate
     }
     
-    //设置分割线
-    func tableView(_ tableView: UITableView, willDisplay cell: UITableViewCell, forRowAt indexPath: IndexPath) {
-        
-        if cell.responds(to: #selector(setter: UITableViewCell.separatorInset)) {
-            cell.separatorInset = .zero
-        }
-        if cell.responds(to: #selector(setter: UITableViewCell.layoutMargins)) {
-            cell.layoutMargins = .zero
-        }
-    }
-    
     //MARK: - 请求数据
     func requestData(){
         //添加HUD
@@ -453,8 +433,6 @@ class RepayBillViewController: UIViewController, UITableViewDataSource, UITableV
         }else{
             self.recentTimeLabel.text = ""
         }
-        //是否有清算的id
-        payOrderId = json["payOrderId"].stringValue
         
         self.monthDataArray.removeAll()
         self.allDataArray.removeAll()
@@ -486,9 +464,6 @@ extension RepayBillViewController:RepayBillHeaderViewDelegate {
     func preRepayBtnAction(){
         
         let repayBillVC = RepayBillSelectVC()
-        if self.payOrderId.characters.count > 0 {
-            repayBillVC.payOrderId = self.payOrderId
-        }
         self.navigationController?.pushViewController(repayBillVC, animated: true)
     }
     //本月还款

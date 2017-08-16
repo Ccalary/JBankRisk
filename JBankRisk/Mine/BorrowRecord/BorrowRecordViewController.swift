@@ -207,13 +207,7 @@ class BorrowRecordViewController: UIViewController,UITableViewDelegate, UITableV
         tableView.register(BorrowRecordTableViewCell.self, forCellReuseIdentifier: "borrowCellID")
         
         //tableView 单元格分割线的显示
-        if tableView.responds(to:#selector(setter: UITableViewCell.separatorInset)) {
-            tableView.separatorInset = .zero
-        }
-        
-        if tableView.responds(to: #selector(setter: UITableViewCell.layoutMargins)) {
-            tableView.layoutMargins = .zero
-        }
+        tableView.separatorInset = UIEdgeInsets.zero
         return tableView
         
     }()
@@ -249,17 +243,6 @@ class BorrowRecordViewController: UIViewController,UITableViewDelegate, UITableV
             let borrowStatusVC = BorrowStatusVC()
             borrowStatusVC.orderId = dataArray[indexPath.row]["orderId"].stringValue
             self.navigationController?.pushViewController(borrowStatusVC, animated: true)
-        }
-    }
-
-    //设置分割线
-    func tableView(_ tableView: UITableView, willDisplay cell: UITableViewCell, forRowAt indexPath: IndexPath) {
-        
-        if cell.responds(to: #selector(setter: UITableViewCell.separatorInset)) {
-            cell.separatorInset = .zero
-        }
-        if cell.responds(to: #selector(setter: UITableViewCell.layoutMargins)) {
-            cell.layoutMargins = .zero
         }
     }
 

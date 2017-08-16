@@ -11,7 +11,7 @@ import SwiftyJSON
 
 class BorrowInfoView: UIView , UITableViewDelegate, UITableViewDataSource{
 
-    var dataArray = ["产品名称","所属商户","申请金额","申请期限","月还款额"]
+    var dataArray = ["产品名称","所属商户","申请金额","申请期限","月还款额","借款编号"]
     
     var json: JSON = []{
         didSet{
@@ -26,7 +26,7 @@ class BorrowInfoView: UIView , UITableViewDelegate, UITableViewDataSource{
     
     ///初始化默认frame
     convenience init() {
-        let frame = CGRect(x: 0, y: 0, width: SCREEN_WIDTH, height: 60*UIRate + 5*30*UIRate + 50*UIRate)
+        let frame = CGRect(x: 0, y: 0, width: SCREEN_WIDTH, height: 60*UIRate + 6*30*UIRate + 50*UIRate)
         self.init(frame: frame)
         setupUI()
     }
@@ -166,7 +166,8 @@ class BorrowInfoView: UIView , UITableViewDelegate, UITableViewDataSource{
              cell.rightOffTextLabel.text = json["total"].stringValue + "期"
         case 4:
              cell.rightOffTextLabel.text = toolsChangeMoneyStyle(amount: json["term_amt"].doubleValue) + "元"
-            
+        case 5:
+            cell.rightOffTextLabel.text = json["orderId"].stringValue
         default:
             break
         }

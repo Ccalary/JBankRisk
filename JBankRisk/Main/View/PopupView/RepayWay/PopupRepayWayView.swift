@@ -112,13 +112,7 @@ class PopupRepayWayView: UIView,  UITableViewDelegate, UITableViewDataSource {
         tableView.isScrollEnabled = false 
         tableView.register(UITableViewCell.self, forCellReuseIdentifier: "popCellID")
         //tableView 单元格分割线的显示
-        if tableView.responds(to:#selector(setter: UITableViewCell.separatorInset)) {
-            tableView.separatorInset = .zero
-        }
-        
-        if tableView.responds(to: #selector(setter: UITableViewCell.layoutMargins)) {
-            tableView.layoutMargins = .zero
-        }
+        tableView.separatorInset = UIEdgeInsets.zero
         return tableView
     }()
     
@@ -150,17 +144,6 @@ class PopupRepayWayView: UIView,  UITableViewDelegate, UITableViewDataSource {
         
         if let onClickSelect = self.onClickSelect {
             onClickSelect(indexPath.row)
-        }
-    }
-    
-    //设置分割线
-    func tableView(_ tableView: UITableView, willDisplay cell: UITableViewCell, forRowAt indexPath: IndexPath) {
-        
-        if cell.responds(to: #selector(setter: UITableViewCell.separatorInset)) {
-            cell.separatorInset = .zero
-        }
-        if cell.responds(to: #selector(setter: UITableViewCell.layoutMargins)) {
-            cell.layoutMargins = .zero
         }
     }
     

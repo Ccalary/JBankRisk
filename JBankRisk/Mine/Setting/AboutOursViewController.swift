@@ -121,13 +121,7 @@ class AboutOursViewController: UIViewController, UITableViewDelegate, UITableVie
         tableView.register(AboutOursTableViewCell.self, forCellReuseIdentifier: "oursCellID")
         
         //tableView 单元格分割线的显示
-        if tableView.responds(to:#selector(setter: UITableViewCell.separatorInset)) {
-            tableView.separatorInset = .zero
-        }
-        
-        if tableView.responds(to: #selector(setter: UITableViewCell.layoutMargins)) {
-            tableView.layoutMargins = .zero
-        }
+        tableView.separatorInset = UIEdgeInsetsMake(0, 0, 0, 0)
         return tableView
         
     }()
@@ -231,16 +225,6 @@ class AboutOursViewController: UIViewController, UITableViewDelegate, UITableVie
         
     }
     
-    //设置分割线
-    func tableView(_ tableView: UITableView, willDisplay cell: UITableViewCell, forRowAt indexPath: IndexPath) {
-        
-        if cell.responds(to: #selector(setter: UITableViewCell.separatorInset)) {
-            cell.separatorInset = .zero
-        }
-        if cell.responds(to: #selector(setter: UITableViewCell.layoutMargins)) {
-            cell.layoutMargins = .zero
-        }
-    }
     
     //请求版本更新
     func requestUpdataVersion(){
