@@ -219,7 +219,12 @@ class RepayDetailTableViewCell: UITableViewCell {
     //还款详情已还
     func alreadyCellWithData(dic: JSON){
         
-        leftTopTextLabel.text = "第\(dic["term"].stringValue)期"
+        if dic["term"].intValue == 100 {
+            leftTopTextLabel.text = "结算金额"
+        }else {
+            leftTopTextLabel.text = "第\(dic["term"].stringValue)期"
+        }
+
         leftBottomTextLabel.text = toolsChangeDateStyle(toYYYYMMDD: dic["realpay_date"].stringValue)
         statusTextLabel.text = "完成"
         let penaltyDay = dic["penalty_day"].intValue //逾期
@@ -237,7 +242,12 @@ class RepayDetailTableViewCell: UITableViewCell {
     func needRepayCellWithData(dic: JSON){
         
         leftTopTextLabel.text = dic["orderName"].stringValue
-        leftTopTextLabel2.text = "第" + dic["term"].stringValue + "期"
+        if dic["term"].intValue == 100 {
+             leftTopTextLabel2.text = "结算金额"
+        }else {
+             leftTopTextLabel2.text = "第" + dic["term"].stringValue + "期"
+        }
+       
         leftBottomTextLabel.text = toolsChangeDateStyle(toYYYYMMDD: dic["realpay_date"].stringValue)
         statusTextLabel.text = "待还"
         let penaltyDay = dic["penalty_day"].intValue //逾期
