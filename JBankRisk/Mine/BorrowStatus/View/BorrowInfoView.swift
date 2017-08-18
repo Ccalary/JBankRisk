@@ -117,7 +117,7 @@ class BorrowInfoView: UIView , UITableViewDelegate, UITableViewDataSource{
     }()
     
     //／按钮
-    private lazy var protocolBtn: UIButton = {
+   lazy var protocolBtn: UIButton = {
         let button = UIButton()
         button.layer.borderColor = UIColorHex("00b2ff").cgColor
         button.layer.borderWidth = 0.5*UIRate

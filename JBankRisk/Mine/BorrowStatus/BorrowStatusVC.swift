@@ -66,10 +66,12 @@ class BorrowStatusVC: UIViewController {
     var status = "" {
         didSet{
             infoView.isHidden = false
+            infoView.protocolBtn.isHidden = true
             switch self.status {
             case "0"://订单完结
                 statusType = .finish
                 topHeight = 280*UIRate
+                infoView.protocolBtn.isHidden = false
             case "2": //审核中
                 statusType = .examing
                 topHeight = 200*UIRate
@@ -82,6 +84,7 @@ class BorrowStatusVC: UIViewController {
             case "5"://还款中
                 statusType = .repaying
                 topHeight = 280*UIRate
+                infoView.protocolBtn.isHidden = false
             case "7"://审核未通过
                 statusType = .fail
                 topHeight = 200*UIRate
@@ -171,7 +174,7 @@ class BorrowStatusVC: UIViewController {
         infoView.onClickProtocol = {[unowned self] in
             
             //如果是还款中加载已签署的合同
-            if  self.statusType == .repaying || self.statusType == .checking {
+            if  self.statusType == .repaying || self.statusType == .finish {
 //                 self.requestListData()
 //                let contractVC = ContractViewController()
 //                contractVC.viewType = .search
@@ -191,10 +194,10 @@ class BorrowStatusVC: UIViewController {
                 }
 
             }else {
-                let webView = BaseWebViewController()
-                webView.requestUrl = PC_PROTOCOL_DETAIL + "&orderId=" + (self.orderId)
-                webView.webTitle = "合同详情"
-                self.navigationController?.pushViewController(webView, animated: true)
+//                let webView = BaseWebViewController()
+//                webView.requestUrl = PC_PROTOCOL_DETAIL + "&orderId=" + (self.orderId)
+//                webView.webTitle = "合同详情"
+//                self.navigationController?.pushViewController(webView, animated: true)
             }
         }
  }

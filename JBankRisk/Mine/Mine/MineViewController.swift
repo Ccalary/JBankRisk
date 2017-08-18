@@ -225,7 +225,7 @@ class MineViewController: UIViewController, UIGestureRecognizerDelegate,UICollec
             self.navigationController?.pushViewController(repayDetailVC, animated: true)
         case 3://提前还款
             
-            if isHaveBill {
+            if statusNumber.repaying > 0 {
                 let repayBillVC = RepayBillSelectVC()
                 self.navigationController?.pushViewController(repayBillVC, animated: true)
             }else {
