@@ -35,13 +35,22 @@ class BorrowStatusView: UIView {
              */
             tipsBtn.isHidden = true
             divideLine1.isHidden = false
-             repayDetailBtn.isHidden = true
+            repayDetailBtn.isHidden = true
             switch statusType {
             case .finish://订单完结
                 self.bgImageView.isHidden = false
                 self.statusImageView.image = UIImage(named:"bs_finish_110x90")
+                repayDetailBtn.isHidden = false
                 nextStepBtn.isHidden = false
-                nextStepBtn.setTitle("还款详情", for: UIControlState.normal)
+                switch repayFinalType {
+                case .sucRepayed:
+                    disTextLabel.text = "         "//改变还款详情布局
+                    repayDetailBtn.isHidden = false
+                    nextStepBtn.setTitle("账单结算已完成", for: UIControlState.normal)
+                default:
+                    nextStepBtn.setTitle("还款详情", for: UIControlState.normal)
+                    repayDetailBtn.isHidden = true
+                }
             case .examing: //审核中
                 self.bgImageView.isHidden = false
                 self.statusImageView.image = UIImage(named:"bs_examing_110x90")
@@ -75,6 +84,8 @@ class BorrowStatusView: UIView {
                     nextStepBtn.setTitle("结算账单申请中", for: UIControlState.normal)
                 case .success:
                     nextStepBtn.setTitle("支付结算金额", for: UIControlState.normal)
+                default:
+                    break
                 }
                 
             case .fail://审核未通过

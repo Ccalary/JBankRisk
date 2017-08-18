@@ -277,9 +277,7 @@ class RepayDetailViewController: UIViewController, UITableViewDelegate, UITableV
             default:
                 break
             }
-
         }
-
     }
     
     func pushToFinalVC(){

@@ -39,7 +39,7 @@ class BorrowStatusVC: UIViewController {
     private var repayFinalType:RepayFinalType = .cannotApply
     //7天内是否有还款
     private var weekPay = 0
-    //还款状态0可申请 1申请中 2成功
+    //还款状态0可申请 1申请中 2成功 3还款完成
     private var payFlag = 0{
         didSet{
             switch payFlag {
@@ -49,6 +49,8 @@ class BorrowStatusVC: UIViewController {
                 repayFinalType = .applying
             case 2:
                 repayFinalType = .success
+            case 3:
+                repayFinalType = .sucRepayed
             default:
                 repayFinalType = .cannotApply
             }
@@ -66,12 +68,12 @@ class BorrowStatusVC: UIViewController {
     var status = "" {
         didSet{
             infoView.isHidden = false
-            infoView.protocolBtn.isHidden = true
+            infoView.showProtocalBtn = false
             switch self.status {
             case "0"://订单完结
                 statusType = .finish
                 topHeight = 280*UIRate
-                infoView.protocolBtn.isHidden = false
+                infoView.showProtocalBtn = true
             case "2": //审核中
                 statusType = .examing
                 topHeight = 200*UIRate
@@ -84,7 +86,7 @@ class BorrowStatusVC: UIViewController {
             case "5"://还款中
                 statusType = .repaying
                 topHeight = 280*UIRate
-                infoView.protocolBtn.isHidden = false
+                infoView.showProtocalBtn = true
             case "7"://审核未通过
                 statusType = .fail
                 topHeight = 200*UIRate
@@ -161,9 +163,10 @@ class BorrowStatusVC: UIViewController {
         
         infoView.snp.makeConstraints { (make) in
             make.width.equalTo(self.view)
-            make.height.equalTo(300*UIRate)
+//            make.height.equalTo(300*UIRate)
             make.centerX.equalTo(self.view)
             make.top.equalTo(self.statusView.snp.bottom)
+            make.bottom.equalTo(self.view)
         }
         
         self.mScrollView.addPullRefreshHandler({ [weak self] in
@@ -306,7 +309,12 @@ class BorrowStatusVC: UIViewController {
             
             switch self.statusType {
             case .finish:
-                break
+                switch self.repayFinalType {
+                case .sucRepayed:
+                    self.popToRepayFinalVC()
+                default:
+                    self.popToRepayDetailVC() 
+                }
             
             case .fullSuccess://全额通过
                 let serviceVC = UpLoadServiceBillVC()
@@ -327,6 +335,8 @@ class BorrowStatusVC: UIViewController {
                     }
                 case .applying, .success:
                     self.popToRepayFinalVC()
+                default:
+                    self.popToRepayDetailVC()
                 }
                
             case .fail://重新申请

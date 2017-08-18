@@ -11,7 +11,7 @@ import SwiftyJSON
 
 class BorrowInfoView: UIView , UITableViewDelegate, UITableViewDataSource{
 
-    var dataArray = ["产品名称","所属商户","申请金额","申请期限","月还款额","借款编号"]
+    private var dataArray = ["产品名称","所属商户","申请金额","申请期限","月还款额","借款编号"]
     
     var json: JSON = []{
         didSet{
@@ -19,15 +19,21 @@ class BorrowInfoView: UIView , UITableViewDelegate, UITableViewDataSource{
         }
     }
     
-    override init(frame: CGRect ) {
-        super.init(frame: frame)
-        
+    private var footerView: UIView!
+    
+    //是否展示还款详情按钮
+    var showProtocalBtn = false {
+        didSet{
+            if showProtocalBtn {
+                self.aTableView.tableFooterView = footerView
+            }else {
+                self.aTableView.tableFooterView = UIView()
+            }
+        }
     }
     
-    ///初始化默认frame
-    convenience init() {
-        let frame = CGRect(x: 0, y: 0, width: SCREEN_WIDTH, height: 60*UIRate + 6*30*UIRate + 50*UIRate)
-        self.init(frame: frame)
+    override init(frame: CGRect ) {
+        super.init(frame: frame)
         setupUI()
     }
     
@@ -36,53 +42,65 @@ class BorrowInfoView: UIView , UITableViewDelegate, UITableViewDataSource{
     }
     
     func setupUI(){
-        self.backgroundColor = UIColor.white
+        self.backgroundColor = defaultBackgroundColor
        
-        self.addSubview(dividerView)
-        self.addSubview(divideLine1)
-        self.addSubview(titleTextLabel)
-        self.addSubview(divideLine2)
+        let headerView = UIView(frame: CGRect(x: 0, y: 0, width: SCREEN_WIDTH, height: 60*UIRate))
+        headerView.backgroundColor = UIColor.white
+        
+        footerView = UIView(frame: CGRect(x: 0, y: 0, width: SCREEN_WIDTH, height: 40*UIRate))
+        footerView.backgroundColor = UIColor.white
+        
         self.addSubview(aTableView)
-        self.addSubview(protocolBtn)
+        
+        self.aTableView.tableHeaderView = headerView
+        
+       
+        
+        headerView.addSubview(dividerView)
+        headerView.addSubview(divideLine1)
+        headerView.addSubview(titleTextLabel)
+        headerView.addSubview(divideLine2)
+       
+        footerView.addSubview(protocolBtn)
         
         dividerView.snp.makeConstraints { (make) in
-            make.width.equalTo(self)
+            make.width.equalTo(headerView)
             make.height.equalTo(10*UIRate)
-            make.centerX.equalTo(self)
+            make.centerX.equalTo(headerView)
             make.top.equalTo(0)
         }
         
         divideLine1.snp.makeConstraints { (make) in
-            make.width.equalTo(self)
+            make.width.equalTo(headerView)
             make.height.equalTo(0.5*UIRate)
-            make.centerX.equalTo(self)
+            make.centerX.equalTo(headerView)
             make.top.equalTo(10*UIRate)
         }
         
         divideLine2.snp.makeConstraints { (make) in
-            make.width.equalTo(self)
+            make.width.equalTo(headerView)
             make.height.equalTo(0.5*UIRate)
-            make.centerX.equalTo(self)
+            make.centerX.equalTo(headerView)
             make.top.equalTo(59*UIRate)
         }
 
         titleTextLabel.snp.makeConstraints { (make) in
-            make.centerX.equalTo(self)
-            make.centerY.equalTo(self.snp.top).offset(35*UIRate)
+            make.centerX.equalTo(headerView)
+            make.centerY.equalTo(headerView.snp.top).offset(35*UIRate)
         }
         
         aTableView.snp.makeConstraints { (make) in
             make.width.equalTo(self)
-            make.height.equalTo(CGFloat(dataArray.count)*30*UIRate)
+            make.height.equalTo(self)
             make.centerX.equalTo(self)
-            make.top.equalTo(60*UIRate)
+            make.top.equalTo(self)
         }
 
         protocolBtn.snp.makeConstraints { (make) in
             make.width.equalTo(70*UIRate)
             make.height.equalTo(30*UIRate)
             make.right.equalTo(-10*UIRate)
-            make.top.equalTo(self.aTableView.snp.bottom).offset(5*UIRate)
+            make.centerY.equalTo(footerView)
         }
 
     }
@@ -117,7 +135,7 @@ class BorrowInfoView: UIView , UITableViewDelegate, UITableViewDataSource{
     }()
     
     //／按钮
-   lazy var protocolBtn: UIButton = {
+   private lazy var protocolBtn: UIButton = {
         let button = UIButton()
         button.layer.borderColor = UIColorHex("00b2ff").cgColor
         button.layer.borderWidth = 0.5*UIRate
@@ -136,7 +154,7 @@ class BorrowInfoView: UIView , UITableViewDelegate, UITableViewDataSource{
         tableView.dataSource = self
         tableView.separatorStyle = .none
         tableView.isScrollEnabled = false
-        tableView.tableFooterView = UIView()
+        tableView.backgroundColor = defaultBackgroundColor
         tableView.register(RepayListTableViewCell.self, forCellReuseIdentifier: "CellID")
         return tableView
         

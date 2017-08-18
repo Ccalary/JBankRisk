@@ -15,7 +15,7 @@ enum RepayFinalType { //账单清算状态
     case applying     //申请中
     case success      //通过
 //    case sucRepaying  //通过－未还款、还款中
-//    case sucRepayed   //通过－已还清、已结束
+    case sucRepayed   //通过－已还清、已结束
 }
 
 
@@ -131,6 +131,8 @@ class RepayFinalVC: UIViewController {
                 vc.flag = 2
                 self.navigationController?.pushViewController(vc, animated: true)
                 break
+            case .sucRepayed://已支付不做处理
+                break
             default:
                 break
             }
@@ -220,6 +222,9 @@ class RepayFinalVC: UIViewController {
             dic["orderId"] = self.orderId
             dic["repayment_id"] = json["repayment_id"].stringValue
             selectInfo.append(dic)
+        case 3:
+            self.repayFinalType = .sucRepayed
+            payState = "账单结算已完成"
         default:
             break
         }
@@ -231,6 +236,8 @@ class RepayFinalVC: UIViewController {
         case .applying:
             self.detailView.dataArray = [repayTerm, restRepay, penalty, auditTime, auditState]
         case .success:
+            self.detailView.dataArray = [repayTerm, restRepay, penalty, endTime, auditState]
+        case .sucRepayed:
             self.detailView.dataArray = [repayTerm, restRepay, penalty, endTime, auditState]
         default:
             break

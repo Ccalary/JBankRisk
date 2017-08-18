@@ -30,13 +30,8 @@ class BaseResponseModel: Mappable {
     
     func isSuccess() -> Bool {
         if let retCode = RET_CODE{
-            if retCode == "000000"{
-                return true
-            }else{
-                return false
-            }
-        }else{
-            return false
+            if retCode == "000000"{return true}
         }
+        return false
     }
 }

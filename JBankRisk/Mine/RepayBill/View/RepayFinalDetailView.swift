@@ -31,6 +31,8 @@ class RepayFinalDetailView: UIView, UITableViewDelegate, UITableViewDataSource {
                 nextStepBtn.setTitle("取消申请", for: .normal)
             case .success:
                 nextStepBtn.setTitle("立即支付", for: .normal)
+            case .sucRepayed:
+                nextStepBtn.setTitle("支付完成", for: .normal)
             default:
                 break
             }
