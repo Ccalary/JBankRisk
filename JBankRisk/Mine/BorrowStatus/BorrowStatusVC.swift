@@ -278,11 +278,11 @@ class BorrowStatusVC: UIViewController {
             
             self.status = json["jstatus"].stringValue
             self.weekPay = json["weekPay"].intValue
-            //大于6期才可以申请清算
-            if json["term"].intValue > 6{
-                 self.payFlag = json["pay_flag"].intValue
-            }
-            
+//            //大于6期才可以申请清算
+//            if json["term"].intValue > 6{
+//                
+//            }
+            self.payFlag = json["pay_flag"].intValue
             self.statusView.failDis = json["descrption"].stringValue
             self.statusView.statusType = self.statusType
             self.refreshOrderUI(json: json["Infos"])

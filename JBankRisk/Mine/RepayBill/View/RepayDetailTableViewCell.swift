@@ -116,10 +116,10 @@ class RepayDetailTableViewCell: UITableViewCell {
         }
         
         centerLabel.snp.makeConstraints { (make) in
-            make.width.equalTo(250*UIRate)
+            make.width.equalTo(280*UIRate)
             make.height.equalTo(self)
             make.left.equalTo(100*UIRate)
-            make.center.equalTo(self)
+            make.centerY.equalTo(self)
         }
     }
     
