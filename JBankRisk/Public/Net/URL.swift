@@ -13,7 +13,7 @@ let LOCAL = "http://192.168.1.90:8080"
 let ONLINE = "https://dev.zc-cfc.com" //线上
 let PRODUCT = "https://www.zc-cfc.com"//生产
 
-let BASE_DEV_URL = PRODUCT
+let BASE_DEV_URL = ONLINE
 
 /// 请求地址接口
 //let OTHER_SERVICE_URL = "https://www.zc-cfc.com/jinangk.xhtml?TX_CODE=490001"

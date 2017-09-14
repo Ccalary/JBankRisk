@@ -7,6 +7,7 @@
 //
 
 import UIKit
+import SwiftyJSON
 
 class CancelOrderTableViewCell: UITableViewCell {
 
@@ -120,13 +121,14 @@ class CancelOrderTableViewCell: UITableViewCell {
         let label = UILabel()
         label.font = UIFontSize(size:12*UIRate)
         label.textColor = UIColorHex("666666")
-        label.text = "2017-10-10 12:00"
+        label.text = ""
         return label
     }()
     
     /***✅已完成**/
     private lazy var finishView: UIView = {
         let holdView = UIView()
+        holdView.isHidden = true
         holdView.backgroundColor = UIColor.clear
         return holdView
     }()
@@ -196,5 +198,57 @@ class CancelOrderTableViewCell: UITableViewCell {
     func payBtnAction(){
         
     }
+    
+    //填充数据
+    func cellWithData(_ json:JSON, at row: Int){
+        
+        divideLine1.isHidden = false
+        divideLine2.isHidden = false
+        finishView.isHidden = true
+        clockImageView.isHidden = true
+        payBtn.isHidden = true
+        rightLabel.textColor = UIColorHex("666666")
+        
+        switch row {
+        case 0:
+            leftLabel.text = "发起申请"
+            divideLine1.isHidden = true
+        case 1:
+            leftLabel.text = "支付违约金"
+            leftDetailLabel.text = "请于24小时内支付完成"
+            rightLabel.textColor = UIColorHex("fc4146")
+            payBtn.isHidden = false
+            clockImageView.isHidden = true
+        case 2:
+            leftLabel.text = "上传退款凭证"
+            leftDetailLabel.text = "请联系客户经理上传凭证"
+        case 3:
+            leftLabel.text = "撤销成功"
+            leftDetailLabel.text = "财务审核成功即为撤销成功"
+            divideLine2.isHidden = true
+        default:
+            break
+        }
+        
+        //flag为1为完成
+        if (json["flag"].intValue == 1){
+            finishView.isHidden = false
+            rightLabel.text = toolsChangeDataStyle(toFullStyle: json["revoke_time"].stringValue)
+            clockImageView.isHidden = false
+            switch row {
+            case 0:
+                roundImageView.image = UIImage(named: "c_purple_7x7")
+            case 1:
+                roundImageView.image = UIImage(named: "c_pink_7x7")
+            case 2:
+                roundImageView.image = UIImage(named: "c_blue_7x7")
+            case 3:
+                roundImageView.image = UIImage(named: "c_orange_7x7")
+            default:
+                break
+            }
+        }
+    }
+    
 
 }

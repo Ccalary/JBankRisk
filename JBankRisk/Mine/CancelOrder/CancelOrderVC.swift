@@ -12,10 +12,19 @@ import SwiftyJSON
 private let cellID = "cellID"
 class CancelOrderVC: UIViewController, UITableViewDelegate, UITableViewDataSource {
 
+    var orderId = ""
+    
+    private var dataArray:[JSON] = []{
+        didSet{
+            self.aTableView.reloadData()
+        }
+    }
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         
         self.setupUI()
+        self.requestData()
     }
 
     override func didReceiveMemoryWarning() {
@@ -74,14 +83,15 @@ class CancelOrderVC: UIViewController, UITableViewDelegate, UITableViewDataSourc
     }
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return 4
+        return (dataArray.count <= 4) ? dataArray.count : 4
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: cellID) as! CancelOrderTableViewCell
         //去除选择效果
         cell.selectionStyle = .none
-        
+        //填充数据
+        cell.cellWithData(self.dataArray[indexPath.row], at: indexPath.row)
         return cell
     }
     
@@ -96,12 +106,13 @@ class CancelOrderVC: UIViewController, UITableViewDelegate, UITableViewDataSourc
     }
 
     
-    //MARK: - 个人中心数据请求
-    func requestHomeData(){
+    //MARK: - 数据请求
+    func requestData(){
         
-        let params = NetConnect.getBaseRequestParams()
+        var params = NetConnect.getBaseRequestParams()
+        params["orderId"] = self.orderId
         
-        NetConnect.pc_home_info(parameters: params, success: { response in
+        NetConnect.pc_cancel_order(parameters: params, success: { response in
             //隐藏HUD
             self.hideHud()
             
@@ -110,6 +121,7 @@ class CancelOrderVC: UIViewController, UITableViewDelegate, UITableViewDataSourc
                 return self.showHint(in: self.view, hint: json["RET_DESC"].stringValue)
             }
             
+            self.dataArray = json["backList"].arrayValue
             
         }, failure:{ error in
             //隐藏HUD
