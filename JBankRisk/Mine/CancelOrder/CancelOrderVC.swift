@@ -7,6 +7,8 @@
 //
 
 import UIKit
+import SwiftyJSON
+
 private let cellID = "cellID"
 class CancelOrderVC: UIViewController, UITableViewDelegate, UITableViewDataSource {
 
@@ -92,4 +94,28 @@ class CancelOrderVC: UIViewController, UITableViewDelegate, UITableViewDataSourc
         //跳转到注意事项界面
         self.navigationController?.pushViewController(CancelOrderNoticeVC(), animated: true)
     }
+
+    
+    //MARK: - 个人中心数据请求
+    func requestHomeData(){
+        
+        let params = NetConnect.getBaseRequestParams()
+        
+        NetConnect.pc_home_info(parameters: params, success: { response in
+            //隐藏HUD
+            self.hideHud()
+            
+            let json = JSON(response)
+            guard json["RET_CODE"] == "000000" else{
+                return self.showHint(in: self.view, hint: json["RET_DESC"].stringValue)
+            }
+            
+            
+        }, failure:{ error in
+            //隐藏HUD
+            self.hideHud()
+            self.showHint(in: self.view, hint: "网络请求失败")
+        })
+    }
+
 }

@@ -176,6 +176,9 @@ let PC_REPAY_FINAN = BASE_DEV_URL + "/jinangk.xhtml?TX_CODE=900092"
 ///3.17申请(取消)结算
 let PC_REPAY_FINAN_APPLY = BASE_DEV_URL + "/jinangk.xhtml?TX_CODE=900093"
 
+///3.18取消订单
+let PC_CANCEL_ORDER = BASE_DEV_URL + "/jinangk.xhtml?TX_CODE=900032"
+
 /****************其他(other)******************/
 ///4.1修改密码
 let OT_CHANGE_PSD_URL = BASE_DEV_URL + "/jinangk.xhtml?TX_CODE=490385"

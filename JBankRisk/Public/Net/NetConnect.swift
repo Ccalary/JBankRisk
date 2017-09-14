@@ -428,6 +428,15 @@ class NetConnect {
         })
     }
     
+    ///3.18撤销订单
+    static func pc_cancel_order(parameters: Parameters,success:@escaping (_ response:[String:AnyObject]) -> (),failure:@escaping(_ error: Error) -> ()){
+        NetworkRequest.sharedInstance.getRequest(urlString: PC_CANCEL_ORDER, params: parameters, success: { (response) in
+            success(response)
+        }, failture: { (error) in
+            failure(error)
+        })
+    }
+    
     /******************其他******************/
     //4.1 修改密码
     static func other_change_psd(parameters: Parameters,success:@escaping (_ response:[String:AnyObject]) -> (),failure:@escaping(_ error: Error) -> ()){
