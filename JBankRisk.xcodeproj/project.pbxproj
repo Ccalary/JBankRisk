@@ -224,6 +224,9 @@
 		0DFFAEDA1DAF6FB100819CF7 /* PopupPhoneCallView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0DFFAED91DAF6FB100819CF7 /* PopupPhoneCallView.swift */; };
 		0DFFAEDC1DAF707900819CF7 /* PopupRepaymentTipView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0DFFAEDB1DAF707900819CF7 /* PopupRepaymentTipView.swift */; };
 		2B1BB083F4340482D7181477 /* Pods_JBankRisk.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 6C59881BA6AE868EF7C84EBD /* Pods_JBankRisk.framework */; };
+		FE2DF5791F6A467000F4578A /* CancelOrderNoticeVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = FE2DF5781F6A467000F4578A /* CancelOrderNoticeVC.swift */; };
+		FE2DF57B1F6A4D8100F4578A /* CancelOrderVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = FE2DF57A1F6A4D8100F4578A /* CancelOrderVC.swift */; };
+		FE2DF57E1F6A4E3B00F4578A /* CancelOrderTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = FE2DF57D1F6A4E3B00F4578A /* CancelOrderTableViewCell.swift */; };
 		FE5500C61F413E6200D8B488 /* PopupRepayFinalTipsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = FE5500C51F413E6200D8B488 /* PopupRepayFinalTipsView.swift */; };
 /* End PBXBuildFile section */
 
@@ -510,6 +513,9 @@
 		6C59881BA6AE868EF7C84EBD /* Pods_JBankRisk.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_JBankRisk.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		73D1869A2BB9AB50BB8C7317 /* Pods-JBankRisk.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-JBankRisk.debug.xcconfig"; path = "Pods/Target Support Files/Pods-JBankRisk/Pods-JBankRisk.debug.xcconfig"; sourceTree = "<group>"; };
 		91BCC3D8B544C1AFEB18B90C /* Pods-JBankRisk.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-JBankRisk.release.xcconfig"; path = "Pods/Target Support Files/Pods-JBankRisk/Pods-JBankRisk.release.xcconfig"; sourceTree = "<group>"; };
+		FE2DF5781F6A467000F4578A /* CancelOrderNoticeVC.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CancelOrderNoticeVC.swift; sourceTree = "<group>"; };
+		FE2DF57A1F6A4D8100F4578A /* CancelOrderVC.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CancelOrderVC.swift; sourceTree = "<group>"; };
+		FE2DF57D1F6A4E3B00F4578A /* CancelOrderTableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CancelOrderTableViewCell.swift; sourceTree = "<group>"; };
 		FE5500C51F413E6200D8B488 /* PopupRepayFinalTipsView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PopupRepayFinalTipsView.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -997,6 +1003,7 @@
 		0D29681C1DA9F772002FBB4C /* Mine */ = {
 			isa = PBXGroup;
 			children = (
+				FE2DF5741F6A462F00F4578A /* CancelOrder */,
 				0DF5FA061EBB4D82006DEC9B /* ZMAlipay */,
 				0D3ADC971DCC838000838043 /* SystemMessage */,
 				0D3ADC7D1DCC1D0500838043 /* Setting */,
@@ -1481,6 +1488,24 @@
 			name = Pods;
 			sourceTree = "<group>";
 		};
+		FE2DF5741F6A462F00F4578A /* CancelOrder */ = {
+			isa = PBXGroup;
+			children = (
+				FE2DF57C1F6A4E1D00F4578A /* View */,
+				FE2DF57A1F6A4D8100F4578A /* CancelOrderVC.swift */,
+				FE2DF5781F6A467000F4578A /* CancelOrderNoticeVC.swift */,
+			);
+			path = CancelOrder;
+			sourceTree = "<group>";
+		};
+		FE2DF57C1F6A4E1D00F4578A /* View */ = {
+			isa = PBXGroup;
+			children = (
+				FE2DF57D1F6A4E3B00F4578A /* CancelOrderTableViewCell.swift */,
+			);
+			path = View;
+			sourceTree = "<group>";
+		};
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
@@ -1768,6 +1793,7 @@
 				0D0A6ED61DD6FB51006B54DD /* FilterRepayView.swift in Sources */,
 				0D3ADC901DCC455800838043 /* PopupLogoutView.swift in Sources */,
 				0D84AACE1DE1919D00957B0A /* CNPPopupController.m in Sources */,
+				FE2DF57B1F6A4D8100F4578A /* CancelOrderVC.swift in Sources */,
 				0D1BA5AE1E7EC66300021627 /* PopupRepayWayView.swift in Sources */,
 				0D28B2A01E14FF6500AA8B49 /* RepayPeriodDetailVC.swift in Sources */,
 				FE5500C61F413E6200D8B488 /* PopupRepayFinalTipsView.swift in Sources */,
@@ -1816,11 +1842,13 @@
 				0D28B3291E16509700AA8B49 /* BorrowMoneyTopTipsView.swift in Sources */,
 				0D28B2951E14FCE700AA8B49 /* BorrowRecordViewController.swift in Sources */,
 				0D9290C61DDD9FA000DB77FD /* PopupRegisterTipsView.swift in Sources */,
+				FE2DF5791F6A467000F4578A /* CancelOrderNoticeVC.swift in Sources */,
 				0D1E82541DE1927A0040B39E /* PhotoAlbumTableViewCell.swift in Sources */,
 				0DD43CBB1DAFD74400091272 /* PopupRoleView.swift in Sources */,
 				0DB36C801DDF22210083825D /* Tools.swift in Sources */,
 				0D103B6E1F2D877D00DC6876 /* RepayFinalNoticeVC.swift in Sources */,
 				0D0E2A311DAB377E00A64F76 /* HHNavigationController.swift in Sources */,
+				FE2DF57E1F6A4E3B00F4578A /* CancelOrderTableViewCell.swift in Sources */,
 				0D006DCD1DC758480091CF33 /* URL.swift in Sources */,
 				0D37122D1E114154007DA3C2 /* RepayTipsViewController.swift in Sources */,
 				0D1E825D1DE1927A0040B39E /* PhotoPickerController.swift in Sources */,

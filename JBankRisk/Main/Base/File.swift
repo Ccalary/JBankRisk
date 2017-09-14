@@ -48,6 +48,8 @@ let defaultDivideLineColor: UIColor = UIColorHex("e1e1e1")
  UIColorHex("e9342d")//红色
  UIColorHex("666666")//黑色
  UIColorHex("c5c5c5")//浅灰色
+ UIColorHex("fc4146")//红色
+ UIColorHex("69D557")//绿色
  */
 
 ///字体黑色
