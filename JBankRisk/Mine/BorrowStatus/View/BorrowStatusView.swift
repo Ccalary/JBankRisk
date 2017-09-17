@@ -13,12 +13,18 @@ class BorrowStatusView: UIView {
     //状态为9审核未通过时的描述
     var failDis = ""
     
+    //审核反馈文字高度
+    private var textHeight:CGFloat = 0.0
+    
     override init(frame: CGRect ) {
         super.init(frame: frame)
     }
     
     //账单清算状态
     var repayFinalType: RepayFinalType = .cannotApply
+    
+    //撤销订单
+    var revokeState: RevokeStatusType = .cannot
     
     var statusType: OrderStausType = .defaultStatus {
         didSet{
@@ -36,6 +42,7 @@ class BorrowStatusView: UIView {
             tipsBtn.isHidden = true
             divideLine1.isHidden = false
             repayDetailBtn.isHidden = true
+            moreBtn.isHidden = true
             switch statusType {
             case .finish://订单完结
                 self.bgImageView.isHidden = false
@@ -74,6 +81,21 @@ class BorrowStatusView: UIView {
                 nextStepBtn.isHidden = false
                 repayDetailBtn.isHidden = false
                 disTextLabel.text = "         "//改变还款详情布局
+                
+                switch revokeState {
+                case .cannot:
+                    nextStepBtn.setTitle("还款详情", for: UIControlState.normal)
+                    repayDetailBtn.isHidden = true
+                case .can:
+                    nextStepBtn.setTitle("撤销借款", for: UIControlState.normal)
+                case .pay:
+                    nextStepBtn.setTitle("支付违约金", for: UIControlState.normal)
+                case .upload:
+                    nextStepBtn.setTitle("上传退款凭证", for: UIControlState.normal)
+                case .success:
+                    nextStepBtn.setTitle("撤销成功", for: UIControlState.normal)
+                }
+                
                 switch repayFinalType {
                 case .cannotApply:
                     nextStepBtn.setTitle("还款详情", for: UIControlState.normal)
@@ -111,7 +133,12 @@ class BorrowStatusView: UIView {
                 if failDis == "" {
                      disTextLabel.text = "请补充材料，可帮助提\n高借款成功率哦"
                 }else {
-                     disTextLabel.text = failDis
+                    let attibute = [NSFontAttributeName:UIFontSize(size: 15*UIRate)]
+                    textHeight = autoLabelHeight(with: failDis, labelWidth: disTextLabel.frame.size.width , attributes: attibute)
+                    if (textHeight > disTextLabel.frame.size.height) {
+                        moreBtn.isHidden = false
+                    }
+                    disTextLabel.text = failDis
                 }
                 nextStepBtn.isHidden = false
                 nextStepBtn.setTitle("补交材料", for: UIControlState.normal)
@@ -142,6 +169,7 @@ class BorrowStatusView: UIView {
         self.addSubview(bgImageView)
         self.bgImageView.addSubview(statusImageView)
         self.addSubview(disTextLabel)
+        self.addSubview(moreBtn)
         self.addSubview(nextStepBtn)
         self.addSubview(tipsTextLabel)
         self.addSubview(tipsBtn)
@@ -162,16 +190,24 @@ class BorrowStatusView: UIView {
         }
         
         disTextLabel.snp.makeConstraints { (make) in
-            make.width.equalTo(SCREEN_WIDTH - 20)
+            make.width.equalTo(SCREEN_WIDTH - 100*UIRate)
             make.centerX.equalTo(self)
             make.top.equalTo(bgImageView.snp.bottom).offset(10*UIRate)
+            make.height.equalTo(40*UIRate)
+        }
+        
+        moreBtn.snp.makeConstraints { (make) in
+            make.width.equalTo(45*UIRate)
+            make.height.equalTo(20*UIRate)
+            make.bottom.equalTo(disTextLabel)
+            make.right.equalTo(self).offset(-5*UIRate)
         }
         
         nextStepBtn.snp.makeConstraints { (make) in
             make.width.equalTo(254*UIRate)
             make.height.equalTo(44*UIRate)
             make.centerX.equalTo(self)
-            make.top.equalTo(disTextLabel.snp.bottom).offset(15*UIRate)
+            make.top.equalTo(disTextLabel.snp.bottom).offset(13*UIRate)
         }
 
         tipsTextLabel.snp.makeConstraints { (make) in
@@ -223,6 +259,18 @@ class BorrowStatusView: UIView {
         label.numberOfLines = 0
         label.textColor = UIColorHex("666666")
         return label
+    }()
+    
+    //／按钮
+    lazy var moreBtn: UIButton = {
+        let button = UIButton()
+        button.isHidden = true
+        button.backgroundColor = UIColor.white
+        button.setTitleColor(UIColorHex("00b2ff"), for: .normal)
+        button.setTitle(">全部", for: UIControlState.normal)
+        button.titleLabel?.font = UIFontSize(size: 15*UIRate)
+        button.addTarget(self, action: #selector(moreBtnAction), for: .touchUpInside)
+        return button
     }()
     
     //／按钮
@@ -295,6 +343,16 @@ class BorrowStatusView: UIView {
     func repayDetailBtnAction(){
         if let onClickRepayDetailBtn = onClickRepayDetailBtn{
             onClickRepayDetailBtn()
+        }
+    }
+    
+    //展示全部
+    func moreBtnAction(){
+        let popupView =  PopupRejectReasonView(frame: CGRect(x:0,y:0,width:SCREEN_WIDTH - 40*UIRate,height:160*UIRate + textHeight), string: failDis)
+        let popupController = CNPPopupController(contents: [popupView])!
+        popupController.present(animated: true)
+        popupView.onClickSure = { _ in
+            popupController.dismiss(animated: true)
         }
     }
 }

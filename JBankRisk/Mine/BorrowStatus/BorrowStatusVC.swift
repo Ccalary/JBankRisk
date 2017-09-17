@@ -23,6 +23,15 @@ enum OrderStausType {
     case defaultStatus //缺省
 }
 
+///撤销借款订单状态
+enum RevokeStatusType{
+    case cannot   //不可撤销-1
+    case can      //撤销0
+    case pay      //支付违约金1
+    case upload   //上传退款凭证2
+    case success  //撤销成功3
+}
+
 class BorrowStatusVC: UIViewController {
     
     //是否是从推送而来
@@ -32,11 +41,21 @@ class BorrowStatusVC: UIViewController {
     
     var statusType: OrderStausType = .defaultStatus
     
+    //撤销状态
+    private var revokeStatus: RevokeStatusType = .cannot
+    
     var orderId = ""
     
     private var topViewConstraint: Constraint!
     
     private var repayFinalType:RepayFinalType = .cannotApply
+    
+    var topHeight: CGFloat = 0 {
+        didSet{
+            self.topViewConstraint.update(offset: topHeight)
+        }
+    }
+    
     //7天内是否有还款
     private var weekPay = 0
     //还款状态0可申请 1申请中 2成功 3还款完成
@@ -59,9 +78,25 @@ class BorrowStatusVC: UIViewController {
         }
     }
     
-    var topHeight: CGFloat = 0 {
+    //撤销订单的状态
+    private var revokeFlag = -1{
         didSet{
-            self.topViewConstraint.update(offset: topHeight)
+            switch revokeFlag {
+            case -1:
+                revokeStatus = .cannot
+            case 0:
+                revokeStatus = .can
+            case 1:
+                revokeStatus = .pay
+            case 2:
+                revokeStatus = .upload
+            case 3:
+                revokeStatus = .success
+            default:
+                revokeStatus = .cannot
+            }
+            
+            statusView.revokeState = revokeStatus
         }
     }
     
@@ -275,14 +310,13 @@ class BorrowStatusVC: UIViewController {
             guard json["RET_CODE"] == "000000" else{
                 return self.showHint(in: self.view, hint: json["RET_DESC"].stringValue)
             }
-            
             self.status = json["jstatus"].stringValue
             self.weekPay = json["weekPay"].intValue
             //大于6期才可以申请清算
             if json["term"].intValue > 6{
                  self.payFlag = json["pay_flag"].intValue
             }
-           
+            self.revokeFlag = json["revokeStatus"].intValue
             self.statusView.failDis = json["descrption"].stringValue
             self.statusView.statusType = self.statusType
             self.refreshOrderUI(json: json["Infos"])

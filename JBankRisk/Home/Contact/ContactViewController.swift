@@ -916,10 +916,21 @@ extension ContactViewController {
             }
             
         }, authorizationFailure: {
-            let alertViewVC = UIAlertController.init(title: "提示", message: "请在iPhone的“设置-隐私-通讯录”选项中，允许访问您的通讯录", preferredStyle: UIAlertControllerStyle.alert)
-            let confirm = UIAlertAction.init(title: "知道啦", style: UIAlertActionStyle.cancel, handler:nil)
-            alertViewVC.addAction(confirm)
-            self.present(alertViewVC, animated: true, completion: nil)
+            let alertController = UIAlertController(title: "提示",
+                                                    message: "请允许本App访问您的通讯录",
+                                                    preferredStyle: .alert)
+            
+            let okAction = UIAlertAction(title: "好的", style: .default, handler: { action in
+                self.dismiss(animated: true, completion: nil)
+                
+                if let url = URL(string: UIApplicationOpenSettingsURLString){
+                    if (UIApplication.shared.canOpenURL(url)){
+                        UIApplication.shared.openURL(url)
+                    }
+                }
+            })
+            alertController.addAction(okAction)
+            self.present(alertController, animated: true, completion: nil)
         })
     }
 }

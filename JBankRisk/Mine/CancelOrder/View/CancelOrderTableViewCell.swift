@@ -208,10 +208,11 @@ class CancelOrderTableViewCell: UITableViewCell {
         clockImageView.isHidden = true
         payBtn.isHidden = true
         rightLabel.textColor = UIColorHex("666666")
-        
+        leftDetailLabel.isHidden = false
         switch row {
         case 0:
             leftLabel.text = "发起申请"
+            leftDetailLabel.text = ""
             divideLine1.isHidden = true
         case 1:
             leftLabel.text = "支付违约金"
@@ -234,12 +235,15 @@ class CancelOrderTableViewCell: UITableViewCell {
         if (json["flag"].intValue == 1){
             finishView.isHidden = false
             rightLabel.text = toolsChangeDataStyle(toFullStyle: json["revoke_time"].stringValue)
+            rightLabel.textColor = UIColorHex("666666")
             clockImageView.isHidden = false
+            leftDetailLabel.isHidden = true
             switch row {
             case 0:
                 roundImageView.image = UIImage(named: "c_purple_7x7")
             case 1:
                 roundImageView.image = UIImage(named: "c_pink_7x7")
+                payBtn.isHidden = true
             case 2:
                 roundImageView.image = UIImage(named: "c_blue_7x7")
             case 3:

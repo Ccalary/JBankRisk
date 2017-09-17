@@ -192,6 +192,7 @@
 		0DC8B1551DD84F4D001323D3 /* NeedRepayTimeView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0DC8B1541DD84F4D001323D3 /* NeedRepayTimeView.swift */; };
 		0DCACBE41DADC9D300AFD3E9 /* RegisterOrResetPsdVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0DCACBE31DADC9D300AFD3E9 /* RegisterOrResetPsdVC.swift */; };
 		0DD43CBB1DAFD74400091272 /* PopupRoleView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0DD43CBA1DAFD74400091272 /* PopupRoleView.swift */; };
+		0DD777FC1F6C25C4008B2760 /* PopupRejectReasonView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0DD777FB1F6C25C4008B2760 /* PopupRejectReasonView.swift */; };
 		0DD9059A1EE13D890011CC20 /* ServiceBillHeaderView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0DD905991EE13D890011CC20 /* ServiceBillHeaderView.swift */; };
 		0DD99BFF1DB1E47F00342E29 /* NetworkRequest.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0DD99BFE1DB1E47F00342E29 /* NetworkRequest.swift */; };
 		0DDA0A431F2A1CC500E0F75D /* RepayDetailHeaderView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0DDA0A421F2A1CC500E0F75D /* RepayDetailHeaderView.swift */; };
@@ -480,6 +481,7 @@
 		0DC8B1541DD84F4D001323D3 /* NeedRepayTimeView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NeedRepayTimeView.swift; sourceTree = "<group>"; };
 		0DCACBE31DADC9D300AFD3E9 /* RegisterOrResetPsdVC.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RegisterOrResetPsdVC.swift; sourceTree = "<group>"; };
 		0DD43CBA1DAFD74400091272 /* PopupRoleView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PopupRoleView.swift; sourceTree = "<group>"; };
+		0DD777FB1F6C25C4008B2760 /* PopupRejectReasonView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PopupRejectReasonView.swift; sourceTree = "<group>"; };
 		0DD905991EE13D890011CC20 /* ServiceBillHeaderView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ServiceBillHeaderView.swift; sourceTree = "<group>"; };
 		0DD99BFE1DB1E47F00342E29 /* NetworkRequest.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NetworkRequest.swift; sourceTree = "<group>"; };
 		0DDA0A421F2A1CC500E0F75D /* RepayDetailHeaderView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RepayDetailHeaderView.swift; sourceTree = "<group>"; };
@@ -1455,6 +1457,7 @@
 				0D37121E1E11213C007DA3C2 /* PopupEbankRepayView.swift */,
 				0DB0318B1F407ECB000B97FE /* PopupProtocalDetailView.swift */,
 				FE5500C51F413E6200D8B488 /* PopupRepayFinalTipsView.swift */,
+				0DD777FB1F6C25C4008B2760 /* PopupRejectReasonView.swift */,
 			);
 			path = PopupView;
 			sourceTree = "<group>";
@@ -1844,6 +1847,7 @@
 				0D9290C61DDD9FA000DB77FD /* PopupRegisterTipsView.swift in Sources */,
 				FE2DF5791F6A467000F4578A /* CancelOrderNoticeVC.swift in Sources */,
 				0D1E82541DE1927A0040B39E /* PhotoAlbumTableViewCell.swift in Sources */,
+				0DD777FC1F6C25C4008B2760 /* PopupRejectReasonView.swift in Sources */,
 				0DD43CBB1DAFD74400091272 /* PopupRoleView.swift in Sources */,
 				0DB36C801DDF22210083825D /* Tools.swift in Sources */,
 				0D103B6E1F2D877D00DC6876 /* RepayFinalNoticeVC.swift in Sources */,

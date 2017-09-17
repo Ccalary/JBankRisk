@@ -318,30 +318,65 @@ class ProductViewController: UIViewController,UITableViewDelegate, UITableViewDa
         locationManager.delegate = self
         locationManager.allowsBackgroundLocationUpdates = false
         locationManager.pausesLocationUpdatesAutomatically = true
-        locationManager.desiredAccuracy = kCLLocationAccuracyHundredMeters//定位精度
-        
+        locationManager.desiredAccuracy = kCLLocationAccuracyBest//定位精度
+        locationManager.locationTimeout = 10
+        locationManager.reGeocodeTimeout = 10
     }
     
     //获取位置
     func getAddress(){
         self.showHud(in: self.view, hint: "获取中...")
         locationManager.requestLocation(withReGeocode: true, completionBlock: { (location, code, error) in
-            
-            if (error != nil){
-                //隐藏HUD
-//                PrintLog(error.debugDescription)
-                self.hideHud()
-                let alertController = UIAlertController(title: "获取商户名称失败",
-                                                        message: "请点击所属商户尝试再次获取",//请检查是否在“设置－中诚消费－位置”中未允许本App访问您的位置
-                                                        preferredStyle: .alert)
+            //隐藏HUD
+            self.hideHud()
+            if let error = error {
                 
-                let okAction = UIAlertAction(title: "好的", style: .default, handler: { action in
-                    self.dismiss(animated: true, completion: nil)
-                })
-                alertController.addAction(okAction)
-                self.present(alertController, animated: true, completion: nil)
-                return
+                let error = error as NSError
+                
+                if error.code == AMapLocationErrorCode.locateFailed.rawValue {
+                    //定位错误：此时location和regeocode没有返回值，不进行annotation的添加
+                   
+                    let alertController = UIAlertController(title: "无访问权限",
+                                                            message: "请允许本App访问您的位置",
+                                                            preferredStyle: .alert)
+                    
+                    let okAction = UIAlertAction(title: "好的", style: .default, handler: { action in
+                        self.dismiss(animated: true, completion: nil)
+                        
+                        if let url = URL(string: UIApplicationOpenSettingsURLString){
+                            if (UIApplication.shared.canOpenURL(url)){
+                                UIApplication.shared.openURL(url)
+                            }
+                        }
+                    })
+                    alertController.addAction(okAction)
+                    self.present(alertController, animated: true, completion: nil)
+                    return
+                }else if error.code == AMapLocationErrorCode.reGeocodeFailed.rawValue
+                    || error.code == AMapLocationErrorCode.timeOut.rawValue
+                    || error.code == AMapLocationErrorCode.cannotFindHost.rawValue
+                    || error.code == AMapLocationErrorCode.badURL.rawValue
+                    || error.code == AMapLocationErrorCode.notConnectedToInternet.rawValue
+                    || error.code == AMapLocationErrorCode.cannotConnectToHost.rawValue {
+                    
+                    let alertController = UIAlertController(title: "定位失败",
+                                                            message: "请点击【所属商户】尝试再次获取",
+                                                            preferredStyle: .alert)
+                    
+                    let okAction = UIAlertAction(title: "好的", style: .default, handler: { action in
+                        self.dismiss(animated: true, completion: nil)
+                    })
+                    alertController.addAction(okAction)
+                    self.present(alertController, animated: true, completion: nil)
+                    
+                    return
+                }
+                else {
+                    //没有错误：location有返回值，regeocode是否有返回值取决于是否进行逆地理操作，进行annotation的添加
+                 
+                }
             }
+            //没有错误则去请求位置
             self.longitude =  (location?.coordinate.longitude)!
             self.latitude = (location?.coordinate.latitude)!
             self.requestSaleAddress()
@@ -551,6 +586,10 @@ extension ProductViewController {
                     return self.showHint(in: self.view, hint: json["RET_DESC"].stringValue)
                 }
                 self.saleList.removeAll()
+                
+            //H 测试
+                self.saleList.append("京金所")
+                self.saleList.append("中诚消费")
                 if let namelist = json["saleList"].arrayObject{
                     for name in namelist{
                         if let name = name as? String{
