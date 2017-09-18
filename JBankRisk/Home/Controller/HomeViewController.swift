@@ -320,6 +320,14 @@ extension HomeViewController: UITableViewDelegate, UITableViewDataSource,CyclePi
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         tableView.deselectRow(at: indexPath, animated: true)
+        
+        //登录后才能进入
+        guard UserHelper.isLogin() else {
+            let loginVC = LoginViewController()
+            self.navigationController?.pushViewController(loginVC, animated: true)
+            return
+        }
+        
         switch indexPath.row {
         case 0:
             //保证有userId 和 角色已选
@@ -347,11 +355,7 @@ extension HomeViewController: UITableViewDelegate, UITableViewDataSource,CyclePi
             self.navigationController?.pushViewController(borrowMoneyVC, animated: false)
             
         case 1:
-            guard UserHelper.isLogin() else {
-                let loginVC = LoginViewController()
-                self.navigationController?.pushViewController(loginVC, animated: true)
-                return
-            }
+    
             let borrowStatusVC = BorrowStatusVC()
             borrowStatusVC.orderId = self.orderId
             
@@ -363,15 +367,8 @@ extension HomeViewController: UITableViewDelegate, UITableViewDataSource,CyclePi
             }
             self.navigationController?.pushViewController(borrowStatusVC, animated: true)
         case 2:
-            
-            guard UserHelper.isLogin() else {
-                let loginVC = LoginViewController()
-                self.navigationController?.pushViewController(loginVC, animated: true)
-                return
-            }
-            
-               let repayDetailVC = RepayBillViewController()
-                self.navigationController?.pushViewController(repayDetailVC, animated: true)
+            let repayDetailVC = RepayBillViewController()
+            self.navigationController?.pushViewController(repayDetailVC, animated: true)
         default:
             break
         }

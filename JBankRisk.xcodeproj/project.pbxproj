@@ -229,6 +229,7 @@
 		FE2DF57B1F6A4D8100F4578A /* CancelOrderVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = FE2DF57A1F6A4D8100F4578A /* CancelOrderVC.swift */; };
 		FE2DF57E1F6A4E3B00F4578A /* CancelOrderTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = FE2DF57D1F6A4E3B00F4578A /* CancelOrderTableViewCell.swift */; };
 		FE5500C61F413E6200D8B488 /* PopupRepayFinalTipsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = FE5500C51F413E6200D8B488 /* PopupRepayFinalTipsView.swift */; };
+		FEEF7ED11F6F6CE0006F57BB /* PopupCancelOrderView.swift in Sources */ = {isa = PBXBuildFile; fileRef = FEEF7ED01F6F6CE0006F57BB /* PopupCancelOrderView.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -519,6 +520,7 @@
 		FE2DF57A1F6A4D8100F4578A /* CancelOrderVC.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CancelOrderVC.swift; sourceTree = "<group>"; };
 		FE2DF57D1F6A4E3B00F4578A /* CancelOrderTableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CancelOrderTableViewCell.swift; sourceTree = "<group>"; };
 		FE5500C51F413E6200D8B488 /* PopupRepayFinalTipsView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PopupRepayFinalTipsView.swift; sourceTree = "<group>"; };
+		FEEF7ED01F6F6CE0006F57BB /* PopupCancelOrderView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PopupCancelOrderView.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -1458,6 +1460,7 @@
 				0DB0318B1F407ECB000B97FE /* PopupProtocalDetailView.swift */,
 				FE5500C51F413E6200D8B488 /* PopupRepayFinalTipsView.swift */,
 				0DD777FB1F6C25C4008B2760 /* PopupRejectReasonView.swift */,
+				FEEF7ED01F6F6CE0006F57BB /* PopupCancelOrderView.swift */,
 			);
 			path = PopupView;
 			sourceTree = "<group>";
@@ -1885,6 +1888,7 @@
 				0D006DCF1DC75A280091CF33 /* NetConnect.swift in Sources */,
 				0D3ADC961DCC76B900838043 /* SuggestCollectionViewCell.swift in Sources */,
 				0DDA0A4D1F2CC91300E0F75D /* RepayBillHeaderView.swift in Sources */,
+				FEEF7ED11F6F6CE0006F57BB /* PopupCancelOrderView.swift in Sources */,
 				0D28B26C1E13BDDD00AA8B49 /* NSString+Wqz.m in Sources */,
 				0D3754A81E2DEA0900045809 /* RepayedListModel.swift in Sources */,
 				0D28B2811E13BDDD00AA8B49 /* YHTSignMadeViewController.m in Sources */,

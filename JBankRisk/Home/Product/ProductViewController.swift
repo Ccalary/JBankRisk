@@ -587,9 +587,6 @@ extension ProductViewController {
                 }
                 self.saleList.removeAll()
                 
-            //H 测试
-                self.saleList.append("京金所")
-                self.saleList.append("中诚消费")
                 if let namelist = json["saleList"].arrayObject{
                     for name in namelist{
                         if let name = name as? String{

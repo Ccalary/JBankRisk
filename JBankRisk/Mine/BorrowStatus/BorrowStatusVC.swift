@@ -56,6 +56,7 @@ class BorrowStatusVC: UIViewController {
         }
     }
     
+    
     //7天内是否有还款
     private var weekPay = 0
     //还款状态0可申请 1申请中 2成功 3还款完成
@@ -78,6 +79,8 @@ class BorrowStatusVC: UIViewController {
         }
     }
     
+    //撤销订单罚金
+    private var cancelMoney: Double = 0.00
     //撤销订单的状态
     private var revokeFlag = -1{
         didSet{
@@ -114,7 +117,7 @@ class BorrowStatusVC: UIViewController {
                 topHeight = 200*UIRate
             case "3"://满额通过
                 statusType = .fullSuccess
-                topHeight = 280*UIRate
+                topHeight = 300*UIRate
             case "4"://校验中
                 statusType = .checking
                 topHeight = 200*UIRate
@@ -127,7 +130,7 @@ class BorrowStatusVC: UIViewController {
                 topHeight = 200*UIRate
             case "8": //上传服务单
                 statusType = .upLoadBill
-                topHeight = 280*UIRate
+                topHeight = 300*UIRate
             case "9": //补交材料
                 statusType = .reUploadData
                 topHeight = 300*UIRate
@@ -317,6 +320,7 @@ class BorrowStatusVC: UIViewController {
                  self.payFlag = json["pay_flag"].intValue
             }
             self.revokeFlag = json["revokeStatus"].intValue
+            self.cancelMoney = json["penltyMoney"].doubleValue
             self.statusView.failDis = json["descrption"].stringValue
             self.statusView.statusType = self.statusType
             self.refreshOrderUI(json: json["Infos"])
@@ -355,6 +359,17 @@ class BorrowStatusVC: UIViewController {
                 serviceVC.orderId = self.orderId//产品id
                 self.navigationController?.pushViewController(serviceVC, animated: true)
             case .repaying://还款中
+                
+                switch self.revokeStatus {
+                case .cannot:
+                    break
+                case .can:
+                   self.showCancelOrderPopupView()
+                   return
+                case .pay,.upload,.success:
+                  self.popToCancelOrderVC()//跳转到撤销进度界面
+                   return
+                }
                 
                 switch self.repayFinalType {
                 case .cannotApply:
@@ -437,6 +452,29 @@ class BorrowStatusVC: UIViewController {
         self.navigationController?.pushViewController(vc, animated: true)
     }
     
+    //撤销提醒弹窗
+    func showCancelOrderPopupView(){
+        let popupView =  PopupCancelOrderView()
+        popupView.cancelMonay = self.cancelMoney
+        let popupController = CNPPopupController(contents: [popupView])!
+        popupController.present(animated: true)
+        popupView.onClickSure = { [weak self] _ in
+            popupController.dismiss(animated: true)
+            
+            self?.cancelOrderRequestData()
+        }
+        popupView.onClickCancel = { _ in
+            popupController.dismiss(animated: true)
+        }
+
+    }
+    
+    //跳转到撤销订单界面
+    func popToCancelOrderVC(){
+        let vc = CancelOrderVC()
+        vc.orderId = self.orderId;
+        self.navigationController?.pushViewController(vc, animated: true)
+    }
     /* 2017.8.13 弃用
     //MARK:- 合同 请求数据
     func requestListData(){
@@ -479,6 +517,29 @@ class BorrowStatusVC: UIViewController {
                 let YHTVC = YHTContractContentViewController.instance(withContractID: json["backInfo"]["contractId"].numberValue)
                 YHTVC?.titleStr = "合同查看"
                 self.navigationController?.pushViewController(YHTVC!, animated: true)
+                
+        }, failure: {error in
+            //隐藏HUD
+            self.hideHud()
+        })
+    }
+    
+    //撤销订单接口
+    func cancelOrderRequestData(){
+        var params = NetConnect.getBaseRequestParams()
+        params["orderId"] = self.orderId
+        
+        NetConnect.pc_cancel_order(parameters: params, success:
+            { response in
+                //隐藏HUD
+                self.hideHud()
+                let json = JSON(response)
+                guard json["RET_CODE"] == "000000" else{
+                    return self.showHint(in: self.view, hint: json["RET_DESC"].stringValue)
+                }
+                
+                self.showHint(in: self.view, hint: "撤销成功")
+                self.requestData()
                 
         }, failure: {error in
             //隐藏HUD

@@ -238,8 +238,6 @@ class MineViewController: UIViewController, UIGestureRecognizerDelegate,UICollec
             self.navigationController?.pushViewController(zmVC, animated: true)
             
             break
-        case 5:// H 测试
-             self.navigationController?.pushViewController(CancelOrderVC(), animated: true)
         default:
             break
         }

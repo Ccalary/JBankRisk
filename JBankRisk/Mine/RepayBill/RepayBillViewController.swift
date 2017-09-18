@@ -61,10 +61,6 @@ class RepayBillViewController: UIViewController, UITableViewDataSource, UITableV
     }
     
     func setupNormalUI(){
-        self.navigationItem.title = "还款账单"
-        self.automaticallyAdjustsScrollViewInsets = false
-        self.view.backgroundColor = defaultBackgroundColor
-        
         self.view.addSubview(aTableView)
         self.view.addSubview(preRepayBtn)
         self.view.addSubview(monthRepayBtn)
@@ -354,9 +350,11 @@ class RepayBillViewController: UIViewController, UITableViewDataSource, UITableV
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
         if indexPath.section == 1 {
             let payFlag = allDataArray[indexPath.row]["pay_flag"].intValue
-            if payFlag == 1 || payFlag == 2 {
+            let revokeStatus = allDataArray[indexPath.row]["revoke_status"].intValue//撤销订单状态
+            if payFlag == 1 || payFlag == 2 || revokeStatus == 1 || revokeStatus == 2 || revokeStatus == 3{
                 return 70*UIRate
             }
+            
         }
         return 45*UIRate
     }

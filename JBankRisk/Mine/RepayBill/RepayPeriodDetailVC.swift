@@ -193,14 +193,19 @@ class RepayPeriodDetailVC: UIViewController {
         //清算
         if json["term"].intValue == 100 {
             titleTextLabel.text = json["orderName"].stringValue + "账单清算"
+        }else if json["term"].intValue == 200{//撤销订单
+            titleTextLabel.text = json["orderName"].stringValue + "违约金"
         }else{
             titleTextLabel.text = json["orderName"].stringValue + "第" + json["term"].stringValue + "期"
         }
        
         moneyLabel.text =  toolsChangeMoneyStyle(amount: json["pay_amt_total"].doubleValue)
         
+        let shouldStr = (json["term"].intValue == 200) ? "应还违约金:  " : "应还本息:    "
+        
         //应还本息
-        let shouldRepay = "应还本息:    " + toolsChangeMoneyStyle(amount: json["amt_total"].doubleValue) + "元"
+        let shouldRepay = "\(shouldStr)" + toolsChangeMoneyStyle(amount: json["amt_total"].doubleValue) + "元"
+        
         //剩余未还 = 应还本息 ＋ 逾期罚金 ＋ 滞纳金 － 已还
         let restRepay = "剩余未还:    " + toolsChangeMoneyStyle(amount: json["amt_total"].doubleValue + json["penalty_amt"].doubleValue + json["demurrage"].doubleValue - json["pay_amt_total"].doubleValue) + "元"
         //到期时间

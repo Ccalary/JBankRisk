@@ -11,7 +11,8 @@ import SwiftyJSON
 
 class CancelOrderTableViewCell: UITableViewCell {
 
-
+    var onClickPay: (()->())?
+    
     override init(style: UITableViewCellStyle, reuseIdentifier: String?) {
         super.init(style: style, reuseIdentifier: reuseIdentifier)
         
@@ -196,11 +197,13 @@ class CancelOrderTableViewCell: UITableViewCell {
    
     //MARK: - Action
     func payBtnAction(){
-        
+        if let onClickPay = onClickPay {
+            onClickPay()
+        }
     }
     
     //填充数据
-    func cellWithData(_ json:JSON, at row: Int){
+    func cellWithData(_ json:JSON, at row: Int ,andMoney money: Double){
         
         divideLine1.isHidden = false
         divideLine2.isHidden = false
@@ -218,6 +221,7 @@ class CancelOrderTableViewCell: UITableViewCell {
             leftLabel.text = "支付违约金"
             leftDetailLabel.text = "请于24小时内支付完成"
             rightLabel.textColor = UIColorHex("fc4146")
+            rightLabel.text = toolsChangeMoneyStyle(amount: money)
             payBtn.isHidden = false
             clockImageView.isHidden = true
         case 2:

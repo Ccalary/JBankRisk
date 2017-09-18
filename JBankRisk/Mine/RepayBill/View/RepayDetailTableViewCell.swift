@@ -200,6 +200,8 @@ class RepayDetailTableViewCell: UITableViewCell {
         //结算
         if dic["term"].intValue == 100 {
             leftTopTextLabel.text = "结算金额"
+        }else if dic["term"].intValue == 200{//撤销订单
+            leftTopTextLabel.text = "违约金"
         }else{
             leftTopTextLabel.text = "第\(dic["term"].stringValue)期"
         }
@@ -221,8 +223,10 @@ class RepayDetailTableViewCell: UITableViewCell {
         
         if dic["term"].intValue == 100 {
             leftTopTextLabel.text = "结算金额"
-        }else {
-            leftTopTextLabel.text = "第\(dic["term"].stringValue)期"
+        }else if dic["term"].intValue == 200{
+           leftTopTextLabel.text = "违约金"
+        }else{
+             leftTopTextLabel.text = "第\(dic["term"].stringValue)期"
         }
 
         leftBottomTextLabel.text = toolsChangeDateStyle(toYYYYMMDD: dic["realpay_date"].stringValue)
@@ -244,6 +248,8 @@ class RepayDetailTableViewCell: UITableViewCell {
         leftTopTextLabel.text = dic["orderName"].stringValue
         if dic["term"].intValue == 100 {
              leftTopTextLabel2.text = "结算金额"
+        }else if dic["term"].intValue == 200{
+            leftTopTextLabel.text = "违约金"
         }else {
              leftTopTextLabel2.text = "第" + dic["term"].stringValue + "期"
         }
@@ -269,6 +275,9 @@ class RepayDetailTableViewCell: UITableViewCell {
         if dic["term"].intValue == 100 {
              leftTopTextLabel.text = "账单清算"
              leftTopTextLabel2.text = ""
+        }else if dic["term"].intValue == 200{ //200为撤销借款,需支付违约金
+            leftTopTextLabel.text = "违约金"
+            leftTopTextLabel2.text = ""
         }else{
             leftTopTextLabel2.text = "第" + dic["term"].stringValue + "期"
         }

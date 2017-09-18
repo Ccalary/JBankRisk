@@ -102,8 +102,10 @@ class BillSelectTableViewCell: UITableViewCell {
         //100为清算的
         if dic["term"].intValue == 100 {
             leftTopTextLabel.text = dic["orderName"].stringValue + " 结算金额"
+        }else if dic["term"].intValue == 200{
+           leftTopTextLabel.text = dic["orderName"].stringValue + " 违约金"
         }else {
-           leftTopTextLabel.text = dic["orderName"].stringValue + " 第\(dic["term"].stringValue)期"
+            leftTopTextLabel.text = dic["orderName"].stringValue + " 第\(dic["term"].stringValue)期"
         }
         
         leftBottomTextLabel.text = toolsChangeDateStyle(toYYYYMMDD: dic["realpay_date"].stringValue)

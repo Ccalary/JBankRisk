@@ -88,15 +88,22 @@ class BorrowStatusView: UIView {
                     repayDetailBtn.isHidden = true
                 case .can:
                     nextStepBtn.setTitle("撤销借款", for: UIControlState.normal)
+                    return
                 case .pay:
                     nextStepBtn.setTitle("支付违约金", for: UIControlState.normal)
+                    return
                 case .upload:
                     nextStepBtn.setTitle("上传退款凭证", for: UIControlState.normal)
+                    return
                 case .success:
                     nextStepBtn.setTitle("撤销成功", for: UIControlState.normal)
+                    return
                 }
                 
-                switch repayFinalType {
+                //两种状态要做区分
+                nextStepBtn.isHidden = false
+                repayDetailBtn.isHidden = false
+               switch repayFinalType {
                 case .cannotApply:
                     nextStepBtn.setTitle("还款详情", for: UIControlState.normal)
                     repayDetailBtn.isHidden = true

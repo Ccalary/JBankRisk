@@ -31,6 +31,9 @@ class RepayDetailViewController: UIViewController, UITableViewDelegate, UITableV
     //7日内是否有还款, 0 没有
     var weekPay:Int = 0
     
+    //撤销订单状态
+    private var revokeStatusType : RevokeStatusType = .cannot
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         
@@ -263,6 +266,7 @@ class RepayDetailViewController: UIViewController, UITableViewDelegate, UITableV
     func headerViewClick(){
         self.headerView.onClickNextStepBtn = {[unowned self] in
             
+            //结算的
             switch self.repayFinalType {
             case .canApply://可申请
                 if self.weekPay == 0 {
@@ -274,6 +278,17 @@ class RepayDetailViewController: UIViewController, UITableViewDelegate, UITableV
                 self.pushToFinalVC()
             case .success://申请成功
                self.pushToFinalVC()
+            default:
+                break
+            }
+            
+            //撤销订单的
+            switch self.revokeStatusType {
+            case .can, .pay, .upload, .success:
+                let statusVC = BorrowStatusVC()
+                statusVC.orderId = self.orderId
+                self.navigationController?.pushViewController(statusVC, animated: true)
+
             default:
                 break
             }
@@ -339,11 +354,11 @@ class RepayDetailViewController: UIViewController, UITableViewDelegate, UITableV
         weekPay = json["weekPay"].intValue
         //term大于6才可以申请
         let term = json["term"].intValue
-        if term > 6 {
+        if (term > 6 && term < 100) { //100为清算，200为撤销
              self.aTableView.tableHeaderView = self.headerView
             //0 可申请 1 申请中 2 申请成功
              let payFlag = json["back"]["pay_flag"].intValue
-            
+            headerView.nameTextLabel.text = "借款账单清算"
             switch payFlag {
             case 0:
                 repayFinalType = .canApply
@@ -357,6 +372,28 @@ class RepayDetailViewController: UIViewController, UITableViewDelegate, UITableV
             default:
                 break
             }
+        }else if (term == 200){//撤销订单
+            self.aTableView.tableHeaderView = self.headerView
+            let revokeStatus = json["back"]["revoke_status"].intValue
+            headerView.nameTextLabel.text = "撤销借款"
+            switch revokeStatus {
+            case 0://可撤销
+                revokeStatusType = .can
+                headerView.stateLabel.text = "可撤销"
+            case 1://支付
+                revokeStatusType = .pay
+                 headerView.stateLabel.text = "支付违约金"
+            case 2://上传
+                revokeStatusType = .upload
+                 headerView.stateLabel.text = "上传退款凭证"
+            case 3://成功
+                revokeStatusType = .success
+                 headerView.stateLabel.text = "撤销成功"
+            default://不可撤销
+                revokeStatusType = .cannot
+                 headerView.stateLabel.text = "不可撤销"
+            }
+            
         }else{
             repayFinalType = .cannotApply
             self.aTableView.tableHeaderView = nil

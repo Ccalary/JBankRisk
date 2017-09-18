@@ -10,9 +10,17 @@ import UIKit
 import SwiftyJSON
 
 private let cellID = "cellID"
+
 class CancelOrderVC: UIViewController, UITableViewDelegate, UITableViewDataSource {
 
-    var orderId = "8111071723800"
+    var orderId = ""
+    
+    //支付金额
+    private var cancelMoney: Double = 0.00
+    private var repaymentId = ""
+    
+    private var selectInfo: [Dictionary<String,Any>] = []
+
     
     private var dataArray:[JSON] = []{
         didSet{
@@ -62,6 +70,7 @@ class CancelOrderVC: UIViewController, UITableViewDelegate, UITableViewDataSourc
     private lazy var holdView: UIImageView = {
         let holdView = UIImageView()
         holdView.image = UIImage(named: "c_bg_360x330");
+        holdView.isUserInteractionEnabled = true
         return holdView
     }()
     
@@ -73,6 +82,7 @@ class CancelOrderVC: UIViewController, UITableViewDelegate, UITableViewDataSourc
         tableView.backgroundColor = UIColor.clear
         tableView.separatorStyle = .none
         tableView.tableFooterView = UIView()
+        tableView.isScrollEnabled = false
         tableView.register(CancelOrderTableViewCell.self, forCellReuseIdentifier: cellID)
         return tableView
         
@@ -91,7 +101,13 @@ class CancelOrderVC: UIViewController, UITableViewDelegate, UITableViewDataSourc
         //去除选择效果
         cell.selectionStyle = .none
         //填充数据
-        cell.cellWithData(self.dataArray[indexPath.row], at: indexPath.row)
+        cell.cellWithData(self.dataArray[indexPath.row], at: indexPath.row, andMoney: self.cancelMoney)
+        
+        //支付
+        cell.onClickPay = {[weak self] _ in
+            self?.gotoPay()
+        }
+        
         return cell
     }
     
@@ -105,10 +121,25 @@ class CancelOrderVC: UIViewController, UITableViewDelegate, UITableViewDataSourc
         self.navigationController?.pushViewController(CancelOrderNoticeVC(), animated: true)
     }
 
+    //支付
+    func gotoPay(){
+        var dic = [String:Any]()
+        dic["orderId"] = self.orderId
+        dic["repayment_id"] = self.repaymentId
+        self.selectInfo.removeAll()
+        self.selectInfo.append(dic)
+        
+        let repayVC = RepayViewController()
+        repayVC.selectInfo =  self.selectInfo 
+        //还款方式， 0 正常还款 1七日内还款 2账单清算
+        repayVC.flag = 0
+        self.navigationController?.pushViewController(repayVC, animated: true)
+    }
     
     //MARK: - 数据请求
     func requestData(){
         
+        showHud(in: self.view)
         var params = NetConnect.getBaseRequestParams()
         params["orderId"] = self.orderId
         
@@ -120,14 +151,15 @@ class CancelOrderVC: UIViewController, UITableViewDelegate, UITableViewDataSourc
             guard json["RET_CODE"] == "000000" else{
                 return self.showHint(in: self.view, hint: json["RET_DESC"].stringValue)
             }
-            
+            self.cancelMoney = json["penaltyMoney"].doubleValue
+            self.repaymentId = json["repayment_id"].stringValue
             self.dataArray = json["backList"].arrayValue
-            
+           
         }, failure:{ error in
             //隐藏HUD
             self.hideHud()
             self.showHint(in: self.view, hint: "网络请求失败")
         })
     }
-
+    
 }

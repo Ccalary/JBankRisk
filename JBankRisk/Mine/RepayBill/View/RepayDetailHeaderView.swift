@@ -60,7 +60,7 @@ class RepayDetailHeaderView: UIView {
         }
     }
     
-    private lazy var nameTextLabel: UILabel = {
+    lazy var nameTextLabel: UILabel = {
         let label = UILabel()
         label.font = UIFontSize(size: 15*UIRate)
         label.textColor = UIColor.white

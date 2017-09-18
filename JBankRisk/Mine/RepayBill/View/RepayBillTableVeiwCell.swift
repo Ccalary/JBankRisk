@@ -124,15 +124,43 @@ class RepayBillTableVeiwCell: UITableViewCell {
         switch payFlag {
         case 1:
             blLabel.isHidden = false
+            blLabel.text = "账单清算"
             brLabel.isHidden = false
             brLabel.text = "申请中"
+            return
         case 2:
             blLabel.isHidden = false
+            blLabel.text = "账单清算"
             brLabel.isHidden = false
             brLabel.text = "申请成功"
+            return
         default:
             blLabel.isHidden = true
             brLabel.isHidden = true
+        }
+        
+        
+        let revokeStatus = array["revoke_status"].intValue
+        switch revokeStatus {
+        case 1:
+            blLabel.isHidden = false
+            blLabel.text = "撤销借款"
+            brLabel.isHidden = false
+            brLabel.text = "支付违约金"
+        case 2:
+            blLabel.isHidden = false
+            blLabel.text = "撤销借款"
+            brLabel.isHidden = false
+            brLabel.text = "上传退款凭证"
+        case 3:
+            blLabel.isHidden = false
+            blLabel.text = "撤销借款"
+            brLabel.isHidden = false
+            brLabel.text = "撤销成功"
+        default:
+            blLabel.isHidden = true
+            brLabel.isHidden = true
+            break
         }
     }
 }

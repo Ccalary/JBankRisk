@@ -15,9 +15,6 @@ protocol ReselectRoleDelegate: class {
 
 class IdentityViewController: UIViewController {
 
-    //倒计时
-    var timerHelper: TimerHelper?
-    
     var currentIndex: Int = 0
     
     //芝麻信用授权地址
@@ -32,7 +29,6 @@ class IdentityViewController: UIViewController {
        super.viewDidLoad()
 
        self.setupUI()
-       timerHelper = TimerHelper(button: sendCodeBtn)
        getCurrentIndex()
        if UserHelper.getIdentityIsUpload() {
             self.requestIdentityInfo()
@@ -44,16 +40,6 @@ class IdentityViewController: UIViewController {
        
     }
 
-    override func viewWillAppear(_ animated: Bool) {
-        super.viewWillAppear(animated)
-        timerHelper?.isTimerGoOn()
-    }
-    
-    override func viewDidDisappear(_ animated: Bool) {
-        super.viewDidDisappear(animated)
-        timerHelper?.invalidateTimer()
-    }
-    
     func getCurrentIndex(){
         
         phoneNumField.text = UserHelper.getUserMobile()//如果已注册则获得注册电话
@@ -92,17 +78,10 @@ class IdentityViewController: UIViewController {
         /******/
         self.view.addSubview(centerHoldView)
         self.centerHoldView.addSubview(divideLine21)
-        self.centerHoldView.addSubview(divideLine22)
         self.centerHoldView.addSubview(divideLine23)
         self.centerHoldView.addSubview(phoneTextLabel)
-        self.centerHoldView.addSubview(randCodeLabel)
         self.centerHoldView.addSubview(phoneNumField)
         
-        self.centerHoldView.addSubview(clearImage)
-        self.centerHoldView.addSubview(clearBtn)
-        self.centerHoldView.addSubview(shuDivideLine)
-        self.centerHoldView.addSubview(sendCodeBtn)
-        self.centerHoldView.addSubview(codeTextField)
         /********/
         self.view.addSubview(idCardholdView)
         self.idCardholdView.addSubview(divideLine31)
@@ -171,7 +150,7 @@ class IdentityViewController: UIViewController {
         /******/
         centerHoldView.snp.makeConstraints { (make) in
             make.width.equalTo(self.view)
-            make.height.equalTo(100*UIRate)
+            make.height.equalTo(50*UIRate)
             make.centerX.equalTo(self.view)
             make.top.equalTo(topHoldView.snp.bottom).offset(10*UIRate)
         }
@@ -184,14 +163,6 @@ class IdentityViewController: UIViewController {
             
         }
         
-        divideLine22.snp.makeConstraints { (make) in
-            make.width.equalTo(centerHoldView)
-            make.height.equalTo(0.5*UIRate)
-            make.centerX.equalTo(centerHoldView)
-            make.centerY.equalTo(centerHoldView)
-            
-        }
-        
         divideLine23.snp.makeConstraints { (make) in
             make.width.equalTo(centerHoldView)
             make.height.equalTo(0.5*UIRate)
@@ -201,48 +172,13 @@ class IdentityViewController: UIViewController {
 
         phoneTextLabel.snp.makeConstraints { (make) in
             make.left.equalTo(15*UIRate)
-            make.centerY.equalTo(centerHoldView).offset(-25*UIRate)
+            make.centerY.equalTo(centerHoldView)
         }
         
-        randCodeLabel.snp.makeConstraints { (make) in
-            make.left.equalTo(phoneTextLabel)
-           make.centerY.equalTo(centerHoldView).offset(25*UIRate)
-        }
-
         phoneNumField.snp.makeConstraints { (make) in
-            make.width.equalTo(150*UIRate)
+            make.width.equalTo(200*UIRate)
             make.left.equalTo(100*UIRate)
             make.centerY.equalTo(phoneTextLabel)
-            
-        }
-
-        clearImage.snp.makeConstraints { (make) in
-            make.width.height.equalTo(15*UIRate)
-            make.right.equalTo(centerHoldView.snp.right).offset(-102*UIRate)
-            make.centerY.equalTo(phoneTextLabel)
-        }
-
-        clearBtn.snp.makeConstraints { (make) in
-            make.edges.equalTo(clearImage).inset(UIEdgeInsetsMake(-10, -10, -10, -5))
-        }
-        shuDivideLine.snp.makeConstraints { (make) in
-            make.width.equalTo(0.5*UIRate)
-            make.height.equalTo(20*UIRate)
-            make.left.equalTo(centerHoldView.snp.right).offset(-97*UIRate)
-            make.centerY.equalTo(clearImage)
-        }
-        
-        sendCodeBtn.snp.makeConstraints { (make) in
-            make.width.equalTo(95*UIRate)
-            make.height.equalTo(50*UIRate)
-            make.right.equalTo(centerHoldView)
-            make.centerY.equalTo(phoneTextLabel)
-        }
-
-        codeTextField.snp.makeConstraints { (make) in
-            make.width.equalTo(250*UIRate)
-            make.left.equalTo(100*UIRate)
-            make.centerY.equalTo(randCodeLabel)
         }
 
         /******/
@@ -407,13 +343,6 @@ class IdentityViewController: UIViewController {
     }()
 
     //分割线
-    private lazy var divideLine22: UIView = {
-        let lineView = UIView()
-        lineView.backgroundColor = defaultDivideLineColor
-        return lineView
-    }()
-
-    //分割线
     private lazy var divideLine23: UIView = {
         let lineView = UIView()
         lineView.backgroundColor = defaultDivideLineColor
@@ -428,15 +357,6 @@ class IdentityViewController: UIViewController {
         label.text = "手机号码"
         return label
     }()
-
-    private lazy var randCodeLabel: UILabel = {
-        let label = UILabel()
-        label.font = UIFontSize(size: 15*UIRate)
-        label.textAlignment = .center
-        label.textColor = UIColorHex("666666")
-        label.text = "验证码"
-        return label
-    }()
     
     ///手机号码输入框
     private lazy var phoneNumField: UITextField = {
@@ -446,48 +366,6 @@ class IdentityViewController: UIViewController {
         textField.tag = 10000
         textField.addTarget(self, action: #selector(textFieldAction(_:)), for: .editingChanged)
         return textField
-    }()
-    
-    ///清除按钮
-    private lazy var clearImage: UIImageView = {
-        let imageView = UIImageView()
-        imageView.isHidden = true
-        imageView.image = UIImage(named: "login_btn_clear_15x15")
-        return imageView
-    }()
-    
-    private lazy var clearBtn: UIButton = {
-        let button = UIButton()
-        button.addTarget(self, action: #selector(clearBtnAction), for: .touchUpInside)
-        return button
-    }()
-    
-    //分割线
-    private lazy var shuDivideLine: UIView = {
-        let lineView = UIView()
-        lineView.backgroundColor = UIColorHex("666666", 0.8)
-        return lineView
-    }()
-
-    
-    ///验证码输入框
-    private lazy var codeTextField: UITextField = {
-        let textField = UITextField()
-        textField.placeholder = "请输入验证码"
-        textField.keyboardType = .numberPad
-        textField.tag = 10001
-        textField.addTarget(self, action: #selector(textFieldAction(_:)), for: .editingChanged)
-        return textField
-    }()
-    
-    ///发送验证码按钮
-    private lazy var sendCodeBtn: UIButton = {
-        let button = UIButton()
-        button.setTitle("获取验证码", for: UIControlState.normal)
-        button.titleLabel?.font = UIFontSize(size: 15*UIRate)
-        button.setTitleColor(UIColorHex("00b2ff"), for: .normal)
-        button.addTarget(self, action: #selector(sendCodeBtnAction), for: .touchUpInside)
-        return button
     }()
     
     /************/
@@ -616,12 +494,6 @@ class IdentityViewController: UIViewController {
                 textField.text = textField.text?.substring(to: index!)
             }
             
-            if (textField.text?.characters.count)! > 0{
-                clearImage.isHidden = false
-            }else {
-                clearImage.isHidden = true
-            }
-            
         }else if textField.tag == 10001{
             //限制输入的长度，最长为4位
             if (textField.text?.characters.count)! > 4{
@@ -654,27 +526,8 @@ class IdentityViewController: UIViewController {
         }
    }
     
-    func clearBtnAction(){
-        phoneNumField.text = ""
-        clearImage.isHidden = true
-    }
-    
     func tapViewAction() {
         self.view.endEditing(true)
-    }
-    
-    //发送验证码按钮
-    func sendCodeBtnAction(){
-        
-        let phoneNum = phoneNumField.text!
-        guard (phoneNumField.text?.characters.count)! == 11 else {
-            self.showHint(in: self.view, hint: "请输入正确的手机号码")
-            return
-        }
-        timerHelper?.startCount()
-        NetSendCodeHelper.sendCodeToNumber(phoneNum, {[weak self] (descStr) in
-            self?.showHint(in: (self?.view)!, hint: descStr)
-        })
     }
     
     //身份证识别
@@ -694,7 +547,6 @@ class IdentityViewController: UIViewController {
     func nextStepBtnAction(){
         
         guard phoneNumField.text?.characters.count == 11,
-            (codeTextField.text?.characters.count)! == 4,
             (nameTextLabel.text?.characters.count)! > 0,
             (idNumLabel.text?.characters.count)! > 0
             else {
@@ -707,7 +559,6 @@ class IdentityViewController: UIViewController {
         var params = NetConnect.getBaseRequestParams()
         params["mobile"] = phoneNumField.text!
         params["userType"] = currentIndex + 1 //上传1-学生 2-白领 3-自由族
-        params["randCode"] = codeTextField.text!
         params["realName"] = self.nameTextLabel.text
         params["idCard"] = self.idNumLabel.text
         

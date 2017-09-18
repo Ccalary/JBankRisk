@@ -89,8 +89,10 @@ class BorrowRecordTableViewCell: UITableViewCell {
         //账单清算
         if dic["term"].intValue == 100{
              rightSecondTextLabel.text = "账单清算"
-        }else{
-             rightSecondTextLabel.text = "第\(dic["term"].stringValue)期"
+        }else if dic["term"].intValue == 200{//撤销订单
+            rightSecondTextLabel.text = "违约金"
+        }else {
+            rightSecondTextLabel.text = "第\(dic["term"].stringValue)期"
         }
     
         //0-已支付 1-未支付 2-提前支付 3-逾期未支付 4-逾期已支付
