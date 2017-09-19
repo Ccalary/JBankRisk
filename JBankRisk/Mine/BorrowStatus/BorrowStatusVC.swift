@@ -29,7 +29,8 @@ enum RevokeStatusType{
     case can      //撤销0
     case pay      //支付违约金1
     case upload   //上传退款凭证2
-    case success  //撤销成功3
+    case reviewing//审核中
+    case success  //撤销成功
 }
 
 class BorrowStatusVC: UIViewController {
@@ -94,6 +95,8 @@ class BorrowStatusVC: UIViewController {
             case 2:
                 revokeStatus = .upload
             case 3:
+                revokeStatus = .reviewing
+            case 4:
                 revokeStatus = .success
             default:
                 revokeStatus = .cannot
@@ -346,7 +349,16 @@ class BorrowStatusVC: UIViewController {
         statusView.onClickButton = {[unowned self] in
             
             switch self.statusType {
-            case .finish:
+            case .finish://还款结束
+                
+                switch self.revokeStatus {
+                case .success:
+                    self.popToCancelOrderVC()//跳转到撤销进度界面
+                    return
+                default:
+                    break
+                }
+                
                 switch self.repayFinalType {
                 case .sucRepayed:
                     self.popToRepayFinalVC()
@@ -366,8 +378,8 @@ class BorrowStatusVC: UIViewController {
                 case .can:
                    self.showCancelOrderPopupView()
                    return
-                case .pay,.upload,.success:
-                  self.popToCancelOrderVC()//跳转到撤销进度界面
+                default:
+                   self.popToCancelOrderVC()//跳转到撤销进度界面
                    return
                 }
                 
@@ -539,7 +551,7 @@ class BorrowStatusVC: UIViewController {
                 }
                 
                 self.showHint(in: self.view, hint: "撤销成功")
-                self.requestData()
+                self.popToCancelOrderVC()
                 
         }, failure: {error in
             //隐藏HUD

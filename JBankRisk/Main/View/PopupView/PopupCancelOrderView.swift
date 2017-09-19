@@ -110,7 +110,7 @@ class PopupCancelOrderView: UIView {
     private lazy var cancelBtn: UIButton = {
         let button = UIButton()
         button.setBackgroundImage(UIImage(named: "pop_btn_gray_85x40"), for: .normal)
-        button.setTitle("不撤销", for: UIControlState.normal)
+        button.setTitle("不申请", for: UIControlState.normal)
         button.titleLabel?.font = UIFontBoldSize(size: 18*UIRate)
         button.addTarget(self, action: #selector(cancelBtnAction), for: .touchUpInside)
         return button
@@ -120,7 +120,7 @@ class PopupCancelOrderView: UIView {
     private lazy var sureBtn: UIButton = {
         let button = UIButton()
         button.setBackgroundImage(UIImage(named: "pop_btn_red_85x40"), for: .normal)
-        button.setTitle("确认撤销", for: UIControlState.normal)
+        button.setTitle("申请撤销", for: UIControlState.normal)
         button.titleLabel?.font = UIFontBoldSize(size: 18*UIRate)
         button.addTarget(self, action: #selector(sureBtnAction), for: .touchUpInside)
         return button

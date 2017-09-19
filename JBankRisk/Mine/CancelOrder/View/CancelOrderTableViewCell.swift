@@ -58,8 +58,8 @@ class CancelOrderTableViewCell: UITableViewCell {
         }
         
         payBtn.snp.makeConstraints { (make) in
-            make.width.equalTo(40*UIRate)
-            make.height.equalTo(15*UIRate)
+            make.width.equalTo(50*UIRate)
+            make.height.equalTo(20*UIRate)
             make.right.equalTo(clockImageView)
             make.centerY.equalTo(clockImageView)
         }
@@ -167,7 +167,7 @@ class CancelOrderTableViewCell: UITableViewCell {
     private lazy var payBtn: UIButton = {
         let button = UIButton()
         button.backgroundColor = UIColorHex("fc4146")
-        button.setTitle("支付", for: UIControlState.normal)
+        button.setTitle("去支付", for: UIControlState.normal)
         button.titleLabel?.font = UIFontSize(size: 12*UIRate)
         button.layer.cornerRadius = 4
         button.addTarget(self, action: #selector(payBtnAction), for: .touchUpInside)
@@ -221,7 +221,7 @@ class CancelOrderTableViewCell: UITableViewCell {
             leftLabel.text = "支付违约金"
             leftDetailLabel.text = "请于24小时内支付完成"
             rightLabel.textColor = UIColorHex("fc4146")
-            rightLabel.text = toolsChangeMoneyStyle(amount: money)
+            rightLabel.text = toolsChangeMoneyStyle(amount: money) + "元"
             payBtn.isHidden = false
             clockImageView.isHidden = true
         case 2:

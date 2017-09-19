@@ -49,6 +49,18 @@ class BorrowStatusView: UIView {
                 self.statusImageView.image = UIImage(named:"bs_finish_110x90")
                 repayDetailBtn.isHidden = false
                 nextStepBtn.isHidden = false
+                
+                switch revokeState {
+                case .success: //撤销成功
+                    disTextLabel.text = "         "//改变还款详情布局
+                    repayDetailBtn.isHidden = false
+                    nextStepBtn.setTitle("撤销成功", for: UIControlState.normal)
+                    return
+                default:
+                    break
+                }
+                
+                
                 switch repayFinalType {
                 case .sucRepayed:
                     disTextLabel.text = "         "//改变还款详情布局
@@ -94,6 +106,9 @@ class BorrowStatusView: UIView {
                     return
                 case .upload:
                     nextStepBtn.setTitle("上传退款凭证", for: UIControlState.normal)
+                    return
+                case .reviewing:
+                    nextStepBtn.setTitle("撤销中", for: UIControlState.normal)
                     return
                 case .success:
                     nextStepBtn.setTitle("撤销成功", for: UIControlState.normal)

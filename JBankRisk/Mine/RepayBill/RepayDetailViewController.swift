@@ -284,11 +284,15 @@ class RepayDetailViewController: UIViewController, UITableViewDelegate, UITableV
             
             //撤销订单的
             switch self.revokeStatusType {
-            case .can, .pay, .upload, .success:
+            case .can:
                 let statusVC = BorrowStatusVC()
                 statusVC.orderId = self.orderId
                 self.navigationController?.pushViewController(statusVC, animated: true)
 
+            case .pay,.upload, .success://支付
+                let cancelVC = CancelOrderVC()
+                cancelVC.orderId = self.orderId
+                self.navigationController?.pushViewController(cancelVC, animated: true)
             default:
                 break
             }
