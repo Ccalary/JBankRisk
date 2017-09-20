@@ -228,6 +228,7 @@
 		FE2DF5791F6A467000F4578A /* CancelOrderNoticeVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = FE2DF5781F6A467000F4578A /* CancelOrderNoticeVC.swift */; };
 		FE2DF57B1F6A4D8100F4578A /* CancelOrderVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = FE2DF57A1F6A4D8100F4578A /* CancelOrderVC.swift */; };
 		FE2DF57E1F6A4E3B00F4578A /* CancelOrderTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = FE2DF57D1F6A4E3B00F4578A /* CancelOrderTableViewCell.swift */; };
+		FE465A871F720C9600EBCF30 /* HardwareInfo.swift in Sources */ = {isa = PBXBuildFile; fileRef = FE465A861F720C9600EBCF30 /* HardwareInfo.swift */; };
 		FE5500C61F413E6200D8B488 /* PopupRepayFinalTipsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = FE5500C51F413E6200D8B488 /* PopupRepayFinalTipsView.swift */; };
 		FEEF7ED11F6F6CE0006F57BB /* PopupCancelOrderView.swift in Sources */ = {isa = PBXBuildFile; fileRef = FEEF7ED01F6F6CE0006F57BB /* PopupCancelOrderView.swift */; };
 /* End PBXBuildFile section */
@@ -519,6 +520,7 @@
 		FE2DF5781F6A467000F4578A /* CancelOrderNoticeVC.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CancelOrderNoticeVC.swift; sourceTree = "<group>"; };
 		FE2DF57A1F6A4D8100F4578A /* CancelOrderVC.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CancelOrderVC.swift; sourceTree = "<group>"; };
 		FE2DF57D1F6A4E3B00F4578A /* CancelOrderTableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CancelOrderTableViewCell.swift; sourceTree = "<group>"; };
+		FE465A861F720C9600EBCF30 /* HardwareInfo.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = HardwareInfo.swift; sourceTree = "<group>"; };
 		FE5500C51F413E6200D8B488 /* PopupRepayFinalTipsView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PopupRepayFinalTipsView.swift; sourceTree = "<group>"; };
 		FEEF7ED01F6F6CE0006F57BB /* PopupCancelOrderView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PopupCancelOrderView.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -1132,6 +1134,7 @@
 		0D68E9701DCA25E7000DA5E6 /* Others */ = {
 			isa = PBXGroup;
 			children = (
+				FE465A851F720AAB00EBCF30 /* HardwareInfo */,
 				0D28B2A51E1520F700AA8B49 /* ToolsWithOC */,
 				0D68E9711DCA2604000DA5E6 /* Area */,
 			);
@@ -1512,6 +1515,14 @@
 			path = View;
 			sourceTree = "<group>";
 		};
+		FE465A851F720AAB00EBCF30 /* HardwareInfo */ = {
+			isa = PBXGroup;
+			children = (
+				FE465A861F720C9600EBCF30 /* HardwareInfo.swift */,
+			);
+			path = HardwareInfo;
+			sourceTree = "<group>";
+		};
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
@@ -1812,6 +1823,7 @@
 				0D536EE41DE47D95008B3BC3 /* JulixinWebViewController.swift in Sources */,
 				0D84AACF1DE1919D00957B0A /* iCarousel.m in Sources */,
 				0D28B2701E13BDDD00AA8B49 /* YHT_MBProgressHUD.m in Sources */,
+				FE465A871F720C9600EBCF30 /* HardwareInfo.swift in Sources */,
 				0D536EE01DE4347A008B3BC3 /* BorrowProgressView.swift in Sources */,
 				0D1E82611DE1927A0040B39E /* PhotoPreviewViewController.swift in Sources */,
 				0D006DDD1DC7810D0091CF33 /* UserHelper.swift in Sources */,

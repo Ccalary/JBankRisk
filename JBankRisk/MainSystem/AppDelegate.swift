@@ -146,12 +146,16 @@ class AppDelegate: UIResponder, UIApplicationDelegate,UITabBarControllerDelegate
             switch status {
             case .unknown:
                 self.rootTabbar?.showHintInKeywindow(hint: "未知网络连接",yOffset: SCREEN_HEIGHT/2 - 100*UIRate)
+                UserHelper.setNetStatus("未知网络")
             case .notReachable:
                 self.rootTabbar?.showHintInKeywindow(hint: "无网络连接",yOffset: SCREEN_HEIGHT/2 - 100*UIRate)
+                UserHelper.setNetStatus("无网络")
             case .reachable(.ethernetOrWiFi):
                 self.rootTabbar?.showHintInKeywindow(hint: "WiFi连接",yOffset: SCREEN_HEIGHT/2 - 100*UIRate)
+                UserHelper.setNetStatus("WiFi")
             case .reachable(.wwan):
                 self.rootTabbar?.showHintInKeywindow(hint: "数据网络连接",yOffset: SCREEN_HEIGHT/2 - 100*UIRate)
+                UserHelper.setNetStatus("数据网络")
             }
         }
         self.manager?.startListening()

@@ -446,5 +446,18 @@ class UserHelper {
         let timeStamp = defaults.object(forKey: "RandomCodeRestTime") as? Int
         return timeStamp ?? 0
     }
+    
+    //网络状态
+    static func setNetStatus(_ status: String){
+        let defaults = UserDefaults()
+        defaults.set(status, forKey: "netStatus")
+        defaults.synchronize()
+    }
+    
+    static func getNetStatus() -> String{
+        let defaults = UserDefaults()
+        let str = defaults.object(forKey: "netStatus") as? String
+        return str ?? ""
+    }
 }
 

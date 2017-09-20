@@ -12,6 +12,16 @@
 @interface OCTools : NSObject
 //获取设备IP
 +(NSString *)getIPAddress;
+
+//获取可用内存
++ (long long)getAvailableMemorySize;
+
+//获取已使用内存
++ (double)getUsedMemory;
+
+//手机型号
++(NSString *)getIPhoneType;
+
 //Log打印显示更改
 + (NSString *)logDic:(NSDictionary *)dic;
 //芝麻信用url转换

@@ -10,6 +10,10 @@
 #include <ifaddrs.h>
 #include <arpa/inet.h>
 
+#import <sys/sysctl.h>  
+#import <mach/mach.h>
+#import "sys/utsname.h"
+
 
 @implementation OCTools
 
@@ -53,6 +57,71 @@
     freeifaddrs(interfaces);
     return address;
 }
+
+//获取可用内存
++ (long long)getAvailableMemorySize
+{
+    vm_statistics_data_t vmStats;
+    mach_msg_type_number_t infoCount = HOST_VM_INFO_COUNT;
+    kern_return_t kernReturn = host_statistics(mach_host_self(), HOST_VM_INFO, (host_info_t)&vmStats, &infoCount);
+    if (kernReturn != KERN_SUCCESS)
+    {
+        return NSNotFound;
+    }
+    return ((vm_page_size * vmStats.free_count + vm_page_size * vmStats.inactive_count));
+}
+
+//获取已使用内存
++ (double)getUsedMemory
+{
+    task_basic_info_data_t taskInfo;
+    mach_msg_type_number_t infoCount = TASK_BASIC_INFO_COUNT;
+    kern_return_t kernReturn = task_info(mach_task_self(),
+                                         TASK_BASIC_INFO,
+                                         (task_info_t)&taskInfo,
+                                         &infoCount);
+    
+    if (kernReturn != KERN_SUCCESS
+        ) {
+        return NSNotFound;
+    }
+    
+    return taskInfo.resident_size;
+}
+
+//手机型号
++ (NSString*)getIPhoneType
+ {
+     struct utsname systemInfo;
+     uname(&systemInfo);
+     NSString *deviceString = [NSString stringWithCString:systemInfo.machine encoding:NSUTF8StringEncoding];
+     //iPhone
+     if ([deviceString isEqualToString:@"iPhone1,1"])    return @"iPhone 1G";
+     if ([deviceString isEqualToString:@"iPhone1,2"])    return @"iPhone 3G";
+     if ([deviceString isEqualToString:@"iPhone2,1"])    return @"iPhone 3GS";
+     if ([deviceString isEqualToString:@"iPhone3,1"])    return @"iPhone 4";
+     if ([deviceString isEqualToString:@"iPhone3,2"])    return @"Verizon iPhone 4";
+     if ([deviceString isEqualToString:@"iPhone4,1"])    return @"iPhone 4S";
+     if ([deviceString isEqualToString:@"iPhone5,1"])    return @"iPhone 5";
+     if ([deviceString isEqualToString:@"iPhone5,2"])    return @"iPhone 5";
+     if ([deviceString isEqualToString:@"iPhone5,3"])    return @"iPhone 5C";
+     if ([deviceString isEqualToString:@"iPhone5,4"])    return @"iPhone 5C";
+     if ([deviceString isEqualToString:@"iPhone6,1"])    return @"iPhone 5S";
+     if ([deviceString isEqualToString:@"iPhone6,2"])    return @"iPhone 5S";
+     if ([deviceString isEqualToString:@"iPhone7,1"])    return @"iPhone 6 Plus";
+     if ([deviceString isEqualToString:@"iPhone7,2"])    return @"iPhone 6";
+     if ([deviceString isEqualToString:@"iPhone8,1"])    return @"iPhone 6s";
+     if ([deviceString isEqualToString:@"iPhone8,2"])    return @"iPhone 6s Plus";
+     if ([deviceString isEqualToString:@"iPhone9,1"] || [deviceString isEqualToString:@"iPhone9,3"])    return @"iPhone 7";
+     if ([deviceString isEqualToString:@"iPhone9,2"] || [deviceString isEqualToString:@"iPhone9,4"])    return @"iPhone 7 Plus";
+     if ([deviceString isEqualToString:@"iPhone10,1"] || [deviceString isEqualToString:@"iPhone10,4"])    return @"iPhone 8";
+     if ([deviceString isEqualToString:@"iPhone10,2"] || [deviceString isEqualToString:@"iPhone10,5"])    return @"iPhone 8 Plus";
+     if ([deviceString isEqualToString:@"iPhone10,3"] || [deviceString isEqualToString:@"iPhone10,6"])    return @"iPhone X";
+     
+     return deviceString;
+ }
+
+
 
 // log NSSet with UTF8
 // if not ,log will be \Uxxx
