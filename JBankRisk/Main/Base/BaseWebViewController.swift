@@ -25,7 +25,7 @@ class BaseWebViewController: UIViewController, UIWebViewDelegate, NJKWebViewProg
         
         self.setupUI()
         
-        webView = UIWebView(frame: CGRect(x: 0, y: 64, width: SCREEN_WIDTH, height: SCREEN_HEIGHT - 64))
+        webView = UIWebView(frame: CGRect(x: 0, y: 0, width: SCREEN_WIDTH, height: SCREEN_HEIGHT - TopFullHeight))
         webView?.scalesPageToFit = true
         self.view.addSubview(self.webView!)
         
@@ -58,7 +58,6 @@ class BaseWebViewController: UIViewController, UIWebViewDelegate, NJKWebViewProg
 
     //基本UI
     func setupUI(){
-        self.automaticallyAdjustsScrollViewInsets = false;
         self.view.backgroundColor = UIColor.white
         
         self.navigationItem.leftBarButtonItem = UIBarButtonItem(image: UIImage(named: "navigation_left_back_13x21"), style: .plain, target: self, action: #selector(doLeftNavigationBarImageBtnAction))
@@ -68,7 +67,7 @@ class BaseWebViewController: UIViewController, UIWebViewDelegate, NJKWebViewProg
             make.width.equalTo(13)
             make.height.equalTo(21)
             make.left.equalTo(16)
-            make.top.equalTo(20+11.5)
+            make.top.equalTo(StatusBarHeight+11.5)
         }
     }
     

@@ -48,8 +48,6 @@ class RepayFinalVC: UIViewController {
     func setupUI(){
         self.navigationItem.title = "账单清算"
         self.view.backgroundColor = defaultBackgroundColor
-        self.navigationController!.navigationBar.isTranslucent = true
-        self.automaticallyAdjustsScrollViewInsets = false
         
         self.navigationItem.rightBarButtonItem = UIBarButtonItem(image: UIImage(named:"nav_notice_20x20"), style: .plain, target: self, action: #selector(rightNavigationBarBtnAction))
         self.navigationItem.rightBarButtonItem?.tintColor = UIColorHex("666666")
@@ -64,7 +62,7 @@ class RepayFinalVC: UIViewController {
             make.width.equalTo(self.view)
             make.height.equalTo(156*UIRate)
             make.centerX.equalTo(self.view)
-            make.top.equalTo(64)
+            make.top.equalTo(self.view)
         }
         
         moneyTextLabel.snp.makeConstraints { (make) in

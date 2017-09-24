@@ -58,9 +58,6 @@ class RepayDetailViewController: UIViewController, UITableViewDelegate, UITableV
     }
     
     func setupUI(){
-        self.navigationController!.navigationBar.isTranslucent = true
-        self.automaticallyAdjustsScrollViewInsets = false
-        
         self.navigationItem.title = "还款详情"
         self.view.backgroundColor = defaultBackgroundColor
         self.navigationItem.rightBarButtonItem = UIBarButtonItem(title: "筛选", style: UIBarButtonItemStyle.plain, target: self, action: #selector(rightNavigationBarBtnAction))
@@ -77,9 +74,9 @@ class RepayDetailViewController: UIViewController, UITableViewDelegate, UITableV
         
         aTableView.snp.makeConstraints { (make) in
             make.width.equalTo(self.view)
-            make.height.equalTo(SCREEN_HEIGHT - 64)
+            make.height.equalTo(SCREEN_HEIGHT - TopFullHeight)
             make.centerX.equalTo(self.view)
-            make.top.equalTo(64)
+            make.top.equalTo(self.view)
         }
         
         popView.snp.makeConstraints { (make) in

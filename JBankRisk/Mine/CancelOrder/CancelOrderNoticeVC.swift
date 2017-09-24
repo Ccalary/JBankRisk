@@ -44,7 +44,7 @@ class CancelOrderNoticeVC: UIViewController, UITableViewDelegate, UITableViewDat
         
         aTableView.snp.makeConstraints { (make) in
             make.width.equalTo(self.view)
-            make.height.equalTo(SCREEN_HEIGHT - 64)
+            make.height.equalTo(SCREEN_HEIGHT - TopFullHeight)
             make.centerX.equalTo(self.view)
             make.top.equalTo(5)
         }

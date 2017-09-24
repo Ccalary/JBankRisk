@@ -28,8 +28,7 @@ class SchoolListVC: UIViewController, UITableViewDelegate, UITableViewDataSource
 
     //MARK: - 基本UI
     func setupUI(){
-        self.title = "选择学校"
-        self.automaticallyAdjustsScrollViewInsets = false
+        self.navigationItem.title = "选择学校"
         self.navigationItem.rightBarButtonItem = UIBarButtonItem(title: "取消", style: UIBarButtonItemStyle.plain, target: self, action: #selector(rightNavigationBarBtnAction))
         self.navigationItem.rightBarButtonItem?.tintColor = UIColorHex("00b2ff")
         
@@ -37,9 +36,9 @@ class SchoolListVC: UIViewController, UITableViewDelegate, UITableViewDataSource
         
         aTableView.snp.makeConstraints { (make) in
             make.width.equalTo(SCREEN_WIDTH)
-            make.height.equalTo(SCREEN_HEIGHT - 64)
+            make.height.equalTo(SCREEN_HEIGHT - TopFullHeight)
             make.centerX.equalTo(self.view)
-            make.top.equalTo(64)
+            make.top.equalTo(self.view)
         }
     }
     

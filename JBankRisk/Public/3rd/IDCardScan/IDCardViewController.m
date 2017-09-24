@@ -129,7 +129,9 @@ static Boolean init_flag = false;
     
     // create a view, on which we attach the AV Preview layer
     
-    _cameraView = [[UIView alloc] initWithFrame:CGRectMake(0, 64, SCREEN_WIDTH, SCREEN_HEIGHT - 64)];
+    CGFloat barHeigth = [UIApplication sharedApplication].statusBarFrame.size.height;
+    
+    _cameraView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, SCREEN_WIDTH, SCREEN_HEIGHT - (barHeigth + 44))];
     [[_cameraView layer] addSublayer:[_capture previewLayer]];
     
     UILabel *tipsLabel = [[UILabel alloc] initWithFrame:CGRectMake(0, 355*UIRATE, SCREEN_WIDTH, 40*UIRATE)];

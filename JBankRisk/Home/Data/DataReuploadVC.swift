@@ -58,10 +58,8 @@ class DataReuploadVC:  UIViewController,UITableViewDelegate, UITableViewDataSour
     }
 
     func setupUI(){
-        self.navigationController!.navigationBar.isTranslucent = true
-        self.automaticallyAdjustsScrollViewInsets = false
         self.view.backgroundColor = defaultBackgroundColor
-        self.title = "补交材料"
+        self.navigationItem.title = "补交材料"
         
         self.navigationItem.leftBarButtonItem = UIBarButtonItem(image: UIImage(named:"navigation_left_back_13x21"), style: .plain, target: self, action: #selector(leftNavigationBarBtnAction))
         
@@ -84,14 +82,14 @@ class DataReuploadVC:  UIViewController,UITableViewDelegate, UITableViewDataSour
         topView.snp.makeConstraints { (make) in
             make.width.equalTo(self.view)
             make.height.equalTo(30*UIRate)
-            make.top.equalTo(64)
+            make.top.equalTo(self.view)
         }
         
         aScrollView.snp.makeConstraints { (make) in
             make.width.equalTo(self.view)
-            make.height.equalTo(SCREEN_HEIGHT - 64 - 84*UIRate)
+            make.height.equalTo(SCREEN_HEIGHT - TopFullHeight - 84*UIRate)
             make.centerX.equalTo(self.view)
-            make.top.equalTo(64 + 30*UIRate)
+            make.top.equalTo(30*UIRate)
         }
         
         aTableView.snp.makeConstraints { (make) in
@@ -146,7 +144,7 @@ class DataReuploadVC:  UIViewController,UITableViewDelegate, UITableViewDataSour
             make.bottom.equalTo(-10*UIRate)
         }
         
-        let scrollHeight = SCREEN_HEIGHT - 64 - 64*UIRate - 20*UIRate
+        let scrollHeight = SCREEN_HEIGHT - TopFullHeight - 64*UIRate - 20*UIRate
         let contentHeight = tableViewHeight + 262*UIRate + 20*UIRate
         
         if contentHeight < scrollHeight {

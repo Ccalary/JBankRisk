@@ -69,8 +69,6 @@ class NeedRepayViewController: UIViewController,UITableViewDelegate, UITableView
     //MARK: - 基本UI
     func setupUI(){
         self.view.backgroundColor = defaultBackgroundColor
-        self.navigationController!.navigationBar.isTranslucent = true
-        self.automaticallyAdjustsScrollViewInsets = false
         
         let aTap = UITapGestureRecognizer(target: self, action: #selector(tapViewAction))
         aTap.numberOfTapsRequired = 1
@@ -90,16 +88,16 @@ class NeedRepayViewController: UIViewController,UITableViewDelegate, UITableView
         
         defaultView.snp.makeConstraints { (make) in
             make.width.equalTo(self.view)
-            make.height.equalTo(SCREEN_HEIGHT - 64)
+            make.height.equalTo(SCREEN_HEIGHT - TopFullHeight)
             make.centerX.equalTo(self.view)
-            make.top.equalTo(64)
+            make.top.equalTo(self.view)
         }
 
         aTableView.snp.makeConstraints { (make) in
             make.width.equalTo(self.view)
-            make.height.equalTo(SCREEN_HEIGHT - 64)
+            make.height.equalTo(SCREEN_HEIGHT - TopFullHeight)
             make.centerX.equalTo(self.view)
-            make.top.equalTo(64)
+            make.top.equalTo(self.view)
         }
 
         selectBgView.snp.makeConstraints { (make) in
@@ -259,7 +257,7 @@ class NeedRepayViewController: UIViewController,UITableViewDelegate, UITableView
             
             UIView.animate(withDuration: 0.6, animations: {
                  self.titleArrowImgView.transform = CGAffineTransform(rotationAngle: CGFloat(M_PI))
-                self.selectViewConstraint?.update(offset: 64)
+                self.selectViewConstraint?.update(offset: TopFullHeight)
                 self.view.layoutIfNeeded()//一定要加上这句话才会有动画效果
                 self.selectBgView.alpha = 1
             })

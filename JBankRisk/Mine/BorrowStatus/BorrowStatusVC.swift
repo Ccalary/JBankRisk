@@ -179,7 +179,7 @@ class BorrowStatusVC: UIViewController {
     
     //正常页面
     func setNormalUI(){
-        self.title = ""
+        self.navigationItem.title = ""
         
         self.view.addSubview(mScrollView)
         
@@ -188,12 +188,12 @@ class BorrowStatusVC: UIViewController {
         
         mScrollView.snp.makeConstraints { (make) in
             make.width.equalTo(self.view)
-            make.height.equalTo(SCREEN_HEIGHT - 64)
+            make.height.equalTo(SCREEN_HEIGHT - TopFullHeight)
             make.centerX.equalTo(self.view)
-            make.top.equalTo(64)
+            make.top.equalTo(self.view)
         }
         
-        mScrollView.contentSize = CGSize(width: SCREEN_WIDTH, height: 667*UIRate - 64 + 1)
+        mScrollView.contentSize = CGSize(width: SCREEN_WIDTH, height: 667*UIRate - TopFullHeight + 1)
         
         statusView.snp.makeConstraints { (make) in
             make.width.equalTo(self.view)
@@ -257,12 +257,12 @@ class BorrowStatusVC: UIViewController {
             make.width.equalTo(self.view)
             make.height.equalTo(70*UIRate)
             make.centerX.equalTo(self.view)
-            make.top.equalTo(64 + 10*UIRate)
+            make.top.equalTo(10*UIRate)
         }
         
         defaultView.snp.makeConstraints { (make) in
             make.width.equalTo(self.view)
-            make.height.equalTo(SCREEN_HEIGHT - 64)
+            make.height.equalTo(SCREEN_HEIGHT - TopFullHeight)
             make.centerX.equalTo(self.view)
             make.top.equalTo(defaultProView.snp.bottom)
         }

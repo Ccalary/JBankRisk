@@ -486,7 +486,7 @@ class NetConnect {
         })
     }
     
-    //4.5 合同列表
+    //4.6 合同列表
     static func other_contract_list(parameters: Parameters,success:@escaping (_ response:[String:AnyObject]) -> (),failure:@escaping(_ error: Error) -> ()){
         NetworkRequest.sharedInstance.getRequest(urlString: OT_CONTRACT_LIST, params: parameters, success: { (response) in
             success(response)
@@ -495,7 +495,7 @@ class NetConnect {
         })
     }
     
-    //4.6 上传用户通讯录
+    //4.7 上传用户通讯录
     static func other_upload_contact_list(parameters: Parameters,success:@escaping (_ response:[String:AnyObject]) -> (),failure:@escaping(_ error: Error) -> ()){
         NetworkRequest.sharedInstance.postRequest(urlString: OT_UPLOAD_CONTACT_LIST, params: parameters, success: { (response) in
             success(response)
@@ -503,5 +503,15 @@ class NetConnect {
             failure(error)
         })
     }
+    
+    //4.8 上传用户硬件信息
+    static func other_upload_hardware_info(parameters: Parameters,success:@escaping (_ response:[String:AnyObject]) -> (),failure:@escaping(_ error: Error) -> ()){
+        NetworkRequest.sharedInstance.postRequest(urlString: OT_UPLOAD_HARDWARE_INFO, params: parameters, success: { (response) in
+            success(response)
+        }, failture: { (error) in
+            failure(error)
+        })
+    }
+
 }
 

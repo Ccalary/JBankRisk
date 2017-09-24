@@ -73,7 +73,7 @@ class RegisterOrResetPsdVC: UIViewController {
     func showView(){
         switch viewType {
         case .register:
-            self.title = "注册"
+            self.navigationItem.title = "注册"
             self.view.addSubview(bottomTextLabel)
             self.view.addSubview(protocolBtn)
             
@@ -128,7 +128,7 @@ class RegisterOrResetPsdVC: UIViewController {
        
         
         textLabel.snp.makeConstraints { (make) in
-            make.top.equalTo(64 + 20*UIRate)
+            make.top.equalTo(20*UIRate)
             make.centerX.equalTo(self.view)
         }
         
@@ -142,7 +142,7 @@ class RegisterOrResetPsdVC: UIViewController {
         holdView.snp.makeConstraints { (make) in
             make.width.equalTo(self.view)
             make.height.equalTo(90*UIRate)
-            make.top.equalTo(90*UIRate + 64)
+            make.top.equalTo(90*UIRate)
         }
         
         divideLine1.snp.makeConstraints { (make) in

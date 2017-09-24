@@ -21,7 +21,7 @@ class NoNeedRepayVC: UIViewController {
     }
     
     func setupUI(){
-        self.title = "还款"
+        self.navigationItem.title = "还款"
         
         self.view.backgroundColor = defaultBackgroundColor
 
@@ -48,7 +48,7 @@ class NoNeedRepayVC: UIViewController {
             make.width.equalTo(self.view)
             make.height.equalTo(200*UIRate)
             make.centerX.equalTo(self.view)
-            make.top.equalTo(64)
+            make.top.equalTo(self.view)
         }
         
         topImageView.snp.makeConstraints { (make) in

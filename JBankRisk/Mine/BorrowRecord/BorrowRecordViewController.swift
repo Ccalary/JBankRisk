@@ -27,8 +27,6 @@ class BorrowRecordViewController: UIViewController,UITableViewDelegate, UITableV
     
     //MARK: -基本UI
     func setupUI(){
-        self.navigationController!.navigationBar.isTranslucent = true
-        self.automaticallyAdjustsScrollViewInsets = false
         self.navigationItem.title = "借款记录"
         self.view.backgroundColor = defaultBackgroundColor
         
@@ -50,9 +48,9 @@ class BorrowRecordViewController: UIViewController,UITableViewDelegate, UITableV
         
         defaultView.snp.makeConstraints { (make) in
             make.width.equalTo(self.view)
-            make.height.equalTo(SCREEN_HEIGHT - 64)
+            make.height.equalTo(SCREEN_HEIGHT - TopFullHeight)
             make.centerX.equalTo(self.view)
-            make.top.equalTo(64)
+            make.top.equalTo(self.view)
         }
 
         //去申请回调
@@ -71,9 +69,9 @@ class BorrowRecordViewController: UIViewController,UITableViewDelegate, UITableV
         
         aTableView.snp.makeConstraints { (make) in
             make.width.equalTo(self.view)
-            make.height.equalTo(SCREEN_HEIGHT - 64)
+            make.height.equalTo(SCREEN_HEIGHT - TopFullHeight)
             make.centerX.equalTo(self.view)
-            make.top.equalTo(64)
+            make.top.equalTo(self.view)
         }
         self.initHeader()
     }

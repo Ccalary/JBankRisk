@@ -43,8 +43,6 @@ class CancelOrderVC: UIViewController, UITableViewDelegate, UITableViewDataSourc
         
         self.navigationItem.title = "撤销订单"
         self.view.backgroundColor = defaultBackgroundColor
-        self.navigationController!.navigationBar.isTranslucent = true
-        self.automaticallyAdjustsScrollViewInsets = false
         
         self.navigationItem.rightBarButtonItem = UIBarButtonItem(image: UIImage(named:"nav_notice_20x20"), style: .plain, target: self, action: #selector(rightNavigationBarBtnAction))
         self.navigationItem.rightBarButtonItem?.tintColor = UIColorHex("666666")
@@ -56,7 +54,7 @@ class CancelOrderVC: UIViewController, UITableViewDelegate, UITableViewDataSourc
             make.width.equalTo(360*UIRate)
             make.height.equalTo(340*UIRate)
             make.centerX.equalTo(self.view)
-            make.top.equalTo(self.view).offset(64 + 10)
+            make.top.equalTo(10)
         }
         
         aTableView.snp.makeConstraints { (make) in

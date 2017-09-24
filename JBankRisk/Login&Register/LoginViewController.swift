@@ -40,7 +40,7 @@ class LoginViewController: UIViewController {
     
     //MARK: - 基本UI
     func setupUI(){
-        self.title = "登录"
+        self.navigationItem.title = "登录"
         self.view.backgroundColor = defaultBackgroundColor
         self.navigationItem.rightBarButtonItem = UIBarButtonItem(image: UIImage(named:"navigation_right_phone_18x21"), style: .plain, target: self, action: #selector(rightNavigationBarBtnAction))
         
@@ -129,7 +129,7 @@ class LoginViewController: UIViewController {
     
    /*********/
    private lazy var textLabel: UILabel = {
-       let label = UILabel(frame: CGRect(x: 0, y: 64, width: SCREEN_WIDTH, height: 60*UIRate))
+       let label = UILabel(frame: CGRect(x: 0, y: 0, width: SCREEN_WIDTH, height: 60*UIRate))
         label.font = UIFontSize(size: 15*UIRate)
         label.textAlignment = .center
         label.textColor = UIColorHex("666666")
@@ -283,7 +283,7 @@ class LoginViewController: UIViewController {
                     
                     if json["RET_CODE"] == "100101" {
                         UIView.animate(withDuration: 0.5) {
-                            self.errorContraints?.update(offset: 64)
+                            self.errorContraints?.update(offset: TopFullHeight)
                             self.errorTextLabel.alpha = 1.0
                             self.view.layoutIfNeeded()
                         }

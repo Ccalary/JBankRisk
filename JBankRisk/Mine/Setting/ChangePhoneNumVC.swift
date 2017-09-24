@@ -45,7 +45,7 @@ class ChangePhoneNumVC: UIViewController {
     }
     
     func setupUI(){
-        self.title = "修改手机号码"
+        self.navigationItem.title = "修改手机号码"
         self.view.backgroundColor = defaultBackgroundColor
         self.navigationItem.rightBarButtonItem = UIBarButtonItem(image: UIImage(named:"navigation_right_phone_18x21"), style: .plain, target: self, action: #selector(rightNavigationBarBtnAction))
         
@@ -76,7 +76,7 @@ class ChangePhoneNumVC: UIViewController {
         
         phoneNumLabel.snp.makeConstraints { (make) in
             make.centerX.equalTo(self.view)
-            make.top.equalTo(60 + 20*UIRate)
+            make.top.equalTo(20*UIRate)
         }
         
         oldPhoneNumLabel.snp.makeConstraints { (make) in
@@ -87,7 +87,7 @@ class ChangePhoneNumVC: UIViewController {
         holdView.snp.makeConstraints { (make) in
             make.width.equalTo(self.view)
             make.height.equalTo(90*UIRate)
-            make.top.equalTo(90*UIRate + 64)
+            make.top.equalTo(90*UIRate)
         }
         
         divideLine1.snp.makeConstraints { (make) in

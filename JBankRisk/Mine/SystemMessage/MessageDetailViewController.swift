@@ -37,10 +37,8 @@ class MessageDetailViewController: UIViewController {
     }
     
     func setupUI(){
-        self.navigationController!.navigationBar.isTranslucent = true;
-        self.automaticallyAdjustsScrollViewInsets = false;
         self.view.backgroundColor = defaultBackgroundColor
-        self.title = "消息"
+        self.navigationItem.title = "消息"
         
         self.view.addSubview(titleTextLabel)
         self.view.addSubview(timeTextLabel)
@@ -51,7 +49,7 @@ class MessageDetailViewController: UIViewController {
         
         titleTextLabel.snp.makeConstraints { (make) in
             make.left.equalTo(20*UIRate)
-            make.top.equalTo(20*UIRate + 64)
+            make.top.equalTo(20*UIRate)
         }
         
         timeTextLabel.snp.makeConstraints { (make) in
@@ -63,7 +61,7 @@ class MessageDetailViewController: UIViewController {
             make.width.equalTo(SCREEN_WIDTH - 40*UIRate)
             make.height.equalTo(0.5*UIRate)
             make.centerX.equalTo(self.view)
-            make.top.equalTo(64 + 70*UIRate)
+            make.top.equalTo(70*UIRate)
         }
 
         contentTextLabel.snp.makeConstraints { (make) in

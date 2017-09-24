@@ -73,7 +73,7 @@ class LoginCodeViewController: UIViewController {
         holdView.snp.makeConstraints { (make) in
             make.width.equalTo(self.view)
             make.height.equalTo(90*UIRate)
-            make.top.equalTo(10*UIRate + 64)
+            make.top.equalTo(10*UIRate)
         }
         
         divideLine1.snp.makeConstraints { (make) in

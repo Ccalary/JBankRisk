@@ -92,8 +92,6 @@ class ContactViewController: UIViewController, UITableViewDelegate, UITableViewD
     }
     
     func setupUI(){
-        self.navigationController!.navigationBar.isTranslucent = true
-        self.automaticallyAdjustsScrollViewInsets = false
         self.view.backgroundColor = defaultBackgroundColor
         self.navigationItem.title = "联系信息"
         
@@ -112,9 +110,9 @@ class ContactViewController: UIViewController, UITableViewDelegate, UITableViewD
         
         aTableView.snp.makeConstraints { (make) in
             make.width.equalTo(SCREEN_WIDTH)
-            make.height.equalTo(SCREEN_HEIGHT - 64 - 64*UIRate)
+            make.height.equalTo(SCREEN_HEIGHT - TopFullHeight - 64*UIRate)
             make.centerX.equalTo(self.view)
-            make.top.equalTo(64)
+            make.top.equalTo(self.view)
         }
         
         divideLine1.snp.makeConstraints { (make) in

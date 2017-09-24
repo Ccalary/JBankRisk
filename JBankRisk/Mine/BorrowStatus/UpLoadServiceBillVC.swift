@@ -66,7 +66,7 @@ class UpLoadServiceBillVC: UIViewController,UIImagePickerControllerDelegate,UINa
         self.view.addSubview(nextStepBtn)
         
         headerView.snp.makeConstraints { (make) in
-            make.top.equalTo(64 + 10*UIRate)
+            make.top.equalTo(10*UIRate)
             make.width.equalTo(self.view)
             make.height.equalTo(100*UIRate)
             make.centerX.equalTo(self.view)

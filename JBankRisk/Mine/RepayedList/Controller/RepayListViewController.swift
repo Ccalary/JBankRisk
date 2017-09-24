@@ -52,9 +52,7 @@ class RepayListViewController: UIViewController,UIGestureRecognizerDelegate,UITa
         super.didReceiveMemoryWarning()
     }
 
-    
     func setupUI(){
-        self.automaticallyAdjustsScrollViewInsets = false
         self.view.backgroundColor = defaultBackgroundColor
         self.title = "全部纪录"
         if isHaveData {
@@ -70,9 +68,9 @@ class RepayListViewController: UIViewController,UIGestureRecognizerDelegate,UITa
         
         defaultView.snp.makeConstraints { (make) in
             make.width.equalTo(self.view)
-            make.height.equalTo(SCREEN_HEIGHT - 64)
+            make.height.equalTo(SCREEN_HEIGHT - TopFullHeight)
             make.centerX.equalTo(self.view)
-            make.top.equalTo(50*UIRate + 64)
+            make.top.equalTo(50*UIRate)
         }
     }
     
@@ -105,7 +103,7 @@ class RepayListViewController: UIViewController,UIGestureRecognizerDelegate,UITa
         
         aTableView.snp.makeConstraints { (make) in
             make.width.equalTo(self.view)
-            make.height.equalTo(SCREEN_HEIGHT - 64 - 45*UIRate)
+            make.height.equalTo(SCREEN_HEIGHT - TopFullHeight - 45*UIRate)
             make.centerX.equalTo(self.view)
             make.top.equalTo(tableHeaderView.snp.bottom)
         }
@@ -140,7 +138,7 @@ class RepayListViewController: UIViewController,UIGestureRecognizerDelegate,UITa
     }()
     
     private lazy var tableHeaderView: RepayedListTopView = {
-        let holdView = RepayedListTopView(frame: CGRect(x: 0, y: 64, width: SCREEN_WIDTH, height: 45*UIRate))
+        let holdView = RepayedListTopView(frame: CGRect(x: 0, y: 0, width: SCREEN_WIDTH, height: 45*UIRate))
         return holdView
     }()
     
@@ -211,7 +209,7 @@ class RepayListViewController: UIViewController,UIGestureRecognizerDelegate,UITa
             //打开
             UIView.animate(withDuration: 0.6, animations: {
                 self.navTitleView.titleArrowImgView.transform = CGAffineTransform(rotationAngle: CGFloat(M_PI))
-                self.selectViewConstraint?.update(offset: 64)
+                self.selectViewConstraint?.update(offset: TopFullHeight)
                 self.view.layoutIfNeeded()//一定要加上这句话才会有动画效果
                 self.selectBgView.alpha = 1
             })

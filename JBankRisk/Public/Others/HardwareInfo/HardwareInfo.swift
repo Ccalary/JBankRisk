@@ -104,4 +104,18 @@ class HardwareInfo {
     private func getTotalMemorySize() -> UInt64 {
         return ProcessInfo.processInfo.physicalMemory
     }
+    
+    
+    //上传硬件信息
+    func uploadHardwareInfo(){
+        
+        var params = NetConnect.getBaseRequestParams()
+        
+        
+        NetConnect.other_upload_hardware_info(parameters: params, success: { response in
+            
+        }, failure:{ error in
+  
+        })
+    }
 }

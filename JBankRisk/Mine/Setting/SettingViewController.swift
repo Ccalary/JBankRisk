@@ -37,9 +37,8 @@ class SettingViewController: UIViewController,UITableViewDelegate, UITableViewDa
     }
     
     func setupUI(){
-        self.automaticallyAdjustsScrollViewInsets = false
         self.view.backgroundColor = defaultBackgroundColor
-        self.title = "设置"
+        self.navigationItem.title = "设置"
         
         let headerView = UIView(frame: CGRect(x: 0, y: 0, width: SCREEN_WIDTH, height: 10*UIRate))
         headerView.backgroundColor = defaultBackgroundColor
@@ -57,9 +56,9 @@ class SettingViewController: UIViewController,UITableViewDelegate, UITableViewDa
         
         aTableView.snp.makeConstraints { (make) in
             make.width.equalTo(self.view)
-            make.height.equalTo(SCREEN_HEIGHT - 64)
+            make.height.equalTo(SCREEN_HEIGHT - TopFullHeight)
             make.centerX.equalTo(self.view)
-            make.top.equalTo(64)
+            make.top.equalTo(self.view)
         }
         
         divideLine1.snp.makeConstraints { (make) in

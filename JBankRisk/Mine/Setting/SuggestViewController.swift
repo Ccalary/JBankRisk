@@ -49,7 +49,7 @@ class SuggestViewController: UIViewController,UITextViewDelegate, UICollectionVi
     }
     
     func setupUI(){
-        self.title = "我要吐槽"
+        self.navigationItem.title = "我要吐槽"
         self.view.backgroundColor = defaultBackgroundColor
         self.navigationItem.rightBarButtonItem = UIBarButtonItem(image: UIImage(named:"navigation_right_phone_18x21"), style: .plain, target: self, action: #selector(rightNavigationBarBtnAction))
         
@@ -70,7 +70,7 @@ class SuggestViewController: UIViewController,UITextViewDelegate, UICollectionVi
             make.width.equalTo(SCREEN_WIDTH - 30*UIRate)
             make.height.equalTo(180*UIRate)
             make.centerX.equalTo(self.view)
-            make.top.equalTo(10*UIRate + 64)
+            make.top.equalTo(10*UIRate)
         }
         
         holderTextLabel.snp.makeConstraints { (make) in

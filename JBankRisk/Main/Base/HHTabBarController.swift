@@ -16,7 +16,6 @@ class HHTabBarController: UITabBarController {
         //tabbar选中时字显示的颜色
         let tabbar = UITabBar.appearance()
         tabbar.tintColor = UIColor.red
-        
         self.addChildrenViewControllers()
     }
 

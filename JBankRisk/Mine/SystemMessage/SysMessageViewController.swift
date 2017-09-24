@@ -45,9 +45,9 @@ class SysMessageViewController: UIViewController,UITableViewDelegate, UITableVie
         
         defaultView.snp.makeConstraints { (make) in
             make.width.equalTo(self.view)
-            make.height.equalTo(SCREEN_HEIGHT - 64)
+            make.height.equalTo(SCREEN_HEIGHT - TopFullHeight)
             make.centerX.equalTo(self.view)
-            make.top.equalTo(50*UIRate + 64)
+            make.top.equalTo(50*UIRate)
         }
     }
 
@@ -57,9 +57,9 @@ class SysMessageViewController: UIViewController,UITableViewDelegate, UITableVie
         
         aTableView.snp.makeConstraints { (make) in
             make.width.equalTo(self.view)
-            make.height.equalTo(SCREEN_HEIGHT - 64)
+            make.height.equalTo(SCREEN_HEIGHT - TopFullHeight)
             make.centerX.equalTo(self.view)
-            make.top.equalTo(64)
+            make.top.equalTo(self.view)
         }
         
         self.aTableView.addPullRefreshHandler({[weak self] _ in
@@ -69,10 +69,8 @@ class SysMessageViewController: UIViewController,UITableViewDelegate, UITableVie
     }
     
     func setupUI(){
-        self.navigationController!.navigationBar.isTranslucent = true
-        self.automaticallyAdjustsScrollViewInsets = false
         self.view.backgroundColor = defaultBackgroundColor
-        self.title = "消息"
+        self.navigationItem.title = "消息"
         
         if isHaveData {
             self.setupNormalUI()

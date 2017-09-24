@@ -61,9 +61,6 @@ class RepayTipsViewController: UIViewController {
     }
     
     func setupUI(){
-        self.navigationController!.navigationBar.isTranslucent = true;
-        self.automaticallyAdjustsScrollViewInsets = false;
-        
         self.navigationItem.title = "还款提示"
         self.view.backgroundColor = defaultBackgroundColor
           self.navigationItem.leftBarButtonItem = UIBarButtonItem(image: UIImage(named:"navigation_left_back_13x21"), style: .plain, target: self, action: #selector(leftNavigationBarBtnAction))
@@ -87,7 +84,7 @@ class RepayTipsViewController: UIViewController {
         
         statusTextLabel.snp.makeConstraints { (make) in
             make.centerX.equalTo(self.view).offset(15*UIRate)
-            make.centerY.equalTo(self.view.snp.top).offset(64 + 27.5*UIRate)
+            make.centerY.equalTo(self.view.snp.top).offset(27.5*UIRate)
         }
 
         statusImageView.snp.makeConstraints { (make) in
@@ -100,7 +97,7 @@ class RepayTipsViewController: UIViewController {
             make.width.equalTo(self.view)
             make.height.equalTo(175*UIRate)
             make.centerX.equalTo(self.view)
-            make.top.equalTo(64 + 55*UIRate)
+            make.top.equalTo(55*UIRate)
         }
         
         divideLine1.snp.makeConstraints { (make) in

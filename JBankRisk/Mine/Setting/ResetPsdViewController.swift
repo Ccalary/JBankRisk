@@ -23,7 +23,7 @@ class ResetPsdViewController: UIViewController {
     
     func setupUI(){
         self.view.backgroundColor = defaultBackgroundColor
-        self.title = "修改密码"
+        self.navigationItem.title = "修改密码"
         
         let aTap = UITapGestureRecognizer(target: self, action: #selector(tapViewAction))
         aTap.numberOfTapsRequired = 1
@@ -58,7 +58,7 @@ class ResetPsdViewController: UIViewController {
             make.width.equalTo(self.view)
             make.height.equalTo(135*UIRate)
             make.centerX.equalTo(self.view)
-            make.top.equalTo(10*UIRate + 64)
+            make.top.equalTo(10*UIRate)
         }
         
         oldTextField.snp.makeConstraints { (make) in

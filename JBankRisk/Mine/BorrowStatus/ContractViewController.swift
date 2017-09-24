@@ -47,17 +47,16 @@ class ContractViewController: UIViewController, UITableViewDataSource, UITableVi
     }
     
     func setupUI(){
-        self.automaticallyAdjustsScrollViewInsets = false
-        self.title = "签署合同"
+        self.navigationItem.title = "签署合同"
         self.view.backgroundColor = defaultBackgroundColor
         
         self.view.addSubview(aTableView)
         
         aTableView.snp.makeConstraints { (make) in
             make.width.equalTo(SCREEN_WIDTH)
-            make.height.equalTo(SCREEN_HEIGHT - 64)
+            make.height.equalTo(SCREEN_HEIGHT - TopFullHeight)
             make.centerX.equalTo(self.view)
-            make.top.equalTo(64)
+            make.top.equalTo(self.view)
         }
         
         //刷新

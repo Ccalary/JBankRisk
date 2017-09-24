@@ -64,10 +64,6 @@ class MineViewController: UIViewController, UIGestureRecognizerDelegate,UICollec
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        //设置不自动下调64
-        self.navigationController!.navigationBar.isTranslucent = true
-        self.automaticallyAdjustsScrollViewInsets = false
-
         //app回到前台通知
         NotificationCenter.default.addObserver(self, selector: #selector(appEnterForeground), name: NSNotification.Name(rawValue: noticeAppWillEnterForeground), object: nil)
         
@@ -107,17 +103,34 @@ class MineViewController: UIViewController, UIGestureRecognizerDelegate,UICollec
     func setupUI() {
         self.view.backgroundColor = defaultBackgroundColor
         
+        //高度
+        let tabbarHeigth = UITabBarController().tabBar.frame.size.height
+        
         self.view.addSubview(aScrollView)
         
         self.aScrollView.addSubview(mineTopView)
         self.aScrollView.addSubview(aCollectionView)
         
-        aScrollView.snp.makeConstraints { (make) in
-            make.width.equalTo(self.view)
-            make.height.equalTo(667*UIRate - 49)
-            make.centerX.equalTo(self.view)
-            make.top.equalTo(0)
-        }
+        //H 测试
+        //H 适配
+//        if #available(iOS 11.0, *) {
+//            aScrollView.contentInsetAdjustmentBehavior = .never
+//            aScrollView.contentInset = UIEdgeInsetsMake(0, 0, 0, 0)
+//            
+//            aScrollView.snp.makeConstraints { (make) in
+//                make.width.equalTo(self.view)
+//                make.height.equalTo(SCREEN_HEIGHT - tabbarHeigth)
+//                make.centerX.equalTo(self.view)
+//                make.top.equalTo(self.view)
+//            }
+//        }else {
+            aScrollView.snp.makeConstraints { (make) in
+                make.width.equalTo(self.view)
+                make.height.equalTo(SCREEN_HEIGHT - tabbarHeigth)
+                make.centerX.equalTo(self.view)
+                make.top.equalTo(-20)
+            }
+//        }
         
         aScrollView.contentSize = CGSize(width: SCREEN_WIDTH, height: 667*UIRate - 49 + 1)
         self.aScrollView.mj_header = MJRefreshNormalHeader(refreshingBlock: { [weak self] in

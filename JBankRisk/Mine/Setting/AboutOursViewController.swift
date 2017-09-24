@@ -29,9 +29,8 @@ class AboutOursViewController: UIViewController, UITableViewDelegate, UITableVie
     }
     
     func setupUI() {
-        self.automaticallyAdjustsScrollViewInsets = false
         self.view.backgroundColor = defaultBackgroundColor
-        self.title = "关于我们"
+        self.navigationItem.title = "关于我们"
         
         let topHoldView = UIView(frame: CGRect(x: 0, y: 0, width: SCREEN_WIDTH, height: 350*UIRate))
         topHoldView.backgroundColor = .white
@@ -71,9 +70,9 @@ class AboutOursViewController: UIViewController, UITableViewDelegate, UITableVie
         
         aTableView.snp.makeConstraints { (make) in
             make.width.equalTo(self.view)
-            make.height.equalTo(SCREEN_HEIGHT - 64)
+            make.height.equalTo(SCREEN_HEIGHT - TopFullHeight)
             make.centerX.equalTo(self.view)
-            make.top.equalTo(64)
+            make.top.equalTo(self.view)
         }
 
     }

@@ -41,10 +41,8 @@ class RepayViewController: UIViewController, UITableViewDelegate, UITableViewDat
         super.didReceiveMemoryWarning()
     }
     
-    func setupUI(){
-        self.automaticallyAdjustsScrollViewInsets = false
-        
-        self.title = "还款"
+    func setupUI(){        
+        self.navigationItem.title = "还款"
         self.view.backgroundColor = defaultBackgroundColor
         self.initHeader()
     }
@@ -69,9 +67,9 @@ class RepayViewController: UIViewController, UITableViewDelegate, UITableViewDat
         
         aTableView.snp.makeConstraints { (make) in
             make.width.equalTo(self.view)
-            make.height.equalTo(SCREEN_HEIGHT - 64 - 64*UIRate)
+            make.height.equalTo(SCREEN_HEIGHT - TopFullHeight - 64*UIRate)
             make.centerX.equalTo(self.view)
-            make.top.equalTo(64)
+            make.top.equalTo(self.view)
         }
         
         topImageView.snp.makeConstraints { (make) in

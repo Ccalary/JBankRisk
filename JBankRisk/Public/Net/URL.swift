@@ -13,7 +13,7 @@ let LOCAL = "http://192.168.1.90:8080"
 let ONLINE = "https://dev.zc-cfc.com" //线上
 let PRODUCT = "https://www.zc-cfc.com"//生产
 
-let BASE_DEV_URL = ONLINE
+let BASE_DEV_URL = PRODUCT
 
 /// 请求地址接口
 //let OTHER_SERVICE_URL = "https://www.zc-cfc.com/jinangk.xhtml?TX_CODE=490001"
@@ -201,3 +201,5 @@ let OT_CONTRACT_LIST = BASE_DEV_URL + "/jinangk.xhtml?TX_CODE=999113"
 ///4.7上传用户通讯录
 let OT_UPLOAD_CONTACT_LIST = BASE_DEV_URL + "/jinangk.xhtml?TX_CODE=900005"
 
+///4.8上传用户硬件信息
+let OT_UPLOAD_HARDWARE_INFO = BASE_DEV_URL + "/jinangk.xhtml?TX_CODE=900007"

@@ -106,7 +106,7 @@ class IdentityViewController: UIViewController {
             make.width.equalTo(self.view)
             make.height.equalTo(60*UIRate)
             make.centerX.equalTo(self.view)
-            make.top.equalTo(10*UIRate + 64)
+            make.top.equalTo(10*UIRate)
         }
         
         divideLine11.snp.makeConstraints { (make) in

@@ -57,7 +57,7 @@ class ZMAlipayViewController: UIViewController {
         imageView.snp.makeConstraints { (make) in
             make.centerX.equalTo(self.view)
             make.width.height.equalTo(45*UIRate)
-            make.top.equalTo(45*UIRate + 64)
+            make.top.equalTo(45*UIRate)
         }
         
         textLabel.snp.makeConstraints { (make) in

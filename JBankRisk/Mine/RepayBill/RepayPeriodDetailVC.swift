@@ -38,8 +38,6 @@ class RepayPeriodDetailVC: UIViewController {
     func setupUI(){
         self.navigationItem.title = "还款明细"
         self.view.backgroundColor = defaultBackgroundColor
-        self.navigationController!.navigationBar.isTranslucent = true
-        self.automaticallyAdjustsScrollViewInsets = false
         
         self.navigationItem.rightBarButtonItem = UIBarButtonItem(title: "关闭", style: UIBarButtonItemStyle.plain, target: self, action: #selector(rightNavigationBarBtnAction))
         self.navigationItem.rightBarButtonItem?.tintColor = UIColorHex("666666")
@@ -56,7 +54,7 @@ class RepayPeriodDetailVC: UIViewController {
             make.width.equalTo(self.view)
             make.height.equalTo(156*UIRate)
             make.centerX.equalTo(self.view)
-            make.top.equalTo(64)
+            make.top.equalTo(self.view)
         }
         
         titleTextLabel.snp.makeConstraints { (make) in

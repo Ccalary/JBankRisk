@@ -113,8 +113,6 @@ class DataViewController: UIViewController,UITableViewDelegate, UITableViewDataS
     }
     
     func setupUI(){
-        self.navigationController!.navigationBar.isTranslucent = true;
-        self.automaticallyAdjustsScrollViewInsets = false;
         self.view.backgroundColor = defaultBackgroundColor
         
         self.title = "资料上传"
@@ -123,7 +121,7 @@ class DataViewController: UIViewController,UITableViewDelegate, UITableViewDataS
         
         self.view.addSubview(topView)
         
-        let scrollViewHeight: CGFloat = SCREEN_HEIGHT - 64 - 124*UIRate
+        let scrollViewHeight: CGFloat = SCREEN_HEIGHT - TopFullHeight - 124*UIRate
         
         self.view.addSubview(aScrollView)
         self.aScrollView.addSubview(aTableView)
@@ -141,14 +139,14 @@ class DataViewController: UIViewController,UITableViewDelegate, UITableViewDataS
         topView.snp.makeConstraints { (make) in
             make.width.equalTo(self.view)
             make.height.equalTo(30*UIRate)
-            make.top.equalTo(64)
+            make.top.equalTo(self.view)
         }
         
         aScrollView.snp.makeConstraints { (make) in
             make.width.equalTo(self.view)
             make.height.equalTo(scrollViewHeight)
             make.centerX.equalTo(self.view)
-            make.top.equalTo(64 + 30*UIRate)
+            make.top.equalTo(30*UIRate)
         }
         
         aTableView.snp.makeConstraints { (make) in
@@ -228,7 +226,7 @@ class DataViewController: UIViewController,UITableViewDelegate, UITableViewDataS
             make.centerY.equalTo(botTextLabel)
         }
         
-        let scrollHeight = SCREEN_HEIGHT - 64 - 124*UIRate
+        let scrollHeight = SCREEN_HEIGHT - TopFullHeight - 124*UIRate
         let contentHeight = tableViewHeight + 262*UIRate + 20*UIRate
         
         if contentHeight < scrollHeight {

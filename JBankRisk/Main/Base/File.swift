@@ -15,6 +15,17 @@ let SCREEN_HEIGHT = UIScreen.main.bounds.height
 ///适配比例
 let UIRate = SCREEN_WIDTH/375.0
 
+//顶部高度 bar + status
+let TopFullHeight = StatusBarHeight + navigationBarHeight()
+
+//status 高度
+let StatusBarHeight = UIApplication.shared.statusBarFrame.height
+
+func navigationBarHeight() -> CGFloat{
+    let navBarHeight = UINavigationController().navigationBar.frame.size.height
+    return navBarHeight
+}
+
 ///RGB颜色，透明的默认为1.0
 func UIColorRGBA(_ red: CGFloat, _ green: CGFloat, _ blue: CGFloat, _ alpha: CGFloat = 1.0) -> UIColor{
     return UIColor(red: red/255.0, green: green/255.0, blue: blue/255.0, alpha: alpha)

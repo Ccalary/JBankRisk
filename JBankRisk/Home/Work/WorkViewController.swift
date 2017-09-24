@@ -47,10 +47,8 @@ class WorkViewController: UIViewController,UITableViewDelegate, UITableViewDataS
     }
     
     func setupUI(){
-        self.navigationController!.navigationBar.isTranslucent = true;
-        self.automaticallyAdjustsScrollViewInsets = false;
         self.view.backgroundColor = defaultBackgroundColor
-        self.title = "职业信息"
+        self.navigationItem.title = "职业信息"
         
         self.navigationItem.leftBarButtonItem = UIBarButtonItem(image: UIImage(named:"navigation_left_back_13x21"), style: .plain, target: self, action: #selector(leftNavigationBarBtnAction))
                 
@@ -66,9 +64,9 @@ class WorkViewController: UIViewController,UITableViewDelegate, UITableViewDataS
         
         aTableView.snp.makeConstraints { (make) in
             make.width.equalTo(SCREEN_WIDTH)
-            make.height.equalTo(SCREEN_HEIGHT - 64 - 64*UIRate)
+            make.height.equalTo(SCREEN_HEIGHT - TopFullHeight - 64*UIRate)
             make.centerX.equalTo(self.view)
-            make.top.equalTo(64)
+            make.top.equalTo(self.view)
         }
         
         divideLine1.snp.makeConstraints { (make) in

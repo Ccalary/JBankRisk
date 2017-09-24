@@ -12,7 +12,7 @@ class HHNavigationController: UINavigationController {
 
     override func viewDidLoad() {
         super.viewDidLoad()
-
+        self.navigationBar.isTranslucent = false //设置false之后自动下沉navigationBar 高度
     }
 
     override func didReceiveMemoryWarning() {
@@ -25,8 +25,7 @@ class HHNavigationController: UINavigationController {
         let navBar = UINavigationBar.appearance()
         //设置navigationBar的背景色
         navBar.barTintColor = UIColor.white
-        navBar.isTranslucent = true;  //设置false之后自动下沉64
-        
+       
         //设置左右bar的颜色
         navBar.tintColor = UIColorHex("666666")
         navBar.titleTextAttributes = [NSFontAttributeName: UIFontSize(size: 18), NSForegroundColorAttributeName:UIColorHex("666666")]

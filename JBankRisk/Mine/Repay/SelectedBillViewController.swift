@@ -25,8 +25,7 @@ class SelectedBillViewController: UIViewController, UITableViewDelegate, UITable
     }
     
     func setupUI(){
-        self.automaticallyAdjustsScrollViewInsets = false
-        self.title = "账单"
+        self.navigationItem.title = "账单"
         self.navigationItem.rightBarButtonItem = UIBarButtonItem(title: "取消", style: UIBarButtonItemStyle.plain, target: self, action: #selector(rightNavigationBarBtnAction))
         self.navigationItem.rightBarButtonItem?.tintColor = UIColorHex("00b2ff")
         
@@ -34,9 +33,9 @@ class SelectedBillViewController: UIViewController, UITableViewDelegate, UITable
         
         aTableView.snp.makeConstraints { (make) in
             make.width.equalTo(SCREEN_WIDTH)
-            make.height.equalTo(SCREEN_HEIGHT - 64)
+            make.height.equalTo(SCREEN_HEIGHT - TopFullHeight)
             make.centerX.equalTo(self.view)
-            make.top.equalTo(64)
+            make.top.equalTo(self.view)
         }
     }
     

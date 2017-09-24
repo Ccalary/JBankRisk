@@ -102,7 +102,6 @@ class RepayBillSelectVC: UIViewController, UITableViewDelegate, UITableViewDataS
     }
 
     func setupUI(){
-        self.automaticallyAdjustsScrollViewInsets = false
         self.navigationItem.title = "全部账单"
         self.view.backgroundColor = defaultBackgroundColor
         setupNormalUI()
@@ -145,7 +144,7 @@ class RepayBillSelectVC: UIViewController, UITableViewDelegate, UITableViewDataS
             make.width.equalTo(SCREEN_WIDTH)
             make.height.equalTo(515*UIRate)
             make.centerX.equalTo(self.view)
-            make.top.equalTo(64)
+            make.top.equalTo(self.view)
         }
         
         bottomHoldView.snp.makeConstraints { (make) in
@@ -445,7 +444,7 @@ class RepayBillSelectVC: UIViewController, UITableViewDelegate, UITableViewDataS
             //打开
             UIView.animate(withDuration: 0.6, animations: {
                 self.titleArrowImgView.transform = CGAffineTransform(rotationAngle: CGFloat(Double.pi))
-                self.selectViewConstraint?.update(offset: 64)
+                self.selectViewConstraint?.update(offset: TopFullHeight)
                 self.view.layoutIfNeeded()//一定要加上这句话才会有动画效果
                 self.selectBgView.alpha = 1
             })

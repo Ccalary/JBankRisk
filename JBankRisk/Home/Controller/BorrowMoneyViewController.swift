@@ -37,7 +37,7 @@ class BorrowMoneyViewController: UIViewController,iCarouselDelegate, iCarouselDa
     
     override func viewDidLoad() {
        super.viewDidLoad()
-        
+        self.view.clipsToBounds = true
       self.navigationItem.leftBarButtonItem = UIBarButtonItem(image: UIImage(named:"navigation_left_back_13x21"), style: .plain, target: self, action: #selector(leftNavigationBarBtnAction))
         
        self.roleType = RoleType(rawValue: UserHelper.getUserRole()!)!
@@ -87,7 +87,7 @@ class BorrowMoneyViewController: UIViewController,iCarouselDelegate, iCarouselDa
         topView.snp.makeConstraints { (make) in
             make.width.equalTo(self.view)
             make.height.equalTo(30*UIRate)
-            make.top.equalTo(64)
+            make.top.equalTo(self.view)
         }
         
         holdView.snp.makeConstraints { (make) in

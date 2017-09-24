@@ -25,7 +25,7 @@ class JulixinWebViewController:  UIViewController, UIWebViewDelegate, NJKWebView
         
         self.setupUI()
         
-        webView = UIWebView(frame: CGRect(x: 0, y: 64, width: SCREEN_WIDTH, height: SCREEN_HEIGHT - 64))
+        webView = UIWebView(frame: CGRect(x: 0, y: TopFullHeight, width: SCREEN_WIDTH, height: SCREEN_HEIGHT - TopFullHeight))
         webView?.scalesPageToFit = true
         self.view.addSubview(self.webView!)
         
@@ -58,7 +58,6 @@ class JulixinWebViewController:  UIViewController, UIWebViewDelegate, NJKWebView
     
     //基本UI
     func setupUI(){
-        self.automaticallyAdjustsScrollViewInsets = false;
         self.view.backgroundColor = UIColor.white
         
         self.navigationItem.leftBarButtonItems = [UIBarButtonItem(image: UIImage(named: "navigation_left_back_13x21"), style: .plain, target: self, action: #selector(doLeftNavigationBarImageBtnAction)),UIBarButtonItem(title: "关闭", style: .plain, target: self, action: #selector(doLeftNavigationBarTextBtnAction))]
@@ -69,7 +68,7 @@ class JulixinWebViewController:  UIViewController, UIWebViewDelegate, NJKWebView
             make.width.equalTo(13)
             make.height.equalTo(21)
             make.left.equalTo(16)
-            make.top.equalTo(20+11.5)
+            make.top.equalTo(StatusBarHeight+11.5)
         }
     }
     

@@ -34,8 +34,6 @@ class RepayBillViewController: UIViewController, UITableViewDataSource, UITableV
     
     ///MARK: - 基本UI
     func setupUI(){
-        self.navigationController!.navigationBar.isTranslucent = true
-        self.automaticallyAdjustsScrollViewInsets = false
         self.navigationItem.title = "还款账单"
         self.view.backgroundColor = defaultBackgroundColor
     }
@@ -44,9 +42,9 @@ class RepayBillViewController: UIViewController, UITableViewDataSource, UITableV
         self.view.addSubview(defaultView)
         defaultView.snp.makeConstraints { (make) in
             make.width.equalTo(self.view)
-            make.height.equalTo(SCREEN_HEIGHT - 64)
+            make.height.equalTo(SCREEN_HEIGHT - TopFullHeight)
             make.centerX.equalTo(self.view)
-            make.top.equalTo(64)
+            make.top.equalTo(self.view)
         }
         
         //去申请回调
@@ -69,9 +67,9 @@ class RepayBillViewController: UIViewController, UITableViewDataSource, UITableV
         
         aTableView.snp.makeConstraints { (make) in
             make.width.equalTo(self.view)
-            make.height.equalTo(SCREEN_HEIGHT - 64 - 60*UIRate)
+            make.height.equalTo(SCREEN_HEIGHT - TopFullHeight - 60*UIRate)
             make.centerX.equalTo(self.view)
-            make.top.equalTo(64)
+            make.top.equalTo(self.view)
         }
         
         preRepayBtn.snp.makeConstraints { (make) in

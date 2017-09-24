@@ -55,7 +55,7 @@ class LoginPsdOrSetPsdVC: UIViewController{
     func showView(){
         switch viewType {
         case .loginPassword:
-            self.title = "登录"
+            self.navigationItem.title = "登录"
             self.view.addSubview(forgetPsdBtn)
             
             forgetPsdBtn.snp.makeConstraints { (make) in
@@ -64,7 +64,7 @@ class LoginPsdOrSetPsdVC: UIViewController{
             }
 
         case .setPassword:
-            self.title = "设置密码"
+            self.navigationItem.title = "设置密码"
             loginBtn.setTitle("确认", for: .normal)
             mTextField.placeholder = "请输入6-16位密码"
         }
@@ -92,7 +92,7 @@ class LoginPsdOrSetPsdVC: UIViewController{
         holdView.snp.makeConstraints { (make) in
             make.width.equalTo(self.view)
             make.height.equalTo(45*UIRate)
-            make.top.equalTo(8*UIRate + 64.0)
+            make.top.equalTo(8*UIRate)
         }
         mTextField.snp.makeConstraints { (make) in
             make.width.equalTo(SCREEN_WIDTH - 90*UIRate)

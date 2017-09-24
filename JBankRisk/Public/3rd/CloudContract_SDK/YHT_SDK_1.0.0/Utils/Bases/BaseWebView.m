@@ -51,7 +51,9 @@
 
     self.progressView = [[YHT_NJKWebViewProgressView alloc] initWithFrame:CGRectZero];
 
-    self.progressView.frame = CGRectMake(0, 64, self.frame.size.width, 2);
+    CGFloat statusBarHeight = [UIApplication sharedApplication].statusBarFrame.size.height;
+    
+    self.progressView.frame = CGRectMake(0, 44+statusBarHeight, self.frame.size.width, 2);
     self.progressView.progressBarView.alpha = 0.0f;
     [self addSubview:self.progressView];
 }
