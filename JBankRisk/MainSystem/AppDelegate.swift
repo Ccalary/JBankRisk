@@ -70,6 +70,9 @@ class AppDelegate: UIResponder, UIApplicationDelegate,UITabBarControllerDelegate
         self.doWithTalkingData()
         self.doWithTencentBugly()
         
+        //上传硬件信息
+        self.getHardwareInfo()
+        
         return true
     }
     
@@ -296,6 +299,11 @@ extension AppDelegate:UNUserNotificationCenterDelegate,JPUSHRegisterDelegate
         default:
             break
         }
+    }
+    
+    //MARK: 读取硬件信息
+    func getHardwareInfo(){
+        HardwareInfo().uploadHardwareInfo()
     }
 }
 

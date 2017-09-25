@@ -229,7 +229,7 @@ class CancelOrderTableViewCell: UITableViewCell {
             leftDetailLabel.text = "请联系客户经理上传凭证"
         case 3:
             leftLabel.text = "撤销成功"
-            leftDetailLabel.text = "财务审核成功即为撤销成功"
+            leftDetailLabel.text = ""
             divideLine2.isHidden = true
         default:
             break

@@ -80,25 +80,11 @@ class HomeViewController: UIViewController, UIGestureRecognizerDelegate{
     func setup(){
         self.view.addSubview(aTableView)
        
-        //H 测试
-        //H 适配
-//        if #available(iOS 11.0, *) {
-//            aTableView.contentInsetAdjustmentBehavior = .never
-//            aTableView.contentInset = UIEdgeInsetsMake(0, 0, 0, 0)
-//            
-//            aTableView.snp.makeConstraints { (mark) in
-//                mark.width.equalTo(self.view)
-//                mark.height.equalTo(SCREEN_HEIGHT - 49)
-//                mark.top.equalTo(self.view)
-//            }
-//        }else {
-            aTableView.snp.makeConstraints { (mark) in
-                mark.width.equalTo(self.view)
-                mark.height.equalTo(SCREEN_HEIGHT - 49)
-                mark.top.equalTo(-20)
-            }
-//        }
-    
+        aTableView.snp.makeConstraints { (mark) in
+            mark.width.equalTo(self.view)
+            mark.height.equalTo(SCREEN_HEIGHT - TabBarHeight)
+            mark.top.equalTo(-StatusBarHeight)
+        }
         self.aTableView.mj_header = MJRefreshNormalHeader(refreshingBlock: { [weak self] in
             self?.requestHomeData()
         })

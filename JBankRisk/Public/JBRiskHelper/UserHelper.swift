@@ -459,5 +459,24 @@ class UserHelper {
         let str = defaults.object(forKey: "netStatus") as? String
         return str ?? ""
     }
+    
+    //MARK: 一个月一次判断
+    //是否经过一个月了（30天）
+    static func getIsOneMonthLong() -> Bool {
+        let defaults = UserDefaults()
+        let oldStamp = defaults.object(forKey: "oneMonth\(self.getUserId())") as? TimeInterval ?? 0.0
+        let nowStamp = Date().timeIntervalSince1970
+        if (nowStamp - oldStamp) > 30*24*60*60 {
+            return true
+        }
+        return false
+    }
+    
+    static func setIsOneMonthLongNowTime(){
+        let defaults = UserDefaults()
+        let timeStamp = Date().timeIntervalSince1970
+        defaults.set(timeStamp, forKey: "oneMonth\(self.getUserId())")
+        defaults.synchronize()
+    }
 }
 

