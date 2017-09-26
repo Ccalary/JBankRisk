@@ -39,9 +39,6 @@ class ProductViewController: UIViewController,UITableViewDelegate, UITableViewDa
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        //高德地图配置key
-        AMapServices.shared().apiKey = "41b0c56389d5985147098b2d6b18898f";
-        
         self.setupUI()
         
         self.initLocation()
@@ -211,9 +208,9 @@ class ProductViewController: UIViewController,UITableViewDelegate, UITableViewDa
         self.view.endEditing(true)
         
         if indexPath.row == 0 { //获取商户名称
-            guard !UserHelper.getProductIsUpload() else {
-                return
-            }
+//            guard !UserHelper.getProductIsUpload() else {
+//                return
+//            }
             
             if self.saleList.count > 0{
                 let popupView =  PopupStaticSelectView(mDataArray: self.saleList, selectRow: self.saleInfo.row, title: "商户名称")
@@ -378,6 +375,8 @@ class ProductViewController: UIViewController,UITableViewDelegate, UITableViewDa
             self.longitude =  (location?.coordinate.longitude)!
             self.latitude = (location?.coordinate.latitude)!
             self.requestSaleAddress()
+            
+            
         })
     }
     

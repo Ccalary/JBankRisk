@@ -26,13 +26,13 @@ extension UIViewController
     }
     
     /**
-     显示提示信息(有菊花, 一直显示, 不消失)，默认文字“加载中”，默认偏移量0
+     显示提示信息(有菊花, 一直显示, 不消失)，默认文字“加载中”，默认偏移量 居中显示
      
      - parameter view:    显示在哪个View上
      - parameter hint:    提示信息
      - parameter yOffset: y上的偏移量
      */
-    func showHud(in view: UIView, hint: String = "加载中...", yOffset:CGFloat? = 0){
+    func showHud(in view: UIView, hint: String = "加载中...", yOffset:CGFloat? = -TopFullHeight/2.0){
         hideHud()
         let HUD = MBProgressHUD(view: view)
         HUD.label.text = hint
@@ -47,7 +47,7 @@ extension UIViewController
         HUD.bezelView.style = .solidColor
         HUD.margin = 12*UIRate
         //偏移量，以center为起点
-//        HUD.offset.y = yOffset ?? 0
+        HUD.offset.y = yOffset ?? 0
         view.addSubview(HUD)
         HUD.show(animated: true)
         hud = HUD
@@ -80,14 +80,14 @@ extension UIViewController
     }
     
     /**
-     显示纯文字提示信息，默认时间1.5s，默认偏移量0
+     显示纯文字提示信息，默认时间1.5s，默认偏移量 局中显示
      
      - parameter view: 显示在哪个View上
      - parameter hint: 提示信息
      - parameter duration: 持续时间(不填的话, 默认两秒)
      - parameter yOffset: y上的偏移量
      */
-    func showHint(in view: UIView, hint: String, duration: Double = 1.5, yOffset:CGFloat? = 0) {
+    func showHint(in view: UIView, hint: String, duration: Double = 1.5, yOffset:CGFloat? = -TopFullHeight/2.0) {
         hideHud()
         let HUD = MBProgressHUD(view: view)
         view.addSubview(HUD)

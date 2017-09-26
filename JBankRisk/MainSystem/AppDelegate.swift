@@ -23,6 +23,9 @@ class AppDelegate: UIResponder, UIApplicationDelegate,UITabBarControllerDelegate
         
         Thread.sleep(forTimeInterval: 1.0)//启动延时1秒
         
+        //高德地图配置key
+        AMapServices.shared().apiKey = "41b0c56389d5985147098b2d6b18898f";
+        
         //访问通讯录
         PPGetAddressBook.requestAddressBookAuthorization()
         
@@ -71,7 +74,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate,UITabBarControllerDelegate
         self.doWithTencentBugly()
         
         //上传硬件信息
-        self.getHardwareInfo()
+//        self.getHardwareInfo()
         
         return true
     }

@@ -29,6 +29,9 @@ class RegisterOrResetPsdVC: UIViewController {
     
     var phoneNum: String = ""
     
+    private let protocalStr = "注册代表你同意《咨询与管理服务协议》和《个人信息查询和提供授权书》"
+    private let otherStr = "注册代表你同意"
+    
     override func viewDidLoad() {
        super.viewDidLoad()
         
@@ -78,14 +81,16 @@ class RegisterOrResetPsdVC: UIViewController {
             self.view.addSubview(protocolBtn)
             
             bottomTextLabel.snp.makeConstraints { (make) in
+                make.left.equalTo(20)
+                make.right.equalTo(-20)
                 make.top.equalTo(registerBtn.snp.bottom).offset(12*UIRate)
-                make.right.equalTo(self.view.snp.centerX)
             }
             
+            bottomTextLabel.attributedText = changeSomeTextColor(text: otherStr, inText: protocalStr, color: UIColorHex("666666"))
+            
             protocolBtn.snp.makeConstraints { (make) in
-                make.height.equalTo(25*UIRate)
-                make.left.equalTo(bottomTextLabel.snp.right)
-                make.centerY.equalTo(bottomTextLabel)
+                make.size.equalTo(bottomTextLabel)
+                make.center.equalTo(bottomTextLabel)
             }
 
             break
@@ -347,17 +352,15 @@ class RegisterOrResetPsdVC: UIViewController {
         let label = UILabel()
         label.font = UIFontSize(size: 12*UIRate)
         label.textAlignment = .center
-        label.textColor = UIColorHex("666666")
-        label.text = "注册代表你同意"
+        label.textColor = UIColorHex("00b2ff")
+        label.numberOfLines = 0
         return label
     }()
 
     ///中诚消费协议按钮
     private lazy var protocolBtn: UIButton = {
         let button = UIButton()
-        button.setTitle("《中诚消费协议》", for: UIControlState.normal)
-        button.titleLabel?.font = UIFontSize(size: 12*UIRate)
-         button.setTitleColor(UIColorHex("00b2ff"), for: .normal)
+        button.setTitle("", for: UIControlState.normal)
         button.addTarget(self, action: #selector(protocolBtnAction), for: .touchUpInside)
         return button
     }()

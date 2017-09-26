@@ -231,6 +231,7 @@
 		FE465A871F720C9600EBCF30 /* HardwareInfo.swift in Sources */ = {isa = PBXBuildFile; fileRef = FE465A861F720C9600EBCF30 /* HardwareInfo.swift */; };
 		FE5500C61F413E6200D8B488 /* PopupRepayFinalTipsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = FE5500C51F413E6200D8B488 /* PopupRepayFinalTipsView.swift */; };
 		FEEF7ED11F6F6CE0006F57BB /* PopupCancelOrderView.swift in Sources */ = {isa = PBXBuildFile; fileRef = FEEF7ED01F6F6CE0006F57BB /* PopupCancelOrderView.swift */; };
+		FEF6C96C1F79FD6000E6A1D5 /* MapKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = FEF6C96B1F79FD6000E6A1D5 /* MapKit.framework */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -523,6 +524,7 @@
 		FE465A861F720C9600EBCF30 /* HardwareInfo.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = HardwareInfo.swift; sourceTree = "<group>"; };
 		FE5500C51F413E6200D8B488 /* PopupRepayFinalTipsView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PopupRepayFinalTipsView.swift; sourceTree = "<group>"; };
 		FEEF7ED01F6F6CE0006F57BB /* PopupCancelOrderView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PopupCancelOrderView.swift; sourceTree = "<group>"; };
+		FEF6C96B1F79FD6000E6A1D5 /* MapKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = MapKit.framework; path = System/Library/Frameworks/MapKit.framework; sourceTree = SDKROOT; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -530,6 +532,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				FEF6C96C1F79FD6000E6A1D5 /* MapKit.framework in Frameworks */,
 				0D220BE41E74FE3B00DC9FBD /* UserNotifications.framework in Frameworks */,
 				0D84AAD41DE1919D00957B0A /* libexidcardios.a in Frameworks */,
 				0D737C1C1DEC0E7A00700F15 /* libz.tbd in Frameworks */,
@@ -1471,6 +1474,7 @@
 		466C00E10A39615B530B0FDE /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				FEF6C96B1F79FD6000E6A1D5 /* MapKit.framework */,
 				0D220BE31E74FE3B00DC9FBD /* UserNotifications.framework */,
 				0D737C1B1DEC0E7A00700F15 /* libz.tbd */,
 				0D737C191DEC0E6400700F15 /* SystemConfiguration.framework */,

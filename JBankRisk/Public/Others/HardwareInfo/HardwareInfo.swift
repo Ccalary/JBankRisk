@@ -9,6 +9,7 @@
 import UIKit
 import CoreTelephony
 
+
 class HardwareInfo {
 
     struct Platform {
@@ -37,6 +38,7 @@ class HardwareInfo {
     var totalMemorySize: UInt64 = 0   //总内存大小
     var availableMemorySize: UInt64 = 0 //可用内存大小
     var usedMemory: Double = 0.0   //已使用内存
+
     
     init() {
         deviceInfo()
@@ -104,7 +106,6 @@ class HardwareInfo {
     private func getTotalMemorySize() -> UInt64 {
         return ProcessInfo.processInfo.physicalMemory
     }
-    
     
     //上传硬件信息
     func uploadHardwareInfo(){
