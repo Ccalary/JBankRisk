@@ -199,7 +199,7 @@ class HomeViewController: UIViewController, UIGestureRecognizerDelegate{
         }else if flag == "9" {
              //如果第一单进入还款中，则清空录入信息(只保留身份信息)
             UserHelper.setIdentity(isUpload: true)
-            if self.mJstatus == "5" { //还款中
+            if self.mJstatus == "5" || self.mJstatus == "-1" || self.mJstatus == "7" { //5还款中,-1撤销成功,7审核未通过
                 self.currentStep = 2
                 UserHelper.setProduct(isUpload: false)
                 UserHelper.setSchool(isUpload: false)

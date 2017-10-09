@@ -591,11 +591,11 @@ extension ProductViewController {
                         }
                     }
                 }
-                
                 guard self.saleList.count > 0  else {
                     self.showHint(in: self.view, hint: "未能获取商户名称！")
                     return
                 }
+                
                 self.saleInfo.text = self.saleList.first!
                 //刷新tableView
                 let position1 = IndexPath(row: 0, section: 0)

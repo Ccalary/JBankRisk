@@ -37,6 +37,7 @@ class BorrowStatusView: UIView {
              case fail        //审核未通过
              case upLoadBill  //上传服务单
              case reUploadData//补交材料
+             case revokeSuccess //撤销成功
              case defaultStatus //缺省
              */
             tipsBtn.isHidden = true
@@ -135,12 +136,9 @@ class BorrowStatusView: UIView {
             case .fail://审核未通过
                 self.bgImageView.isHidden = false
                 self.statusImageView.image = UIImage(named:"bs_fail_110x90")
-                disTextLabel.text = "如若再次申请，请联系客服人员"
-                nextStepBtn.isHidden = true
-                /*
-                nextStepBtn.isHidden = true
+                disTextLabel.text = "        "
+                nextStepBtn.isHidden = false
                 nextStepBtn.setTitle("重新申请", for: UIControlState.normal)
-                */
             case .upLoadBill: //上传服务单
                 self.bgImageView.isHidden = false
                 self.statusImageView.image = UIImage(named:"bs_upload_bill_110x90")
@@ -166,6 +164,12 @@ class BorrowStatusView: UIView {
                 nextStepBtn.setTitle("补交材料", for: UIControlState.normal)
                 tipsBtn.isHidden = false
                 break
+            case .revokeSuccess: //撤销成功
+                self.bgImageView.isHidden = false
+                self.statusImageView.image = UIImage(named:"bs_finish_110x90")
+                disTextLabel.text = "撤销成功"
+                nextStepBtn.isHidden = true
+                
             case .defaultStatus:
                 self.bgImageView.isHidden = true
                 break

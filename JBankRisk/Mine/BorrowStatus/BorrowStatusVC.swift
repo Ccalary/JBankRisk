@@ -20,6 +20,7 @@ enum OrderStausType {
     case fail        //审核未通过
     case upLoadBill  //上传服务单
     case reUploadData//补交材料
+    case revokeSuccess //撤销成功
     case defaultStatus //缺省
 }
 
@@ -96,7 +97,7 @@ class BorrowStatusVC: UIViewController {
                 revokeStatus = .upload
             case 3:
                 revokeStatus = .reviewing
-            case 4:
+            case 5:
                 revokeStatus = .success
             default:
                 revokeStatus = .cannot
@@ -130,14 +131,16 @@ class BorrowStatusVC: UIViewController {
                 infoView.showProtocalBtn = true
             case "7"://审核未通过
                 statusType = .fail
-                topHeight = 200*UIRate
+                topHeight = 280*UIRate
             case "8": //上传服务单
                 statusType = .upLoadBill
                 topHeight = 300*UIRate
             case "9": //补交材料
                 statusType = .reUploadData
                 topHeight = 300*UIRate
-                
+            case "-1": //撤销成功
+                statusType = .revokeSuccess
+                topHeight = 220*UIRate
             default:
                 statusType = .defaultStatus
                 infoView.isHidden = true
@@ -401,12 +404,9 @@ class BorrowStatusVC: UIViewController {
                 }
                
             case .fail://重新申请
-                //下版本开启
-                /*
                 let borrowMoneyVC = BorrowMoneyViewController()
                 borrowMoneyVC.currentIndex = 0
                 self.navigationController?.pushViewController(borrowMoneyVC, animated: false)
-                  */
                 break
             case .upLoadBill: //重新上传服务单
                  let billVC = UpLoadServiceBillVC()
