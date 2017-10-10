@@ -478,5 +478,18 @@ class UserHelper {
         defaults.set(timeStamp, forKey: "oneMonth\(self.getUserId())")
         defaults.synchronize()
     }
+    
+    //撤销进行到的步骤
+    static func setRevokeStep(_ status: Int){
+        let defaults = UserDefaults()
+        defaults.set(status, forKey: "revokeStep")
+        defaults.synchronize()
+    }
+    
+    static func getRevokeStep() -> Int{
+        let defaults = UserDefaults()
+        let str = defaults.object(forKey: "revokeStep") as? Int
+        return str ?? 0
+    }
 }
 

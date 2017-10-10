@@ -230,6 +230,7 @@
 		FE2DF57E1F6A4E3B00F4578A /* CancelOrderTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = FE2DF57D1F6A4E3B00F4578A /* CancelOrderTableViewCell.swift */; };
 		FE465A871F720C9600EBCF30 /* HardwareInfo.swift in Sources */ = {isa = PBXBuildFile; fileRef = FE465A861F720C9600EBCF30 /* HardwareInfo.swift */; };
 		FE5500C61F413E6200D8B488 /* PopupRepayFinalTipsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = FE5500C51F413E6200D8B488 /* PopupRepayFinalTipsView.swift */; };
+		FE56A18F1F8C57C40062AC0E /* HHRefreshNormalHeader.swift in Sources */ = {isa = PBXBuildFile; fileRef = FE56A18E1F8C57C40062AC0E /* HHRefreshNormalHeader.swift */; };
 		FEEF7ED11F6F6CE0006F57BB /* PopupCancelOrderView.swift in Sources */ = {isa = PBXBuildFile; fileRef = FEEF7ED01F6F6CE0006F57BB /* PopupCancelOrderView.swift */; };
 		FEF6C96C1F79FD6000E6A1D5 /* MapKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = FEF6C96B1F79FD6000E6A1D5 /* MapKit.framework */; };
 /* End PBXBuildFile section */
@@ -523,6 +524,7 @@
 		FE2DF57D1F6A4E3B00F4578A /* CancelOrderTableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CancelOrderTableViewCell.swift; sourceTree = "<group>"; };
 		FE465A861F720C9600EBCF30 /* HardwareInfo.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = HardwareInfo.swift; sourceTree = "<group>"; };
 		FE5500C51F413E6200D8B488 /* PopupRepayFinalTipsView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PopupRepayFinalTipsView.swift; sourceTree = "<group>"; };
+		FE56A18E1F8C57C40062AC0E /* HHRefreshNormalHeader.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HHRefreshNormalHeader.swift; sourceTree = "<group>"; };
 		FEEF7ED01F6F6CE0006F57BB /* PopupCancelOrderView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PopupCancelOrderView.swift; sourceTree = "<group>"; };
 		FEF6C96B1F79FD6000E6A1D5 /* MapKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = MapKit.framework; path = System/Library/Frameworks/MapKit.framework; sourceTree = SDKROOT; };
 /* End PBXFileReference section */
@@ -1421,6 +1423,7 @@
 			isa = PBXGroup;
 			children = (
 				0DE7871A1DF9905600F175DB /* MJCustomRefreshHeader.swift */,
+				FE56A18E1F8C57C40062AC0E /* HHRefreshNormalHeader.swift */,
 			);
 			path = MJRefresh;
 			sourceTree = "<group>";
@@ -1758,6 +1761,7 @@
 				0D28B2841E13BDDD00AA8B49 /* YHTSignManager.m in Sources */,
 				0DDA0A431F2A1CC500E0F75D /* RepayDetailHeaderView.swift in Sources */,
 				0DB36C611DDE138E0083825D /* MineTopView.swift in Sources */,
+				FE56A18F1F8C57C40062AC0E /* HHRefreshNormalHeader.swift in Sources */,
 				0DB36C671DDE99290083825D /* BorrowDefaultView.swift in Sources */,
 				0D1EAA861DC8D4FF00789E37 /* DataViewController.swift in Sources */,
 				0D28B2781E13BDDD00AA8B49 /* YHTContractWebView.m in Sources */,

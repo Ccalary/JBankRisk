@@ -10,7 +10,7 @@ import UIKit
 import SwiftyJSON
 
 class CancelOrderTableViewCell: UITableViewCell {
-
+    
     var onClickPay: (()->())?
     
     override init(style: UITableViewCellStyle, reuseIdentifier: String?) {
@@ -224,13 +224,24 @@ class CancelOrderTableViewCell: UITableViewCell {
             rightLabel.text = toolsChangeMoneyStyle(amount: money) + "元"
             payBtn.isHidden = false
             clockImageView.isHidden = true
+            //因为分割线不在同一个cell里所以要特殊处理
+            if (UserHelper.getRevokeStep() == 1){
+                divideLine1.backgroundColor = UIColorHex("a483f4")
+            }
+            
         case 2:
             leftLabel.text = "上传退款凭证"
             leftDetailLabel.text = "请联系客户经理上传凭证"
+            if (UserHelper.getRevokeStep() == 2){
+                divideLine1.backgroundColor = UIColorHex("ee69a4")
+            }
         case 3:
             leftLabel.text = "撤销成功"
             leftDetailLabel.text = ""
             divideLine2.isHidden = true
+            if (UserHelper.getRevokeStep() == 3){
+                divideLine1.backgroundColor = UIColorHex("5791f7")
+            }
         default:
             break
         }
@@ -245,11 +256,17 @@ class CancelOrderTableViewCell: UITableViewCell {
             switch row {
             case 0:
                 roundImageView.image = UIImage(named: "c_purple_7x7")
+                divideLine2.backgroundColor = UIColorHex("a483f4")
+                UserHelper.setRevokeStep(1)
             case 1:
                 roundImageView.image = UIImage(named: "c_pink_7x7")
                 payBtn.isHidden = true
+                divideLine2.backgroundColor = UIColorHex("ee69a4")
+                UserHelper.setRevokeStep(2)
             case 2:
                 roundImageView.image = UIImage(named: "c_blue_7x7")
+                divideLine2.backgroundColor = UIColorHex("5791f7")
+                UserHelper.setRevokeStep(3)
             case 3:
                 roundImageView.image = UIImage(named: "c_orange_7x7")
             default:

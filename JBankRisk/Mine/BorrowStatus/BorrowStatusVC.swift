@@ -9,6 +9,7 @@
 import UIKit
 import SwiftyJSON
 import SnapKit
+import MJRefresh
 
 ///借款状态
 enum OrderStausType {
@@ -165,7 +166,7 @@ class BorrowStatusVC: UIViewController {
     
     override func viewDidAppear(_ animated: Bool) {
         if isHaveData {
-            self.requestData()
+             self.mScrollView.mj_header.beginRefreshing()
         }
     }
     
@@ -196,7 +197,7 @@ class BorrowStatusVC: UIViewController {
             make.top.equalTo(self.view)
         }
         
-        mScrollView.contentSize = CGSize(width: SCREEN_WIDTH, height: 667*UIRate - TopFullHeight + 1)
+        mScrollView.contentSize = CGSize(width: SCREEN_WIDTH, height: SCREEN_HEIGHT - TopFullHeight + 1)
         
         statusView.snp.makeConstraints { (make) in
             make.width.equalTo(self.view)
@@ -213,7 +214,11 @@ class BorrowStatusVC: UIViewController {
             make.bottom.equalTo(self.view)
         }
         
-        self.mScrollView.addPullRefreshHandler({ [weak self] in
+//        self.mScrollView.addPullRefreshHandler({ [weak self] in
+//            self?.requestData()
+//        })
+        
+        self.mScrollView.mj_header = HHRefreshNormalHeader(refreshingBlock: { [weak self] in
             self?.requestData()
         })
         
@@ -331,11 +336,12 @@ class BorrowStatusVC: UIViewController {
             self.statusView.statusType = self.statusType
             self.refreshOrderUI(json: json["Infos"])
             
-            self.mScrollView.stopPullRefreshEver()
-            
+//            self.mScrollView.stopPullRefreshEver()
+            self.mScrollView.mj_header.endRefreshing()
         }, failure:{ error in
             
-            self.mScrollView.stopPullRefreshEver()
+//            self.mScrollView.stopPullRefreshEver()
+            self.mScrollView.mj_header.endRefreshing()
             self.showHint(in: self.view, hint: "网络请求失败")
         })
     }
