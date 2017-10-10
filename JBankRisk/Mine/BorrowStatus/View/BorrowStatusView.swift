@@ -167,9 +167,10 @@ class BorrowStatusView: UIView {
             case .revokeSuccess: //撤销成功
                 self.bgImageView.isHidden = false
                 self.statusImageView.image = UIImage(named:"bs_finish_110x90")
-                disTextLabel.text = "撤销成功"
-                nextStepBtn.isHidden = true
-                
+                disTextLabel.text = "         "//改变还款详情布局
+                repayDetailBtn.isHidden = false
+                nextStepBtn.setTitle("撤销成功", for: UIControlState.normal)
+                nextStepBtn.isHidden = false
             case .defaultStatus:
                 self.bgImageView.isHidden = true
                 break

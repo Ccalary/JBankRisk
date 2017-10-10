@@ -141,7 +141,7 @@ class BorrowStatusVC: UIViewController {
                 topHeight = 300*UIRate
             case "-1": //撤销成功
                 statusType = .revokeSuccess
-                topHeight = 220*UIRate
+                topHeight = 280*UIRate
             default:
                 statusType = .defaultStatus
                 infoView.isHidden = true
@@ -421,6 +421,8 @@ class BorrowStatusVC: UIViewController {
             case .reUploadData://被驳回
                 let dataVC = DataReuploadVC()
                 self.navigationController?.pushViewController(dataVC, animated: true)
+            case .revokeSuccess://撤销成功
+                 self.popToCancelOrderVC()//跳转到撤销进度界面
             default:
                 break
             }
