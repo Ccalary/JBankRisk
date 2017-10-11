@@ -96,9 +96,9 @@ class BorrowStatusVC: UIViewController {
                 revokeStatus = .pay
             case 2:
                 revokeStatus = .upload
-            case 3:
-                revokeStatus = .reviewing
-            case 5:
+            case 3...100://大于等于3都显示完成
+//                revokeStatus = .reviewing
+//            case 5:
                 revokeStatus = .success
             default:
                 revokeStatus = .cannot

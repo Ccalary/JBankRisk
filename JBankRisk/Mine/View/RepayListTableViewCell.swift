@@ -19,8 +19,7 @@ class RepayListTableViewCell: UITableViewCell {
             rightTextLabel.text = toolsChangeMoneyStyle(amount: repayModel.pay_amt_total)
         }
     }
-    
-    
+
     override init(style: UITableViewCellStyle, reuseIdentifier: String?) {
         super.init(style: style, reuseIdentifier: reuseIdentifier)
         
@@ -42,7 +41,7 @@ class RepayListTableViewCell: UITableViewCell {
         self.addSubview(rightOffTextLabel)
         
         let width1 = SCREEN_WIDTH/3
-        let width2 = (SCREEN_WIDTH - 30*UIRate)/3
+        let width2 = (SCREEN_WIDTH - 30*UIRate)/2.0
         
         leftTextLabel.snp.makeConstraints { (make) in
             make.width.equalTo(width1)
@@ -62,7 +61,6 @@ class RepayListTableViewCell: UITableViewCell {
             make.right.equalTo(0)
         }
         
-        
         leftOffTextLabel.snp.makeConstraints { (make) in
             make.width.equalTo(width2)
             make.left.equalTo(15*UIRate)
@@ -70,11 +68,9 @@ class RepayListTableViewCell: UITableViewCell {
         }
         
         rightOffTextLabel.snp.makeConstraints { (make) in
-            make.width.equalTo(width2)
             make.centerY.equalTo(self)
             make.right.equalTo(-15*UIRate)
         }
-        
    }
     
     lazy var leftTextLabel: UILabel = {

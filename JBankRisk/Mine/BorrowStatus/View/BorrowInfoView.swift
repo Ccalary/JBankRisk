@@ -53,9 +53,7 @@ class BorrowInfoView: UIView , UITableViewDelegate, UITableViewDataSource{
         self.addSubview(aTableView)
         
         self.aTableView.tableHeaderView = headerView
-        
-       
-        
+
         headerView.addSubview(dividerView)
         headerView.addSubview(divideLine1)
         headerView.addSubview(titleTextLabel)
