@@ -82,7 +82,7 @@ let BM_CONTACT_UPLOAD_REJECT = BASE_DEV_URL + "/jinangk.xhtml?TX_CODE=490097"
 let BM_PHOTO_UPLOAD = BASE_DEV_URL + "/jinangk.xhtml?TX_CODE=100001"
 
 /// 2.12申请借款相关协议(协议地址)
-let BM_APPLY_PROTOCOL = BASE_DEV_URL + "/attachment/agreement.html"
+let BM_APPLY_PROTOCOL = BASE_DEV_URL + "/admin/contract.html"
 
 /// 2.13身份信息回传
 let BM_GET_IDENTITY_INFO = BASE_DEV_URL + "/jinangk.xhtml?TX_CODE=590014"

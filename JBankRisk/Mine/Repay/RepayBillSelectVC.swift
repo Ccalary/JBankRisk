@@ -444,7 +444,7 @@ class RepayBillSelectVC: UIViewController, UITableViewDelegate, UITableViewDataS
             //打开
             UIView.animate(withDuration: 0.6, animations: {
                 self.titleArrowImgView.transform = CGAffineTransform(rotationAngle: CGFloat(Double.pi))
-                self.selectViewConstraint?.update(offset: TopFullHeight)
+                self.selectViewConstraint?.update(offset: 0)
                 self.view.layoutIfNeeded()//一定要加上这句话才会有动画效果
                 self.selectBgView.alpha = 1
             })

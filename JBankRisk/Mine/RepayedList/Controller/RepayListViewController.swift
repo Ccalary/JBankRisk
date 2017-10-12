@@ -54,7 +54,7 @@ class RepayListViewController: UIViewController,UIGestureRecognizerDelegate,UITa
 
     func setupUI(){
         self.view.backgroundColor = defaultBackgroundColor
-        self.title = "全部纪录"
+        self.navigationItem.title = "全部纪录"
         if isHaveData {
             self.setupUINormalUI()
         }else {
@@ -63,7 +63,7 @@ class RepayListViewController: UIViewController,UIGestureRecognizerDelegate,UITa
     }
     
     func setupDefaultUI(){
-        self.title = "还款明细"
+        self.navigationItem.title = "还款明细"
         self.view.addSubview(defaultView)
         
         defaultView.snp.makeConstraints { (make) in
@@ -108,7 +108,6 @@ class RepayListViewController: UIViewController,UIGestureRecognizerDelegate,UITa
             make.top.equalTo(tableHeaderView.snp.bottom)
         }
     }
-    
     /*********/
     //缺省页
     private lazy var defaultView: NothingDefaultView = {
@@ -209,7 +208,7 @@ class RepayListViewController: UIViewController,UIGestureRecognizerDelegate,UITa
             //打开
             UIView.animate(withDuration: 0.6, animations: {
                 self.navTitleView.titleArrowImgView.transform = CGAffineTransform(rotationAngle: CGFloat(M_PI))
-                self.selectViewConstraint?.update(offset: TopFullHeight)
+                self.selectViewConstraint?.update(offset: 0)
                 self.view.layoutIfNeeded()//一定要加上这句话才会有动画效果
                 self.selectBgView.alpha = 1
             })

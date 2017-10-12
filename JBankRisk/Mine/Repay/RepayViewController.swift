@@ -52,18 +52,15 @@ class RepayViewController: UIViewController, UITableViewDelegate, UITableViewDat
         
         let headerHoldView = UIView(frame: CGRect(x: 0, y: 0, width: SCREEN_WIDTH, height: 156*UIRate + 45*UIRate))
         headerHoldView.backgroundColor = UIColor.white;
-        let footerHoldView = UIView(frame: CGRect(x: 0, y: SCREEN_HEIGHT - 64*UIRate, width: SCREEN_WIDTH, height: 64*UIRate))
         
         self.view.addSubview(aTableView)
-        self.view.addSubview(footerHoldView)
+        self.view.addSubview(nextStepBtn)
         self.aTableView.tableHeaderView = headerHoldView
         
         headerHoldView.addSubview(topImageView)
         self.topImageView.addSubview(totalTextLabel)
         self.topImageView.addSubview(moneyLabel)
         headerHoldView.addSubview(nameTextLabel)
-
-        footerHoldView.addSubview(nextStepBtn)
         
         aTableView.snp.makeConstraints { (make) in
             make.width.equalTo(self.view)

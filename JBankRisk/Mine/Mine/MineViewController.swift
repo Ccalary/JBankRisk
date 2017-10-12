@@ -500,6 +500,8 @@ class MineViewController: UIViewController, UIGestureRecognizerDelegate,UICollec
                     statusOrderId.rejust = orderId
                     headerView.tipImage4.isHidden = false
                     headerView.tipTextLabel4.text = "\(statusNumber.rejust)"
+                case "-1"://撤销成功
+                    isHaveBill = true
                 default:
                     break
                 }

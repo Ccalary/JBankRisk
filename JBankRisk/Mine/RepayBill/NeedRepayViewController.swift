@@ -257,7 +257,7 @@ class NeedRepayViewController: UIViewController,UITableViewDelegate, UITableView
             
             UIView.animate(withDuration: 0.6, animations: {
                  self.titleArrowImgView.transform = CGAffineTransform(rotationAngle: CGFloat(M_PI))
-                self.selectViewConstraint?.update(offset: TopFullHeight)
+                self.selectViewConstraint?.update(offset: 0)
                 self.view.layoutIfNeeded()//一定要加上这句话才会有动画效果
                 self.selectBgView.alpha = 1
             })

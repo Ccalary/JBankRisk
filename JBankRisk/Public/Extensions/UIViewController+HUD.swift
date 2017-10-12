@@ -110,6 +110,7 @@ extension UIViewController
         //如果解包成功则移除，否则不做任何事
         if let hud = hud {
             hud.hide(animated: true)
+            hud.removeFromSuperview()
         }
     }
 }
