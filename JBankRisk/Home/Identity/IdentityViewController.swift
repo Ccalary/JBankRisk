@@ -24,6 +24,8 @@ class IdentityViewController: UIViewController {
     weak var uploadSucDelegate: UploadSuccessDelegate?
     
     var roleType:RoleType = RoleType(rawValue: UserHelper.getUserRole() ?? "白领")!
+    //状态
+    private var status = ""
     
     override func viewDidLoad() {
        super.viewDidLoad()
@@ -577,6 +579,7 @@ class IdentityViewController: UIViewController {
                 UserHelper.setUserMobile(mobile: self.phoneNumField.text!)
                 
                 self.zmUrl = json["zmxyUrl"].stringValue
+                self.status = json["jstatus"].stringValue
                 
                 if self.uploadSucDelegate != nil {
                     self.uploadSucDelegate?.upLoadInfoSuccess()
@@ -669,20 +672,26 @@ class IdentityViewController: UIViewController {
             }
         }else if flag == "9" {
             
-            switch self.roleType {
-            case .student:
-                UserHelper.setSchool(isUpload: true)
-            case .worker:
-                UserHelper.setWork(isUpload: true)
-            case .freedom:
-                break
+            switch status {
+            case "0","5","-1","7"://0完结 5还款中,-1撤销成功,7审核未通过。 可以重新进单
+                UserHelper.setIdentity(isUpload: true)
+                UserHelper.setIsTwiceOrder(isTwice: true)
+                
+            default:
+                switch self.roleType {
+                case .student:
+                    UserHelper.setSchool(isUpload: true)
+                case .worker:
+                    UserHelper.setWork(isUpload: true)
+                case .freedom:
+                    break
+                }
+                UserHelper.setProduct(isUpload: true)
+                UserHelper.setContact(isUpload: true)
+                UserHelper.setData(isUpload: true)
+                UserHelper.setAllFinishIsUpload(isUpload: true)
             }
-            UserHelper.setProduct(isUpload: true)
-            UserHelper.setContact(isUpload: true)
-            UserHelper.setData(isUpload: true)
-            UserHelper.setAllFinishIsUpload(isUpload: true)
         }
-
     }
     
   //MARK:请求用户信息

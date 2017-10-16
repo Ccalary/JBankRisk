@@ -40,7 +40,7 @@ class SchoolViewController:  UIViewController,UITableViewDelegate, UITableViewDa
         super.viewDidLoad()
         self.setupUI()
         
-        if UserHelper.getSchoolIsUpload() {
+        if UserHelper.getSchoolIsUpload() || UserHelper.getIsTwiceOrder(){
             self.requestSchoolInfo()
         }
     }

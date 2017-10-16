@@ -23,7 +23,7 @@ class IncomeViewController:  UIViewController,UITableViewDelegate, UITableViewDa
         super.viewDidLoad()
         self.setupUI()
         
-        if UserHelper.getIncomeIsUpload() {
+        if UserHelper.getIncomeIsUpload() || UserHelper.getIsTwiceOrder(){
             self.requestIncomeInfo()
         }
     }

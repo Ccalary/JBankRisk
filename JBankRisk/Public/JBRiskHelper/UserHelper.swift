@@ -316,6 +316,19 @@ class UserHelper {
         defaults.synchronize()
     }
     
+    //是否是第二单
+    static func getIsTwiceOrder() -> Bool {
+        let defaults = UserDefaults()
+        return (defaults.object(forKey: "isTwiceOrder\(self.getUserId())") as? Bool) ?? false
+    }
+    
+    static func setIsTwiceOrder(isTwice: Bool){
+        let defaults = UserDefaults()
+        defaults.set(isTwice, forKey: "isTwiceOrder\(self.getUserId())")
+        defaults.synchronize()
+    }
+
+    
     //最新一单的orderId
     static func getHomeNewOneOrderId() -> String {
         let defaults = UserDefaults()

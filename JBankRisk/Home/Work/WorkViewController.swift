@@ -37,7 +37,7 @@ class WorkViewController: UIViewController,UITableViewDelegate, UITableViewDataS
         
         self.setupUI()
         
-        if UserHelper.getWorkIsUpload() {
+        if (UserHelper.getWorkIsUpload() || UserHelper.getIsTwiceOrder()){
              self.requestWorkInfo()
         }
     }

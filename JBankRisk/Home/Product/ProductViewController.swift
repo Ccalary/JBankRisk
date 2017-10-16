@@ -43,7 +43,7 @@ class ProductViewController: UIViewController,UITableViewDelegate, UITableViewDa
         
         self.initLocation()
         
-        if UserHelper.getProductIsUpload() {
+        if UserHelper.getProductIsUpload(){
             self.requestProductInfo()
         }else {
             self.getAddress()
@@ -313,7 +313,7 @@ class ProductViewController: UIViewController,UITableViewDelegate, UITableViewDa
         locationManager.delegate = self
         locationManager.allowsBackgroundLocationUpdates = false
         locationManager.pausesLocationUpdatesAutomatically = true
-        locationManager.desiredAccuracy = kCLLocationAccuracyBest//定位精度
+        locationManager.desiredAccuracy = kCLLocationAccuracyNearestTenMeters//定位精度
         locationManager.locationTimeout = 10
         locationManager.reGeocodeTimeout = 10
     }

@@ -82,7 +82,7 @@ class ContactViewController: UIViewController, UITableViewDelegate, UITableViewD
              self.uploadUserContact()
         }
        
-        if UserHelper.getContactIsUpload() {
+        if UserHelper.getContactIsUpload() || UserHelper.getIsTwiceOrder(){
             self.requestContactInfo()
         }
     }

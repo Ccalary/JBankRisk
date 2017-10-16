@@ -25,7 +25,7 @@ class JulixinWebViewController:  UIViewController, UIWebViewDelegate, NJKWebView
         
         self.setupUI()
         
-        webView = UIWebView(frame: CGRect(x: 0, y: TopFullHeight, width: SCREEN_WIDTH, height: SCREEN_HEIGHT - TopFullHeight))
+        webView = UIWebView(frame: CGRect(x: 0, y: 0, width: SCREEN_WIDTH, height: SCREEN_HEIGHT - TopFullHeight))
         webView?.scalesPageToFit = true
         self.view.addSubview(self.webView!)
         

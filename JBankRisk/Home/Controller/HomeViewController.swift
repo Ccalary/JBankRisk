@@ -179,6 +179,7 @@ class HomeViewController: UIViewController, UIGestureRecognizerDelegate{
     func getTheUploadProgree(flag: String, userType: String){
         //flag 进度  1－ 2- 3- 4- 5-   9完成
         UserHelper.setIsReject(isReject: false)
+        UserHelper.setIsTwiceOrder(isTwice: false)
         
         if flag == "2"{
             UserHelper.setIdentity(isUpload: true)
