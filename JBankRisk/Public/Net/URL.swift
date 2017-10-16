@@ -10,7 +10,7 @@ import UIKit
 //let LOCAL = "http://192.168.1.80:8080" //本地
 
 let LOCAL = "http://192.168.1.90:8080"
-let ONLINE = "https://dev.zc-cfc.com" //线上
+let ONLINE = "https://dev.zc-cfc.com:4433" //线上
 let PRODUCT = "https://www.zc-cfc.com"//生产
 
 let BASE_DEV_URL = ONLINE
