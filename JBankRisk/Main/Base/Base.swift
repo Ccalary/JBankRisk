@@ -9,8 +9,8 @@
 import Foundation
 
 //版本 H 测试 版本更新要改动
-let APP_VERSION = "2.4.1" //版本号
-let APP_VERSION_CODE = "241"
+let APP_VERSION = "2.5.0" //版本号
+let APP_VERSION_CODE = "250"
 
 let JPUSH_IS_PRO = true //H 测试 极光推送，是否是生产环境
 //通知
